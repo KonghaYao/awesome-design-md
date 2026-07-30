@@ -162,6 +162,26 @@
   }
   .card:hover .card-arrow { opacity: 0.7; transform: translateX(2px); }
 
+  .card-copy {
+    width: 28px; height: 28px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .card:hover .card-copy { opacity: 1; }
+  .card-copy:hover {
+    color: var(--accent);
+    background: rgba(108,140,255,0.1);
+    border-color: rgba(108,140,255,0.2);
+  }
+  .card-copy svg { width: 13px; height: 13px; pointer-events: none; }
+
   /* ── No results ── */
   .no-results {
     grid-column: 1 / -1;
@@ -354,6 +374,12 @@
         </div>
         <div class="card-footer">
           <span class="card-name">${displayName}</span>
+          <button class="card-copy" data-path="${demo.path}" title="Copy DESIGN.md">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </button>
           <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
       `
@@ -446,6 +472,29 @@
         btnCopyMd.innerHTML = orig
         btnCopyMd.style.color = ''
       }, 1800)
+    }
+  })
+
+  // Card copy button delegation
+  grid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.card-copy')
+    if (!btn) return
+    e.stopPropagation()
+    const demoPath = btn.getAttribute('data-path')
+    const mdPath = demoPath.replace('demo.html', 'DESIGN.md')
+    try {
+      const resp = await fetch(mdPath)
+      const text = await resp.text()
+      await navigator.clipboard.writeText(text)
+      btn.style.color = '#27a644'
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'
+      setTimeout(() => {
+        btn.style.color = ''
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+      }, 1800)
+    } catch (err) {
+      btn.style.color = '#e53e3e'
+      setTimeout(() => { btn.style.color = '' }, 1800)
     }
   })
 
