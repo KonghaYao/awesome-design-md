@@ -1,0 +1,19 @@
+# Cloudflare Workers configuration for Awesome DESIGN.md Demo Gallery
+# Deploy: npx wrangler deploy
+
+name = "awesome-design-md-gallery"
+main = "gallery-cf.ts"
+compatibility_date = "2025-07-29"
+
+# Workers Static Assets — serves design-md/** and gallery.html
+[assets]
+directory = "./"
+binding = "ASSETS"
+# Only serve public-facing files (exclude source/config/dotfiles)
+not_found_handling = "none"
+html_handling = "none"
+
+# Observability
+[observability]
+enabled = true
+head_sampling_rate = 1
