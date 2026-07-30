@@ -292,6 +292,13 @@
       <button class="btn" id="btnOpen" title="Open in new tab">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </button>
+      <button class="btn" id="btnCopyMd" title="Copy DESIGN.md" style="color:var(--accent);border-color:rgba(108,140,255,0.3);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        DESIGN.md
+      </button>
       <button class="btn" id="btnClose" title="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -411,6 +418,35 @@
   document.getElementById('btnOpen').addEventListener('click', (e) => {
     e.stopPropagation()
     if (currentIndex >= 0) window.open(filteredDemos[currentIndex].path, '_blank')
+  })
+
+  // Copy DESIGN.md from overlay
+  const btnCopyMd = document.getElementById('btnCopyMd')
+  btnCopyMd.addEventListener('click', async (e) => {
+    e.stopPropagation()
+    if (currentIndex < 0) return
+    const demo = filteredDemos[currentIndex]
+    const mdPath = demo.path.replace('demo.html', 'DESIGN.md')
+    try {
+      const resp = await fetch(mdPath)
+      const text = await resp.text()
+      await navigator.clipboard.writeText(text)
+      const orig = btnCopyMd.innerHTML
+      btnCopyMd.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!'
+      btnCopyMd.style.color = '#27a644'
+      setTimeout(() => {
+        btnCopyMd.innerHTML = orig
+        btnCopyMd.style.color = ''
+      }, 1800)
+    } catch (err) {
+      const orig = btnCopyMd.innerHTML
+      btnCopyMd.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Failed'
+      btnCopyMd.style.color = '#e53e3e'
+      setTimeout(() => {
+        btnCopyMd.innerHTML = orig
+        btnCopyMd.style.color = ''
+      }, 1800)
+    }
   })
 
   // Keyboard navigation
