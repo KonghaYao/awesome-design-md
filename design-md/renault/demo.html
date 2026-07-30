@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renault Türkiye — Yeni Modeller, Kampanyalar ve Hizmetler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   DESIGN TOKENS — Renault DESIGN.md
+   ============================================ */
+:root {
+  /* Brand & Accent */
+  --color-primary: #ffed00;
+  --color-primary-deep: #e6d200;
+  --color-on-primary: #000000;
+
+  /* Surface */
+  --color-canvas: #ffffff;
+  --color-surface-soft: #f7f7f7;
+  --color-surface-dark: #000000;
+  --color-surface-deep: #111111;
+  --color-surface-card: #ffffff;
+
+  /* Text */
+  --color-ink: #000000;
+  --color-body: #222222;
+  --color-charcoal: #333333;
+  --color-mute: #666666;
+  --color-ash: #8a8a8a;
+  --color-stone: #c4c4c4;
+  --color-on-dark: #ffffff;
+  --color-on-dark-mute: rgba(255, 255, 255, 0.72);
+
+  /* Dividers */
+  --color-hairline: #f2f2f2;
+  --color-hairline-strong: #000000;
+  --color-divider-dark: rgba(255, 255, 255, 0.16);
+
+  /* Semantic */
+  --color-link: #0000ee;
+  --color-error: #be6464;
+  --color-warning: #f0ad4e;
+  --color-success: #8dc572;
+  --color-info: #337ab7;
+
+  /* Typography */
+  --font-family: 'Inter Tight', 'SF Pro Display', 'Manrope', system-ui, -apple-system, sans-serif;
+
+  /* Spacing */
+  --sp-xxs: 4px;
+  --sp-xs: 8px;
+  --sp-sm: 12px;
+  --sp-md: 16px;
+  --sp-lg: 20px;
+  --sp-xl: 24px;
+  --sp-xxl: 32px;
+  --sp-xxxl: 40px;
+  --sp-section: 80px;
+
+  /* Rounded */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-pill: 46px;
+  --radius-full: 9999px;
+
+  /* Nav */
+  --nav-height: 60px;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-canvas);
+  color: var(--color-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xl);
+}
+
+/* ============================================
+   NAVIGATION — nav-bar component
+   bg: canvas, text: ink, height: 60px
+   ============================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-canvas);
+  border-bottom: 1px solid var(--color-hairline);
+  height: var(--nav-height);
+}
+
+.nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xl);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xxl);
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  color: var(--color-ink);
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--color-mute);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  flex-shrink: 0;
+}
+
+.nav-icon-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline-strong);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.nav-icon-btn:hover {
+  background: var(--color-surface-soft);
+}
+
+@media (max-width: 1023px) {
+  .nav-links {
+    display: none;
+  }
+}
+
+/* ============================================
+   HERO BANNER — hero-banner component
+   bg: surface-dark, text: on-dark, rounded: none
+   ============================================ */
+.hero {
+  background: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  border-radius: var(--radius-none);
+  position: relative;
+  overflow: hidden;
+  min-height: 640px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-bg-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg-glow::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 60%;
+  height: 120%;
+  background: radial-gradient(ellipse at center,
+    rgba(255, 237, 0, 0.20) 0%,
+    rgba(255, 237, 0, 0.08) 35%,
+    rgba(128, 0, 255, 0.04) 65%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.hero-bg-glow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xl);
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--sp-section);
+}
+
+.hero-content {
+  padding-top: var(--sp-section);
+  padding-bottom: var(--sp-section);
+}
+
+.hero-overline {
+  font-family: var(--font-family);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--sp-md);
+}
+
+.hero-title {
+  font-family: var(--font-family);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+  color: var(--color-on-dark);
+  margin-bottom: var(--sp-lg);
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--color-primary);
+}
+
+.hero-subtitle {
+  font-family: var(--font-family);
+  font-size: 19.2px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--color-on-dark-mute);
+  margin-bottom: var(--sp-xxl);
+  max-width: 440px;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+/* button-primary */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  border-radius: var(--radius-xs);
+  padding: 14px 24px;
+  height: 48px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-deep);
+}
+
+/* button-secondary-dark */
+.btn-secondary-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  border-radius: var(--radius-xs);
+  padding: 14px 24px;
+  height: 48px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary-dark:hover {
+  opacity: 0.85;
+}
+
+/* button-outline-light */
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  border-radius: var(--radius-xs);
+  padding: 13px 23px;
+  height: 48px;
+  border: 1px solid var(--color-on-dark);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-outline-light:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* button-outline-dark */
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  border-radius: var(--radius-xs);
+  padding: 13px 23px;
+  height: 48px;
+  border: 1px solid var(--color-hairline-strong);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-outline-dark:hover {
+  background: var(--color-surface-soft);
+}
+
+/* Hero vehicle SVG */
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: var(--sp-section);
+  padding-bottom: var(--sp-section);
+}
+
+@media (max-width: 1023px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .hero {
+    min-height: auto;
+  }
+  .hero-title {
+    font-size: 40px;
+  }
+  .hero-visual {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 425px) {
+  .hero-title {
+    font-size: 32px;
+  }
+  .hero-content {
+    padding-top: var(--sp-xxxl);
+    padding-bottom: var(--sp-xxxl);
+  }
+}
+
+/* ============================================
+   SUB-NAV PILLS — sub-nav-pill / button-pill
+   bg: canvas, rounded: pill, height: 36px
+   ============================================ */
+.sub-nav {
+  background: var(--color-canvas);
+  border-bottom: 1px solid var(--color-hairline);
+  position: relative;
+  z-index: 50;
+}
+
+.sub-nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--sp-md) var(--sp-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.sub-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.pill-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.13px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-hairline-strong);
+  padding: 8px 16px;
+  height: 36px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.pill-chip:hover,
+.pill-chip.active {
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+  border-color: var(--color-ink);
+}
+
+/* ============================================
+   VEHICLE RANGE — vehicle-card grid
+   bg: canvas, rounded: none, no borders
+   ============================================ */
+.section {
+  padding: var(--sp-section) 0;
+}
+
+.section-light {
+  background: var(--color-canvas);
+}
+
+.section-dark {
+  background: var(--color-surface-dark);
+  color: var(--color-on-dark);
+}
+
+.section-soft {
+  background: var(--color-surface-soft);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--sp-xxxl);
+}
+
+.section-label {
+  font-family: var(--font-family);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  margin-bottom: var(--sp-xs);
+}
+
+.section-title {
+  font-family: var(--font-family);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.section-dark .section-title {
+  color: var(--color-on-dark);
+}
+
+.section-dark .section-label {
+  color: var(--color-on-dark-mute);
+}
+
+.section-subtitle {
+  font-family: var(--font-family);
+  font-size: 19.2px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--color-mute);
+  margin-top: var(--sp-sm);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-dark .section-subtitle {
+  color: var(--color-on-dark-mute);
+}
+
+/* Vehicle card — vehicle-card component */
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-xl);
+}
+
+.vehicle-card {
+  background: var(--color-canvas);
+  border-radius: var(--radius-none);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover {
+  transform: translateY(-4px);
+}
+
+.vehicle-card-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--color-surface-soft);
+  border-radius: var(--radius-none);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.vehicle-card-image svg {
+  width: 85%;
+  height: auto;
+}
+
+.vehicle-card-image .badge-new {
+  position: absolute;
+  bottom: var(--sp-sm);
+  left: var(--sp-sm);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  z-index: 3;
+}
+
+.vehicle-card-body {
+  padding: var(--sp-lg) var(--sp-md) var(--sp-md);
+}
+
+.vehicle-card-name {
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-xxs);
+}
+
+.vehicle-card-variant {
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.57;
+  letter-spacing: 0;
+  color: var(--color-mute);
+  margin-bottom: var(--sp-sm);
+}
+
+.vehicle-card-price {
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.vehicle-card-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xxs);
+  margin-top: var(--sp-sm);
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  color: var(--color-ink);
+}
+
+@media (max-width: 1279px) {
+  .vehicle-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .vehicle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   PROMO TILES — promo-tile-light/dark/yellow
+   padding: 32px, rounded: none, heading-lg
+   ============================================ */
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-xl);
+}
+
+.promo-tile {
+  padding: var(--sp-xxl);
+  border-radius: var(--radius-none);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 360px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.promo-tile:hover {
+  transform: scale(1.01);
+}
+
+.promo-tile-light {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline);
+}
+
+.promo-tile-dark {
+  background: var(--color-surface-dark);
+  color: var(--color-on-dark);
+}
+
+.promo-tile-yellow {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.promo-tile-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-soft);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--sp-md);
+}
+
+.promo-tile-dark .promo-tile-icon {
+  background: var(--color-surface-deep);
+}
+
+.promo-tile-yellow .promo-tile-icon {
+  background: var(--color-on-primary);
+}
+
+.promo-tile-yellow .promo-tile-icon svg path,
+.promo-tile-yellow .promo-tile-icon svg rect,
+.promo-tile-yellow .promo-tile-icon svg circle {
+  stroke: var(--color-primary);
+  fill: none;
+}
+
+.promo-tile-title {
+  font-family: var(--font-family);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+  margin-bottom: var(--sp-sm);
+  color: inherit;
+}
+
+.promo-tile-desc {
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-mute);
+  margin-bottom: var(--sp-lg);
+}
+
+.promo-tile-dark .promo-tile-desc {
+  color: var(--color-on-dark-mute);
+}
+
+.promo-tile-yellow .promo-tile-desc {
+  color: rgba(0,0,0,0.7);
+}
+
+.promo-tile-cta {
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xxs);
+  align-self: flex-start;
+  transition: gap 0.2s ease;
+}
+
+.promo-tile:hover .promo-tile-cta {
+  gap: var(--sp-sm);
+}
+
+@media (max-width: 767px) {
+  .promo-grid {
+    grid-template-columns: 1fr;
+  }
+  .promo-tile {
+    min-height: 280px;
+    padding: var(--sp-lg);
+  }
+}
+
+/* ============================================
+   FEATURES / SERVICES GRID
+   ============================================ */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-xl);
+}
+
+.service-card {
+  background: var(--color-surface-deep);
+  border-radius: var(--radius-none);
+  padding: var(--sp-xxl);
+  transition: background 0.3s ease;
+}
+
+.service-card:hover {
+  background: var(--color-surface-dark);
+}
+
+.service-card-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  margin-bottom: var(--sp-lg);
+}
+
+.service-card-title {
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+  color: var(--color-on-dark);
+  margin-bottom: var(--sp-sm);
+}
+
+.service-card-desc {
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-on-dark-mute);
+  margin-bottom: var(--sp-lg);
+}
+
+.service-card-link {
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  color: var(--color-on-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xxs);
+  transition: gap 0.2s ease;
+}
+
+.service-card:hover .service-card-link {
+  gap: var(--sp-sm);
+}
+
+@media (max-width: 1023px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   CONFIGURATOR PREVIEW — configurator-row style
+   ============================================ */
+.config-preview {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 0;
+  min-height: 480px;
+}
+
+.config-visual {
+  background: var(--color-surface-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-xxxl);
+  border-radius: var(--radius-none);
+}
+
+.config-visual svg {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+.config-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--sp-xxl) var(--sp-xxxl);
+}
+
+.config-options-title {
+  font-family: var(--font-family);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-md);
+}
+
+.config-options-desc {
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+  margin-bottom: var(--sp-xxl);
+}
+
+.config-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-xl) 0;
+  border-bottom: 1px solid var(--color-hairline);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.config-row:hover {
+  border-color: var(--color-hairline-strong);
+}
+
+.config-row:first-of-type {
+  border-top: 1px solid var(--color-hairline);
+}
+
+.config-row-label {
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.config-row-value {
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-mute);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+}
+
+.config-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-soft);
+}
+
+.config-swatch.active {
+  border: 1px solid var(--color-hairline-strong);
+}
+
+@media (max-width: 1023px) {
+  .config-preview {
+    grid-template-columns: 1fr;
+  }
+  .config-visual {
+    padding: var(--sp-xl);
+    min-height: 300px;
+  }
+  .config-options {
+    padding: var(--sp-xl);
+  }
+}
+
+/* ============================================
+   CTA BANNER — promo-tile-dark style
+   ============================================ */
+.cta-banner {
+  background: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  padding: var(--sp-section) 0;
+  text-align: center;
+  border-radius: var(--radius-none);
+}
+
+.cta-banner-title {
+  font-family: var(--font-family);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+  color: var(--color-on-dark);
+  margin-bottom: var(--sp-md);
+}
+
+.cta-banner-title span {
+  color: var(--color-primary);
+}
+
+.cta-banner-desc {
+  font-family: var(--font-family);
+  font-size: 19.2px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--color-on-dark-mute);
+  margin-bottom: var(--sp-xxl);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-banner-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 425px) {
+  .cta-banner-title {
+    font-size: 32px;
+  }
+}
+
+/* ============================================
+   FOOTER — footer component
+   bg: surface-dark, text: on-dark, padding: 64px 24px
+   ============================================ */
+.footer {
+  background: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  padding: 64px 24px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.57;
+  letter-spacing: 0;
+}
+
+.footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr repeat(3, 1fr);
+  gap: var(--sp-xxxl);
+  padding-bottom: var(--sp-xxxl);
+  border-bottom: 1px solid var(--color-divider-dark);
+  margin-bottom: var(--sp-xl);
+}
+
+.footer-brand p {
+  color: var(--color-on-dark-mute);
+  margin-top: var(--sp-md);
+  max-width: 280px;
+}
+
+.footer-col-title {
+  font-family: var(--font-family);
+  font-size: 14.4px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.144px;
+  color: var(--color-on-dark);
+  margin-bottom: var(--sp-lg);
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col li {
+  margin-bottom: var(--sp-sm);
+}
+
+.footer-col a {
+  color: var(--color-on-dark-mute);
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--color-on-dark);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-md);
+  color: var(--color-on-dark-mute);
+  font-size: 12px;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: var(--sp-lg);
+}
+
+.footer-bottom-links a {
+  color: var(--color-on-dark-mute);
+  font-size: 12px;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--color-on-dark);
+}
+
+@media (max-width: 1023px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .footer {
+    padding: var(--sp-xxxl) var(--sp-xl);
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ============================================
+   ANIMATIONS & TRANSITIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease both;
+}
+
+.fade-in:nth-child(2) { animation-delay: 0.1s; }
+.fade-in:nth-child(3) { animation-delay: 0.2s; }
+.fade-in:nth-child(4) { animation-delay: 0.3s; }
+
+/* ============================================
+   RESPONSIVE: section padding collapse
+   ============================================ */
+@media (max-width: 425px) {
+  .section {
+    padding: var(--sp-xxxl) 0;
+  }
+  .section-title {
+    font-size: 32px;
+  }
+  .config-options-title {
+    font-size: 24px;
+  }
+  .cta-banner {
+    padding: var(--sp-xxxl) 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVIGATION — nav-bar component
+     ============================================ -->
+<nav class="nav" role="navigation">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <!-- Renault diamond logomark -->
+      <svg width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 0L0 10.5V33.5L18 44L36 33.5V10.5L18 0Z" fill="#000000"/>
+        <path d="M18 5L3 13.5V30.5L18 39L33 30.5V13.5L18 5Z" fill="#ffffff"/>
+        <path d="M18 10L8 15.5V28.5L18 34L28 28.5V15.5L18 10Z" fill="#000000"/>
+        <line x1="18" y1="10" x2="18" y2="34" stroke="#ffed00" stroke-width="2"/>
+        <line x1="8" y1="22" x2="28" y2="22" stroke="#ffed00" stroke-width="2"/>
+      </svg>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#">Modeller</a></li>
+      <li><a href="#">Hizmetler</a></li>
+      <li><a href="#">Renault Yaşamı</a></li>
+      <li><a href="#">Kampanyalar</a></li>
+      <li><a href="#">MyRenault</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-icon-btn" aria-label="Dil seçimi">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="8" stroke="#000" stroke-width="1.5"/>
+          <ellipse cx="10" cy="10" rx="3.5" ry="8" stroke="#000" stroke-width="1.5"/>
+          <line x1="2" y1="10" x2="18" y2="10" stroke="#000" stroke-width="1.5"/>
+        </svg>
+      </button>
+      <button class="nav-icon-btn" aria-label="Giriş yap">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="6.5" r="3.5" stroke="#000" stroke-width="1.5"/>
+          <path d="M3 18c0-4 3.1-7 7-7s7 3 7 7" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================
+     HERO BANNER — hero-banner component
+     ============================================ -->
+<header class="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-content fade-in">
+      <p class="hero-overline">Yeni Megane E-Tech</p>
+      <h1 class="hero-title">
+        TAMAMEN <em>ELEKTRİKLİ</em><br>YENİ NESİL
+      </h1>
+      <p class="hero-subtitle">
+        Yeni Megane E-Tech %100 Elektrikli — cesur tasarım,
+        üstün bağlantı ve 470 km'ye varan menzil.
+      </p>
+      <div class="hero-cta-group">
+        <button class="btn-primary">Keşfet ve Yapılandır</button>
+        <button class="btn-outline-light">Test Sürüşü Talep Et</button>
+      </div>
+    </div>
+    <div class="hero-visual fade-in">
+      <!-- Hero car — Megane E-Tech silhouette -->
+      <svg width="580" height="320" viewBox="0 0 580 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroCarBody" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a2a2a"/>
+            <stop offset="100%" stop-color="#0a0a0a"/>
+          </linearGradient>
+          <linearGradient id="heroCarRoof" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a3a3a"/>
+            <stop offset="100%" stop-color="#1a1a1a"/>
+          </linearGradient>
+        </defs>
+        <!-- Shadow -->
+        <ellipse cx="290" cy="285" rx="250" ry="12" fill="rgba(255,255,255,0.06)"/>
+        <!-- Car body -->
+        <path d="M40,230 L55,165 L140,140 L180,140 L200,120 L380,120 L400,140 L440,140 L525,165 L540,230 L540,250 L40,250 Z" fill="url(#heroCarBody)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <!-- Cabin glass area -->
+        <path d="M195,122 L202,110 L370,110 L378,122 L375,140 L195,140 Z" fill="#1a2a3a" stroke="rgba(255,255,255,0.2)" stroke-width="1" opacity="0.9"/>
+        <!-- Cabin divider -->
+        <line x1="285" y1="110" x2="285" y2="140" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <!-- Front headlight -->
+        <path d="M500,175 L530,178 L535,185 L530,190 L500,190 Z" fill="#ffed00" opacity="0.9"/>
+        <!-- Rear taillight -->
+        <rect x="55" y="175" width="30" height="6" rx="2" fill="#ff4444" opacity="0.85"/>
+        <rect x="55" y="184" width="30" height="4" rx="2" fill="#ff4444" opacity="0.65"/>
+        <!-- Front wheel -->
+        <circle cx="400" cy="250" r="42" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+        <circle cx="400" cy="250" r="28" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <circle cx="400" cy="250" r="16" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+        <circle cx="400" cy="250" r="4" fill="rgba(255,255,255,0.25)"/>
+        <!-- Rear wheel -->
+        <circle cx="180" cy="250" r="42" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+        <circle cx="180" cy="250" r="28" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <circle cx="180" cy="250" r="16" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+        <circle cx="180" cy="250" r="4" fill="rgba(255,255,255,0.25)"/>
+        <!-- Front bumper detail -->
+        <path d="M460,215 L540,218 L540,240 L460,240 Z" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <!-- Grill accent -->
+        <path d="M470,205 Q500,195 535,200" fill="none" stroke="rgba(255,237,0,0.2)" stroke-width="2.5"/>
+        <!-- Door line -->
+        <line x1="195" y1="195" x2="380" y2="195" stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
+        <!-- Lower sill line -->
+        <line x1="180" y1="220" x2="420" y2="220" stroke="rgba(255,255,255,0.04)" stroke-width="0.8"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================
+     SUB-NAV PILLS — sub-nav-pill component
+     ============================================ -->
+<div class="sub-nav">
+  <div class="sub-nav-inner">
+    <span class="pill-chip active">Tüm Modeller</span>
+    <span class="pill-chip">E-Tech Elektrikli</span>
+    <span class="pill-chip">Binek Araç</span>
+    <span class="pill-chip">Ticari Araç</span>
+    <span class="pill-chip">Kampanyalar</span>
+    <span class="pill-chip">Servis & Randevu</span>
+    <span class="pill-chip">Sahiplik Dönemi</span>
+    <span class="pill-chip">Fiyat Listesi</span>
+  </div>
+</div>
+
+<!-- ============================================
+     VEHICLE RANGE — vehicle-card grid
+     ============================================ -->
+<section id="vehicles" class="section section-light">
+  <div class="container">
+    <div class="section-header fade-in">
+      <p class="section-label">Model Ailesi</p>
+      <h2 class="section-title">Aracını Seç</h2>
+      <p class="section-subtitle">
+        Elektrikli, hibrit ve benzinli seçenekleriyle Renault modellerini keşfedin.
+      </p>
+    </div>
+    <div class="vehicle-grid">
+      <!-- Card 1 — Clio -->
+      <div class="vehicle-card fade-in">
+        <div class="vehicle-card-image">
+          <svg width="280" height="210" viewBox="0 0 280 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Shadow -->
+            <ellipse cx="140" cy="195" rx="120" ry="8" fill="rgba(0,0,0,0.08)"/>
+            <!-- Body -->
+            <path d="M20,155 L40,105 L100,80 L180,80 L240,105 L260,155 L260,170 L20,170 Z" fill="#e8e8e8" stroke="#ccc" stroke-width="0.8"/>
+            <!-- Roof line -->
+            <path d="M95,80 L100,55 L160,55 L165,80" fill="#d0d0d0" stroke="#bbb" stroke-width="0.8"/>
+            <!-- Cabin glass -->
+            <path d="M102,80 L106,58 L158,58 L162,80" fill="#8ab4d6" opacity="0.6"/>
+            <!-- Front headlight -->
+            <path d="M235,115 L252,117 L254,123 L235,123 Z" fill="#e8e8e8" stroke="#bbb" stroke-width="0.5"/>
+            <!-- Rear taillight -->
+            <rect x="28" y="115" width="16" height="4" rx="1.5" fill="#e06060" opacity="0.8"/>
+            <!-- Wheels -->
+            <circle cx="200" cy="170" r="32" fill="#333" stroke="#555" stroke-width="1.5"/>
+            <circle cx="200" cy="170" r="18" fill="none" stroke="#777" stroke-width="1"/>
+            <circle cx="200" cy="170" r="3" fill="#888"/>
+            <circle cx="80" cy="170" r="32" fill="#333" stroke="#555" stroke-width="1.5"/>
+            <circle cx="80" cy="170" r="18" fill="none" stroke="#777" stroke-width="1"/>
+            <circle cx="80" cy="170" r="3" fill="#888"/>
+            <!-- Door line -->
+            <line x1="100" y1="130" x2="185" y2="130" stroke="#ccc" stroke-width="0.6"/>
+          </svg>
+        </div>
+        <div class="vehicle-card-body">
+          <h3 class="vehicle-card-name">Clio</h3>
+          <p class="vehicle-card-variant">Benzinli & Hibrit</p>
+          <p class="vehicle-card-price">₺799.000'dan başlayan</p>
+          <span class="vehicle-card-arrow">Detayları gör <span>→</span></span>
+        </div>
+      </div>
+
+      <!-- Card 2 — Megane (NEW badge) -->
+      <div class="vehicle-card fade-in">
+        <div class="vehicle-card-image">
+          <div class="badge-new">YENİ</div>
+          <svg width="280" height="210" viewBox="0 0 280 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="140" cy="195" rx="120" ry="8" fill="rgba(0,0,0,0.08)"/>
+            <!-- SUV silhouette -->
+            <path d="M15,150 L30,100 L90,70 L190,70 L250,100 L265,150 L265,168 L15,168 Z" fill="#2a2a2a" stroke="#444" stroke-width="0.8"/>
+            <!-- Roof -->
+            <path d="M95,70 L100,38 L170,38 L175,70" fill="#1a1a1a" stroke="#333" stroke-width="0.8"/>
+            <!-- Glass -->
+            <path d="M101,70 L105,40 L168,40 L172,70" fill="#1a304a" opacity="0.85"/>
+            <!-- Roof rails -->
+            <line x1="100" y1="40" x2="170" y2="40" stroke="#555" stroke-width="1.2"/>
+            <!-- Headlight -->
+            <path d="M240,105 L258,107 L260,115 L240,115 Z" fill="#ffed00" opacity="0.85"/>
+            <!-- Taillight -->
+            <rect x="18" y="105" width="22" height="5" rx="2" fill="#e06060" opacity="0.8"/>
+            <!-- Wheels -->
+            <circle cx="200" cy="168" r="34" fill="#1a1a1a" stroke="#444" stroke-width="1.5"/>
+            <circle cx="200" cy="168" r="20" fill="none" stroke="#555" stroke-width="1"/>
+            <circle cx="200" cy="168" r="4" fill="#666"/>
+            <circle cx="80" cy="168" r="34" fill="#1a1a1a" stroke="#444" stroke-width="1.5"/>
+            <circle cx="80" cy="168" r="20" fill="none" stroke="#555" stroke-width="1"/>
+            <circle cx="80" cy="168" r="4" fill="#666"/>
+          </svg>
+        </div>
+        <div class="vehicle-card-body">
+          <h3 class="vehicle-card-name">Megane E-Tech</h3>
+          <p class="vehicle-card-variant">%100 Elektrikli</p>
+          <p class="vehicle-card-price">₺1.449.000'dan başlayan</p>
+          <span class="vehicle-card-arrow">Detayları gör <span>→</span></span>
+        </div>
+      </div>
+
+      <!-- Card 3 — Captur -->
+      <div class="vehicle-card fade-in">
+        <div class="vehicle-card-image">
+          <svg width="280" height="210" viewBox="0 0 280 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="140" cy="195" rx="120" ry="8" fill="rgba(0,0,0,0.08)"/>
+            <path d="M18,145 L35,95 L95,68 L185,68 L245,95 L262,145 L262,160 L18,160 Z" fill="#4a6fa5" stroke="#3a5a85" stroke-width="0.8"/>
+            <path d="M98,68 L103,40 L168,40 L173,68" fill="#3a5a85" stroke="#2a4a75" stroke-width="0.8"/>
+            <path d="M105,68 L108,43 L165,43 L168,68" fill="#6a9ab5" opacity="0.6"/>
+            <path d="M240,100 L258,102 L260,110 L240,110 Z" fill="#e8e8e8" stroke="#bbb" stroke-width="0.5"/>
+            <rect x="20" y="100" width="18" height="4.5" rx="1.5" fill="#e06060" opacity="0.8"/>
+            <circle cx="200" cy="160" r="32" fill="#2a2a2a" stroke="#444" stroke-width="1.5"/>
+            <circle cx="200" cy="160" r="18" fill="none" stroke="#555" stroke-width="1"/>
+            <circle cx="200" cy="160" r="3" fill="#666"/>
+            <circle cx="80" cy="160" r="32" fill="#2a2a2a" stroke="#444" stroke-width="1.5"/>
+            <circle cx="80" cy="160" r="18" fill="none" stroke="#555" stroke-width="1"/>
+            <circle cx="80" cy="160" r="3" fill="#666"/>
+          </svg>
+        </div>
+        <div class="vehicle-card-body">
+          <h3 class="vehicle-card-name">Captur</h3>
+          <p class="vehicle-card-variant">Hibrit & Benzinli</p>
+          <p class="vehicle-card-price">₺904.000'dan başlayan</p>
+          <span class="vehicle-card-arrow">Detayları gör <span>→</span></span>
+        </div>
+      </div>
+
+      <!-- Card 4 — Austral -->
+      <div class="vehicle-card fade-in">
+        <div class="vehicle-card-image">
+          <svg width="280" height="210" viewBox="0 0 280 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="140" cy="195" rx="120" ry="8" fill="rgba(0,0,0,0.08)"/>
+            <path d="M10,152 L28,98 L92,66 L188,66 L252,98 L270,152 L270,168 L10,168 Z" fill="#8b4513" stroke="#6b3513" stroke-width="0.8"/>
+            <path d="M95,66 L100,35 L172,35 L177,66" fill="#6b3513" stroke="#5b2503" stroke-width="0.8"/>
+            <path d="M102,66 L105,38 L168,38 L170,66" fill="#9a7a5a" opacity="0.5"/>
+            <line x1="100" y1="37" x2="172" y2="37" stroke="#4a2a0a" stroke-width="1.2"/>
+            <path d="M242,102 L260,105 L262,112 L242,112 Z" fill="#2a2a2a" stroke="#444" stroke-width="0.5"/>
+            <rect x="18" y="102" width="20" height="5" rx="1.5" fill="#e06060" opacity="0.8"/>
+            <circle cx="202" cy="168" r="34" fill="#1a1a1a" stroke="#444" stroke-width="1.5"/>
+            <circle cx="202" cy="168" r="20" fill="none" stroke="#555" stroke-width="1"/>
+            <circle cx="202" cy="168" r="4" fill="#666"/>
+            <circle cx="78" cy="168" r="34" fill="#1a1a1a" stroke="#444" stroke-width="1.5"/>
+            <circle cx="78" cy="168" r="20" fill="none" stroke="#555" stroke-width="1"/>
+            <circle cx="78" cy="168" r="4" fill="#666"/>
+            <line x1="100" y1="125" x2="188" y2="125" stroke="#7b5523" stroke-width="0.5"/>
+          </svg>
+        </div>
+        <div class="vehicle-card-body">
+          <h3 class="vehicle-card-name">Austral</h3>
+          <p class="vehicle-card-variant">Full Hibrit</p>
+          <p class="vehicle-card-price">₺1.349.000'dan başlayan</p>
+          <span class="vehicle-card-arrow">Detayları gör <span>→</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     PROMO TILES — promo-tile variants
+     ============================================ -->
+<section class="section section-light">
+  <div class="container">
+    <div class="promo-grid">
+      <!-- Promo Tile: Yellow Accent (rare — one per page) -->
+      <div class="promo-tile promo-tile-yellow fade-in">
+        <div class="promo-tile-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" stroke="#000" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="promo-tile-title">Sıfır Faizli Kredi</h3>
+        <p class="promo-tile-desc">
+          Seçili modellerde 12 aya varan vade ile %0 faiz avantajı. Kampanya detaylarını keşfedin.
+        </p>
+        <span class="promo-tile-cta" style="color: #000;">Kampanyayı Gör <span>→</span></span>
+      </div>
+
+      <!-- Promo Tile: Dark -->
+      <div class="promo-tile promo-tile-dark fade-in">
+        <div class="promo-tile-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.5"/>
+            <polyline points="8,12 11,15 16,9" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="promo-tile-title">Online Rezervasyon</h3>
+        <p class="promo-tile-desc">
+          Size en uygun modeli online olarak rezerve edin. Sınırlı stoklarla kaçırmayın.
+        </p>
+        <span class="promo-tile-cta" style="color: #fff;">Hemen Rezerve Et <span>→</span></span>
+      </div>
+
+      <!-- Promo Tile: Light -->
+      <div class="promo-tile promo-tile-light fade-in">
+        <div class="promo-tile-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="6" width="20" height="12" rx="2" stroke="#000" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="2.5" stroke="#000" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="promo-tile-title">Test Sürüşü</h3>
+        <p class="promo-tile-desc">
+          En yakın Renault bayisinde dilediğiniz modeli test edin. Ücretsiz test sürüşü randevunuzu hemen alın.
+        </p>
+        <span class="promo-tile-cta">Randevu Al <span>→</span></span>
+      </div>
+
+      <!-- Promo Tile: Commercial / Dark -->
+      <div class="promo-tile promo-tile-dark fade-in">
+        <div class="promo-tile-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 14h18v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4z" stroke="#fff" stroke-width="1.5"/>
+            <path d="M3 14V8a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v3" stroke="#fff" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="promo-tile-title">Filo Çözümleri</h3>
+        <p class="promo-tile-desc">
+          İşletmeniz için özel filo çözümleri ve ticari araç kampanyaları. Renault Pro+ ayrıcalıklarıyla tanışın.
+        </p>
+        <span class="promo-tile-cta" style="color: #fff;">Detayları Gör <span>→</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SERVICES — Dark section with 3 cards
+     ============================================ -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header fade-in">
+      <p class="section-label">Renault Hizmetleri</p>
+      <h2 class="section-title">Her Adımda Yanınızdayız</h2>
+      <p class="section-subtitle">
+        Satın almadan sonrasına kadar tüm ihtiyaçlarınız için Renault servis ağı.
+      </p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12l2 2 4-4" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="10" stroke="#000" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="service-card-title">Periyodik Bakım</h3>
+        <p class="service-card-desc">
+          Uzman teknisyenlerimizle aracınızın bakımını zamanında yaptırın. Online randevu ile kolayca planlayın.
+        </p>
+        <span class="service-card-link">Randevu Al <span>→</span></span>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="6" width="18" height="13" rx="2" stroke="#000" stroke-width="1.5"/>
+            <line x1="3" y1="10" x2="21" y2="10" stroke="#000" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="service-card-title">Garanti ve Asistans</h3>
+        <p class="service-card-desc">
+          5 yıl garanti ve 7/24 yol yardımı ile güvendesiniz. Renault Asistans her zaman yanınızda.
+        </p>
+        <span class="service-card-link">Detayları Gör <span>→</span></span>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M21 15v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3" stroke="#000" stroke-width="1.5"/>
+            <polyline points="7,10 12,15 17,10" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="12" y1="15" x2="12" y2="3" stroke="#000" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="service-card-title">MyRenault Uygulaması</h3>
+        <p class="service-card-desc">
+          Aracınızı uzaktan kontrol edin, şarj durumunu takip edin ve servis geçmişinizi görüntüleyin.
+        </p>
+        <span class="service-card-link">Uygulamayı İndir <span>→</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CONFIGURATOR PREVIEW — configurator-row style
+     ============================================ -->
+<section class="section section-light">
+  <div class="container">
+    <div class="section-header fade-in">
+      <p class="section-label">Konfigüratör</p>
+      <h2 class="section-title">Aracını Özelleştir</h2>
+      <p class="section-subtitle">
+        Kasa tipi, motor seçeneği ve renk — üç adımda ideal Renault'unu yarat.
+      </p>
+    </div>
+    <div class="config-preview">
+      <div class="config-visual fade-in">
+        <!-- Configurator car visual -->
+        <svg width="420" height="260" viewBox="0 0 420 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="210" cy="245" rx="190" ry="8" fill="rgba(0,0,0,0.06)"/>
+          <path d="M15,185 L35,120 L100,88 L320,88 L385,120 L405,185 L405,200 L15,200 Z" fill="#d8d8d8" stroke="#c0c0c0" stroke-width="0.8"/>
+          <path d="M105,88 L110,58 L300,58 L305,88" fill="#c8c8c8" stroke="#b0b0b0" stroke-width="0.8"/>
+          <path d="M112,88 L115,60 L297,60 L300,88" fill="#9ab8d0" opacity="0.5"/>
+          <line x1="210" y1="60" x2="210" y2="88" stroke="#bbb" stroke-width="0.6"/>
+          <path d="M370,125 L395,128 L397,136 L370,135 Z" fill="#e8e8e8" stroke="#ccc" stroke-width="0.5"/>
+          <rect x="18" y="124" width="24" height="6" rx="2" fill="#e06060" opacity="0.8"/>
+          <circle cx="290" cy="200" r="38" fill="#2a2a2a" stroke="#444" stroke-width="1.5"/>
+          <circle cx="290" cy="200" r="22" fill="none" stroke="#555" stroke-width="1"/>
+          <circle cx="290" cy="200" r="4" fill="#666"/>
+          <circle cx="120" cy="200" r="38" fill="#2a2a2a" stroke="#444" stroke-width="1.5"/>
+          <circle cx="120" cy="200" r="22" fill="none" stroke="#555" stroke-width="1"/>
+          <circle cx="120" cy="200" r="4" fill="#666"/>
+          <line x1="115" y1="155" x2="300" y2="155" stroke="#ccc" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="config-options fade-in">
+        <h3 class="config-options-title">Yapılandırmaya Başla</h3>
+        <p class="config-options-desc">
+          Adım adım ilerleyerek size en uygun konfigürasyonu oluşturun.
+        </p>
+        <div class="config-row">
+          <span class="config-row-label">Kasa Tipi</span>
+          <span class="config-row-value">Hatchback</span>
+        </div>
+        <div class="config-row">
+          <span class="config-row-label">Motor Seçimi</span>
+          <span class="config-row-value">E-Tech Full Hibrit</span>
+        </div>
+        <div class="config-row">
+          <span class="config-row-label">Versiyon</span>
+          <span class="config-row-value">Iconic</span>
+        </div>
+        <div class="config-row">
+          <span class="config-row-label">Renk</span>
+          <span class="config-row-value">
+            <span class="config-swatch active" style="background: #4a6fa5;"></span>
+            <span class="config-swatch" style="background: #8b4513;"></span>
+            <span class="config-swatch" style="background: #d8d8d8;"></span>
+            <span class="config-swatch" style="background: #ffed00;"></span>
+          </span>
+        </div>
+        <div style="margin-top: var(--sp-xl);">
+          <button class="btn-primary">Konfigüratörü Başlat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CTA BANNER — dark section
+     ============================================ -->
+<section id="cta" class="cta-banner">
+  <div class="container">
+    <h2 class="cta-banner-title fade-in">
+      <span>SARI</span> IŞIKTA<br>BULUŞALIM
+    </h2>
+    <p class="cta-banner-desc fade-in">
+      Bugün test sürüşü randevunuzu alın, yeni Renault dünyasını keşfedin.
+      Size en yakın bayide sizi bekliyoruz.
+    </p>
+    <div class="cta-banner-buttons fade-in">
+      <button class="btn-primary">Hemen Randevu Al</button>
+      <button class="btn-outline-light">Size En Yakın Bayi</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER — footer component
+     bg: surface-dark, padding: 64px 24px
+     ============================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <!-- Renault diamond logomark (white) -->
+        <svg width="32" height="39" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 0L0 10.5V33.5L18 44L36 33.5V10.5L18 0Z" fill="#ffffff"/>
+          <path d="M18 5L3 13.5V30.5L18 39L33 30.5V13.5L18 5Z" fill="#000000"/>
+          <path d="M18 10L8 15.5V28.5L18 34L28 28.5V15.5L18 10Z" fill="#ffffff"/>
+          <line x1="18" y1="10" x2="18" y2="34" stroke="#ffed00" stroke-width="2"/>
+          <line x1="8" y1="22" x2="28" y2="22" stroke="#ffed00" stroke-width="2"/>
+        </svg>
+        <p>Renault Türkiye — Passion for life. 2026 yılı itibarıyla güncel modeller ve kampanyalar.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col-title">Modeller</h4>
+        <ul>
+          <li><a href="#">Binek Araç</a></li>
+          <li><a href="#">Ticari Araç</a></li>
+          <li><a href="#">E-Tech Elektrikli</a></li>
+          <li><a href="#">Fiyat Listesi</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col-title">Hizmetler</h4>
+        <ul>
+          <li><a href="#">Servis Randevusu</a></li>
+          <li><a href="#">Garanti ve Asistans</a></li>
+          <li><a href="#">Aksesuar Mağazası</a></li>
+          <li><a href="#">MyRenault</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col-title">Renault Dünyası</h4>
+        <ul>
+          <li><a href="#">Hakkımızda</a></li>
+          <li><a href="#">İletişim</a></li>
+          <li><a href="#">Kariyer</a></li>
+          <li><a href="#">Sürdürülebilirlik</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Renault MAİS A.Ş. Tüm hakları saklıdır.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Gizlilik Politikası</a>
+        <a href="#">Çerez Ayarları</a>
+        <a href="#">Yasal Uyarı</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

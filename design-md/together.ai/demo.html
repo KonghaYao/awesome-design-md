@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Together AI — The AI Native Cloud</title>
+  <style>
+    /* ── CSS Reset ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      background-color: #ffffff;
+      color: #000000;
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img, svg { display: block; max-width: 100%; }
+
+    /* ── Container ── */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── NAVIGATION ── */
+    /* nav-bar: canvas-dark bg, white text */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background-color: #010120;
+      color: #ffffff;
+      padding: 16px 32px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .nav.scrolled {
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: rgba(1, 1, 32, 0.1) 0px 4px 10px 0px;
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 25.3px;
+      letter-spacing: -0.22px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #fc4c02, #ef2cc1, #bdbbff);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-link {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+      cursor: pointer;
+    }
+    .nav-link:hover { opacity: 1; }
+
+    /* nav-bar scrolled → switch colors */
+    .nav.scrolled .nav-link { color: #000000; opacity: 0.7; }
+    .nav.scrolled .nav-link:hover { opacity: 1; }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ── BUTTONS ── */
+    /* button-primary: black pill */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 16px;
+      letter-spacing: 0.08px;
+      text-transform: uppercase;
+      padding: 4px 24px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* button-secondary-mint */
+    .btn-mint {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #c8f6f9;
+      color: #000000;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 16px;
+      letter-spacing: 0.08px;
+      text-transform: uppercase;
+      padding: 4px 24px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-mint:hover { background-color: #b0ecf0; transform: translateY(-1px); }
+
+    /* button-secondary-white */
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+      color: #000000;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 16px;
+      letter-spacing: 0.08px;
+      text-transform: uppercase;
+      padding: 4px 24px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-white:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* button-ghost-on-dark */
+    .btn-ghost-dark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #313641;
+      color: #ffffff;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 16px;
+      letter-spacing: 0.08px;
+      text-transform: uppercase;
+      padding: 4px 24px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-ghost-dark:hover { background-color: #434c5a; }
+
+    /* ── HERO BAND DARK ── */
+    /* hero-band-dark: canvas-dark bg, white text */
+    .hero {
+      background-color: #010120;
+      color: #ffffff;
+      padding: 80px 32px;
+      padding-top: 144px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .hero-eyebrow {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 16px;
+    }
+    .hero-headline {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 64px;
+      font-weight: 500;
+      line-height: 70.4px;
+      letter-spacing: -1.92px;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    .hero-subhead {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 23.4px;
+      letter-spacing: -0.18px;
+      color: rgba(255,255,255,0.7);
+      max-width: 480px;
+      margin-bottom: 24px;
+    }
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .hero-graphic {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .hero-ribbon {
+      width: 100%;
+      height: 340px;
+      position: relative;
+    }
+
+    /* Gradient ribbon SVG drawn with the three brand accent colors */
+    .hero-ribbon svg { width: 100%; height: 100%; }
+
+    /* ── SECTION BANDS ── */
+    .section-dark {
+      background-color: #010120;
+      color: #ffffff;
+      padding: 80px 32px;
+    }
+    .section-light {
+      background-color: #ffffff;
+      color: #000000;
+      padding: 80px 32px;
+    }
+
+    /* Section eyebrow (mono-caps-eyebrow) */
+    .section-eyebrow {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: #959494;
+      margin-bottom: 16px;
+    }
+    .section-dark .section-eyebrow {
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Section headline (display-xl) */
+    .section-headline {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 48px;
+      letter-spacing: -0.8px;
+      margin-bottom: 12px;
+    }
+
+    /* Section lead (body-lg) */
+    .section-lead {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 23.4px;
+      letter-spacing: -0.18px;
+      color: #959494;
+      max-width: 640px;
+      margin-bottom: 32px;
+    }
+    .section-dark .section-lead {
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ── FEATURE TABS ── */
+    .feature-tabs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background-color: #ebebeb;
+      padding: 4px;
+      border-radius: 4px;
+      margin-bottom: 32px;
+      width: fit-content;
+      flex-wrap: wrap;
+    }
+    .feature-tab {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      background-color: transparent;
+      color: #959494;
+      padding: 12px 24px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .feature-tab.active {
+      background-color: #ffffff;
+      color: #000000;
+    }
+    .feature-tab:hover:not(.active) { color: #000000; }
+
+    /* ── CODE EDITOR MOCKUP ── */
+    .code-mockup {
+      background-color: #010120;
+      color: #ffffff;
+      border-radius: 4px;
+      padding: 24px;
+      overflow: hidden;
+    }
+    .code-mockup-line {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 14px;
+      letter-spacing: 0.05px;
+      margin-bottom: 4px;
+      display: flex;
+      gap: 8px;
+    }
+    .code-ln {
+      color: rgba(255,255,255,0.3);
+      min-width: 28px;
+      text-align: right;
+      user-select: none;
+    }
+    .code-kw  { color: #ef2cc1; }
+    .code-str { color: #c8f6f9; }
+    .code-fn  { color: #bdbbff; }
+    .code-cmt { color: rgba(255,255,255,0.25); }
+    .code-num { color: #fc4c02; }
+    .code-op  { color: rgba(255,255,255,0.5); }
+    .code-id  { color: #ffffff; }
+
+    .code-mockup-window {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #313641;
+    }
+    .code-mockup-file {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 14px;
+      letter-spacing: 0.05px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── STATS TILES ── */
+    /* stats-card-tinted */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .stat-tile {
+      border-radius: 4px;
+      padding: 32px;
+    }
+    .stat-tile-mint { background-color: #c8f6f9; }
+    .stat-tile-periwinkle { background-color: #bdbbff; }
+    .stat-tile-peach { background-color: #ffd6c0; }
+    .stat-number {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 48px;
+      letter-spacing: -0.8px;
+      color: #000000;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: #959494;
+    }
+
+    /* ── RESEARCH CARDS ── */
+    /* research-card */
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .research-card {
+      background-color: #010120;
+      color: #ffffff;
+      border: 1px solid #313641;
+      border-radius: 4px;
+      padding: 24px;
+    }
+    .research-card-tag {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 12px;
+    }
+    .research-card-title {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 25.3px;
+      letter-spacing: -0.22px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .research-card-desc {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ── PRICING SECTION ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    /* ex-pricing-tier */
+    .pricing-card {
+      background-color: #ffffff;
+      color: #000000;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      padding: 32px;
+    }
+    /* ex-pricing-tier-featured */
+    .pricing-card.featured {
+      background-color: #000000;
+      color: #ffffff;
+      border: none;
+    }
+    .pricing-tier-name {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: #959494;
+      margin-bottom: 12px;
+    }
+    .pricing-card.featured .pricing-tier-name { color: rgba(255,255,255,0.6); }
+    .pricing-price {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 48px;
+      letter-spacing: -0.8px;
+      margin-bottom: 4px;
+    }
+    .pricing-card.featured .pricing-price { color: #ffffff; }
+    .pricing-unit {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      color: #959494;
+      margin-bottom: 24px;
+    }
+    .pricing-card.featured .pricing-unit { color: rgba(255,255,255,0.6); }
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .pricing-features li {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pricing-card.featured .pricing-features li {
+      border-bottom-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.85);
+    }
+    .pricing-features li:last-child { border-bottom: none; }
+    .pricing-check {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── ARTICLE CARDS ── */
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .article-card {
+      background-color: #ffffff;
+      color: #000000;
+      padding: 24px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .article-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #010120, #313641);
+      border-radius: 4px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .article-img-placeholder {
+      font-family: monospace;
+      font-size: 48px;
+      opacity: 0.15;
+    }
+    .article-tag {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: #959494;
+      margin-bottom: 8px;
+    }
+    .article-title {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 25.3px;
+      letter-spacing: -0.22px;
+      margin-bottom: 8px;
+    }
+    .article-summary {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      color: #959494;
+      margin-bottom: 12px;
+    }
+    .article-byline {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 14px;
+      letter-spacing: 0.05px;
+      color: #959494;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .testimonial-card {
+      background-color: #ffffff;
+      color: #000000;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      padding: 24px;
+    }
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .testimonial-avatar-1 { background-color: #bdbbff; }
+    .testimonial-avatar-2 { background-color: #c8f6f9; }
+    .testimonial-avatar-3 { background-color: #ffd6c0; }
+    .testimonial-name {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 25.3px;
+      letter-spacing: -0.22px;
+      margin-bottom: 8px;
+    }
+    .testimonial-quote {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      color: #959494;
+      margin-bottom: 12px;
+    }
+    .testimonial-stat {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 14px;
+      letter-spacing: 0.05px;
+      color: #959494;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      padding-top: 12px;
+    }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background-color: #010120;
+      color: #ffffff;
+      padding: 80px 32px;
+      text-align: center;
+    }
+    .cta-band .section-headline {
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+    .cta-band .section-lead {
+      color: rgba(255,255,255,0.6);
+      max-width: 560px;
+      margin: 0 auto 24px auto;
+    }
+    .cta-band .hero-ctas {
+      justify-content: center;
+    }
+
+    /* ── LOGO BAR ── */
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 44px;
+      flex-wrap: wrap;
+      margin-top: 44px;
+      opacity: 0.4;
+    }
+    .logo-item {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.18px;
+      color: #000000;
+      filter: grayscale(1);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background-color: #ffffff;
+      color: #000000;
+      padding: 80px 32px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .footer-col-label {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: #959494;
+      margin-bottom: 16px;
+    }
+    .footer-link {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      color: #959494;
+      padding: 6px 0;
+      display: block;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+    .footer-link:hover { color: #000000; }
+
+    /* ── FOOTER WORDMARK BANNER ── */
+    .footer-wordmark {
+      background-color: #ffffff;
+      color: #959494;
+      padding: 80px 32px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .footer-wordmark-text {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 64px;
+      font-weight: 500;
+      line-height: 70.4px;
+      letter-spacing: -1.92px;
+      color: #959494;
+      white-space: nowrap;
+      font-size: clamp(48px, 10vw, 112px);
+      opacity: 0.3;
+    }
+
+    /* ── FLOATING CHAT ORB ── */
+    /* button-icon-circular */
+    .chat-orb {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      background-color: #000000;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      z-index: 90;
+      box-shadow: rgba(1, 1, 32, 0.1) 0px 4px 10px 0px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      font-size: 18px;
+    }
+    .chat-orb:hover { transform: scale(1.1); }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: #ebebeb;
+      color: #000000;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+    }
+
+    /* ── DATA TABLE ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+    .data-table thead th {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: #959494;
+      background-color: #ebebeb;
+      padding: 12px 16px;
+      text-align: left;
+    }
+    .data-table tbody td {
+      font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      letter-spacing: -0.16px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 991px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-content { align-items: center; }
+      .hero-subhead { max-width: 100%; }
+      .hero-ctas { justify-content: center; }
+      .hero-ribbon { height: 200px; }
+      .research-grid { grid-template-columns: 1fr; }
+      .testimonial-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .article-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 767px) {
+      .nav-links { display: none; }
+      .hero-headline { font-size: 40px; line-height: 48px; letter-spacing: -0.8px; }
+      .section-headline { font-size: 28px; line-height: 32.2px; letter-spacing: -0.42px; }
+      .container { padding: 0 16px; }
+      .hero, .section-dark, .section-light, .cta-band { padding: 48px 16px; }
+      .hero { padding-top: 100px; }
+      .feature-tabs { width: 100%; justify-content: center; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .logo-bar { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <div class="nav-logo-dot"></div>
+        together.ai
+      </div>
+      <div class="nav-links">
+        <span class="nav-link">Products</span>
+        <span class="nav-link">Models</span>
+        <span class="nav-link">Pricing</span>
+        <span class="nav-link">Docs</span>
+        <span class="nav-link">Research</span>
+        <span class="nav-link">Blog</span>
+      </div>
+      <div class="nav-actions">
+        <span class="nav-link">Contact sales</span>
+        <button class="btn-primary">Sign in</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">THE AI NATIVE CLOUD</div>
+        <h1 class="hero-headline">Build what's next on the AI Native Cloud</h1>
+        <p class="hero-subhead">Run leading open-source models on the fastest infrastructure, at the lowest cost — with production-ready APIs, dedicated GPU clusters, and the tools to fine-tune and deploy anywhere.</p>
+        <div class="hero-ctas">
+          <button class="btn-mint">Get started free</button>
+          <button class="btn-white">Talk to sales</button>
+          <button class="btn-ghost-dark">Watch announcement ↓</button>
+        </div>
+      </div>
+      <div class="hero-graphic">
+        <div class="hero-ribbon">
+          <svg viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fc4c02" />
+                <stop offset="50%" stop-color="#ef2cc1" />
+                <stop offset="100%" stop-color="#bdbbff" />
+              </linearGradient>
+              <filter id="blur1">
+                <feGaussianBlur stdDeviation="18" />
+              </filter>
+              <filter id="blur2">
+                <feGaussianBlur stdDeviation="12" />
+              </filter>
+            </defs>
+            <!-- Background shapes -->
+            <ellipse cx="180" cy="120" rx="160" ry="100" fill="url(#brandGrad)" opacity="0.4" filter="url(#blur1)" />
+            <ellipse cx="260" cy="200" rx="130" ry="90" fill="#ef2cc1" opacity="0.3" filter="url(#blur2)" />
+            <ellipse cx="120" cy="240" rx="110" ry="80" fill="#bdbbff" opacity="0.35" filter="url(#blur2)" />
+            <!-- Layered ribbon wave shapes -->
+            <path d="M50 160 Q100 90 150 130 Q200 170 250 110 Q300 50 350 100" stroke="url(#brandGrad)" stroke-width="3" fill="none" opacity="0.7" />
+            <path d="M60 180 Q110 120 160 155 Q210 190 260 135 Q310 80 360 130" stroke="url(#brandGrad)" stroke-width="2.5" fill="none" opacity="0.5" />
+            <path d="M40 200 Q95 150 145 175 Q195 200 245 150 Q295 100 340 145" stroke="url(#brandGrad)" stroke-width="2" fill="none" opacity="0.35" />
+            <!-- Accent dots -->
+            <circle cx="140" cy="130" r="3" fill="#fc4c02" opacity="0.6" />
+            <circle cx="240" cy="140" r="3.5" fill="#ef2cc1" opacity="0.5" />
+            <circle cx="200" cy="220" r="2.5" fill="#bdbbff" opacity="0.5" />
+            <circle cx="310" cy="110" r="2" fill="#fc4c02" opacity="0.4" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── FEATURES: THE PLATFORM ── -->
+  <section class="section-light">
+    <div class="container">
+      <div class="section-eyebrow">THE TOGETHER AI PLATFORM</div>
+      <h2 class="section-headline">One platform, every AI workload</h2>
+      <p class="section-lead">From inference to fine-tuning to custom model deployment, Together AI gives you a unified stack across every stage of production AI — no infrastructure headaches, no vendor lock-in.</p>
+
+      <div class="feature-tabs">
+        <button class="feature-tab active">Inference</button>
+        <button class="feature-tab">Fine-tuning</button>
+        <button class="feature-tab">Dedicated</button>
+        <button class="feature-tab">GPU Clusters</button>
+        <button class="feature-tab">Agents</button>
+      </div>
+
+      <!-- Code editor mockup -->
+      <div class="code-mockup">
+        <div class="code-mockup-window">
+          <div class="code-mockup-file">🚀 inference.py</div>
+        </div>
+        <div class="code-mockup-line"><span class="code-ln">1</span><span class="code-kw">import</span><span class="code-id"> together</span></div>
+        <div class="code-mockup-line"><span class="code-ln">2</span></div>
+        <div class="code-mockup-line"><span class="code-ln">3</span><span class="code-id">client</span><span class="code-op"> = </span><span class="code-id">Together</span><span class="code-op">()</span></div>
+        <div class="code-mockup-line"><span class="code-ln">4</span></div>
+        <div class="code-mockup-line"><span class="code-ln">5</span><span class="code-id">response</span><span class="code-op"> = </span><span class="code-id">client</span><span class="code-op">.</span><span class="code-id">chat</span><span class="code-op">.</span><span class="code-id">completions</span><span class="code-op">.</span><span class="code-id">create</span><span class="code-op">(</span></div>
+        <div class="code-mockup-line"><span class="code-ln">6</span>    <span class="code-id">model</span><span class="code-op">=</span><span class="code-str">"deepseek-ai/DeepSeek-V3"</span><span class="code-op">,</span></div>
+        <div class="code-mockup-line"><span class="code-ln">7</span>    <span class="code-id">messages</span><span class="code-op">=[{</span><span class="code-str">"role"</span><span class="code-op">:</span><span class="code-str">"user"</span><span class="code-op">,</span><span class="code-str">"content"</span><span class="code-op">:</span><span class="code-str">"What is AI?"</span><span class="code-op">}]</span></div>
+        <div class="code-mockup-line"><span class="code-ln">8</span><span class="code-op">)</span></div>
+        <div class="code-mockup-line"><span class="code-ln">9</span></div>
+        <div class="code-mockup-line"><span class="code-ln">10</span><span class="code-cmt"># Response: {"choices":[{"message":{"content":"AI is..."}}]}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS ── -->
+  <section class="section-light" style="padding-top: 0;">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-tile stat-tile-mint">
+          <div class="stat-number">200+</div>
+          <div class="stat-label">OPEN-SOURCE MODELS</div>
+        </div>
+        <div class="stat-tile stat-tile-periwinkle">
+          <div class="stat-number">99.99%</div>
+          <div class="stat-label">UPTIME SLA</div>
+        </div>
+        <div class="stat-tile stat-tile-peach">
+          <div class="stat-number">4x</div>
+          <div class="stat-label">FASTER INFERENCE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RESEARCH BAND ── -->
+  <section class="section-dark">
+    <div class="container">
+      <div class="section-eyebrow">RESEARCH</div>
+      <h2 class="section-headline">Grounded in cutting-edge research</h2>
+      <p class="section-lead">Every product decision starts with published research. We advance the frontier of efficient AI — and ship those advances as infrastructure you can use today.</p>
+      <div class="research-grid">
+        <div class="research-card">
+          <div class="research-card-tag">FLASHATTENTION-3 · JUL '25</div>
+          <div class="research-card-title">FlashAttention-3: Fast and Accurate Attention on Hopper GPUs</div>
+          <div class="research-card-desc">Achieves up to 1.5-2.0x speedup over FlashAttention-2, reaching 740 TFLOPS on H100 GPUs.</div>
+        </div>
+        <div class="research-card">
+          <div class="research-card-tag">STRIPEDHYENA · JUN '25</div>
+          <div class="research-card-title">StripedHyena: Moving Beyond Transformers with State Free Models</div>
+          <div class="research-card-desc">Hybrid architecture combining attention and gated convolutions for near-linear scaling with sequence length.</div>
+        </div>
+        <div class="research-card">
+          <div class="research-card-tag">SPECTRUM · MAY '25</div>
+          <div class="research-card-title">Spectrum: Targeted Training on Signal-to-Noise Ratios</div>
+          <div class="research-card-desc">SNR-based layer targeting accelerates LLM training by 20-50% without quality degradation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRICING ── -->
+  <section class="section-light">
+    <div class="container">
+      <div class="section-eyebrow">PRICING</div>
+      <h2 class="section-headline">Start building on Together AI</h2>
+      <p class="section-lead">Pay only for what you use. No minimums, no hidden fees — just straightforward pricing for every stage of your AI journey.</p>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-tier-name">FREE</div>
+          <div class="pricing-price">$0</div>
+          <div class="pricing-unit">per month</div>
+          <ul class="pricing-features">
+            <li><span class="pricing-check">✓</span> $1 free credits</li>
+            <li><span class="pricing-check">✓</span> Serverless endpoints</li>
+            <li><span class="pricing-check">✓</span> 1 concurrent request</li>
+            <li><span class="pricing-check">✓</span> Community models</li>
+            <li><span class="pricing-check">✓</span> API playground access</li>
+          </ul>
+          <button class="btn-primary">Start free</button>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-tier-name">SCALE</div>
+          <div class="pricing-price">Pay as you go</div>
+          <div class="pricing-unit">per-token pricing</div>
+          <ul class="pricing-features">
+            <li><span class="pricing-check">✓</span> All serverless models</li>
+            <li><span class="pricing-check">✓</span> 10 concurrent requests</li>
+            <li><span class="pricing-check">✓</span> Fine-tuning API access</li>
+            <li><span class="pricing-check">✓</span> Priority support</li>
+            <li><span class="pricing-check">✓</span> Usage analytics dashboard</li>
+          </ul>
+          <button class="btn-white">Contact sales</button>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-tier-name">ENTERPRISE</div>
+          <div class="pricing-price">Custom</div>
+          <div class="pricing-unit">tailored pricing</div>
+          <ul class="pricing-features">
+            <li><span class="pricing-check">✓</span> Dedicated GPU clusters</li>
+            <li><span class="pricing-check">✓</span> Unlimited concurrency</li>
+            <li><span class="pricing-check">✓</span> Custom model hosting</li>
+            <li><span class="pricing-check">✓</span> VPC deployment</li>
+            <li><span class="pricing-check">✓</span> 24/7 enterprise SLA</li>
+          </ul>
+          <button class="btn-primary">Contact sales</button>
+        </div>
+      </div>
+
+      <!-- Data table for model pricing -->
+      <div style="overflow-x: auto; margin-top: 44px;">
+        <h3 style="font-family: 'Inter','SF Pro Display',system-ui,-apple-system,sans-serif;font-size:28px;font-weight:500;line-height:32.2px;letter-spacing:-0.42px;margin-bottom:24px;">Popular models</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Input / 1M tokens</th>
+              <th>Output / 1M tokens</th>
+              <th>Context window</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>DeepSeek-V3</strong></td>
+              <td>$0.88</td>
+              <td>$1.10</td>
+              <td>128K</td>
+            </tr>
+            <tr>
+              <td><strong>Meta-Llama 3.1 405B</strong></td>
+              <td>$3.50</td>
+              <td>$3.50</td>
+              <td>128K</td>
+            </tr>
+            <tr>
+              <td><strong>Mixtral 8x22B</strong></td>
+              <td>$0.90</td>
+              <td>$0.90</td>
+              <td>64K</td>
+            </tr>
+            <tr>
+              <td><strong>Qwen 2.5 72B</strong></td>
+              <td>$0.90</td>
+              <td>$0.90</td>
+              <td>128K</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="section-light" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-eyebrow">CUSTOMERS</div>
+      <h2 class="section-headline">AI natives build on Together AI</h2>
+      <p class="section-lead">Teams at every scale — from startups to Fortune 500s — trust Together AI as their AI infrastructure backbone.</p>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-avatar testimonial-avatar-1">🧑‍💻</div>
+          <div class="testimonial-name">Sarah Chen</div>
+          <div class="testimonial-quote">"Together AI cut our inference costs by 60% while actually improving latency. The migration from our previous provider took less than a day — the API compatibility is seamless."</div>
+          <div class="testimonial-stat">CTO · Codeium · 500M+ tokens/day</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-avatar testimonial-avatar-2">👩‍🔬</div>
+          <div class="testimonial-name">Marcus Rivera</div>
+          <div class="testimonial-quote">"We fine-tune Llama 3.1 70B regularly for our medical research pipeline. Together AI's fine-tuning API gives us the throughput we need, at a cost that's actually sustainable for a research lab."</div>
+          <div class="testimonial-stat">ML Lead · Benchling · 200+ fine-tunes/mo</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-avatar testimonial-avatar-3">👨‍🚀</div>
+          <div class="testimonial-name">Aisha Patel</div>
+          <div class="testimonial-quote">"We evaluated every major inference provider. Together AI was the only one that hit our latency budget across all model sizes without forcing us into reserved capacity we didn't need."</div>
+          <div class="testimonial-stat">VP Eng · Luma AI · Real-time gen AI</div>
+        </div>
+      </div>
+
+      <!-- Logo bar -->
+      <div class="logo-bar">
+        <span class="logo-item">COD E I U M</span>
+        <span class="logo-item">B E N C H L I N G</span>
+        <span class="logo-item">L U M A · AI</span>
+        <span class="logo-item">N O T I O N</span>
+        <span class="logo-item">J A S P E R</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHAT'S NEW ── -->
+  <section class="section-light" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-eyebrow">BLOG</div>
+      <h2 class="section-headline">What's new at Together AI</h2>
+      <p class="section-lead">Product launches, research publications, and engineering deep-dives from the team building the AI Native Cloud.</p>
+      <div class="article-grid">
+        <div class="article-card">
+          <div class="article-img">
+            <span class="article-img-placeholder">📊</span>
+          </div>
+          <div class="article-tag">PRODUCT · JUL 2025</div>
+          <div class="article-title">Introducing Together Dedicated Endpoints: Production-Ready, Single-Tenant Inference</div>
+          <div class="article-summary">Deploy any model on dedicated infrastructure with guaranteed throughput, custom SLAs, and zero cold starts — now generally available.</div>
+          <div class="article-byline">Vipul Ved Prakash · 8 min read</div>
+        </div>
+        <div class="article-card">
+          <div class="article-img">
+            <span class="article-img-placeholder">⚡</span>
+          </div>
+          <div class="article-tag">ENGINEERING · JUN 2025</div>
+          <div class="article-title">How We Built the Fastest Llama 3 Inference Engine: Inside Together Inference Engine 2.0</div>
+          <div class="article-summary">A deep dive into the kernel optimizations, speculative decoding pipeline, and CUDA-level tricks that deliver 4x faster Llama 3 inference.</div>
+          <div class="article-byline">Tri Dao · 15 min read</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA BAND ── -->
+  <section class="cta-band">
+    <div class="container">
+      <div class="section-eyebrow" style="color:rgba(255,255,255,0.5);margin-bottom:16px;">READY TO BUILD</div>
+      <h2 class="section-headline">Bring your AI products to life</h2>
+      <p class="section-lead">Get started with $1 of free credits. No credit card required. Deploy your first model in under 60 seconds.</p>
+      <div class="hero-ctas">
+        <button class="btn-mint">Get started free</button>
+        <button class="btn-white">Book a demo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-col-label">PRODUCTS</div>
+        <span class="footer-link">Inference</span>
+        <span class="footer-link">Fine-Tuning</span>
+        <span class="footer-link">Dedicated Endpoints</span>
+        <span class="footer-link">GPU Clusters</span>
+        <span class="footer-link">Agents</span>
+      </div>
+      <div>
+        <div class="footer-col-label">RESOURCES</div>
+        <span class="footer-link">Documentation</span>
+        <span class="footer-link">API Reference</span>
+        <span class="footer-link">Model Benchmarks</span>
+        <span class="footer-link">Cookbook</span>
+        <span class="footer-link">Status Page</span>
+      </div>
+      <div>
+        <div class="footer-col-label">COMPANY</div>
+        <span class="footer-link">About</span>
+        <span class="footer-link">Research</span>
+        <span class="footer-link">Careers</span>
+        <span class="footer-link">Blog</span>
+        <span class="footer-link">Press</span>
+      </div>
+      <div>
+        <div class="footer-col-label">LEGAL</div>
+        <span class="footer-link">Terms of Service</span>
+        <span class="footer-link">Privacy Policy</span>
+        <span class="footer-link">Security</span>
+        <span class="footer-link">Acceptable Use</span>
+        <span class="footer-link">DPA</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── FOOTER WORDMARK BANNER ── -->
+  <div class="footer-wordmark">
+    <div class="footer-wordmark-text">together.ai</div>
+  </div>
+
+  <!-- ── FLOATING CHAT ORB ── -->
+  <button class="chat-orb" title="Chat with us">💬</button>
+
+  <!-- ── SCROLL BEHAVIOR ── -->
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+  </script>
+
+</body>
+</html>

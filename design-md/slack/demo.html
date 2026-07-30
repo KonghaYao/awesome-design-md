@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slack — Where work happens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* ===== DESIGN TOKENS ===== */
+:root {
+  /* Colors */
+  --color-primary: #4a154b;
+  --color-primary-deep: #481a54;
+  --color-primary-press: #611f69;
+  --color-primary-tint: #592466;
+  --color-on-primary: #ffffff;
+  --color-ink: #1d1d1d;
+  --color-ink-mute: #696969;
+  --color-link-blue: #1264a3;
+  --color-link-hover: #3860be;
+  --color-canvas: #ffffff;
+  --color-canvas-cream: #f4ede4;
+  --color-canvas-lavender: #f9f0ff;
+  --color-surface-elev: #ffffff;
+  --color-surface-aubergine: #4a154b;
+  --color-hairline: #e6e6e6;
+  --color-hairline-strong: #000000;
+  --color-error: #cc4117;
+  --color-success: #007a5a;
+  --color-on-aubergine-mute: #d9bdde;
+
+  /* Typography */
+  --font-display: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --fs-display-xxl: 64px;
+  --fs-display-xl: 58px;
+  --fs-display-lg: 50px;
+  --fs-display-md: 32px;
+  --fs-heading-lg: 24px;
+  --fs-heading-md: 22px;
+  --fs-heading-sm: 18px;
+  --fs-body-lg: 18px;
+  --fs-body-md: 16px;
+  --fs-body-strong: 16px;
+  --fs-button-lg: 18px;
+  --fs-button-md: 16px;
+  --fs-button-cap: 14.4px;
+  --fs-caption: 14px;
+  --fs-micro-cap: 12px;
+
+  /* Rounded */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-xxl: 48px;
+  --radius-pill: 90px;
+
+  /* Spacing */
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 12px;
+  --sp-lg: 16px;
+  --sp-xl: 20px;
+  --sp-xxl: 24px;
+  --sp-huge: 28px;
+
+  /* Elevation */
+  --elevation-1: 0 5px 20px rgba(0,0,0,0.1);
+  --elevation-2: 0 0 32px rgba(0,0,0,0.1);
+  --elevation-3: 0 1px 10px rgba(0,0,0,0.2);
+  --elevation-4: inset 0 0 0 1px rgb(97,31,105);
+}
+
+/* ===== UTILITY CLASSES ===== */
+.container { max-width: 1240px; margin: 0 auto; padding: 0 var(--sp-xxl); }
+
+/* Display Typography */
+.display-xxl {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-xxl);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.768px;
+  color: var(--color-ink);
+}
+.display-xl {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-xl);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.464px;
+  color: var(--color-ink);
+}
+.display-lg {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-lg);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.6px;
+}
+.display-md {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-md);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.256px;
+  color: var(--color-ink);
+}
+.heading-lg {
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-lg);
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -0.096px;
+  color: var(--color-ink);
+}
+.heading-md {
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-md);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+.heading-sm {
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-sm);
+  font-weight: 600;
+  line-height: 1.56;
+  letter-spacing: -0.0216px;
+  color: var(--color-ink);
+}
+.body-lg {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-lg);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.0216px;
+  color: var(--color-ink);
+}
+.body-md {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+.body-strong {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-strong);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.16px;
+  color: var(--color-ink);
+}
+.caption {
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+  color: var(--color-ink-mute);
+}
+.micro-cap {
+  font-family: var(--font-body);
+  font-size: var(--fs-micro-cap);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-body);
+  font-size: var(--fs-button-md);
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: 0.2px;
+  border-radius: var(--radius-pill);
+  padding: 14px 28px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+.btn-primary-pill:hover {
+  background-color: var(--color-primary-press);
+  transform: translateY(-1px);
+}
+.btn-primary-pill:active {
+  background-color: var(--color-primary-press);
+  transform: translateY(0);
+}
+.btn-primary-pill-lg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-body);
+  font-size: var(--fs-button-lg);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0;
+  border-radius: var(--radius-pill);
+  padding: 18px 36px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+.btn-primary-pill-lg:hover {
+  background-color: var(--color-primary-press);
+  transform: translateY(-1px);
+}
+.btn-secondary-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-canvas-lavender);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-button-md);
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: 0.2px;
+  border-radius: var(--radius-pill);
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-secondary-pill:hover {
+  background-color: #ede0f5;
+  transform: translateY(-1px);
+}
+.btn-outline-aubergine {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-canvas);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: var(--fs-button-md);
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: 0.2px;
+  border-radius: var(--radius-pill);
+  padding: 14px 28px;
+  border: 2px solid var(--color-primary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-outline-aubergine:hover {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  transform: translateY(-1px);
+}
+.btn-outline-on-aubergine {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--color-on-primary);
+  font-family: var(--font-body);
+  font-size: var(--fs-button-md);
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: 0.2px;
+  border-radius: var(--radius-pill);
+  padding: 14px 28px;
+  border: 2px solid var(--color-on-primary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-outline-on-aubergine:hover {
+  background-color: rgba(255,255,255,0.15);
+  transform: translateY(-1px);
+}
+
+/* Pill cap */
+.pill-cap-shade {
+  display: inline-block;
+  background-color: var(--color-canvas-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-micro-cap);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+}
+
+/* Link styles */
+.link-on-light {
+  color: var(--color-link-blue);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+.link-on-light:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+.link-on-aubergine {
+  color: var(--color-on-primary);
+  text-decoration: underline;
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  transition: opacity 0.2s ease;
+}
+.link-on-aubergine:hover {
+  opacity: 0.8;
+}
+
+/* ===== NAVIGATION ===== */
+.nav-bar-light {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-canvas);
+  padding: var(--sp-lg) var(--sp-xxl);
+  border-bottom: 1px solid var(--color-hairline);
+}
+.nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-sm);
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+  letter-spacing: -0.0216px;
+}
+.nav-logo svg { flex-shrink: 0; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-huge);
+  list-style: none;
+}
+.nav-links a {
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.nav-links a:hover { color: var(--color-primary); }
+.nav-actions { display: flex; align-items: center; gap: var(--sp-md); }
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--sp-sm);
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  position: relative;
+  background: var(--color-canvas-cream);
+  padding: 96px 0 80px;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 70% at 20% 30%, rgba(255, 220, 190, 0.6) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 60%, rgba(210, 180, 255, 0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 50% 80%, rgba(200, 225, 200, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero .container { position: relative; z-index: 1; }
+.hero-content {
+  max-width: 680px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-xxl);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.768px;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-xxl);
+}
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-lg);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.0216px;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-huge);
+  max-width: 560px;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+.hero-mockup {
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 580px;
+  z-index: 1;
+}
+
+/* ===== STATS SECTION ===== */
+.stats-section {
+  background-color: var(--color-canvas);
+  padding: 80px 0;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-xxl);
+}
+.stat-card {
+  background-color: var(--color-canvas);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  text-align: center;
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-lg);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.6px;
+  color: var(--color-primary);
+  margin-bottom: var(--sp-sm);
+}
+.stat-label {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-ink-mute);
+}
+
+/* ===== FEATURES SECTION ===== */
+.features-section {
+  background-color: var(--color-canvas-lavender);
+  padding: 96px 0;
+}
+.features-section h2 {
+  text-align: center;
+  margin-bottom: var(--sp-md);
+}
+.features-subtitle {
+  text-align: center;
+  margin-bottom: 64px;
+  color: var(--color-ink-mute);
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-xxl);
+}
+.feature-card {
+  background-color: var(--color-canvas-cream);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--elevation-1);
+}
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-canvas-lavender);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--sp-xxl);
+  color: var(--color-primary);
+}
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-sm);
+  font-weight: 600;
+  line-height: 1.56;
+  letter-spacing: -0.0216px;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-sm);
+}
+.feature-card p {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-ink-mute);
+  margin-bottom: var(--sp-lg);
+}
+.feature-card .feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+}
+
+/* ===== PRICING SECTION ===== */
+.pricing-section {
+  background-color: var(--color-canvas);
+  padding: 96px 0;
+}
+.pricing-section h2 {
+  text-align: center;
+  margin-bottom: var(--sp-md);
+}
+.pricing-subtitle {
+  text-align: center;
+  margin-bottom: 64px;
+  color: var(--color-ink-mute);
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-xxl);
+  align-items: start;
+}
+.pricing-card {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.pricing-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-1);
+}
+.pricing-card-featured {
+  background-color: var(--color-surface-aubergine);
+  border: 1px solid var(--color-primary-tint);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  color: var(--color-on-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.pricing-card-featured:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-2);
+}
+.pricing-card-featured::before {
+  content: 'MOST POPULAR';
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-canvas-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-micro-cap);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.96px;
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+.pricing-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--fs-micro-cap);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+  margin-bottom: var(--sp-md);
+}
+.pricing-card-featured .pricing-eyebrow {
+  color: var(--color-on-aubergine-mute);
+}
+.pricing-name {
+  font-family: var(--font-display);
+  font-size: var(--fs-heading-lg);
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -0.096px;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-sm);
+}
+.pricing-card-featured .pricing-name {
+  color: var(--color-on-primary);
+}
+.pricing-description {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-ink-mute);
+  margin-bottom: var(--sp-xxl);
+}
+.pricing-card-featured .pricing-description {
+  color: var(--color-on-aubergine-mute);
+}
+.pricing-amount {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-md);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.256px;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-xs);
+}
+.pricing-card-featured .pricing-amount {
+  color: var(--color-on-primary);
+}
+.pricing-period {
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+  color: var(--color-ink-mute);
+  margin-bottom: var(--sp-xxl);
+}
+.pricing-card-featured .pricing-period {
+  color: var(--color-on-aubergine-mute);
+}
+.pricing-features {
+  list-style: none;
+  margin-bottom: var(--sp-xxl);
+  flex: 1;
+}
+.pricing-features li {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  padding: var(--sp-sm) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+.pricing-card-featured .pricing-features li {
+  color: var(--color-on-primary);
+}
+.pricing-features li svg {
+  flex-shrink: 0;
+  color: var(--color-success);
+}
+.pricing-card-featured .pricing-features li svg {
+  color: var(--color-success);
+  filter: brightness(1.4);
+}
+
+/* ===== CTA BAND ===== */
+.cta-band {
+  background-color: var(--color-surface-aubergine);
+  padding: 64px 0;
+  border-radius: var(--radius-xl);
+  margin: 0 var(--sp-xxl) 96px;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-band-wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xxl);
+}
+.cta-band-inner {
+  background-color: var(--color-surface-aubergine);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  text-align: center;
+}
+.cta-band h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-md);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.256px;
+  color: var(--color-on-primary);
+  margin-bottom: var(--sp-md);
+}
+.cta-band p {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-lg);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.0216px;
+  color: var(--color-on-aubergine-mute);
+  margin-bottom: var(--sp-xxl);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-band-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+/* ===== CUSTOMER LOGOS ===== */
+.customers-section {
+  background-color: var(--color-canvas);
+  padding: 64px 0;
+  text-align: center;
+}
+.customers-section .caption {
+  margin-bottom: var(--sp-xxl);
+  text-transform: uppercase;
+  letter-spacing: 0.96px;
+  font-weight: 700;
+}
+.customer-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  opacity: 0.55;
+}
+.customer-logos svg {
+  height: 28px;
+  width: auto;
+  color: var(--color-ink-mute);
+}
+
+/* ===== FOOTER ===== */
+.footer-aubergine {
+  background-color: var(--color-surface-aubergine);
+  padding: 64px var(--sp-xxl) 32px;
+}
+.footer-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--sp-xxl);
+  margin-bottom: 48px;
+}
+.footer-col h4 {
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+  text-transform: uppercase;
+  color: var(--color-on-primary);
+  margin-bottom: var(--sp-lg);
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+.footer-col ul li a {
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+  color: var(--color-on-aubergine-mute);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-col ul li a:hover {
+  color: var(--color-on-primary);
+  text-decoration: underline;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: var(--sp-xxl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-md);
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+  color: var(--color-on-aubergine-mute);
+}
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-lg);
+}
+.footer-social a {
+  color: var(--color-on-aubergine-mute);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+.footer-social a:hover {
+  color: var(--color-on-primary);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  :root {
+    --fs-display-xxl: 50px;
+    --fs-display-xl: 44px;
+    --fs-display-lg: 40px;
+    --fs-display-md: 28px;
+  }
+  .hero-mockup { display: none; }
+  .hero-content { max-width: 100%; text-align: center; }
+  .hero-subtitle { max-width: 100%; }
+  .hero-actions { justify-content: center; }
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --fs-display-xxl: 40px;
+    --fs-display-xl: 36px;
+    --fs-display-lg: 32px;
+    --fs-display-md: 26px;
+    --fs-heading-lg: 22px;
+    --fs-heading-md: 20px;
+  }
+  .hero { padding: 64px 0; }
+  .features-section { padding: 64px 0; }
+  .pricing-section { padding: 64px 0; }
+  .features-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .cta-band { margin: 0 var(--sp-lg) 64px; }
+  .cta-band-inner { padding: 32px var(--sp-xxl); }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content { animation: fadeInUp 0.6s ease-out; }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav-bar-light">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#4a154b"/>
+        <path d="M12 10h3v3h-3zM17 10h3v3h-3zM12 15h3v3h-3zM17 15h3v3h-3z" fill="#fff" opacity="0.9"/>
+        <path d="M10 12h3v3h-3zM19 12h3v3h-3zM10 17h3v3h-3zM19 17h3v3h-3z" fill="#fff" opacity="0.6"/>
+      </svg>
+      <span>slack</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#">Enterprise</a></li>
+      <li><a href="#">Resources</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn-secondary-pill">Sign In</a>
+      <a href="#" class="btn-primary-pill">Try For Free</a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Made for people.<br>Built for productivity.</h1>
+      <p class="hero-subtitle">
+        Connect the right people, find anything that you need, and automate the rest. That's work in Slack, your productivity platform.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary-pill-lg">Get Started</a>
+        <a href="#" class="btn-secondary-pill">Talk to Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CUSTOMERS ===== -->
+<section class="customers-section">
+  <div class="container">
+    <p class="caption" style="letter-spacing:0.96px;font-weight:700;text-transform:uppercase;color:var(--color-ink-mute);">Trusted by teams at</p>
+    <div class="customer-logos">
+      <svg height="24" viewBox="0 0 100 28" fill="currentColor"><text x="0" y="22" font-family="Inter" font-weight="700" font-size="20" fill="currentColor">airbnb</text></svg>
+      <svg height="24" viewBox="0 0 100 28" fill="currentColor"><text x="0" y="22" font-family="Inter" font-weight="700" font-size="20" fill="currentColor">NETFLIX</text></svg>
+      <svg height="24" viewBox="0 0 100 28" fill="currentColor"><text x="0" y="22" font-family="Inter" font-weight="700" font-size="20" fill="currentColor">Spotify</text></svg>
+      <svg height="24" viewBox="0 0 100 28" fill="currentColor"><text x="0" y="22" font-family="Inter" font-weight="700" font-size="20" fill="currentColor">Target</text></svg>
+      <svg height="24" viewBox="0 0 100 28" fill="currentColor"><text x="0" y="22" font-family="Inter" font-weight="700" font-size="20" fill="currentColor">TIME</text></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">85%</div>
+        <div class="stat-label">of users say Slack has improved communication</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">87%</div>
+        <div class="stat-label">feel more connected to their teams</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">90%</div>
+        <div class="stat-label">say Slack makes their company more productive</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features-section" id="features">
+  <div class="container">
+    <h2 class="display-xl" style="color:var(--color-ink);">Move faster with your tools<br>in one place</h2>
+    <p class="features-subtitle body-lg">Automate away routine tasks with the power of generative AI and simplify your workflow with all your favorite apps ready to go in Slack.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="3"/>
+            <path d="M8 2v4M16 2v4M2 10h20"/>
+          </svg>
+        </div>
+        <h3>Channels</h3>
+        <p>Organize conversations in channels — open spaces for everything related to a project, topic, or team.</p>
+        <a href="#" class="link-on-light feature-link">
+          Learn more
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+          </svg>
+        </div>
+        <h3>Slack AI</h3>
+        <p>Save time with built-in AI that can summarize conversations, search answers, and recap channels instantly.</p>
+        <a href="#" class="link-on-light feature-link">
+          Learn more
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M9 3v18M3 9h18M3 15h18"/>
+          </svg>
+        </div>
+        <h3>Integrations</h3>
+        <p>Connect the tools you already use — Google Drive, Office 365, Salesforce, and 2,600+ more — all inside Slack.</p>
+        <a href="#" class="link-on-light feature-link">
+          Learn more
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>
+        </div>
+        <h3>Huddles</h3>
+        <p>Start a voice or video call with one click — no dial-ins, no links. Just share your screen and work side by side.</p>
+        <a href="#" class="link-on-light feature-link">
+          Learn more
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Workflow Builder</h3>
+        <p>Automate everyday tasks — from onboarding to approvals — with no-code workflows that keep your team focused.</p>
+        <a href="#" class="link-on-light feature-link">
+          Learn more
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <h3>Canvas</h3>
+        <p>Curate, organize, and share collections of information — from docs to designs — in a surface built for teamwork.</p>
+        <a href="#" class="link-on-light feature-link">
+          Learn more
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <h2 class="display-xl" style="color:var(--color-ink);">Plans that fit your scale</h2>
+    <p class="pricing-subtitle body-lg">Choose a plan that works for your team, from small startups to global enterprises.</p>
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="pricing-card">
+        <span class="pill-cap-shade">FREE</span>
+        <h3 class="pricing-name" style="margin-top:var(--sp-md);">Free</h3>
+        <p class="pricing-description">A smarter, simpler way to work for small teams.</p>
+        <div class="pricing-amount">$0</div>
+        <div class="pricing-period">per month</div>
+        <ul class="pricing-features">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            90 days of message history
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            10 app integrations
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            1:1 audio and video
+          </li>
+        </ul>
+        <a href="#" class="btn-outline-aubergine" style="width:100%;text-align:center;">Get Started</a>
+      </div>
+
+      <!-- Pro -->
+      <div class="pricing-card-featured">
+        <span class="pill-cap-shade" style="background:rgba(255,255,255,0.15);color:var(--color-on-primary);">RECOMMENDED</span>
+        <h3 class="pricing-name" style="margin-top:var(--sp-md);">Pro</h3>
+        <p class="pricing-description">More power for growing teams that want better collaboration.</p>
+        <div class="pricing-amount">$7.25</div>
+        <div class="pricing-period">per person/month</div>
+        <ul class="pricing-features">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Unlimited message history
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Unlimited integrations
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Huddles with screen sharing
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Workflow Builder
+          </li>
+        </ul>
+        <a href="#" class="btn-primary-pill" style="background:var(--color-on-primary);color:var(--color-primary);width:100%;text-align:center;">Get Started</a>
+      </div>
+
+      <!-- Business+ -->
+      <div class="pricing-card">
+        <span class="pill-cap-shade">BUSINESS</span>
+        <h3 class="pricing-name" style="margin-top:var(--sp-md);">Business+</h3>
+        <p class="pricing-description">Advanced security and compliance for larger teams.</p>
+        <div class="pricing-amount">$12.50</div>
+        <div class="pricing-period">per person/month</div>
+        <ul class="pricing-features">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Everything in Pro
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            SAML-based SSO
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Data exports for all messages
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            99.99% guaranteed uptime SLA
+          </li>
+        </ul>
+        <a href="#" class="btn-outline-aubergine" style="width:100%;text-align:center;">Get Started</a>
+      </div>
+
+      <!-- Enterprise Grid -->
+      <div class="pricing-card">
+        <span class="pill-cap-shade">ENTERPRISE</span>
+        <h3 class="pricing-name" style="margin-top:var(--sp-md);">Enterprise Grid</h3>
+        <p class="pricing-description">For the most demanding enterprises — security, flexibility, and scale.</p>
+        <div class="pricing-amount">Let's talk</div>
+        <div class="pricing-period">custom pricing</div>
+        <ul class="pricing-features">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Everything in Business+
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            HIPAA & Financial Services compliance
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            DLP & e-Discovery support
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Dedicated account team
+          </li>
+        </ul>
+        <a href="#" class="btn-outline-aubergine" style="width:100%;text-align:center;">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BAND ===== -->
+<section class="cta-band" id="cta">
+  <div class="cta-band-inner">
+    <h2>See everything you can do<br>in Slack</h2>
+    <p>Teams of all sizes use Slack to transform how they work — securely, at scale. Ready to make work life simpler, more pleasant, and more productive?</p>
+    <div class="cta-band-actions">
+      <a href="#" class="btn-primary-pill-lg" style="background:var(--color-on-primary);color:var(--color-primary);">Try For Free</a>
+      <a href="#" class="btn-outline-on-aubergine">Talk to Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-aubergine">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Watch demo</a></li>
+          <li><a href="#">Channels</a></li>
+          <li><a href="#">Slack AI</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Features</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#">Engineering</a></li>
+          <li><a href="#">IT</a></li>
+          <li><a href="#">Marketing</a></li>
+          <li><a href="#">Sales</a></li>
+          <li><a href="#">Project Management</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">What's New</a></li>
+          <li><a href="#">Slack Blog</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">API Docs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">News</a></li>
+          <li><a href="#">Investor Relations</a></li>
+          <li><a href="#">Brand Center</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Why Slack?</h4>
+        <ul>
+          <li><a href="#">Slack vs Email</a></li>
+          <li><a href="#">Enterprise</a></li>
+          <li><a href="#">Small Business</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Customer Stories</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2024 Slack Technologies, LLC, a Salesforce company. All rights reserved.</div>
+      <div class="footer-social">
+        <a href="#" aria-label="Twitter">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29.94 29.94 0 0 0 1 11.75a29.94 29.94 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29.94 29.94 0 0 0 .46-5.25 29.94 29.94 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentry — Application Performance Monitoring & Error Tracking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: "Rubik", -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+img, svg { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --color-primary: #150f23;
+  --color-ink-deep: #1f1633;
+  --color-on-primary: #ffffff;
+  --color-accent-lime: #c2ef4e;
+  --color-accent-pink: #fa7faa;
+  --color-accent-violet: #6a5fc1;
+  --color-accent-violet-deep: #422082;
+  --color-accent-violet-mid: #79628c;
+  --color-surface-canvas-dark: #1f1633;
+  --color-surface-canvas-light: #ffffff;
+  --color-surface-night: #150f23;
+  --color-surface-press-light: #f0f0f0;
+  --color-surface-press-stronger: #efefef;
+  --color-hairline-violet: #362d59;
+  --color-hairline-cool: #cfcfdb;
+  --color-hairline-cloud: #e5e7eb;
+  --color-ink: #1f1633;
+  --color-ink-press: #1a1a1a;
+  --color-on-dark-muted: rgba(255,255,255,0.72);
+  --color-on-dark-faint: rgba(255,255,255,0.18);
+  --color-ring-focus: rgba(59,130,246,0.5);
+
+  --font-display: "Rubik", "Sentri Display", system-ui, -apple-system, sans-serif;
+  --font-ui: "Rubik", -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-code: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 10px;
+  --rounded-xl: 12px;
+  --rounded-xxl: 18px;
+  --rounded-full: 9999px;
+
+  --space-xxs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-section: 96px;
+
+  --shadow-btn-glow: 0 0 8px 6px rgb(21,15,35);
+  --shadow-btn-inverted: 0 2px 8px 0 rgba(0,0,0,0.08);
+  --shadow-card: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+}
+
+/* ===== TYPOGRAPHY CLASSES ===== */
+.display-hero {
+  font-family: var(--font-display);
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+.display-large {
+  font-family: var(--font-display);
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+.heading-xl {
+  font-family: var(--font-ui);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+.heading-lg {
+  font-family: var(--font-ui);
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+.heading-md {
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+.heading-sm {
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+.body-lg {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 2.0;
+  letter-spacing: 0;
+}
+.body-strong {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.body-md {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+.button-cap {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+.button-cap-light {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.29;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+.caption {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0;
+}
+.micro-cap {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.8;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+}
+.code-text {
+  font-family: var(--font-code);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* ===== UTILITY ===== */
+.container {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  border-radius: var(--rounded-md);
+  padding: var(--space-md) var(--space-lg);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-primary:hover {
+  background: #2a1f45;
+}
+.btn-primary:active {
+  background: var(--color-surface-press-stronger);
+  color: var(--color-ink-press);
+}
+
+.btn-inverted {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-on-primary);
+  color: var(--color-ink-deep);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  border-radius: var(--rounded-md);
+  padding: var(--space-md) var(--space-lg);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn-inverted);
+  transition: all 0.15s ease;
+}
+.btn-inverted:hover {
+  background: #f5f5f5;
+}
+.btn-inverted:active {
+  background: var(--color-surface-press-light);
+  color: var(--color-ink-press);
+}
+
+.btn-ghost-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-on-dark-faint);
+  color: var(--color-on-primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  border-radius: var(--rounded-xl);
+  padding: var(--space-sm);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-ghost-dark:hover {
+  background: rgba(255,255,255,0.28);
+}
+
+.btn-violet-token {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent-violet-mid);
+  color: var(--color-on-primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.29;
+  letter-spacing: 0.2px;
+  border-radius: var(--rounded-xl);
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-violet-token:hover {
+  background: #8b74a0;
+}
+
+/* ===== LIME KEYWORD CHIP ===== */
+.lime-chip {
+  display: inline-block;
+  background: var(--color-accent-lime);
+  color: var(--color-ink-deep);
+  font: inherit;
+  border-radius: var(--rounded-xs);
+  padding: 0 var(--space-md);
+  line-height: inherit;
+}
+
+/* ===== NAVIGATION ===== */
+.nav-dark {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: transparent;
+  padding: var(--space-lg) var(--space-xl);
+  transition: background 0.3s ease;
+}
+.nav-dark.scrolled {
+  background: var(--color-surface-night);
+  border-bottom: 1px solid var(--color-hairline-violet);
+}
+.nav-inner {
+  max-width: 1152px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-on-primary);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.nav-logo-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+.nav-link {
+  color: var(--color-on-dark-muted);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  transition: color 0.15s ease;
+}
+.nav-link:hover {
+  color: var(--color-on-primary);
+}
+.nav-link .caret {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  background: var(--color-surface-canvas-dark);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+/* Starfield texture */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.35) 50%, transparent 50%),
+    radial-gradient(1px 1px at 25% 25%, rgba(255,255,255,0.25) 50%, transparent 50%),
+    radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.3) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 55% 20%, rgba(255,255,255,0.3) 50%, transparent 50%),
+    radial-gradient(1px 1px at 70% 8%, rgba(255,255,255,0.25) 50%, transparent 50%),
+    radial-gradient(1px 1px at 85% 30%, rgba(255,255,255,0.35) 50%, transparent 50%),
+    radial-gradient(1px 1px at 15% 45%, rgba(255,255,255,0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 35% 55%, rgba(255,255,255,0.3) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 60% 45%, rgba(255,255,255,0.25) 50%, transparent 50%),
+    radial-gradient(1px 1px at 80% 55%, rgba(255,255,255,0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 20% 75%, rgba(255,255,255,0.25) 50%, transparent 50%),
+    radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 75% 70%, rgba(255,255,255,0.3) 50%, transparent 50%),
+    radial-gradient(1px 1px at 90% 85%, rgba(255,255,255,0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 5% 90%, rgba(255,255,255,0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 45% 90%, rgba(255,255,255,0.15) 50%, transparent 50%),
+    radial-gradient(1px 1px at 8% 60%, rgba(255,255,255,0.15) 50%, transparent 50%),
+    radial-gradient(1px 1px at 92% 15%, rgba(255,255,255,0.15) 50%, transparent 50%),
+    radial-gradient(1px 1px at 48% 35%, rgba(255,255,255,0.1) 50%, transparent 50%),
+    radial-gradient(1px 1px at 68% 75%, rgba(255,255,255,0.1) 50%, transparent 50%);
+  pointer-events: none;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 120px var(--space-xl) var(--space-section);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xxl);
+  align-items: center;
+}
+.hero-text {
+  max-width: 580px;
+}
+.hero-headline {
+  color: var(--color-on-primary);
+  margin-bottom: var(--space-xl);
+}
+.hero-headline .lime-chip {
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.hero-subtext {
+  color: var(--color-on-dark-muted);
+  margin-bottom: var(--space-xxl);
+}
+.hero-buttons {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.hero-buttons .btn-inverted {
+  box-shadow: var(--shadow-btn-glow);
+}
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Window-chrome UI mock - tilted */
+.ui-mock {
+  background: var(--color-surface-night);
+  border-radius: var(--rounded-xxl);
+  border: 1px solid var(--color-hairline-violet);
+  padding: var(--space-lg);
+  transform: rotate(-2deg);
+  width: 100%;
+  max-width: 480px;
+}
+.ui-mock-header {
+  display: flex;
+  gap: 6px;
+  margin-bottom: var(--space-md);
+}
+.ui-mock-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--rounded-full);
+}
+.ui-mock-dot:nth-child(1) { background: #ff5f57; }
+.ui-mock-dot:nth-child(2) { background: #febc2e; }
+.ui-mock-dot:nth-child(3) { background: #28c840; }
+.ui-mock-body {
+  background: var(--color-primary);
+  border-radius: var(--rounded-md);
+  padding: var(--space-lg);
+  color: var(--color-on-primary);
+  font-family: var(--font-code);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.ui-mock-body .error-line {
+  color: #ff6b6b;
+}
+.ui-mock-body .path-line {
+  color: var(--color-on-dark-muted);
+}
+.ui-mock-body .hilight {
+  color: var(--color-accent-lime);
+}
+
+/* ===== STICKER MASCOT ===== */
+.sticker {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+}
+.sticker-hero {
+  bottom: 40px;
+  right: 8%;
+  width: 120px;
+  height: 120px;
+}
+.sticker-features-top {
+  top: -50px;
+  right: 10%;
+  width: 100px;
+  height: 100px;
+}
+.sticker-features-bottom {
+  bottom: -60px;
+  left: 8%;
+  width: 90px;
+  height: 90px;
+}
+.sticker-pricing {
+  top: -45px;
+  right: 5%;
+  width: 85px;
+  height: 85px;
+}
+
+/* ===== FEATURES SECTION ===== */
+.features {
+  position: relative;
+  background: var(--color-surface-canvas-dark);
+  padding: var(--space-section) 0;
+  overflow: hidden;
+}
+.features-header {
+  text-align: center;
+  margin-bottom: calc(var(--space-section) - var(--space-xxl));
+}
+.features-eyebrow {
+  color: var(--color-accent-violet-mid);
+  margin-bottom: var(--space-lg);
+}
+.features-headline {
+  color: var(--color-on-primary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+.feature-card {
+  background: var(--color-ink-deep);
+  color: var(--color-on-primary);
+  border-radius: var(--rounded-xxl);
+  padding: var(--space-xxl);
+  border: 1px solid var(--color-hairline-violet);
+  transition: transform 0.2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+}
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-xl);
+  color: var(--color-accent-lime);
+}
+.feature-card h3 {
+  margin-bottom: var(--space-md);
+}
+.feature-card p {
+  color: var(--color-on-dark-muted);
+}
+
+/* Spotlight card */
+.feature-card-spotlight {
+  background: var(--color-accent-violet-deep);
+  border-color: rgba(255,255,255,0.15);
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xxl);
+  align-items: center;
+  margin-top: var(--space-xl);
+}
+.feature-card-spotlight .feature-card-icon {
+  color: var(--color-accent-lime);
+}
+.feature-card-spotlight h3 {
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+.feature-card-spotlight p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 2.0;
+  letter-spacing: 0;
+  color: var(--color-on-dark-muted);
+}
+.spotlight-visual {
+  background: var(--color-surface-night);
+  border-radius: var(--rounded-xxl);
+  padding: var(--space-xxl);
+  font-family: var(--font-code);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-on-primary);
+  transform: rotate(1.5deg);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== PRICING SECTION ===== */
+.pricing {
+  position: relative;
+  background: var(--color-surface-canvas-light);
+  padding: var(--space-section) 0;
+}
+.pricing-header {
+  text-align: center;
+  margin-bottom: calc(var(--space-section) - var(--space-xxl));
+}
+.pricing-eyebrow {
+  color: var(--color-accent-violet-mid);
+  margin-bottom: var(--space-lg);
+}
+.pricing-headline {
+  color: var(--color-ink-deep);
+  max-width: 600px;
+  margin: 0 auto;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  align-items: start;
+}
+.pricing-card {
+  background: var(--color-surface-canvas-light);
+  color: var(--color-ink-deep);
+  border-radius: var(--rounded-xl);
+  padding: var(--space-xxl);
+  border: 1px solid var(--color-hairline-cloud);
+  display: flex;
+  flex-direction: column;
+}
+.pricing-card-featured {
+  background: var(--color-surface-night);
+  color: var(--color-on-primary);
+  border: 1px solid var(--color-hairline-violet);
+}
+.pricing-card-tier {
+  margin-bottom: var(--space-lg);
+  text-transform: uppercase;
+}
+.pricing-card-featured .pricing-card-tier {
+  color: var(--color-on-dark-muted);
+}
+.pricing-card-price {
+  margin-bottom: var(--space-xl);
+}
+.pricing-card-price .amount {
+  font-family: var(--font-display);
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0;
+  display: block;
+}
+.pricing-card-featured .amount {
+  color: var(--color-on-primary);
+}
+.pricing-card-price .period {
+  color: var(--color-on-dark-muted);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0;
+}
+.pricing-card-featured .period {
+  color: var(--color-on-dark-muted);
+}
+.pricing-card-desc {
+  color: var(--color-on-dark-muted);
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-hairline-cloud);
+}
+.pricing-card-featured .pricing-card-desc {
+  border-bottom-color: var(--color-hairline-violet);
+}
+.pricing-card-features {
+  flex: 1;
+  margin-bottom: var(--space-xl);
+}
+.pricing-card-features li {
+  padding: var(--space-sm) 0;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  color: var(--color-ink-deep);
+}
+.pricing-card-featured .pricing-card-features li {
+  color: var(--color-on-primary);
+}
+.pricing-card-features li .check {
+  color: var(--color-accent-lime);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.pricing-card-featured .pricing-card-features li .check {
+  color: var(--color-accent-lime);
+}
+.pricing-card .btn-primary {
+  width: 100%;
+}
+.pricing-card-featured .btn-primary {
+  background: var(--color-on-primary);
+  color: var(--color-ink-deep);
+  width: 100%;
+}
+.pricing-card-featured .btn-primary:hover {
+  background: var(--color-surface-press-light);
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  background: var(--color-surface-canvas-dark);
+  padding: var(--space-section) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+/* Starfield light */
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 30%, rgba(255,255,255,0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 50% 20%, rgba(255,255,255,0.15) 50%, transparent 50%),
+    radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,0.15) 50%, transparent 50%),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.1) 50%, transparent 50%);
+  pointer-events: none;
+}
+.cta-inner {
+  position: relative;
+  z-index: 2;
+}
+.cta-eyebrow {
+  color: var(--color-accent-violet-mid);
+  margin-bottom: var(--space-lg);
+}
+.cta-headline {
+  color: var(--color-on-primary);
+  margin-bottom: var(--space-lg);
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-subtext {
+  color: var(--color-on-dark-muted);
+  margin-bottom: var(--space-xxl);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-section .btn-inverted {
+  box-shadow: var(--shadow-btn-glow);
+}
+
+/* ===== LIME SQUIGGLY DIVIDER ===== */
+.squiggle-divider {
+  width: 100%;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -1px;
+}
+.squiggle-divider svg {
+  width: 100%;
+  height: 12px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--color-surface-canvas-light);
+  padding: var(--space-xxl) var(--space-xl);
+  color: var(--color-ink-deep);
+}
+.footer-grid {
+  max-width: 1152px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-xxl);
+  margin-bottom: var(--space-xxl);
+}
+.footer-brand p {
+  color: var(--color-on-dark-muted);
+  max-width: 280px;
+  margin-top: var(--space-md);
+}
+.footer-col h4 {
+  margin-bottom: var(--space-lg);
+}
+.footer-col a {
+  display: block;
+  padding: var(--space-xs) 0;
+  color: var(--color-on-dark-muted);
+  transition: color 0.15s ease;
+}
+.footer-col a:hover {
+  color: var(--color-ink-deep);
+}
+.footer-bottom {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--color-hairline-cloud);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-social {
+  display: flex;
+  gap: var(--space-md);
+}
+.footer-social a {
+  color: var(--color-on-dark-muted);
+  transition: color 0.15s ease;
+}
+.footer-social a:hover {
+  color: var(--color-ink-deep);
+}
+.footer-social svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1151px) {
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .feature-card-spotlight { grid-template-columns: 1fr; }
+  .hero-content { grid-template-columns: 1fr; text-align: center; }
+  .hero-text { max-width: 100%; }
+  .hero-buttons { justify-content: center; }
+  .ui-mock { max-width: 380px; margin: 0 auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 991px) {
+  .display-hero { font-size: 60px; }
+  .hero-headline .lime-chip { font-size: 60px; }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 767px) {
+  .display-hero { font-size: 48px; }
+  .hero-headline .lime-chip { font-size: 48px; }
+  .display-large { font-size: 42px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .heading-xl { font-size: 26px; }
+  :root { --space-section: 48px; }
+  .hero-content { padding-top: 100px; padding-bottom: 48px; }
+  .nav-actions .btn-ghost-dark { display: none; }
+  .sticker-hero, .sticker-features-top, .sticker-features-bottom, .sticker-pricing { display: none; }
+  .footer-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+  .footer-bottom { flex-direction: column; gap: var(--space-lg); }
+}
+
+@media (max-width: 575px) {
+  .display-hero { font-size: 38px; }
+  .hero-headline .lime-chip { font-size: 38px; }
+  .display-large { font-size: 32px; }
+  .heading-xl { font-size: 24px; }
+  .heading-lg { font-size: 22px; }
+  .heading-md { font-size: 20px; }
+  .heading-sm { font-size: 18px; }
+  :root { --space-section: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION (DARK) ===== -->
+<nav class="nav-dark" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#c2ef4e"/>
+        <path d="M16 6L22 14H10L16 6Z" fill="#150f23"/>
+        <path d="M16 26L10 18H22L16 26Z" fill="#150f23"/>
+        <rect x="14" y="13" width="4" height="6" rx="1" fill="#150f23"/>
+      </svg>
+      sentry
+    </a>
+    <div class="nav-links">
+      <a href="#" class="nav-link">Product <span class="caret">▾</span></a>
+      <a href="#" class="nav-link">Pricing</a>
+      <a href="#" class="nav-link">Docs</a>
+      <a href="#" class="nav-link">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="btn-ghost-dark">Get Demo</a>
+      <a href="#" class="btn-inverted">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-headline display-hero">
+        Application<br>monitoring, done<br><span class="lime-chip">right</span>
+      </h1>
+      <p class="hero-subtext body-lg">
+        From error tracking to performance monitoring, developers can see
+        what actually matters, solve quicker, and learn continuously about
+        their applications — from the frontend to the backend.
+      </p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-inverted">Try Sentry Free</a>
+        <a href="#" class="btn-ghost-dark">Request a Demo</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="ui-mock">
+        <div class="ui-mock-header">
+          <div class="ui-mock-dot"></div>
+          <div class="ui-mock-dot"></div>
+          <div class="ui-mock-dot"></div>
+        </div>
+        <div class="ui-mock-body">
+          <div class="error-line">TypeError: Cannot read properties of undefined (reading 'map')</div>
+          <div class="path-line">  at renderDashboard (app.js:142:17)</div>
+          <div class="path-line">  at ReactWorkLoop (react.js:89:4)</div>
+          <div class="hilight">→ 3 similar events in the last 5 minutes</div>
+          <div class="path-line">View: <span class="hilight">/dashboard/settings</span></div>
+          <div class="path-line">User: jane@example.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Sticker mascot: astronaut/bug character -->
+  <svg class="sticker sticker-hero" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Body -->
+    <ellipse cx="60" cy="75" rx="35" ry="28" fill="#fa7faa" stroke="#150f23" stroke-width="2.5"/>
+    <!-- Eyes -->
+    <circle cx="48" cy="68" r="7" fill="#ffffff" stroke="#150f23" stroke-width="2"/>
+    <circle cx="72" cy="68" r="7" fill="#ffffff" stroke="#150f23" stroke-width="2"/>
+    <circle cx="50" cy="67" r="3" fill="#150f23"/>
+    <circle cx="74" cy="67" r="3" fill="#150f23"/>
+    <!-- Mouth -->
+    <path d="M52 80 Q60 88 68 80" stroke="#150f23" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Antenna -->
+    <line x1="60" y1="47" x2="60" y2="28" stroke="#150f23" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="60" cy="24" r="6" fill="#c2ef4e" stroke="#150f23" stroke-width="2"/>
+    <!-- Legs -->
+    <line x1="45" y1="98" x2="38" y2="112" stroke="#150f23" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="75" y1="98" x2="82" y2="112" stroke="#150f23" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Arms -->
+    <line x1="28" y1="78" x2="16" y2="88" stroke="#150f23" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="92" y1="78" x2="104" y2="88" stroke="#150f23" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+</header>
+
+<!-- ===== FEATURES ===== -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header">
+      <p class="features-eyebrow eyebrow">Product Features</p>
+      <h2 class="features-headline display-large">Everything you need to fix it <span class="lime-chip">fast</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2.5"/><path d="M18 24l5 5 7-8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="heading-md">Error Monitoring</h3>
+        <p class="body-md">See every unhandled error, crash, and exception in real-time. Sentry captures the full stack trace, user context, and release info automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2.5"/><path d="M14 30l10-16 10 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="heading-md">Performance Tracing</h3>
+        <p class="body-md">Trace every slow transaction across your stack. Identify N+1 queries, slow API calls, and frontend bottlenecks with distributed tracing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 48 48" fill="none"><rect x="10" y="10" width="28" height="28" rx="5" stroke="currentColor" stroke-width="2.5"/><path d="M18 18h12M18 24h12M18 30h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="heading-md">Session Replay</h3>
+        <p class="body-md">Watch pixel-perfect video-like reproductions of user sessions that triggered errors. See exactly what your users saw before the bug surfaced.</p>
+      </div>
+    </div>
+    <!-- Spotlight card -->
+    <div class="feature-card-spotlight">
+      <div>
+        <div class="feature-card-icon" style="margin-bottom:16px">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M24 8l16 28H8L24 8z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="heading-lg">Auto-detected issues before your users report them</h3>
+        <p class="body-lg" style="margin-top:16px">Sentry correlates errors with releases, environments, and commits — so you know exactly who shipped the bug and when. No more guessing. No more hunting through logs.</p>
+        <a href="#" class="btn-violet-token" style="margin-top:24px">Explore Tracing</a>
+      </div>
+      <div class="spotlight-visual">
+        <div style="color:#79628c">$</div>
+        <div style="color:#ffffff">npx @sentry/wizard -i nextjs</div>
+        <div style="color:#79628c;margin-top:8px">✔ Detected Next.js project</div>
+        <div style="color:#c2ef4e">✔ SDK installed · DSN configured</div>
+        <div style="color:#79628c">✔ Source maps uploaded</div>
+        <div style="margin-top:8px;color:#ffffff">Ready — your app is monitored.</div>
+      </div>
+    </div>
+  </div>
+  <!-- Sticker mascot: traffic cone -->
+  <svg class="sticker sticker-features-top" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 12L25 82H75L50 12Z" fill="#fa7faa" stroke="#150f23" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="38" y1="38" x2="35" y2="55" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="62" y1="38" x2="65" y2="55" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="50" cy="92" rx="18" ry="5" fill="#c2ef4e" stroke="#150f23" stroke-width="2"/>
+  </svg>
+  <!-- Sticker mascot: small monster -->
+  <svg class="sticker sticker-features-bottom" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="45" cy="48" r="30" fill="#c2ef4e" stroke="#150f23" stroke-width="2.5"/>
+    <circle cx="35" cy="42" r="6" fill="#ffffff" stroke="#150f23" stroke-width="2"/>
+    <circle cx="55" cy="42" r="6" fill="#ffffff" stroke="#150f23" stroke-width="2"/>
+    <circle cx="37" cy="41" r="2.5" fill="#150f23"/>
+    <circle cx="57" cy="41" r="2.5" fill="#150f23"/>
+    <path d="M38 56 Q45 64 52 56" stroke="#150f23" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M16 48 Q10 42 16 38" stroke="#150f23" stroke-width="2" fill="#fa7faa" stroke-linecap="round"/>
+    <path d="M74 48 Q80 42 74 38" stroke="#150f23" stroke-width="2" fill="#fa7faa" stroke-linecap="round"/>
+    <line x1="45" y1="18" x2="45" y2="8" stroke="#150f23" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="45" cy="6" r="3" fill="#fa7faa" stroke="#150f23" stroke-width="1.5"/>
+  </svg>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <p class="pricing-eyebrow eyebrow">Pricing</p>
+      <h2 class="pricing-headline heading-xl">Pricing plans for dev teams of all sizes</h2>
+    </div>
+    <div class="pricing-grid">
+      <!-- Developer Tier -->
+      <div class="pricing-card">
+        <p class="pricing-card-tier micro-cap">Developer</p>
+        <div class="pricing-card-price">
+          <span class="amount">Free</span>
+          <span class="period">forever</span>
+        </div>
+        <p class="pricing-card-desc caption">For individual developers exploring Sentry's error and performance monitoring.</p>
+        <ul class="pricing-card-features">
+          <li><span class="check">✓</span> 5k errors / month</li>
+          <li><span class="check">✓</span> 1M transactions / month</li>
+          <li><span class="check">✓</span> 1 project</li>
+          <li><span class="check">✓</span> 30 day data retention</li>
+        </ul>
+        <a href="#" class="btn-primary">Get Started</a>
+      </div>
+      <!-- Team Tier -->
+      <div class="pricing-card">
+        <p class="pricing-card-tier micro-cap">Team</p>
+        <div class="pricing-card-price">
+          <span class="amount">$26</span>
+          <span class="period">/ month</span>
+        </div>
+        <p class="pricing-card-desc caption">For small teams shipping fast and needing more scale and collaboration tools.</p>
+        <ul class="pricing-card-features">
+          <li><span class="check">✓</span> 50k errors / month</li>
+          <li><span class="check">✓</span> 10M transactions / month</li>
+          <li><span class="check">✓</span> Unlimited projects</li>
+          <li><span class="check">✓</span> 90 day data retention</li>
+        </ul>
+        <a href="#" class="btn-primary">Start Trial</a>
+      </div>
+      <!-- Business Tier (Featured) -->
+      <div class="pricing-card pricing-card-featured">
+        <p class="pricing-card-tier micro-cap">Business</p>
+        <div class="pricing-card-price">
+          <span class="amount">$80</span>
+          <span class="period">/ month</span>
+        </div>
+        <p class="pricing-card-desc caption">For growing teams that need advanced workflows, SSO, and cross-project insights.</p>
+        <ul class="pricing-card-features">
+          <li><span class="check">✓</span> 100k errors / month</li>
+          <li><span class="check">✓</span> 50M transactions / month</li>
+          <li><span class="check">✓</span> SSO & SAML</li>
+          <li><span class="check">✓</span> Custom dashboards</li>
+        </ul>
+        <a href="#" class="btn-primary">Start Trial</a>
+      </div>
+    </div>
+  </div>
+  <!-- Sticker mascot: astronaut helmet -->
+  <svg class="sticker sticker-pricing" viewBox="0 0 85 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="42.5" cy="45" r="32" fill="#ffffff" stroke="#150f23" stroke-width="2.5"/>
+    <rect x="22" y="30" width="41" height="22" rx="11" fill="#150f23"/>
+    <circle cx="32" cy="43" r="5" fill="#c2ef4e" stroke="#150f23" stroke-width="2"/>
+    <circle cx="53" cy="43" r="5" fill="#c2ef4e" stroke="#150f23" stroke-width="2"/>
+    <path d="M38 55 Q42.5 60 47 55" stroke="#fa7faa" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M42.5 14 L42.5 8" stroke="#150f23" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="42.5" cy="6" r="3" fill="#c2ef4e" stroke="#150f23" stroke-width="1.5"/>
+    <line x1="26" y1="22" x2="20" y2="15" stroke="#150f23" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="59" y1="22" x2="65" y2="15" stroke="#150f23" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section" id="cta">
+  <div class="container cta-inner">
+    <p class="cta-eyebrow eyebrow">Get Started</p>
+    <h2 class="cta-headline display-large">See what broke. <span class="lime-chip">Fix it.</span></h2>
+    <p class="cta-subtext body-lg">Join 100,000+ developers who trust Sentry to keep their applications healthy and their users happy.</p>
+    <a href="#" class="btn-inverted">Try Sentry Free</a>
+  </div>
+</section>
+
+<!-- ===== LIME SQUIGGLY DIVIDER ===== -->
+<div class="squiggle-divider">
+  <svg viewBox="0 0 1200 12" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 6 C30 2, 60 10, 90 6 C120 2, 150 10, 180 6 C210 2, 240 10, 270 6 C300 2, 330 10, 360 6 C390 2, 420 10, 450 6 C480 2, 510 10, 540 6 C570 2, 600 10, 630 6 C660 2, 690 10, 720 6 C750 2, 780 10, 810 6 C840 2, 870 10, 900 6 C930 2, 960 10, 990 6 C1020 2, 1050 10, 1080 6 C1110 2, 1140 10, 1170 6 C1185 4, 1195 4, 1200 5" stroke="#c2ef4e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="color:var(--color-ink-deep);margin-bottom:0">
+        <svg class="nav-logo-icon" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#c2ef4e"/>
+          <path d="M16 6L22 14H10L16 6Z" fill="#150f23"/>
+          <path d="M16 26L10 18H22L16 26Z" fill="#150f23"/>
+          <rect x="14" y="13" width="4" height="6" rx="1" fill="#150f23"/>
+        </svg>
+        sentry
+      </div>
+      <p class="caption">Application performance monitoring and error tracking that helps developers see what actually matters.</p>
+    </div>
+    <div class="footer-col">
+      <h4 class="heading-sm">Product</h4>
+      <a href="#" class="caption">Error Monitoring</a>
+      <a href="#" class="caption">Performance</a>
+      <a href="#" class="caption">Session Replay</a>
+      <a href="#" class="caption">Cron Monitoring</a>
+    </div>
+    <div class="footer-col">
+      <h4 class="heading-sm">Resources</h4>
+      <a href="#" class="caption">Documentation</a>
+      <a href="#" class="caption">Blog</a>
+      <a href="#" class="caption">Changelog</a>
+      <a href="#" class="caption">Support</a>
+    </div>
+    <div class="footer-col">
+      <h4 class="heading-sm">Company</h4>
+      <a href="#" class="caption">About</a>
+      <a href="#" class="caption">Careers</a>
+      <a href="#" class="caption">Contact</a>
+      <a href="#" class="caption">Privacy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="caption">&copy; 2026 Sentry. All rights reserved.</p>
+    <div class="footer-social">
+      <a href="#" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="#" aria-label="Twitter">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" aria-label="Discord">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

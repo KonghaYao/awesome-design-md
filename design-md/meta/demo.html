@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta — AI glasses, VR headsets &amp; more</title>
+<style>
+/* =====================================================================
+   META DESIGN SYSTEM — Tokens from DESIGN.md
+   ===================================================================== */
+
+/* --- Font-face approximation for Optimistic VF --- */
+@font-face {
+  font-family: 'Optimistic VF';
+  src: local('Optimistic VF'), local('Optimistic Display'), local('Optimistic Text');
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.16px;
+  color: #1c1e21;
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== PROMO BANNER ===== */
+.promo-banner {
+  background-color: #f7b928;
+  color: #0a1317;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  padding: 12px 24px;
+  text-align: center;
+}
+.promo-banner a {
+  color: #0a1317;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-left: 4px;
+}
+
+/* ===== TOP NAVIGATION ===== */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  height: 64px;
+  border-bottom: 1px solid #dee3e9;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  gap: 24px;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.nav-logo svg { width: 61px; height: 14px; }
+.nav-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+  overflow-x: auto;
+}
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  color: #1c1e21;
+  background-color: #ffffff;
+  border: 1px solid #ced0d4;
+  border-radius: 100px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.nav-pill:hover { border-color: #0a1317; }
+.nav-pill.active {
+  background-color: #0a1317;
+  color: #ffffff;
+  border-color: #0a1317;
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.search-pill {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 12px 20px;
+  background-color: #f1f4f7;
+  color: #5d6c7b;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  border: none;
+  border-radius: 100px;
+  cursor: text;
+  min-width: 180px;
+  font-family: inherit;
+}
+.search-pill:focus { outline: 2px solid #1876f2; outline-offset: -2px; }
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  color: #1c1e21;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 150ms ease-out;
+  flex-shrink: 0;
+}
+.icon-btn:hover { background-color: #f1f4f7; }
+
+/* Hamburger (mobile, hidden by default) */
+.hamburger { display: none; }
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  padding: 80px 0 0 0;
+}
+.hero-band {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  border-radius: 32px;
+  padding: 80px 40px;
+  overflow: hidden;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  /* Simulated product photography background with gradient */
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #1a1a2e 100%);
+}
+.hero-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 75% 50%, rgba(0, 100, 224, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 60%, rgba(161, 33, 206, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-product-visual {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 420px;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* SVG-styled glasses product visual */
+.hero-product-visual svg { width: 100%; height: 100%; }
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: #f7b928;
+  color: #0a1317;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.33;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+.hero-content h1 {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 1.16;
+  color: #ffffff;
+  margin-bottom: 24px;
+  font-feature-settings: "ss01", "ss02";
+}
+.hero-content p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.44;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 40px;
+}
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 30px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  font-family: inherit;
+  color: #ffffff;
+  background-color: #000000;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 150ms ease-out;
+}
+.btn-primary:hover { background-color: #444950; }
+.btn-primary:active { background-color: #444950; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  font-family: inherit;
+  color: #ffffff;
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 150ms ease-out, border-color 150ms ease-out;
+}
+.btn-secondary:hover { background-color: rgba(255, 255, 255, 0.1); }
+.btn-secondary:active { background-color: rgba(255, 255, 255, 0.15); }
+
+.btn-buy-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 30px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  font-family: inherit;
+  color: #ffffff;
+  background-color: #0064e0;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 150ms ease-out;
+}
+.btn-buy-cta:hover { background-color: #0457cb; }
+.btn-buy-cta:active { background-color: #0457cb; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  font-family: inherit;
+  color: #0a1317;
+  background-color: transparent;
+  border: 2px solid rgba(10, 19, 23, 0.12);
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 150ms ease-out;
+}
+.btn-ghost:hover { border-color: #0a1317; }
+
+/* ===== SECTION TITLES ===== */
+.section-label {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  color: #4b4c4f;
+  margin-bottom: 16px;
+}
+.display-lg {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.17;
+  color: #0a1317;
+  margin-bottom: 24px;
+  font-feature-settings: "ss01", "ss02";
+}
+.heading-lg {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.28;
+  color: #0a1317;
+  margin-bottom: 16px;
+  font-feature-settings: "ss01", "ss02";
+}
+.heading-md {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.21;
+  color: #0a1317;
+  margin-bottom: 12px;
+  font-feature-settings: "ss01", "ss02";
+}
+.heading-sm {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: #0a1317;
+  margin-bottom: 10px;
+  font-feature-settings: "ss01", "ss02";
+}
+.subtitle-lg {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.44;
+  color: #1c1e21;
+}
+.subtitle-md {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.44;
+  color: #444950;
+}
+.body-md {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.16px;
+  color: #1c1e21;
+}
+.body-sm {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  color: #5d6c7b;
+}
+
+/* ===== SECTION SPACING ===== */
+section {
+  padding: 80px 0;
+}
+
+/* ===== PRODUCT FEATURE CARDS ===== */
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* Row of 2 photo feature cards */
+.feature-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Card-product-feature (with chrome) */
+.card-product-feature {
+  background-color: #ffffff;
+  border: 1px solid #dee3e9;
+  border-radius: 32px;
+  padding: 32px;
+  overflow: hidden;
+  position: relative;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+.card-product-feature .card-visual {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -32px -32px 24px -32px;
+  min-height: 240px;
+}
+.card-product-feature .card-copy {
+  padding: 0;
+}
+.card-product-feature .card-copy h3 {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: #0a1317;
+  margin-bottom: 8px;
+  font-feature-settings: "ss01", "ss02";
+}
+.card-product-feature .card-copy p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.16px;
+  color: #444950;
+  margin-bottom: 16px;
+}
+
+/* Card-feature-photo (no chrome, full-bleed) */
+.card-feature-photo {
+  background-color: #ffffff;
+  border-radius: 32px;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+}
+.card-feature-photo .photo-bg {
+  position: absolute;
+  inset: 0;
+}
+.card-feature-photo .photo-overlay {
+  position: relative;
+  z-index: 2;
+  padding: 40px;
+  width: 100%;
+}
+.card-feature-photo .photo-overlay h3 {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.28;
+  color: #ffffff;
+  margin-bottom: 8px;
+  font-feature-settings: "ss01", "ss02";
+}
+.card-feature-photo .photo-overlay p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== WHY BUY TILES ===== */
+.why-buy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.why-buy-tile {
+  background-color: #ffffff;
+  border: 1px solid #dee3e9;
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: box-shadow 150ms ease-out;
+}
+.why-buy-tile:hover { box-shadow: rgba(20, 22, 26, 0.3) 0px 1px 4px 0px; }
+.why-buy-tile .tile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  background-color: #f1f4f7;
+  color: #0a1317;
+  margin: 0 auto 16px;
+}
+.why-buy-tile h3 {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.44;
+  color: #0a1317;
+  margin-bottom: 8px;
+}
+.why-buy-tile p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  color: #5d6c7b;
+}
+
+/* ===== PROMO STRIP (dark) ===== */
+.promo-strip {
+  max-width: 1280px;
+  margin: 0 auto;
+  background-color: #0a1317;
+  color: #ffffff;
+  border-radius: 32px;
+  padding: 64px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  overflow: hidden;
+  position: relative;
+}
+.promo-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(161, 33, 206, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+.promo-strip-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+.promo-strip-content h2 {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.28;
+  color: #ffffff;
+  margin-bottom: 16px;
+  font-feature-settings: "ss01", "ss02";
+}
+.promo-strip-content p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.44;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 32px;
+}
+.promo-strip-visual {
+  position: relative;
+  z-index: 2;
+  width: 300px;
+  height: 300px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== ACCESSORY / ICON FEATURE CARDS ===== */
+.accessory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.card-icon-feature {
+  background-color: #ffffff;
+  border: 1px solid #dee3e9;
+  border-radius: 16px;
+  padding: 24px;
+  transition: box-shadow 150ms ease-out;
+}
+.card-icon-feature:hover { box-shadow: rgba(20, 22, 26, 0.3) 0px 1px 4px 0px; }
+.card-icon-feature .card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-icon-feature h3 {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: #0a1317;
+  margin-bottom: 8px;
+  font-feature-settings: "ss01", "ss02";
+}
+.card-icon-feature p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  color: #5d6c7b;
+  margin-bottom: 12px;
+}
+.card-icon-feature .card-price {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.44;
+  color: #0a1317;
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  text-align: center;
+  background-color: #f1f4f7;
+  border-radius: 32px;
+  padding: 80px 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.cta-section h2 {
+  font-family: 'Optimistic VF', Montserrat, 'SF Pro Display', Inter, system-ui, -apple-system, Helvetica, Arial, 'Noto Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.17;
+  color: #0a1317;
+  margin-bottom: 16px;
+  font-feature-settings: "ss01", "ss02";
+}
+.cta-section p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.44;
+  color: #444950;
+  margin-bottom: 32px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid #dee3e9;
+  padding: 64px 32px;
+}
+.footer-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 32px;
+  margin-bottom: 48px;
+}
+.footer-col h4 {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  color: #1c1e21;
+  margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul li a {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.14px;
+  color: #5d6c7b;
+  text-decoration: none;
+  transition: color 150ms ease-out;
+}
+.footer-col ul li a:hover { color: #0a1317; }
+.footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid #dee3e9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-bottom .footer-legal {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.footer-bottom .footer-legal a,
+.footer-bottom .footer-locale {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  color: #8595a4;
+  text-decoration: none;
+}
+.footer-bottom .footer-locale:hover,
+.footer-bottom .footer-legal a:hover { color: #5d6c7b; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .hero-band {
+    min-height: 440px;
+    padding: 64px 32px;
+  }
+  .hero-content h1 { font-size: 36px; }
+  .hero-product-visual { width: 280px; height: 280px; right: 16px; }
+  .feature-grid-2 { grid-template-columns: 1fr; }
+  .why-buy-grid { grid-template-columns: repeat(2, 1fr); }
+  .accessory-grid { grid-template-columns: 1fr 1fr; }
+  .promo-strip { flex-direction: column; text-align: center; padding: 48px 32px; }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .display-lg { font-size: 36px; }
+  .cta-section { padding: 64px 32px; }
+  .cta-section h2 { font-size: 36px; }
+}
+@media (max-width: 768px) {
+  .nav-pills, .search-pill { display: none; }
+  .hamburger { display: flex; }
+  .hero-band {
+    min-height: 400px;
+    padding: 48px 24px;
+    border-radius: 24px;
+  }
+  .hero-content h1 { font-size: 28px; }
+  .hero-content p { font-size: 16px; }
+  .hero-product-visual { display: none; }
+  .hero-content { max-width: 100%; }
+  section { padding: 48px 0; }
+  .why-buy-grid { grid-template-columns: 1fr 1fr; }
+  .accessory-grid { grid-template-columns: 1fr; }
+  .promo-strip { padding: 40px 24px; }
+  .promo-strip-content h2 { font-size: 28px; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .display-lg { font-size: 28px; }
+  .cta-section h2 { font-size: 28px; }
+  .card-product-feature { padding: 24px; }
+  .card-product-feature .card-visual { margin: -24px -24px 16px -24px; min-height: 180px; }
+  .container { padding: 0 24px; }
+  .top-nav { padding: 0 16px; }
+}
+@media (max-width: 480px) {
+  .hero-band {
+    min-height: 340px;
+    padding: 40px 16px;
+    border-radius: 20px;
+  }
+  .hero-content h1 { font-size: 24px; }
+  .hero-ctas { flex-direction: column; }
+  .why-buy-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .promo-strip { padding: 32px 16px; }
+  .promo-strip-content h2 { font-size: 24px; }
+  .cta-section h2 { font-size: 24px; }
+  .card-product-feature { min-height: 280px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== PROMO BANNER ===== -->
+<div class="promo-banner">
+  Get 25% off the #1 selling AI glasses — limited time offer.<a href="#">Shop now</a>
+</div>
+
+<!-- ===== TOP NAVIGATION ===== -->
+<nav class="top-nav">
+  <a href="#" class="nav-logo" aria-label="Meta home">
+    <svg viewBox="0 0 61 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0v14h4.1V9.2h3.3c2.4 0 3.7-1.3 3.7-3.3V0H7v5.5c0 1-.6 1.5-1.6 1.5H4.1V0H0zm15.8 0v14h4.1V0h-4.1zm8.4 0v14h4.1V8.1l3.7 5.9h4.6l-4.5-6.8 4.2-7.2h-4.1l-3.9 6.7V0h-4.1zm17.1 0v14h4.1V0h-4.1zm8.5 0L56.6 14h4.6l1.4-2.3h5.6L61 0h-4.5zm1.8 3.2L54 9h-2l2.6-5.8z" fill="#0a1317"/>
+    </svg>
+  </a>
+  <div class="nav-pills">
+    <a href="#" class="nav-pill active">Glasses</a>
+    <a href="#" class="nav-pill">Quest</a>
+    <a href="#" class="nav-pill">Apps</a>
+    <a href="#" class="nav-pill">Support</a>
+  </div>
+  <div class="nav-actions">
+    <input type="search" class="search-pill" placeholder="Search Meta.com" aria-label="Search">
+    <button class="icon-btn" aria-label="Account">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M2 18c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <button class="icon-btn" aria-label="Cart">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 2h2.3l2.2 10.4a1 1 0 001 .8h7.1a1 1 0 001-.8L17 5H5" stroke="currentColor" stroke-width="1.5"/><circle cx="7.5" cy="17.5" r="1.5" fill="currentColor"/><circle cx="15.5" cy="17.5" r="1.5" fill="currentColor"/></svg>
+    </button>
+    <button class="hamburger icon-btn" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== HERO SECTION ===== -->
+<header class="hero">
+  <div class="hero-band">
+    <div class="hero-product-visual">
+      <svg viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ray-Ban Meta glasses front view -->
+        <g opacity="1">
+          <!-- Left lens -->
+          <rect x="62" y="140" width="110" height="70" rx="16" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+          <rect x="70" y="148" width="94" height="54" rx="12" fill="url(#lensGrad)"/>
+          <!-- Right lens -->
+          <rect x="248" y="140" width="110" height="70" rx="16" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+          <rect x="256" y="148" width="94" height="54" rx="12" fill="url(#lensGrad)"/>
+          <!-- Bridge -->
+          <path d="M172 170 Q210 160 248 170" stroke="rgba(255,255,255,0.5)" stroke-width="3" fill="none"/>
+          <!-- Frame top -->
+          <path d="M58 148 Q58 130 80 130 L165 130 Q180 128 185 138 L235 138 Q240 128 255 130 L340 130 Q362 130 362 148" stroke="rgba(255,255,255,0.5)" stroke-width="3" fill="none"/>
+          <!-- Frame bottom -->
+          <path d="M58 202 L172 208 L248 208 L362 202" stroke="rgba(255,255,255,0.5)" stroke-width="3" fill="none"/>
+          <!-- Temple arms -->
+          <path d="M52 148 Q40 130 50 110 Q55 100 65 105" stroke="rgba(255,255,255,0.4)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M368 148 Q380 130 370 110 Q365 100 355 105" stroke="rgba(255,255,255,0.4)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- Camera dot right -->
+          <circle cx="338" cy="172" r="5" fill="rgba(255,255,255,0.6)"/>
+          <!-- Camera dot left -->
+          <circle cx="82" cy="172" r="5" fill="rgba(255,255,255,0.6)"/>
+          <!-- Lens reflection -->
+          <defs>
+            <linearGradient id="lensGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="rgba(100,180,255,0.25)"/>
+              <stop offset="50%" stop-color="rgba(80,120,200,0.12)"/>
+              <stop offset="100%" stop-color="rgba(60,60,100,0.18)"/>
+            </linearGradient>
+          </defs>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <span class="hero-badge">Limited time</span>
+      <h1>Ray-Ban Meta AI glasses. Style meets intelligence.</h1>
+      <p>Capture every moment hands-free. Get AI-powered answers, live translation, and immersive audio — all in iconic Ray-Ban frames.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn-primary">Shop now</a>
+        <a href="#" class="btn-secondary">Learn more</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== FEATURES SECTION ===== -->
+<section id="features">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Featured products</span>
+      <h2 class="display-lg">Discover the next generation of smart eyewear and virtual reality.</h2>
+    </div>
+    <div class="feature-grid-2">
+      <!-- Card 1: Quest 3S - product-feature -->
+      <div class="card-product-feature">
+        <div class="card-visual" style="background: linear-gradient(135deg, #a121ce 0%, #7b1fa2 40%, #4a148c 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
+            <!-- VR Headset simplified -->
+            <rect x="25" y="50" width="130" height="70" rx="20" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+            <rect x="45" y="62" width="35" height="30" rx="8" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+            <rect x="100" y="62" width="35" height="30" rx="8" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+            <circle cx="62" cy="83" r="4" fill="rgba(255,255,255,0.4)"/>
+            <circle cx="118" cy="83" r="4" fill="rgba(255,255,255,0.4)"/>
+            <path d="M60 90 L75 110 L105 110 L120 90" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/>
+            <!-- Controllers below -->
+            <ellipse cx="55" cy="145" rx="18" ry="8" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+            <ellipse cx="125" cy="145" rx="18" ry="8" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="card-copy">
+          <h3>Meta Quest 3S</h3>
+          <p>The magic of mixed reality at an incredible price. Play, work, and connect like never before.</p>
+          <a href="#" class="btn-ghost">Learn more</a>
+        </div>
+      </div>
+
+      <!-- Card 2: Ray-Ban prescription - product-feature -->
+      <div class="card-product-feature">
+        <div class="card-visual" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
+            <!-- Skyler glasses -->
+            <rect x="35" y="65" width="110" height="60" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+            <rect x="45" y="73" width="40" height="35" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+            <rect x="95" y="73" width="40" height="35" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+            <path d="M85 88 L95 88" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+            <path d="M30 70 Q25 55 35 45" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M150 70 Q155 55 145 45" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Small decorative dots on frame -->
+            <circle cx="60" cy="88" r="2.5" fill="rgba(255,255,255,0.3)"/>
+            <circle cx="120" cy="88" r="2.5" fill="rgba(255,255,255,0.3)"/>
+          </svg>
+        </div>
+        <div class="card-copy">
+          <h3>Made for prescriptions</h3>
+          <p>Built for comfort with your vision needs in mind. Choose from premium lens options and frame styles.</p>
+          <a href="#" class="btn-ghost">Shop prescription glasses</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY BUY SECTION ===== -->
+<section id="why-buy" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Why buy from Meta</span>
+      <h2 class="heading-lg">Everything you need, included with every order.</h2>
+    </div>
+    <div class="why-buy-grid">
+      <div class="why-buy-tile">
+        <div class="tile-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="1" y="4" width="22" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v3l2 2" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3>Free 2-day delivery</h3>
+        <p>Fast, free shipping on every order. Delivered right to your door in 2 business days.</p>
+      </div>
+      <div class="why-buy-tile">
+        <div class="tile-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 7l9 6 9-6M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3>Free 30-day returns</h3>
+        <p>Not satisfied? Return any product within 30 days for a full refund. No questions asked.</p>
+      </div>
+      <div class="why-buy-tile">
+        <div class="tile-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3 1.2-6.8-5-4.9 6.9-1L12 2z" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3>Worry-free warranty</h3>
+        <p>Every product is backed by a 1-year limited warranty and premium customer support.</p>
+      </div>
+      <div class="why-buy-tile">
+        <div class="tile-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 15h3M8 12h6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3>Buy now, pay later</h3>
+        <p>Flexible payment options with Affirm. Get your gear now and pay over time at 0% APR.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROMO STRIP ===== -->
+<section id="promo" style="padding-top: 0;">
+  <div class="container">
+    <div class="promo-strip">
+      <div class="promo-strip-content">
+        <h2>Meta Quest brings the magic of virtual reality to your living room.</h2>
+        <p>From immersive gaming to virtual workspaces, experience worlds beyond imagination with the most accessible mixed reality headset yet.</p>
+        <a href="#" class="btn-primary" style="background-color: #0064e0; color: #ffffff;">Explore Quest</a>
+      </div>
+      <div class="promo-strip-visual">
+        <svg width="280" height="280" viewBox="0 0 280 280" fill="none">
+          <ellipse cx="140" cy="140" rx="110" ry="70" fill="rgba(161,33,206,0.12)"/>
+          <ellipse cx="140" cy="140" rx="85" ry="55" fill="rgba(161,33,206,0.08)"/>
+          <!-- VR headset icon -->
+          <rect x="85" y="110" width="110" height="60" rx="24" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+          <rect x="100" y="122" width="30" height="26" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <rect x="150" y="122" width="30" height="26" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACCESSORIES SECTION ===== -->
+<section id="accessories" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Accessories</span>
+      <h2 class="heading-lg">Complete your setup.</h2>
+    </div>
+    <div class="accessory-grid">
+      <div class="card-icon-feature">
+        <div class="card-icon" style="background: linear-gradient(135deg, #f1f4f7, #e8ecf1);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17 8c0 3.3-3.1 6-7 6S3 11.3 3 8s3.1-6 7-6 7 2.7 7 6z" stroke="#0a1317" stroke-width="1.5"/><circle cx="10" cy="11" r="2" fill="#0a1317"/></svg>
+        </div>
+        <h3>Charging case</h3>
+        <p>Keep your glasses powered all day with the premium charging case. Up to 36 hours of total battery life.</p>
+        <span class="card-price">$49.99</span>
+      </div>
+      <div class="card-icon-feature">
+        <div class="card-icon" style="background: linear-gradient(135deg, #f1f4f7, #e8ecf1);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="4" stroke="#0a1317" stroke-width="1.5"/><rect x="6" y="12" width="8" height="5" rx="2.5" stroke="#0a1317" stroke-width="1.5"/></svg>
+        </div>
+        <h3>VR head strap</h3>
+        <p>Elite strap with built-in battery for extended play sessions. Balanced weight distribution for maximum comfort.</p>
+        <span class="card-price">$129.99</span>
+      </div>
+      <div class="card-icon-feature">
+        <div class="card-icon" style="background: linear-gradient(135deg, #f1f4f7, #e8ecf1);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="3" stroke="#0a1317" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="#0a1317" stroke-width="1.5"/></svg>
+        </div>
+        <h3>Lens inserts</h3>
+        <p>Custom prescription lens inserts for Quest headsets. Magnetic attachment, easy to swap between users.</p>
+        <span class="card-price">$49.99</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section id="cta" style="padding-top: 0;">
+  <div class="container">
+    <div class="cta-section">
+      <h2>Ready to experience the future?</h2>
+      <p>Free 2-day delivery, 30-day returns, and premium support included with every purchase.</p>
+      <a href="#" class="btn-primary" style="background-color: #0064e0; color: #ffffff;">Shop all products</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Ray-Ban Meta glasses</a></li>
+        <li><a href="#">Meta Quest 3S</a></li>
+        <li><a href="#">Meta Quest 3</a></li>
+        <li><a href="#">Accessories</a></li>
+        <li><a href="#">Prescription lenses</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#">AI glasses</a></li>
+        <li><a href="#">Mixed reality</a></li>
+        <li><a href="#">Meta Horizon</a></li>
+        <li><a href="#">App store</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Help center</a></li>
+        <li><a href="#">Order status</a></li>
+        <li><a href="#">Returns &amp; warranty</a></li>
+        <li><a href="#">Contact us</a></li>
+        <li><a href="#">Community forums</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Meta</a></li>
+        <li><a href="#">Newsroom</a></li>
+        <li><a href="#">Investors</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Responsible business</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Developers</h4>
+      <ul>
+        <li><a href="#">Meta Quest SDK</a></li>
+        <li><a href="#">AI platform</a></li>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Terms of service</a></li>
+        <li><a href="#">Cookie policy</a></li>
+        <li><a href="#">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal">
+      <a href="#">United States</a>
+      <a href="#">English (US)</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+    <span class="footer-locale">&copy; 2026 Meta Platforms, Inc.</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mintlify — The documentation you deserve</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET
+   ============================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  background-color: #ffffff;
+  color: #0a0a0a;
+  line-height: 1.5;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+:root {
+  /* Colors */
+  --primary: #0a0a0a;
+  --on-primary: #ffffff;
+  --brand-green: #00d4a4;
+  --brand-green-deep: #00b48a;
+  --brand-green-soft: #7cebcb;
+  --brand-tag: #3772cf;
+  --brand-warn: #c37d0d;
+  --brand-annotate: #1ba673;
+  --brand-error: #d45656;
+  --brand-cursor: #888888;
+  --hero-sky-from: #87a8c8;
+  --hero-sky-to: #f5e9d8;
+  --hero-dark-from: #1a3d4a;
+  --hero-dark-to: #2d5a4f;
+  --testimonial-orange: #f55a3c;
+  --testimonial-orange-deep: #cc3a1f;
+  --canvas: #ffffff;
+  --canvas-dark: #0a0a0a;
+  --surface: #f7f7f7;
+  --surface-soft: #fafafa;
+  --surface-code: #1c1c1e;
+  --hairline: #e5e5e5;
+  --hairline-soft: #ededed;
+  --hairline-dark: #1f1f1f;
+  --ink: #0a0a0a;
+  --charcoal: #1c1c1e;
+  --slate: #3a3a3c;
+  --steel: #5a5a5c;
+  --stone: #888888;
+  --muted: #a8a8aa;
+  --on-dark: #ffffff;
+  --on-dark-muted: #b3b3b3;
+
+  /* Typography */
+  --font-sans: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* Rounded */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 24px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-xxxl: 40px;
+  --section-sm: 48px;
+  --section: 64px;
+  --hero: 120px;
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
+.hero-display {
+  font-family: var(--font-sans);
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
+
+.display-lg {
+  font-family: var(--font-sans);
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -1.5px;
+}
+
+.heading-1 {
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -1px;
+}
+
+.heading-2 {
+  font-family: var(--font-sans);
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+}
+
+.heading-3 {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.heading-4 {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.30;
+}
+
+.heading-5 {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.40;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.body-md {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.body-md-medium {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.50;
+}
+
+.body-sm {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.body-sm-medium {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+}
+
+.caption {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.caption-bold {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+}
+
+.micro {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.40;
+}
+
+.micro-uppercase {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.40;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.button-md-text {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+}
+
+.code-md {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.code-sm {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.code-inline-text {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.30;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--rounded-full);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--charcoal);
+}
+
+.btn-primary:active {
+  background-color: var(--charcoal);
+  transform: scale(0.98);
+}
+
+.btn-accent-green {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--brand-green);
+  color: var(--primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--rounded-full);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  text-decoration: none;
+}
+
+.btn-accent-green:hover {
+  background-color: var(--brand-green-deep);
+}
+
+.btn-accent-green:active {
+  background-color: var(--brand-green-deep);
+  transform: scale(0.98);
+}
+
+.btn-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--on-dark);
+  color: var(--primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--rounded-full);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  text-decoration: none;
+}
+
+.btn-on-dark:hover {
+  background-color: var(--on-dark-muted);
+}
+
+.btn-on-dark:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--rounded-full);
+  padding: 10px 20px;
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  border-color: var(--stone);
+  background-color: var(--surface-soft);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--rounded-md);
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-ghost:hover {
+  background-color: var(--surface);
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+.section {
+  padding: var(--section) 0;
+}
+
+.section-sm {
+  padding: var(--section-sm) 0;
+}
+
+/* ============================================
+   PROMO BANNER
+   ============================================ */
+.promo-banner {
+  background-color: var(--canvas-dark);
+  color: var(--on-dark);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  padding: var(--space-sm) var(--space-md);
+  text-align: center;
+}
+
+.promo-banner a {
+  color: var(--brand-green-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.promo-banner a:hover {
+  color: var(--brand-green);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--hairline);
+  padding: var(--space-md) 0;
+}
+
+.nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.50;
+  color: var(--ink);
+}
+
+.nav-logo svg {
+  width: 28px;
+  height: 28px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xxl);
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--steel);
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: var(--hero) 0 calc(var(--hero) + 40px);
+  background: linear-gradient(
+    160deg,
+    var(--hero-sky-from) 0%,
+    #b7c9d8 35%,
+    var(--hero-sky-to) 70%,
+    #fdf8f0 100%
+  );
+  color: var(--ink);
+  text-align: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(ellipse at center, rgba(135, 168, 200, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -15%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(245, 233, 216, 0.5) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-full);
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.40;
+  color: var(--slate);
+  margin-bottom: var(--space-xxl);
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--brand-green);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.hero h1 {
+  max-width: 800px;
+  margin: 0 auto var(--space-xl);
+}
+
+.hero h1 .highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.hero h1 .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-color: rgba(0, 212, 164, 0.3);
+  border-radius: 2px;
+  z-index: -1;
+}
+
+.hero-description {
+  max-width: 600px;
+  margin: 0 auto var(--space-xxxl);
+  color: var(--slate);
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--section);
+}
+
+.hero-cta .btn-primary {
+  padding: 12px 28px;
+  font-size: 15px;
+}
+
+.hero-cta .btn-secondary {
+  padding: 12px 28px;
+  font-size: 15px;
+}
+
+/* Product mockup */
+.hero-mockup {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  border: 1px solid var(--hairline-soft);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 24px 48px -8px;
+  overflow: hidden;
+}
+
+.mockup-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--hairline-soft);
+  background-color: var(--surface-soft);
+}
+
+.mockup-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--hairline);
+}
+
+.mockup-dot:nth-child(1) { background-color: #ff5f56; }
+.mockup-dot:nth-child(2) { background-color: #ffbd2e; }
+.mockup-dot:nth-child(3) { background-color: #27c93f; }
+
+.mockup-search {
+  margin-left: auto;
+  background-color: var(--surface);
+  color: var(--steel);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  border-radius: var(--rounded-md);
+  padding: var(--space-xs) var(--space-md);
+  height: 36px;
+  border: 1px solid var(--hairline);
+  min-width: 160px;
+}
+
+.mockup-body {
+  display: flex;
+  min-height: 340px;
+}
+
+.mockup-sidebar {
+  width: 220px;
+  border-right: 1px solid var(--hairline-soft);
+  padding: var(--space-md);
+  background-color: var(--surface-soft);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+.mockup-sidebar-header {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.40;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--steel);
+  padding: var(--space-md) var(--space-md) var(--space-xs);
+}
+
+.mockup-sidebar-item {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--steel);
+  border-radius: var(--rounded-sm);
+  padding: var(--space-xs) var(--space-md);
+  transition: background-color 0.1s ease;
+}
+
+.mockup-sidebar-item.active {
+  background-color: var(--surface);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.mockup-content {
+  flex: 1;
+  padding: var(--space-xxl);
+}
+
+.mockup-line {
+  height: 14px;
+  background-color: var(--surface);
+  border-radius: var(--rounded-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.mockup-line:first-child {
+  width: 40%;
+  height: 20px;
+  margin-bottom: var(--space-xl);
+}
+
+.mockup-line:nth-child(2) { width: 100%; }
+.mockup-line:nth-child(3) { width: 90%; }
+.mockup-line:nth-child(4) { width: 75%; }
+.mockup-line:nth-child(5) { width: 85%; }
+
+.mockup-code-block {
+  background-color: var(--surface-code);
+  border-radius: var(--rounded-md);
+  padding: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.mockup-code-block .code-line {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--on-dark-muted);
+}
+
+.mockup-code-block .code-line .key {
+  color: #79c0ff;
+}
+
+.mockup-code-block .code-line .string {
+  color: #a5d6ff;
+}
+
+.mockup-code-block .code-line .fn {
+  color: #d2a8ff;
+}
+
+.mockup-toc {
+  width: 180px;
+  border-left: 1px solid var(--hairline-soft);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+.mockup-toc-item {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--steel);
+  padding: var(--space-xxs) 0;
+}
+
+.mockup-toc-item.active {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ============================================
+   LOGO WALL
+   ============================================ */
+.logo-wall {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.logo-wall .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--section);
+  padding: var(--space-xxl) 0;
+  flex-wrap: wrap;
+}
+
+.logo-wall-item {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--steel);
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.logo-wall-item:hover {
+  opacity: 1;
+}
+
+/* ============================================
+   FEATURES SECTION
+   ============================================ */
+.features-header {
+  text-align: center;
+  margin-bottom: var(--section);
+}
+
+.features-header .badge-tag {
+  display: inline-block;
+  background-color: rgba(55, 114, 207, 0.15);
+  color: var(--brand-tag);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--rounded-sm);
+  padding: 2px 8px;
+  margin-bottom: var(--space-md);
+}
+
+.features-header h2 {
+  margin-bottom: var(--space-md);
+}
+
+.features-header p {
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--steel);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+
+.feature-card {
+  background-color: var(--surface);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 8px 24px;
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-md);
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  margin-bottom: var(--space-lg);
+}
+
+.feature-icon svg {
+  width: 20px;
+  height: 20px;
+  color: var(--ink);
+}
+
+.feature-card h3 {
+  margin-bottom: var(--space-sm);
+}
+
+.feature-card p {
+  color: var(--steel);
+}
+
+/* ============================================
+   CODE SHOWCASE
+   ============================================ */
+.code-showcase {
+  background-color: var(--canvas-dark);
+  padding: var(--section) 0;
+  overflow: hidden;
+}
+
+.code-showcase-header {
+  text-align: center;
+  margin-bottom: var(--section-sm);
+}
+
+.code-showcase-header h2 {
+  color: var(--on-dark);
+  margin-bottom: var(--space-md);
+}
+
+.code-showcase-header p {
+  color: var(--on-dark-muted);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.code-showcase-window {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  border: 1px solid var(--hairline-soft);
+  overflow: hidden;
+}
+
+.code-showcase-window .mockup-toolbar {
+  border-bottom: 1px solid var(--hairline-dark);
+  background-color: var(--surface-code);
+}
+
+.code-showcase-window .mockup-toolbar .mockup-tab {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--on-dark-muted);
+  padding: var(--space-xs) var(--space-md);
+  cursor: pointer;
+}
+
+.code-showcase-window .mockup-toolbar .mockup-tab.active {
+  color: var(--on-dark);
+  font-weight: 500;
+}
+
+.code-showcase-code {
+  background-color: var(--surface-code);
+  padding: var(--space-xxl);
+}
+
+.code-showcase-code .line {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--on-dark-muted);
+  margin-bottom: 4px;
+}
+
+.code-showcase-code .line .tag { color: #7ee787; }
+.code-showcase-code .line .attr { color: #79c0ff; }
+.code-showcase-code .line .val { color: #a5d6ff; }
+.code-showcase-code .line .comment { color: #8b949e; }
+.code-showcase-code .line .fn-name { color: #d2a8ff; }
+.code-showcase-code .line .string { color: #a5d6ff; }
+.code-showcase-code .line .prop { color: #79c0ff; }
+
+/* ============================================
+   PRICING SECTION
+   ============================================ */
+.pricing {
+  background-color: var(--surface-soft);
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: var(--section-sm);
+}
+
+.pricing-header h2 {
+  margin-bottom: var(--space-md);
+}
+
+.pricing-header p {
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--steel);
+}
+
+/* Toggle */
+.pricing-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--section-sm);
+}
+
+.toggle-switch {
+  background-color: var(--surface);
+  color: var(--ink);
+  border-radius: var(--rounded-full);
+  padding: 4px;
+  display: inline-flex;
+  position: relative;
+  border: 1px solid var(--hairline);
+}
+
+.toggle-option {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  padding: 8px 16px;
+  border-radius: var(--rounded-full);
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: var(--steel);
+  position: relative;
+  z-index: 1;
+  transition: color 0.15s ease;
+}
+
+.toggle-option.active {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: 1px solid var(--primary);
+}
+
+.toggle-save {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--brand-green);
+  color: var(--primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--rounded-full);
+  padding: 2px 8px;
+}
+
+/* Pricing Cards */
+.pricing-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.pricing-card {
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+  border: 1px solid var(--hairline);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 12px 32px;
+}
+
+.pricing-card.featured {
+  border: 2px solid var(--brand-green);
+  box-shadow: rgba(0, 212, 164, 0.08) 0px 8px 24px;
+  position: relative;
+}
+
+.pricing-card.featured::before {
+  content: 'Popular';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--brand-green);
+  color: var(--primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--rounded-full);
+  padding: 2px 12px;
+}
+
+.pricing-card-header {
+  margin-bottom: var(--space-xl);
+}
+
+.pricing-card-header h3 {
+  margin-bottom: var(--space-xs);
+}
+
+.pricing-card-header .tier-desc {
+  color: var(--steel);
+}
+
+.pricing-price {
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.pricing-price .amount {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.pricing-price .period {
+  color: var(--steel);
+}
+
+.pricing-features {
+  list-style: none;
+  margin-bottom: var(--space-xxl);
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  color: var(--slate);
+}
+
+.pricing-features li svg {
+  width: 18px;
+  height: 18px;
+  color: var(--brand-green);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pricing-card .btn-primary {
+  width: 100%;
+}
+
+.pricing-card.featured .btn-accent-green {
+  width: 100%;
+}
+
+/* ============================================
+   TESTIMONIAL SECTION
+   ============================================ */
+.testimonial-section {
+  padding: var(--section) 0;
+}
+
+.testimonial-header {
+  text-align: center;
+  margin-bottom: var(--section-sm);
+}
+
+.testimonial-header h2 {
+  margin-bottom: var(--space-md);
+}
+
+.testimonial-header p {
+  color: var(--steel);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+
+.testimonial-quote-card {
+  background-color: var(--canvas);
+  color: var(--ink);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+  border: 1px solid var(--hairline);
+}
+
+.testimonial-quote-card blockquote {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--ink);
+  margin-bottom: var(--space-xl);
+  font-style: italic;
+}
+
+.testimonial-quote-card blockquote::before {
+  content: '\201C';
+  font-size: 48px;
+  color: var(--brand-green-soft);
+  line-height: 1;
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.testimonial-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--rounded-full);
+  background-color: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--steel);
+}
+
+.testimonial-author-info .name {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+}
+
+.testimonial-author-info .role {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--steel);
+}
+
+/* ============================================
+   FEATURED TESTIMONIAL (ORANGE)
+   ============================================ */
+.testimonial-featured {
+  background-color: var(--testimonial-orange);
+  color: var(--on-dark);
+  border-radius: var(--rounded-lg);
+  padding: var(--section);
+  margin-top: var(--section-sm);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-featured::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.testimonial-featured blockquote {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.25;
+  max-width: 700px;
+  margin: 0 auto var(--space-xl);
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-featured .author {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.50;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-featured .author-role {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   CTA SECTION
+   ============================================ */
+.cta-section {
+  background-color: var(--canvas-dark);
+  padding: var(--section) 0;
+  text-align: center;
+}
+
+.cta-section h2 {
+  color: var(--on-dark);
+  margin-bottom: var(--space-md);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-section p {
+  color: var(--on-dark-muted);
+  max-width: 560px;
+  margin: 0 auto var(--space-xxxl);
+}
+
+.cta-section .cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background-color: var(--canvas);
+  color: var(--steel);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--section) var(--space-xxl);
+  border-top: 1px solid var(--hairline);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: var(--space-xxl);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-brand p {
+  margin-top: var(--space-md);
+  max-width: 260px;
+  color: var(--stone);
+}
+
+.footer-column h4 {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.40;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: var(--space-md);
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-link {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--steel);
+  padding: var(--space-xxs) 0;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-link:hover {
+  color: var(--ink);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: var(--section-sm) auto 0;
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--hairline-soft);
+}
+
+.footer-bottom .social-links {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.footer-bottom .social-links a {
+  color: var(--steel);
+  transition: color 0.15s ease;
+}
+
+.footer-bottom .social-links a:hover {
+  color: var(--ink);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .hero-display { font-size: 48px; letter-spacing: -1.5px; }
+  .display-lg { font-size: 40px; letter-spacing: -1px; }
+  .heading-2 { font-size: 28px; }
+  .heading-3 { font-size: 22px; }
+
+  .features-grid,
+  .pricing-cards,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mockup-sidebar,
+  .mockup-toc {
+    display: none;
+  }
+
+  .nav-links {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero { padding: 64px 0 calc(64px + 40px); }
+  .hero-display { font-size: 36px; letter-spacing: -1px; }
+  .hero-cta { flex-direction: column; }
+  .hero-cta .btn-primary,
+  .hero-cta .btn-secondary { width: 100%; justify-content: center; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: var(--space-md); }
+  .cta-section .cta-buttons { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- =============================================
+     PROMO BANNER
+     ============================================= -->
+<div class="promo-banner">
+  Introducing the Doc Behavioral Framework — understand your docs better. <a href="#">Learn more →</a>
+</div>
+
+<!-- =============================================
+     NAVIGATION
+     ============================================= -->
+<nav class="nav">
+  <div class="container">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="28" height="28" rx="6" fill="#00d4a4"/>
+        <path d="M7 14L12 19L21 9" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Mintlify
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Product</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Enterprise</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn-ghost">Sign In</a>
+      <a href="#" class="btn-primary">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- =============================================
+     HERO SECTION
+     ============================================= -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Now serving 50,000+ documentation sites
+    </div>
+    <h1 class="hero-display">
+      The documentation <span class="highlight">you deserve</span>
+    </h1>
+    <p class="hero-description subtitle">
+      Beautiful documentation that converts users. Purpose-built for the modern developer ecosystem with MDX, API references, and AI-powered search.
+    </p>
+    <div class="hero-cta">
+      <a href="#" class="btn-primary">
+        Start building free
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#" class="btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M6 5l4 3-4 3V5z" fill="currentColor"/></svg>
+        Watch demo
+      </a>
+    </div>
+
+    <!-- Product Mockup -->
+    <div class="hero-mockup">
+      <div class="mockup-toolbar">
+        <span class="mockup-dot"></span>
+        <span class="mockup-dot"></span>
+        <span class="mockup-dot"></span>
+        <span class="mockup-search">Search docs...</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-sidebar">
+          <div class="mockup-sidebar-header">Getting Started</div>
+          <div class="mockup-sidebar-item active">Introduction</div>
+          <div class="mockup-sidebar-item">Quickstart</div>
+          <div class="mockup-sidebar-item">Configuration</div>
+          <div class="mockup-sidebar-header">Guides</div>
+          <div class="mockup-sidebar-item">MDX Components</div>
+          <div class="mockup-sidebar-item">API Reference</div>
+          <div class="mockup-sidebar-item">Deploy</div>
+        </div>
+        <div class="mockup-content">
+          <div class="mockup-line"></div>
+          <div class="mockup-line"></div>
+          <div class="mockup-line"></div>
+          <div class="mockup-line"></div>
+          <div class="mockup-line"></div>
+          <div class="mockup-code-block">
+            <div class="code-line"><span class="key">import</span> { <span class="fn">Card</span> } <span class="key">from</span> <span class="string">'@mintlify/components'</span></div>
+            <div class="code-line">&nbsp;</div>
+            <div class="code-line">&lt;<span class="tag">Card</span> <span class="attr">title</span>=<span class="string">"Welcome"</span> <span class="attr">icon</span>=<span class="string">"rocket"</span>&gt;</div>
+            <div class="code-line">&nbsp;&nbsp;Get started in 5 minutes.</div>
+            <div class="code-line">&lt;/<span class="tag">Card</span>&gt;</div>
+          </div>
+        </div>
+        <div class="mockup-toc">
+          <div class="mockup-toc-item active">Overview</div>
+          <div class="mockup-toc-item">Installation</div>
+          <div class="mockup-toc-item">Your first doc</div>
+          <div class="mockup-toc-item">Publishing</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     LOGO WALL
+     ============================================= -->
+<div class="logo-wall">
+  <div class="container">
+    <span class="logo-wall-item">Vercel</span>
+    <span class="logo-wall-item">Anthropic</span>
+    <span class="logo-wall-item">Replit</span>
+    <span class="logo-wall-item">Clerk</span>
+    <span class="logo-wall-item">Pinecone</span>
+    <span class="logo-wall-item">Resend</span>
+  </div>
+</div>
+
+<!-- =============================================
+     FEATURES SECTION
+     ============================================= -->
+<section id="features" class="section">
+  <div class="container">
+    <div class="features-header">
+      <span class="badge-tag">Features</span>
+      <h2 class="heading-2">Everything you need for world-class docs</h2>
+      <p class="body-md">Purpose-built tools that make documentation feel effortless — for writers and readers alike.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="var(--brand-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="heading-3">MDX Components</h3>
+        <p class="body-md">Build rich, interactive docs with reusable MDX components. Cards, tabs, accordions — all ready out of the box.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="heading-3">AI-Powered Search</h3>
+        <p class="body-md">Users find what they need instantly with context-aware AI search. Understands natural language queries.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h10M3 15h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="heading-3">API Reference</h3>
+        <p class="body-md">Auto-generated API docs from OpenAPI specs. Interactive playground, code samples in every language.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="11" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="heading-3">Beautiful by Default</h3>
+        <p class="body-md">Every template is polished out of the box — dark mode, responsive, and accessibility built in.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M4 6l6-3 6 3M4 10l6 3 6-3M4 14l6 3 6-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="heading-3">Multi-Product</h3>
+        <p class="body-md">Unify docs across products and versions. Shared components, separate navigation — one platform.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M6 8h8M6 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="3" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="heading-3">Analytics & Insights</h3>
+        <p class="body-md">Track page views, search queries, and user paths. Understand exactly how your docs are used.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CODE SHOWCASE
+     ============================================= -->
+<section class="code-showcase">
+  <div class="container">
+    <div class="code-showcase-header">
+      <h2 class="heading-2">Write docs like you write code</h2>
+      <p class="body-md">MDX-first, markdown-aware, with a component library that feels native.</p>
+    </div>
+    <div class="code-showcase-window">
+      <div class="mockup-toolbar">
+        <span class="mockup-tab active">getting-started.mdx</span>
+        <span class="mockup-tab">mint.json</span>
+        <span class="mockup-tab">api-reference.mdx</span>
+      </div>
+      <div class="code-showcase-code">
+        <div class="line"><span class="comment">---</span></div>
+        <div class="line"><span class="prop">title</span>: <span class="string">"Getting Started"</span></div>
+        <div class="line"><span class="prop">description</span>: <span class="string">"Build your docs in under 5 minutes"</span></div>
+        <div class="line"><span class="comment">---</span></div>
+        <div class="line">&nbsp;</div>
+        <div class="line">&lt;<span class="tag">Tabs</span>&gt;</div>
+        <div class="line">&nbsp;&nbsp;&lt;<span class="tag">Tab</span> <span class="attr">title</span>=<span class="string">"npm"</span>&gt;</div>
+        <div class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn-name">npx</span> <span class="attr">mintlify</span>@<span class="val">latest</span> <span class="fn-name">dev</span></div>
+        <div class="line">&nbsp;&nbsp;&lt;/<span class="tag">Tab</span>&gt;</div>
+        <div class="line">&nbsp;&nbsp;&lt;<span class="tag">Tab</span> <span class="attr">title</span>=<span class="string">"yarn"</span>&gt;</div>
+        <div class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn-name">yarn</span> <span class="attr">mintlify</span> <span class="fn-name">dev</span></div>
+        <div class="line">&nbsp;&nbsp;&lt;/<span class="tag">Tab</span>&gt;</div>
+        <div class="line">&lt;/<span class="tag">Tabs</span>&gt;</div>
+        <div class="line">&nbsp;</div>
+        <div class="line">Your docs are now available at [<span class="string">localhost:3000</span>](#)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     PRICING SECTION
+     ============================================= -->
+<section id="pricing" class="section pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <h2 class="heading-2">Simple, transparent pricing</h2>
+      <p class="body-md">Start free, scale as you grow. No hidden fees, no surprises.</p>
+    </div>
+    <div class="pricing-toggle">
+      <span class="body-sm-medium">Monthly</span>
+      <div class="toggle-switch">
+        <button class="toggle-option active">Monthly</button>
+        <button class="toggle-option">Yearly</button>
+      </div>
+      <span class="toggle-save">Save 20%</span>
+    </div>
+    <div class="pricing-cards">
+      <!-- Free -->
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <h3 class="heading-4">Free</h3>
+          <p class="body-sm">For individuals and small projects</p>
+        </div>
+        <div class="pricing-price">
+          <span class="amount heading-2">$0</span>
+          <span class="period body-sm">/month</span>
+        </div>
+        <ul class="pricing-features body-sm">
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Up to 500 pages
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            AI-powered search
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            MDX components
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Community support
+          </li>
+        </ul>
+        <a href="#" class="btn-primary">Start free</a>
+      </div>
+
+      <!-- Pro (Featured) -->
+      <div class="pricing-card featured">
+        <div class="pricing-card-header">
+          <h3 class="heading-4">Pro</h3>
+          <p class="body-sm">For growing teams</p>
+        </div>
+        <div class="pricing-price">
+          <span class="amount heading-2">$150</span>
+          <span class="period body-sm">/month</span>
+        </div>
+        <ul class="pricing-features body-sm">
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Everything in Free
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            API reference docs
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Custom domain & analytics
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Priority support
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Multi-product docs
+          </li>
+        </ul>
+        <a href="#" class="btn-accent-green">Start free trial</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <h3 class="heading-4">Enterprise</h3>
+          <p class="body-sm">For large organizations</p>
+        </div>
+        <div class="pricing-price">
+          <span class="amount heading-2">Custom</span>
+        </div>
+        <ul class="pricing-features body-sm">
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Everything in Pro
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            SSO / SAML
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Dedicated infrastructure
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 9l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            SLA & custom contracts
+          </li>
+        </ul>
+        <a href="#" class="btn-primary">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     TESTIMONIALS
+     ============================================= -->
+<section class="testimonial-section">
+  <div class="container">
+    <div class="testimonial-header">
+      <h2 class="heading-2">Trusted by the best engineering teams</h2>
+      <p class="body-md">See why thousands of developers choose Mintlify for their documentation.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-quote-card">
+        <blockquote class="body-md">Mintlify transformed our docs from a liability into a competitive advantage. Our users actually enjoy reading them now.</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SK</div>
+          <div class="testimonial-author-info">
+            <div class="name">Sarah Kim</div>
+            <div class="role">Engineering Lead, Pinecone</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-quote-card">
+        <blockquote class="body-md">The AI search alone is worth it. Our users find answers in seconds instead of filing support tickets.</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MR</div>
+          <div class="testimonial-author-info">
+            <div class="name">Marcus Rivera</div>
+            <div class="role">DX Lead, Clerk</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-quote-card">
+        <blockquote class="body-md">We migrated 2000+ pages in a weekend. The MDX component system is incredibly intuitive.</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AC</div>
+          <div class="testimonial-author-info">
+            <div class="name">Alex Chen</div>
+            <div class="role">DevRel, Resend</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Testimonial -->
+    <div class="testimonial-featured">
+      <blockquote>
+        "We switched from a custom docs solution to Mintlify and saw a 40% reduction in support tickets within the first month. The developer experience is unmatched."
+      </blockquote>
+      <div class="author">— Emily Watson</div>
+      <div class="author-role">VP of Engineering, Anthropic</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CTA SECTION
+     ============================================= -->
+<section id="cta" class="cta-section">
+  <div class="container">
+    <h2 class="heading-2">Ready to build docs your users will love?</h2>
+    <p class="body-md">Join 50,000+ documentation sites already shipping with Mintlify. Start free, no credit card required.</p>
+    <div class="cta-buttons">
+      <a href="#" class="btn-on-dark">
+        Get started free
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#" class="btn-secondary" style="color: var(--on-dark); border-color: rgba(255,255,255,0.2);">
+        Talk to sales
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FOOTER
+     ============================================= -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" style="display: flex; align-items: center; gap: 8px;" class="nav-logo">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#00d4a4"/>
+          <path d="M7 14L12 19L21 9" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Mintlify
+      </a>
+      <p class="body-sm">The modern documentation platform for developer-first companies.</p>
+    </div>
+    <div class="footer-column">
+      <h4>Product</h4>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">Features</a></li>
+        <li><a href="#" class="footer-link">Pricing</a></li>
+        <li><a href="#" class="footer-link">Changelog</a></li>
+        <li><a href="#" class="footer-link">Integrations</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Resources</h4>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">Documentation</a></li>
+        <li><a href="#" class="footer-link">API Reference</a></li>
+        <li><a href="#" class="footer-link">Blog</a></li>
+        <li><a href="#" class="footer-link">Community</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Company</h4>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">About</a></li>
+        <li><a href="#" class="footer-link">Careers</a></li>
+        <li><a href="#" class="footer-link">Contact</a></li>
+        <li><a href="#" class="footer-link">Privacy</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Compare</h4>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">vs Readme</a></li>
+        <li><a href="#" class="footer-link">vs GitBook</a></li>
+        <li><a href="#" class="footer-link">vs Docusaurus</a></li>
+        <li><a href="#" class="footer-link">vs Notion</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="body-sm" style="color: var(--steel);">© 2024 Mintlify, Inc. All rights reserved.</span>
+    <div class="social-links">
+      <a href="#" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1a8 8 0 00-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.64 7.64 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8.01 8.01 0 009 1z"/></svg>
+      </a>
+      <a href="#" aria-label="Twitter">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M10.71 7.85L16.22 1.5h-1.3L10.1 7.01 6.1 1.5H1.5l5.78 8.36L1.5 16.5h1.3l5.06-5.84 4.04 5.84h4.6L10.71 7.85zm-1.79 2.07l-.59-.83-4.67-6.63h2l3.77 5.36.59.83 4.9 6.97h-2l-4-5.7z"/></svg>
+      </a>
+      <a href="#" aria-label="Discord">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M13.93 4.48A10.38 10.38 0 0011.39 3.7c-.11.2-.24.43-.33.63a9.6 9.6 0 00-2.87 0 6.35 6.35 0 00-.34-.63c-.9.15-1.77.42-2.56.78a11.89 11.89 0 00-3.03 4.66 10.5 10.5 0 003.5 1.77c.27-.37.51-.76.72-1.16a6.78 6.78 0 01-1.13-.55l.02-.01c.24.1.48.22.72.33a8.47 8.47 0 007.21 0c.23-.11.47-.23.72-.33l.02.01c-.36.21-.74.4-1.13.55.21.4.45.79.72 1.16a10.46 10.46 0 003.5-1.77 11.83 11.83 0 00-3.03-4.66zM6.58 10.1c-.6 0-1.1-.55-1.1-1.23s.47-1.23 1.08-1.23c.6 0 1.1.55 1.1 1.23.01.68-.47 1.23-1.08 1.23zm4.83 0c-.6 0-1.1-.55-1.1-1.23s.47-1.23 1.08-1.23c.6 0 1.1.55 1.1 1.23.01.68-.47 1.23-1.08 1.23z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

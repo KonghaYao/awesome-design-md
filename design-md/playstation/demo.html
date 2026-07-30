@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayStation®5 - Play Has No Limits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:'PlayStation SST','Inter','SF Pro Display',system-ui,-apple-system,sans-serif;font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;background:#000;color:#fff;overflow-x:hidden}
+
+/* ── Design Tokens ── */
+:root{
+  --primary:#0070d1;
+  --primary-pressed:#0064b7;
+  --primary-active:#004d8d;
+  --on-primary:#ffffff;
+  --link-light:#0064b7;
+  --link-dark:#53b1ff;
+  --commerce:#d53b00;
+  --commerce-pressed:#aa2f00;
+  --commerce-link-base:#d63d00;
+  --on-commerce:#ffffff;
+  --ink:#000000;
+  --ink-deep:#121314;
+  --ink-elevated:#181818;
+  --charcoal:#1f2024;
+  --body-light:rgba(0,0,0,0.6);
+  --mute-light:#6b6b6b;
+  --ash-light:#cccccc;
+  --body-dark:rgba(255,255,255,0.7);
+  --mute-dark:rgba(229,229,229,0.55);
+  --ash-dark:rgba(229,229,229,0.2);
+  --canvas-light:#ffffff;
+  --surface-soft:#f3f3f3;
+  --surface-card:#f5f7fa;
+  --surface-filter:rgba(245,247,250,0.3);
+  --canvas-dark:#000000;
+  --surface-dark-elevated:#121314;
+  --surface-dark-card:#181818;
+  --hairline-light:#f3f3f3;
+  --hairline-dark:rgba(229,229,229,0.2);
+  --on-dark:#ffffff;
+  --on-dark-mute:#cccccc;
+  --warning:#c81b3a;
+  --ps-plus-gold-start:#ffce21;
+  --ps-plus-gold-mid:#f5a623;
+  --ps-plus-gold-end:#ee8e00;
+  --marathon-yellow:#deff20;
+  --radius-none:0px;
+  --radius-sm:4px;
+  --radius-md:8px;
+  --radius-lg:16px;
+  --radius-full:9999px;
+  --spacing-xxs:4px;
+  --spacing-xs:8px;
+  --spacing-sm:12px;
+  --spacing-md:16px;
+  --spacing-lg:24px;
+  --spacing-xl:32px;
+  --spacing-xxl:48px;
+  --spacing-section:96px;
+}
+
+/* ── Primary Navigation ── */
+.primary-nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--canvas-dark);
+  height:48px;display:flex;align-items:center;
+  padding:0 var(--spacing-xxl);
+  font-size:18px;font-weight:500;line-height:1.25;letter-spacing:0.4px;
+}
+.nav-logo{
+  display:flex;align-items:center;
+  margin-right:var(--spacing-xxl);
+}
+.nav-logo svg{width:36px;height:36px}
+.nav-links{display:flex;align-items:center;gap:var(--spacing-xl);list-style:none}
+.nav-links a{
+  color:var(--on-dark);text-decoration:none;
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--primary)}
+.nav-actions{
+  margin-left:auto;display:flex;align-items:center;gap:var(--spacing-lg);
+}
+.nav-actions button{
+  background:none;border:none;color:var(--on-dark);
+  cursor:pointer;padding:var(--spacing-xxs);
+}
+.nav-actions svg{width:24px;height:24px}
+
+/* ── Sub Navigation ── */
+.sub-nav{
+  background:var(--canvas-dark);
+  height:40px;display:flex;align-items:center;
+  padding:0 var(--spacing-xxl);
+  font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0;
+  border-bottom:1px solid var(--hairline-dark);
+}
+.sub-nav-links{display:flex;align-items:center;gap:var(--spacing-xl);list-style:none}
+.sub-nav-links a{
+  color:var(--on-dark-mute);text-decoration:none;
+  transition:color 0.2s;
+}
+.sub-nav-links a:hover,.sub-nav-links a.active{color:var(--on-dark)}
+
+/* ── Band Containers ── */
+.band{padding:var(--spacing-section) var(--spacing-xxl);width:100%}
+.band-dark{background:var(--canvas-dark);color:var(--on-dark)}
+.band-light{background:var(--canvas-light);color:var(--ink)}
+.band-blue{background:var(--primary);color:var(--on-primary)}
+
+/* ── Hero Band (Dark) ── */
+.hero{position:relative;overflow:hidden}
+.hero-inner{
+  max-width:1280px;margin:0 auto;
+  display:flex;align-items:center;
+  min-height:70vh;
+}
+.hero-copy{flex:0 0 480px;z-index:2}
+.hero-eyebrow{
+  font-size:14px;font-weight:500;line-height:1.5;letter-spacing:0;
+  color:var(--primary);margin-bottom:var(--spacing-md);
+  text-transform:uppercase;
+}
+.hero-headline{
+  font-size:54px;font-weight:300;line-height:1.25;letter-spacing:-0.1px;
+  margin-bottom:var(--spacing-lg);
+}
+.hero-body{
+  font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;
+  color:var(--body-dark);margin-bottom:var(--spacing-xl);
+  max-width:400px;
+}
+.hero-ctas{display:flex;align-items:center;gap:var(--spacing-md)}
+.hero-visual{flex:1;display:flex;justify-content:flex-end;align-items:center;position:relative}
+.ps5-console{width:520px;height:380px}
+
+/* ── Buttons ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:none;cursor:pointer;text-decoration:none;white-space:nowrap;
+  font-size:18px;font-weight:700;line-height:1.25;letter-spacing:0.45px;
+  border-radius:var(--radius-full);padding:12px 28px;height:48px;
+  transition:background 0.2s,transform 0.15s;
+}
+.btn:active{transform:scale(0.97)}
+.btn-primary{
+  background:var(--primary);color:var(--on-primary);
+}
+.btn-primary:hover{background:var(--primary-pressed)}
+.btn-primary:active{background:var(--primary-active)}
+.btn-commerce{
+  background:var(--commerce);color:var(--on-commerce);
+}
+.btn-commerce:hover{background:var(--commerce-pressed)}
+.btn-secondary-light{
+  background:transparent;color:var(--ink);
+  border:1px solid var(--ash-light);
+}
+.btn-secondary-light:hover{border-color:var(--ink)}
+.btn-secondary-dark{
+  background:transparent;color:var(--on-dark);
+  border:1px solid var(--hairline-dark);
+}
+.btn-secondary-dark:hover{border-color:var(--on-dark)}
+.btn-lg{font-size:18px;padding:16px 36px;height:56px}
+
+/* ── Typography Tokens ── */
+.display-xl{font-size:54px;font-weight:300;line-height:1.25;letter-spacing:-0.1px}
+.display-lg{font-size:44px;font-weight:300;line-height:1.25;letter-spacing:0.1px}
+.display-md{font-size:35px;font-weight:300;line-height:1.25;letter-spacing:0}
+.heading-xl{font-size:28px;font-weight:300;line-height:1.25;letter-spacing:0.1px}
+.heading-lg{font-size:22px;font-weight:300;line-height:1.25;letter-spacing:0.1px}
+.heading-md{font-size:18px;font-weight:600;line-height:1;letter-spacing:0}
+.body-md{font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;color:var(--body-light)}
+.body-sm{font-size:16px;font-weight:400;line-height:1.5;letter-spacing:0}
+.caption-md{font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0}
+
+/* ── Section Header ── */
+.section-header{text-align:center;margin-bottom:var(--spacing-xxl)}
+.section-header .display-lg{margin-bottom:var(--spacing-md)}
+.section-header .body-md{max-width:520px;margin:0 auto}
+
+/* ── Console Showcase (Light Band) ── */
+.console-showcase .band-light{background:var(--canvas-light)}
+.showcase-grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:var(--spacing-lg);
+}
+.showcase-item{
+  text-align:center;cursor:pointer;transition:transform 0.2s;
+}
+.showcase-item:hover{transform:translateY(-4px)}
+.showcase-visual{
+  width:100%;aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:var(--spacing-sm);
+}
+
+/* ── Game Tiles (Dark Band) ── */
+.game-rail{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:var(--spacing-lg);max-width:1280px;margin:0 auto;
+}
+.game-tile{
+  background:var(--surface-dark-elevated);padding:0;
+  border-radius:var(--radius-md);overflow:hidden;
+  cursor:pointer;transition:transform 0.3s;
+}
+.game-tile:hover{transform:translateY(-6px)}
+.game-tile-visual{
+  width:100%;aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.game-tile-info{
+  padding:var(--spacing-md);position:relative;z-index:1;
+  margin-top:-1px;
+}
+.game-tile-title{
+  font-size:16px;font-weight:400;line-height:1.5;letter-spacing:0;
+  color:var(--on-dark);margin-bottom:var(--spacing-xxs);
+}
+.game-tile-meta{
+  font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0;
+  color:var(--mute-dark);
+}
+
+/* ── Badge ── */
+.badge{
+  display:inline-flex;align-items:center;
+  background:var(--primary);color:var(--on-primary);
+  font-size:12px;font-weight:500;line-height:1.5;letter-spacing:0;
+  padding:4px 10px;border-radius:var(--radius-full);
+}
+
+/* ── PS Plus Banner (Dark Band, Inside Elevated) ── */
+.psplus-wrapper{max-width:1280px;margin:0 auto}
+.psplus-banner{
+  background:var(--surface-dark-elevated);color:var(--on-dark);
+  padding:var(--spacing-xxl) var(--spacing-xl);
+  border-radius:var(--radius-md);
+  position:relative;overflow:hidden;
+}
+.psplus-banner::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--ps-plus-gold-start),var(--ps-plus-gold-mid),var(--ps-plus-gold-end));
+}
+.psplus-inner{display:flex;align-items:center;gap:var(--spacing-xl)}
+.psplus-icon{flex-shrink:0}
+.psplus-content{flex:1}
+.psplus-heading{font-size:28px;font-weight:300;line-height:1.25;letter-spacing:0.1px;margin-bottom:var(--spacing-sm)}
+.psplus-body{color:var(--body-dark);font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;margin-bottom:var(--spacing-lg)}
+.psplus-tiers{display:flex;gap:var(--spacing-md)}
+.tier-card{
+  flex:1;background:var(--surface-dark-card);
+  border-radius:var(--radius-md);padding:var(--spacing-lg);
+}
+.tier-card-label{font-size:14px;font-weight:500;line-height:1.5;letter-spacing:0;color:var(--ps-plus-gold-start);margin-bottom:var(--spacing-xs)}
+.tier-card-name{font-size:22px;font-weight:300;line-height:1.25;letter-spacing:0.1px;margin-bottom:var(--spacing-xxs)}
+.tier-card-price{color:var(--mute-dark);font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0}
+
+/* ── Feature Cards (Light Band) ── */
+.features-grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:var(--spacing-lg);
+}
+.feature-card{
+  background:var(--surface-card);color:var(--ink);
+  padding:var(--spacing-xl);border-radius:var(--radius-md);
+  transition:transform 0.2s;
+}
+.feature-card:hover{transform:translateY(-4px)}
+.feature-card-icon{
+  width:48px;height:48px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:var(--spacing-lg);
+}
+.feature-card-title{
+  font-size:22px;font-weight:300;line-height:1.25;letter-spacing:0.1px;
+  margin-bottom:var(--spacing-sm);
+}
+.feature-card-body{
+  font-size:16px;font-weight:400;line-height:1.5;letter-spacing:0;
+  color:var(--body-light);margin-bottom:var(--spacing-lg);
+}
+.feature-card-link{
+  color:var(--link-light);text-decoration:none;
+  font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0;
+  display:inline-flex;align-items:center;gap:var(--spacing-xs);
+  transition:gap 0.2s;
+}
+.feature-card-link:hover{gap:var(--spacing-sm)}
+
+/* ── Anniversary Band ── */
+.anniversary-band{
+  background:linear-gradient(180deg,var(--surface-dark-elevated),var(--canvas-dark));
+  position:relative;overflow:hidden;
+}
+.anniversary-inner{
+  max-width:1280px;margin:0 auto;text-align:center;
+}
+.anniversary-label{
+  font-size:14px;font-weight:500;line-height:1.5;letter-spacing:0;
+  color:var(--on-dark-mute);margin-bottom:var(--spacing-md);
+  text-transform:uppercase;
+}
+.anniversary-heading{
+  font-size:28px;font-weight:300;line-height:1.25;letter-spacing:0.1px;
+  margin-bottom:var(--spacing-lg);
+}
+.anniversary-cta{margin-top:var(--spacing-xl)}
+
+/* ── Pagination ── */
+.pagination{
+  display:flex;justify-content:center;gap:var(--spacing-xs);
+  margin-top:var(--spacing-xl);
+}
+.pagination-dot{
+  width:8px;height:8px;border-radius:var(--radius-full);
+  background:var(--ash-dark);border:none;cursor:pointer;
+  transition:background 0.2s;
+}
+.pagination-dot.active{background:var(--on-dark)}
+
+/* ── CTA Blue Band ── */
+.cta-band{padding:var(--spacing-section) var(--spacing-xxl);text-align:center}
+.cta-band-inner{max-width:680px;margin:0 auto}
+.cta-band .display-md{margin-bottom:var(--spacing-md)}
+.cta-band .body-dark{font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0.1px;color:rgba(255,255,255,0.85);margin-bottom:var(--spacing-xl)}
+.cta-band .btn{background:var(--on-primary);color:var(--primary)}
+.cta-band .btn:hover{background:rgba(255,255,255,0.9)}
+
+/* ── Footer ── */
+.footer{
+  background:var(--primary);color:var(--on-primary);
+  padding:var(--spacing-xxl) var(--spacing-xl);
+  font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0;
+}
+.footer-inner{max-width:1280px;margin:0 auto}
+.footer-top{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:var(--spacing-xxl);
+}
+.footer-logo svg{width:120px;height:auto}
+.footer-links{display:flex;gap:var(--spacing-section)}
+.footer-col{display:flex;flex-direction:column;gap:var(--spacing-sm)}
+.footer-col-title{
+  font-size:14px;font-weight:500;line-height:1.5;letter-spacing:0;
+  margin-bottom:var(--spacing-xs);opacity:0.85;
+}
+.footer-col a{
+  color:var(--on-primary);text-decoration:none;opacity:0.75;
+  transition:opacity 0.2s;
+}
+.footer-col a:hover{opacity:1}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,0.15);
+  padding-top:var(--spacing-lg);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;font-weight:500;line-height:1.5;letter-spacing:0;
+  opacity:0.7;
+}
+.footer-bottom-links{display:flex;gap:var(--spacing-lg)}
+
+/* ── Responsive ── */
+@media(max-width:1024px){
+  .nav-links{display:none}
+  .hero-inner{flex-direction:column;text-align:center;min-height:auto}
+  .hero-copy{flex:0 0 auto;margin-bottom:var(--spacing-xxl)}
+  .hero-body{margin:0 auto var(--spacing-xl)}
+  .hero-ctas{justify-content:center}
+  .hero-visual{justify-content:center}
+  .ps5-console{width:360px;height:260px}
+  .showcase-grid{grid-template-columns:repeat(3,1fr)}
+  .game-rail{grid-template-columns:repeat(3,1fr)}
+  .features-grid{grid-template-columns:repeat(2,1fr)}
+  .psplus-inner{flex-direction:column;text-align:center}
+  .psplus-tiers{flex-direction:column}
+  .display-xl{font-size:44px}.display-lg{font-size:35px}
+}
+@media(max-width:768px){
+  .band{padding:var(--spacing-section) var(--spacing-lg)}
+  .primary-nav{padding:0 var(--spacing-lg)}
+  .sub-nav{padding:0 var(--spacing-lg);overflow-x:auto}
+  .showcase-grid{grid-template-columns:repeat(2,1fr);overflow-x:auto}
+  .game-rail{grid-template-columns:repeat(2,1fr)}
+  .features-grid{grid-template-columns:1fr}
+  .footer-top{flex-direction:column;gap:var(--spacing-xl)}
+  .footer-links{flex-wrap:wrap;gap:var(--spacing-xl)}
+  .display-xl{font-size:35px}.display-lg{font-size:28px}.display-md{font-size:22px}
+  .ps5-console{width:280px;height:200px}
+}
+@media(max-width:480px){
+  .band{padding:var(--spacing-xxl) var(--spacing-md)}
+  .hero-headline{font-size:32px}
+  .hero-ctas{flex-direction:column;width:100%}
+  .hero-ctas .btn{width:100%}
+  .showcase-grid{grid-template-columns:repeat(2,1fr)}
+  .game-rail{grid-template-columns:1fr}
+  .psplus-tiers{flex-direction:column}
+}
+
+/* ── Animations ── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeIn 0.6s ease-out forwards}
+.animate-in-delay-1{animation-delay:0.15s}
+.animate-in-delay-2{animation-delay:0.3s}
+.animate-in-delay-3{animation-delay:0.45s}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ Primary Nav ═══════════════════════ -->
+<nav class="primary-nav">
+  <a href="#" class="nav-logo" aria-label="PlayStation">
+    <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="512" height="512" rx="64" fill="none"/>
+      <path d="M399.77 185.64c0 35.29-28.63 63.92-63.92 63.92s-63.92-28.63-63.92-63.92 28.63-63.92 63.92-63.92 63.92 28.63 63.92 63.92z" fill="#0070d1"/>
+      <path d="M335.85 399.77c-35.29 0-63.92-28.63-63.92-63.92s28.63-63.92 63.92-63.92 63.92 28.63 63.92 63.92-28.63 63.92-63.92 63.92z" fill="white"/>
+      <path d="M176.15 399.77c-35.29 0-63.92-28.63-63.92-63.92s28.63-63.92 63.92-63.92 63.92 28.63 63.92 63.92-28.63 63.92-63.92 63.92z" fill="white"/>
+      <path d="M112.23 185.64c0 35.29 28.63 63.92 63.92 63.92s63.92-28.63 63.92-63.92-28.63-63.92-63.92-63.92-63.92 28.63-63.92 63.92z" fill="#0070d1"/>
+      <line x1="240" y1="256" x2="272" y2="256" stroke="white" stroke-width="20" stroke-linecap="round"/>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Games</a></li>
+    <li><a href="#">PS5</a></li>
+    <li><a href="#">PS4</a></li>
+    <li><a href="#">PS VR2</a></li>
+    <li><a href="#">Subscriptions</a></li>
+    <li><a href="#">Hardware</a></li>
+    <li><a href="#">Store</a></li>
+    <li><a href="#">Support</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button aria-label="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    </button>
+    <button aria-label="Account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════ Sub Nav ═══════════════════════ -->
+<nav class="sub-nav">
+  <ul class="sub-nav-links">
+    <li><a href="#" class="active">PS5 Console</a></li>
+    <li><a href="#">PS5 Games</a></li>
+    <li><a href="#">PS VR2</a></li>
+    <li><a href="#">Accessories</a></li>
+    <li><a href="#">PS Plus</a></li>
+    <li><a href="#">News</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════ Hero Band (Dark) ═══════════════════════ -->
+<header class="band band-dark hero">
+  <div class="hero-inner">
+    <div class="hero-copy animate-in">
+      <p class="hero-eyebrow">PlayStation®5 Console</p>
+      <h1 class="hero-headline">Play Has<br>No Limits</h1>
+      <p class="hero-body">Experience lightning-fast loading with an ultra-high-speed SSD, deeper immersion with haptic feedback, adaptive triggers, and 3D Audio, and an all-new generation of incredible PlayStation games.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary">Learn more</a>
+        <a href="#" class="btn btn-commerce">Buy now</a>
+      </div>
+    </div>
+    <div class="hero-visual animate-in animate-in-delay-2">
+      <!-- PS5 Console SVG Illustration -->
+      <svg class="ps5-console" viewBox="0 0 520 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Console body - dark inner -->
+        <rect x="60" y="40" width="400" height="220" rx="20" fill="#121314" stroke="#3a3a3d" stroke-width="2"/>
+        <!-- Glossy white outer shell -->
+        <path d="M40 50 Q40 20 60 20 H460 Q480 20 480 50 V80 H40 Z" fill="white"/>
+        <path d="M40 240 V280 Q40 320 60 320 H90 V240 H40 Z" fill="white"/>
+        <path d="M430 240 V320 H460 Q480 320 480 280 V240 Z" fill="white"/>
+        <!-- Black center strip -->
+        <rect x="80" y="50" width="360" height="10" rx="3" fill="#1a1a1d"/>
+        <!-- Blue light strip -->
+        <rect x="120" y="54" width="120" height="3" rx="1.5" fill="#0070d1" opacity="0.9">
+          <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+        </rect>
+        <!-- USB/ports -->
+        <rect x="200" y="265" width="60" height="8" rx="4" fill="#3a3a3d"/>
+        <rect x="280" y="265" width="40" height="8" rx="4" fill="#3a3a3d"/>
+        <!-- PS Logo on console -->
+        <text x="260" y="200" text-anchor="middle" font-family="Inter,sans-serif" font-size="18" font-weight="700" fill="#3a3a3d" letter-spacing="2">PS5</text>
+        <!-- DualSense Controller -->
+        <g transform="translate(290,80)">
+          <path d="M0 0 Q-20 -15 -30 -10 Q-45 0 -45 15 Q-45 30 -30 35 Q-15 40 0 30 Q15 40 30 35 Q45 30 45 15 Q45 0 30 -10 Q20 -15 0 0Z" fill="#121314" stroke="#3a3a3d" stroke-width="2"/>
+          <!-- Touchpad -->
+          <rect x="-12" y="0" width="24" height="15" rx="4" fill="#1a1a1d" stroke="#3a3a3d" stroke-width="1"/>
+          <!-- D-pad -->
+          <circle cx="-28" cy="12" r="5" fill="#3a3a3d"/>
+          <!-- Face buttons -->
+          <circle cx="28" cy="12" r="5" fill="#3a3a3d"/>
+          <!-- Sticks -->
+          <circle cx="-18" cy="18" r="7" fill="#1a1a1d" stroke="#3a3a3d" stroke-width="1.5"/>
+          <circle cx="18" cy="18" r="7" fill="#1a1a1d" stroke="#3a3a3d" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════ Console Showcase (Light Band) ═══════════════════════ -->
+<section class="console-showcase">
+  <div class="band band-light">
+    <div class="section-header">
+      <h2 class="display-lg">Discover all PS5 consoles and accessories</h2>
+      <p class="body-md">Experience the new generation of PlayStation. Choose the console that fits your play style and expand your setup.</p>
+    </div>
+    <div class="showcase-grid">
+      <div class="showcase-item">
+        <div class="showcase-visual">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+            <rect x="10" y="25" width="100" height="70" rx="12" fill="#f3f3f3" stroke="#e0e0e0" stroke-width="1.5"/>
+            <rect x="10" y="20" width="100" height="8" rx="4" fill="white"/>
+            <rect x="45" y="40" width="30" height="4" rx="2" fill="#0070d1"/>
+            <rect x="45" y="60" width="30" height="20" rx="4" fill="#1a1a1d"/>
+          </svg>
+        </div>
+        <p style="font-size:16px;font-weight:500;letter-spacing:0;color:var(--ink)">PS5 Console</p>
+        <p style="font-size:14px;color:var(--mute-light)">Disc Edition</p>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-visual">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+            <rect x="10" y="30" width="100" height="60" rx="12" fill="#f3f3f3" stroke="#e0e0e0" stroke-width="1.5"/>
+            <rect x="10" y="24" width="100" height="6" rx="3" fill="white"/>
+            <rect x="50" y="42" width="20" height="3" rx="1.5" fill="#0070d1"/>
+            <rect x="50" y="55" width="20" height="12" rx="3" fill="#1a1a1d"/>
+          </svg>
+        </div>
+        <p style="font-size:16px;font-weight:500;letter-spacing:0;color:var(--ink)">PS5 Digital</p>
+        <p style="font-size:14px;color:var(--mute-light)">Digital Edition</p>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-visual">
+          <svg width="100" height="120" viewBox="0 0 100 120" fill="none">
+            <ellipse cx="50" cy="55" rx="40" ry="50" fill="#f3f3f3" stroke="#e0e0e0" stroke-width="1.5"/>
+            <rect x="30" y="15" width="40" height="20" rx="8" fill="white"/>
+            <circle cx="50" cy="45" r="6" fill="#0070d1" opacity="0.3"/>
+            <rect x="40" y="65" width="20" height="8" rx="4" fill="#1a1a1d"/>
+          </svg>
+        </div>
+        <p style="font-size:16px;font-weight:500;letter-spacing:0;color:var(--ink)">DualSense</p>
+        <p style="font-size:14px;color:var(--mute-light)">Wireless Controller</p>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-visual">
+          <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+            <rect x="15" y="10" width="70" height="80" rx="16" fill="#f3f3f3" stroke="#e0e0e0" stroke-width="1.5"/>
+            <circle cx="35" cy="40" r="14" fill="#121314" stroke="#3a3a3d" stroke-width="1"/>
+            <circle cx="65" cy="40" r="14" fill="#121314" stroke="#3a3a3d" stroke-width="1"/>
+            <rect x="35" y="60" width="30" height="6" rx="3" fill="#0070d1" opacity="0.15"/>
+          </svg>
+        </div>
+        <p style="font-size:16px;font-weight:500;letter-spacing:0;color:var(--ink)">PS VR2</p>
+        <p style="font-size:14px;color:var(--mute-light)">Next-gen VR</p>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-visual">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="35" fill="#f3f3f3" stroke="#e0e0e0" stroke-width="1.5"/>
+            <path d="M30 30 L50 40 L30 50Z" fill="#0070d1"/>
+          </svg>
+        </div>
+        <p style="font-size:16px;font-weight:500;letter-spacing:0;color:var(--ink)">Media Remote</p>
+        <p style="font-size:14px;color:var(--mute-light)">Entertainment control</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ Game Tiles Rail (Dark Band) ═══════════════════════ -->
+<section class="band band-dark">
+  <div class="section-header">
+    <h2 class="display-lg">Great PS4 &amp; PS5 games out now or coming soon</h2>
+    <p class="body-md" style="color:var(--body-dark)">From epic blockbusters to indie gems — there's always something incredible to play.</p>
+  </div>
+  <div class="game-rail">
+    <div class="game-tile">
+      <div class="game-tile-visual" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">
+        <svg width="100%" height="100%" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0">
+          <rect width="320" height="180" fill="url(#g1)"/>
+          <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a1a2e"/><stop offset="100%" stop-color="#0f3460"/></linearGradient></defs>
+          <circle cx="160" cy="80" r="30" fill="none" stroke="#e94560" stroke-width="2" opacity="0.6"/>
+          <circle cx="160" cy="80" r="15" fill="#e94560" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="game-tile-info">
+        <span class="badge">New Release</span>
+        <div class="game-tile-title" style="margin-top:8px">Marvel's Spider-Man 2</div>
+        <div class="game-tile-meta">PS5 · Action</div>
+      </div>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-visual" style="background:linear-gradient(135deg,#2d1b69,#1b4332);">
+        <svg width="100%" height="100%" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0">
+          <rect width="320" height="180" fill="#2d1b69"/>
+          <line x1="40" y1="140" x2="60" y2="140" stroke="#52b788" stroke-width="4" stroke-linecap="round"/>
+          <line x1="75" y1="130" x2="95" y2="130" stroke="#52b788" stroke-width="4" stroke-linecap="round"/>
+          <line x1="120" y1="150" x2="140" y2="150" stroke="#52b788" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="game-tile-info">
+        <span class="badge">Coming Soon</span>
+        <div class="game-tile-title" style="margin-top:8px">God of War Ragnarök</div>
+        <div class="game-tile-meta">PS5 · PS4</div>
+      </div>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-visual" style="background:linear-gradient(135deg,#0d1b2a,#1b263b);">
+        <svg width="100%" height="100%" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0">
+          <rect width="320" height="180" fill="#0d1b2a"/>
+          <circle cx="80" cy="50" r="40" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.5"/>
+          <circle cx="160" cy="90" r="25" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.4"/>
+          <circle cx="240" cy="70" r="30" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="game-tile-info">
+        <span class="badge">Best Seller</span>
+        <div class="game-tile-title" style="margin-top:8px">Elden Ring</div>
+        <div class="game-tile-meta">PS5 · PS4</div>
+      </div>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-visual" style="background:linear-gradient(135deg,#1a1a2e,#0f3460);">
+        <svg width="100%" height="100%" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0">
+          <rect width="320" height="180" fill="#1a1a2e"/>
+          <polygon points="160,30 280,160 40,160" fill="none" stroke="#00b4d8" stroke-width="1.5" opacity="0.5"/>
+          <polygon points="160,60 230,150 90,150" fill="none" stroke="#0077b6" stroke-width="1" opacity="0.4"/>
+          <rect x="135" y="110" width="50" height="8" rx="4" fill="#00b4d8" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="game-tile-info">
+        <span class="badge">Exclusive</span>
+        <div class="game-tile-title" style="margin-top:8px">Final Fantasy XVI</div>
+        <div class="game-tile-meta">PS5</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagination">
+    <button class="pagination-dot active" aria-label="Page 1"></button>
+    <button class="pagination-dot" aria-label="Page 2"></button>
+    <button class="pagination-dot" aria-label="Page 3"></button>
+    <button class="pagination-dot" aria-label="Page 4"></button>
+  </div>
+</section>
+
+<!-- ═══════════════════════ PS Plus Banner (Dark Band) ═══════════════════════ -->
+<section class="band band-dark">
+  <div class="psplus-wrapper">
+    <div class="psplus-banner">
+      <div class="psplus-inner">
+        <div class="psplus-icon">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <rect width="80" height="80" rx="16" fill="none"/>
+            <text x="40" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="36" font-weight="700" fill="url(#goldGrad)">+</text>
+            <defs><linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ffce21"/><stop offset="50%" stop-color="#f5a623"/><stop offset="100%" stop-color="#ee8e00"/>
+            </linearGradient></defs>
+          </svg>
+        </div>
+        <div class="psplus-content">
+          <h3 class="psplus-heading">Discover PlayStation Plus</h3>
+          <p class="psplus-body">Play hundreds of incredible games, explore new worlds, and connect with friends online. Choose a membership plan that's right for you.</p>
+          <div class="psplus-tiers">
+            <div class="tier-card">
+              <div class="tier-card-label">PREMIUM</div>
+              <div class="tier-card-name">PlayStation Plus Premium</div>
+              <div class="tier-card-price">$159.99 / year</div>
+            </div>
+            <div class="tier-card">
+              <div class="tier-card-label">EXTRA</div>
+              <div class="tier-card-name">PlayStation Plus Extra</div>
+              <div class="tier-card-price">$134.99 / year</div>
+            </div>
+            <div class="tier-card">
+              <div class="tier-card-label">ESSENTIAL</div>
+              <div class="tier-card-name">PlayStation Plus Essential</div>
+              <div class="tier-card-price">$79.99 / year</div>
+            </div>
+          </div>
+          <div style="margin-top:var(--spacing-xl)">
+            <a href="#" class="btn btn-primary">Choose a plan</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ Feature Cards (Light Band) ═══════════════════════ -->
+<section class="band band-light" id="features">
+  <div class="section-header">
+    <h2 class="display-lg">Everything you need to level up</h2>
+    <p class="body-md">Accessories, storage, and more to create the ultimate gaming setup.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" fill="none" stroke="var(--primary)" stroke-width="2" opacity="0.3"/>
+          <path d="M20 18 L28 24 L20 30Z" fill="var(--primary)" opacity="0.6"/>
+        </svg>
+      </div>
+      <h4 class="feature-card-title">Lightning Speed</h4>
+      <p class="feature-card-body">Harness the power of a custom CPU, GPU, and SSD with Integrated I/O that rewrite the rules of what a PlayStation console can do.</p>
+      <a href="#" class="feature-card-link">Learn more →</a>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" fill="none" stroke="var(--primary)" stroke-width="2" opacity="0.3"/>
+          <path d="M24 14 A10 10 0 0 1 34 24" fill="none" stroke="var(--primary)" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+          <path d="M24 14 A10 10 0 0 0 14 24" fill="none" stroke="var(--primary)" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+          <circle cx="24" cy="24" r="3" fill="var(--primary)" opacity="0.5"/>
+        </svg>
+      </div>
+      <h4 class="feature-card-title">Haptic Feedback</h4>
+      <p class="feature-card-body">Feel physically responsive feedback to your in-game actions with dual actuators that replace traditional rumble motors.</p>
+      <a href="#" class="feature-card-link">Learn more →</a>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" fill="none" stroke="var(--primary)" stroke-width="2" opacity="0.3"/>
+          <rect x="16" y="12" width="16" height="24" rx="3" fill="var(--primary)" opacity="0.15"/>
+          <rect x="20" y="16" width="8" height="4" rx="2" fill="var(--primary)" opacity="0.4"/>
+          <rect x="20" y="24" width="8" height="4" rx="2" fill="var(--primary)" opacity="0.3"/>
+          <rect x="20" y="28" width="5" height="4" rx="2" fill="var(--primary)" opacity="0.2"/>
+        </svg>
+      </div>
+      <h4 class="feature-card-title">3D Audio</h4>
+      <p class="feature-card-body">Immerse yourself in soundscapes where it feels as if the sound comes from every direction with Tempest 3D AudioTech.</p>
+      <a href="#" class="feature-card-link">Learn more →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ Anniversary Band (Dark Gradient) ═══════════════════════ -->
+<section class="band band-dark anniversary-band">
+  <div class="anniversary-inner">
+    <p class="anniversary-label">ON PLAYSTATION</p>
+    <h3 class="anniversary-heading">The biggest stories and trailers from the world of PlayStation</h3>
+    <p style="color:var(--body-dark);max-width:520px;margin:0 auto">Catch up on the latest announcements, developer interviews, and behind-the-scenes looks at your favorite games.</p>
+    <div class="anniversary-cta">
+      <a href="#" class="btn btn-secondary-dark">Visit PlayStation Blog</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ Final CTA (Blue Band) ═══════════════════════ -->
+<section class="band band-blue cta-band" id="cta">
+  <div class="cta-band-inner">
+    <h2 class="display-md">Ready to play?</h2>
+    <p class="body-dark">Join millions of players and enter a new world of gaming.</p>
+    <a href="#" class="btn btn-lg">Shop PlayStation</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════ Footer (Blue) ═══════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <svg width="130" height="40" viewBox="0 0 130 40" fill="white">
+          <text x="0" y="28" font-family="Inter,sans-serif" font-size="20" font-weight="700" letter-spacing="1">PlayStation</text>
+        </svg>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <span class="footer-col-title">About</span>
+          <a href="#">About SIE</a>
+          <a href="#">Careers</a>
+          <a href="#">PlayStation Studios</a>
+          <a href="#">Corporate</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">Products</span>
+          <a href="#">PS5</a>
+          <a href="#">PS4</a>
+          <a href="#">PS VR2</a>
+          <a href="#">Accessories</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">Values</span>
+          <a href="#">Environment</a>
+          <a href="#">Accessibility</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">Support</span>
+          <a href="#">Support Hub</a>
+          <a href="#">PSN Status</a>
+          <a href="#">Repairs</a>
+          <a href="#">Manuals</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">Connect</span>
+          <a href="#">YouTube</a>
+          <a href="#">Twitter / X</a>
+          <a href="#">Instagram</a>
+          <a href="#">Discord</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Sony Interactive Entertainment LLC</span>
+      <div class="footer-bottom-links">
+        <a href="#" style="color:inherit;text-decoration:none">Legal</a>
+        <a href="#" style="color:inherit;text-decoration:none">Privacy</a>
+        <a href="#" style="color:inherit;text-decoration:none">US - English</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Pagination dots interaction
+document.querySelectorAll('.pagination-dot').forEach(dot => {
+  dot.addEventListener('click',function(){
+    document.querySelectorAll('.pagination-dot').forEach(d => d.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Sub nav active state
+document.querySelectorAll('.sub-nav-links a').forEach(link => {
+  link.addEventListener('click',function(e){
+    e.preventDefault();
+    document.querySelectorAll('.sub-nav-links a').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

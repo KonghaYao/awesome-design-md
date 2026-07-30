@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supabase — Build in a weekend. Scale to millions.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RESET & BASE — DESIGN.md tokens
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #ffffff; /* canvas */
+  color: #171717; /* ink */
+  font-size: 16px; /* body-md */
+  font-weight: 400;
+  line-height: 1.5; /* body-md */
+  letter-spacing: 0;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ============================================================
+   TYPOGRAPHY — DESIGN.md tokens
+   ============================================================ */
+.display-xxl {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1.92px;
+}
+
+.display-xl {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1.44px;
+}
+
+.display-lg {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.72px;
+}
+
+.display-md {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.42px;
+}
+
+.heading-lg {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.heading-md {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.body-lg {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+.body-md {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.caption {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.micro {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.code {
+  font-family: ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* Color utilities */
+.text-mute { color: #707070; } /* ink-mute */
+.text-faint { color: #b2b2b2; } /* ink-faint */
+.text-accent { color: #3ecf8e; } /* primary */
+
+/* ============================================================
+   BUTTONS — DESIGN.md component tokens
+   ============================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3ecf8e; /* primary */
+  color: #171717; /* on-primary — near-black, NOT white */
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px; /* button-md */
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 8px 16px; /* button-primary-green */
+  border-radius: 6px; /* rounded.sm */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background-color: #24b47e; /* primary-deep */
+}
+
+.btn-primary:active {
+  background-color: #24b47e;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff; /* canvas */
+  color: #171717; /* ink */
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px; /* button-md */
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 8px 16px;
+  border-radius: 6px; /* rounded.sm */
+  border: 1px solid #c7c7c7; /* hairline-strong */
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  border-color: #171717;
+  background-color: #fafafa; /* canvas-soft */
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #1c1c1c;
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-dark:hover {
+  opacity: 0.9;
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: #171717; /* ink */
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.btn-link:hover {
+  color: #707070; /* ink-mute */
+}
+
+/* ============================================================
+   PILLS — DESIGN.md pill-tag tokens
+   ============================================================ */
+.pill-green {
+  display: inline-flex;
+  align-items: center;
+  background-color: #3ecf8e; /* primary */
+  color: #171717; /* on-primary */
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px; /* micro */
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  padding: 2px 8px; /* sm horizontal */
+  border-radius: 9999px; /* rounded.full */
+}
+
+.pill-soft {
+  display: inline-flex;
+  align-items: center;
+  background-color: #fafafa; /* canvas-soft */
+  color: #171717; /* ink */
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+/* ============================================================
+   NAVIGATION — DESIGN.md nav-bar-light
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff; /* canvas */
+  border-bottom: 1px solid #ededed; /* hairline-cool */
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px; /* nav-bar-light padding */
+  height: 56px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* spacing.sm */
+  font-size: 18px;
+  font-weight: 500;
+  color: #171717; /* ink */
+  letter-spacing: -0.36px;
+}
+
+.nav-logo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3ecf8e; /* primary — wordmark accent only */
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px; /* spacing.xxl */
+  list-style: none;
+}
+
+.nav-links a {
+  color: #707070; /* ink-mute */
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: #171717; /* ink */
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* spacing.md */
+}
+
+.nav-signin {
+  color: #171717; /* ink */
+  font-size: 14px;
+  font-weight: 400;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background-color 0.15s ease;
+}
+
+.nav-signin:hover {
+  background-color: #fafafa; /* canvas-soft */
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: #171717;
+  margin: 5px 0;
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* ============================================================
+   HERO — DESIGN.md display-xxl
+   ============================================================ */
+.hero {
+  background-color: #ffffff; /* canvas */
+  padding: 96px 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px; /* spacing.xl */
+}
+
+.hero-title {
+  max-width: 800px;
+  margin: 0 auto 20px;
+  color: #171717; /* ink */
+}
+
+.hero-title em {
+  font-style: normal;
+  color: #3ecf8e; /* primary — wordmark accent */
+}
+
+.hero-subtitle {
+  max-width: 640px;
+  margin: 0 auto 32px; /* spacing.xxl */
+  color: #707070; /* ink-mute */
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* spacing.md */
+  margin-bottom: 64px; /* spacing.huge */
+}
+
+/* Product UI Mockup — signature composited mockup */
+.hero-mockup {
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.mockup-window {
+  background-color: #1c1c1c; /* canvas-night */
+  border-radius: 12px; /* rounded.lg */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* Level 2 */
+  overflow: hidden;
+  border: 1px solid #dfdfdf; /* hairline */
+}
+
+.mockup-chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px; /* spacing.md, spacing.lg */
+  background-color: #202020; /* canvas-night-soft */
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.mockup-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.mockup-dot:nth-child(1) { background-color: #ff5f56; }
+.mockup-dot:nth-child(2) { background-color: #ffbd2e; }
+.mockup-dot:nth-child(3) { background-color: #27c93f; }
+
+.mockup-tab {
+  margin-left: 12px;
+  padding: 4px 12px;
+  background-color: rgba(255,255,255,0.06);
+  border-radius: 4px; /* rounded.xs */
+  font-size: 12px;
+  color: #ffffff; /* on-dark */
+  opacity: 0.7;
+}
+
+.mockup-body {
+  padding: 24px; /* spacing.xl */
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  min-height: 340px;
+}
+
+.mockup-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mockup-sidebar-item {
+  padding: 6px 10px;
+  border-radius: 4px; /* rounded.xs */
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  transition: background-color 0.15s ease;
+}
+
+.mockup-sidebar-item.active {
+  background-color: rgba(255,255,255,0.08);
+  color: #ffffff;
+}
+
+.mockup-sidebar-item .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #3ecf8e; /* primary — accent dot only */
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.mockup-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mockup-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mockup-cell {
+  background-color: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px; /* rounded.sm */
+  padding: 10px 12px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+}
+
+.mockup-cell.header {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 12px;
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.mockup-cell em {
+  font-style: normal;
+  color: #3ecf8e; /* primary */
+}
+
+.mockup-floating {
+  position: absolute;
+  bottom: -32px;
+  right: -40px;
+  background-color: #1c1c1c;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  padding: 16px; /* spacing.lg */
+  max-width: 360px;
+  border: 1px solid #dfdfdf;
+}
+
+.mockup-floating-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mockup-floating-code {
+  font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+}
+
+.mockup-floating-code .keyword { color: #3ecf8e; }
+
+/* ============================================================
+   LOGOS STRIP
+   ============================================================ */
+.logos-strip {
+  background-color: #ffffff;
+  padding: 32px 24px;
+  border-top: 1px solid #ededed; /* hairline-cool */
+  border-bottom: 1px solid #ededed;
+}
+
+.logos-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.logo-placeholder {
+  color: #b2b2b2; /* ink-faint */
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.logo-placeholder:hover { opacity: 0.9; }
+
+/* ============================================================
+   FEATURES — DESIGN.md card-feature-light
+   ============================================================ */
+.section-features {
+  background-color: #ffffff; /* canvas */
+  padding: 96px 24px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px; /* spacing.huge */
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px; /* spacing.lg */
+}
+
+.section-header .display-md {
+  color: #171717; /* ink */
+  margin-bottom: 12px; /* spacing.md */
+}
+
+.section-header .body-lg {
+  color: #707070; /* ink-mute */
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px; /* spacing.xl */
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background-color: #ffffff; /* canvas */
+  padding: 32px; /* spacing.xxl - card-feature-light */
+  border-radius: 12px; /* rounded.lg */
+  border: 1px solid #dfdfdf; /* hairline */
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06); /* Level 1 */
+  border-color: #c7c7c7; /* hairline-strong */
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px; /* rounded.md */
+  background-color: #fafafa; /* canvas-soft */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px; /* spacing.lg */
+  color: #3ecf8e; /* primary — accent only */
+}
+
+.feature-icon svg { width: 20px; height: 20px; }
+
+.feature-card .heading-md {
+  margin-bottom: 8px; /* spacing.sm */
+  color: #171717; /* ink */
+}
+
+.feature-card .body-md {
+  color: #707070; /* ink-mute */
+}
+
+.feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px; /* spacing.md */
+  color: #171717; /* ink */
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.feature-link:hover { color: #707070; }
+.feature-link svg { width: 14px; height: 14px; }
+
+/* ============================================================
+   CODE SHOWCASE — DESIGN.md code-block
+   ============================================================ */
+.section-code {
+  background-color: #fafafa; /* canvas-soft */
+  padding: 96px 24px;
+}
+
+.code-showcase {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px; /* spacing.huge reduced for layout */
+  align-items: center;
+}
+
+.code-intro .display-md {
+  color: #171717; /* ink */
+  margin-bottom: 16px; /* spacing.lg */
+}
+
+.code-intro .body-md {
+  color: #707070; /* ink-mute */
+  margin-bottom: 24px; /* spacing.xl */
+}
+
+.code-block {
+  background-color: #1c1c1c; /* canvas-night */
+  border-radius: 6px; /* rounded.sm */
+  padding: 16px; /* spacing.lg */
+  overflow-x: auto;
+  font-family: ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size: 14px; /* code */
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: #ffffff; /* on-dark */
+  position: relative;
+}
+
+.code-block .line {
+  display: flex;
+}
+
+.code-block .line-num {
+  color: rgba(255,255,255,0.25);
+  width: 24px;
+  flex-shrink: 0;
+  text-align: right;
+  margin-right: 16px;
+  user-select: none;
+}
+
+.code-block .kw { color: #3ecf8e; } /* primary */
+.code-block .str { color: #4ade80; } /* primary-soft */
+.code-block .fn { color: #ffdb13; } /* accent-yellow */
+.code-block .cmt { color: rgba(255,255,255,0.3); }
+
+/* ============================================================
+   DARK FEATURE CARD — DESIGN.md card-feature-dark
+   ============================================================ */
+.section-dark-feature {
+  background-color: #ffffff; /* canvas */
+  padding: 96px 24px;
+}
+
+.dark-card {
+  background-color: #1c1c1c; /* canvas-night */
+  border-radius: 12px; /* rounded.lg */
+  padding: 64px;
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+  color: #ffffff; /* on-dark */
+}
+
+.dark-card .display-md {
+  color: #ffffff;
+  margin-bottom: 16px; /* spacing.lg */
+}
+
+.dark-card .body-lg {
+  color: rgba(255,255,255,0.55);
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+.dark-card-stats {
+  display: flex;
+  justify-content: center;
+  gap: 64px; /* spacing.huge */
+  margin-bottom: 32px; /* spacing.xxl */
+}
+
+.dark-stat .display-lg {
+  color: #3ecf8e; /* primary */
+  margin-bottom: 4px;
+}
+
+.dark-stat .caption {
+  color: rgba(255,255,255,0.45);
+}
+
+/* ============================================================
+   PRICING — DESIGN.md card-pricing / card-pricing-featured
+   ============================================================ */
+.section-pricing {
+  background-color: #fafafa; /* canvas-soft */
+  padding: 96px 24px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px; /* spacing.xl */
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.pricing-card {
+  background-color: #ffffff; /* canvas */
+  padding: 32px; /* spacing.xxl - card-pricing */
+  border-radius: 12px; /* rounded.lg */
+  border: 1px solid #dfdfdf; /* hairline */
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.pricing-card:hover {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06); /* Level 1 */
+  border-color: #c7c7c7; /* hairline-strong */
+}
+
+.pricing-card.featured {
+  background-color: #1c1c1c; /* canvas-night - card-pricing-featured */
+  color: #ffffff; /* on-dark */
+  border-color: #1c1c1c;
+}
+
+.pricing-card.featured:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* Level 2 */
+}
+
+.pricing-tier {
+  font-size: 14px;
+  font-weight: 500;
+  color: inherit;
+  margin-bottom: 4px;
+}
+
+.pricing-card:not(.featured) .pricing-tier {
+  color: #707070; /* ink-mute */
+}
+
+.pricing-name {
+  font-size: 22px; /* heading-lg */
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  margin-bottom: 16px; /* spacing.lg */
+  color: inherit;
+}
+
+.pricing-price {
+  margin-bottom: 4px;
+}
+
+.pricing-price .amount {
+  font-size: 28px; /* display-md */
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.42px;
+  color: inherit;
+}
+
+.pricing-price .period {
+  font-size: 16px;
+  color: #707070; /* ink-mute */
+}
+
+.pricing-card.featured .period {
+  color: rgba(255,255,255,0.5);
+}
+
+.pricing-desc {
+  font-size: 14px;
+  color: #707070; /* ink-mute */
+  margin-bottom: 24px; /* spacing.xl */
+}
+
+.pricing-card.featured .pricing-desc {
+  color: rgba(255,255,255,0.5);
+}
+
+.pricing-features {
+  list-style: none;
+  flex: 1;
+  margin-bottom: 24px; /* spacing.xl */
+}
+
+.pricing-features li {
+  font-size: 14px;
+  padding: 6px 0;
+  color: #171717; /* ink */
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pricing-card.featured .pricing-features li {
+  color: rgba(255,255,255,0.85);
+}
+
+.pricing-features li::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'%3E%3Ccircle cx='7' cy='7' r='7' fill='%233ecf8e'/%3E%3Cpath d='M4.5 7.5L6 9l3.5-4' stroke='%23171717' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
+.pricing-card.featured .pricing-features li::before {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'%3E%3Ccircle cx='7' cy='7' r='7' fill='%233ecf8e'/%3E%3Cpath d='M4.5 7.5L6 9l3.5-4' stroke='%23171717' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
+.pricing-card .btn-primary,
+.pricing-card .btn-secondary {
+  width: 100%;
+}
+
+.pricing-card.featured .btn-primary {
+  background-color: #ffffff;
+  color: #1c1c1c;
+}
+
+.pricing-card.featured .btn-primary:hover {
+  opacity: 0.9;
+  background-color: #ffffff;
+}
+
+/* ============================================================
+   CTA BANNER
+   ============================================================ */
+.section-cta {
+  background-color: #ffffff; /* canvas */
+  padding: 96px 24px;
+  text-align: center;
+}
+
+.cta-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.cta-inner .display-md {
+  color: #171717; /* ink */
+  margin-bottom: 12px; /* spacing.md */
+}
+
+.cta-inner .body-lg {
+  color: #707070; /* ink-mute */
+  margin-bottom: 32px; /* spacing.xxl */
+}
+
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* spacing.md */
+}
+
+/* ============================================================
+   FOOTER — DESIGN.md footer-light
+   ============================================================ */
+.footer {
+  background-color: #ffffff; /* canvas */
+  border-top: 1px solid #ededed; /* hairline-cool */
+  padding: 64px 24px; /* padding: 64px 24px — footer-light */
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 48px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px; /* spacing.md */
+  font-size: 16px;
+  font-weight: 500;
+  color: #171717;
+}
+
+.footer-brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3ecf8e;
+  flex-shrink: 0;
+}
+
+.footer-desc {
+  color: #707070; /* ink-mute */
+  font-size: 13px; /* caption */
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  margin-bottom: 16px; /* spacing.lg */
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px; /* spacing.md */
+}
+
+.footer-social a {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px; /* rounded.md */
+  background-color: #fafafa; /* canvas-soft */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #707070; /* ink-mute */
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.footer-social a:hover {
+  background-color: #ededed; /* hairline-cool */
+  color: #171717; /* ink */
+}
+
+.footer-col-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #171717; /* ink */
+  margin-bottom: 12px; /* spacing.md */
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li {
+  margin-bottom: 8px; /* spacing.sm */
+}
+
+.footer-col ul li a {
+  color: #707070; /* ink-mute */
+  font-size: 13px; /* caption */
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  transition: color 0.15s ease;
+}
+
+.footer-col ul li a:hover {
+  color: #171717; /* ink */
+}
+
+.footer-bottom {
+  max-width: 1280px;
+  margin: 48px auto 0;
+  padding-top: 24px; /* spacing.xl */
+  border-top: 1px solid #ededed; /* hairline-cool */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: #707070; /* ink-mute */
+  font-size: 13px; /* caption */
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+/* ============================================================
+   RESPONSIVE — DESIGN.md breakpoints
+   ============================================================ */
+
+/* Tablet: 768–1023px */
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+
+  .hero { padding: 64px 24px 48px; }
+  .display-xxl { font-size: 48px; letter-spacing: -1.44px; } /* display-xl */
+  .hero-subtitle { font-size: 16px; }
+
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); } /* 2-up */
+
+  .code-showcase { grid-template-columns: 1fr; gap: 32px; }
+  .code-intro { text-align: center; }
+
+  .dark-card { padding: 48px 32px; }
+  .dark-card-stats { gap: 32px; }
+
+  .mockup-body { grid-template-columns: 1fr; }
+  .mockup-sidebar { display: none; }
+  .mockup-floating { display: none; }
+
+  .footer-inner { grid-template-columns: 1fr 1fr 1fr; }
+  .footer-brand-col { grid-column: 1 / -1; }
+}
+
+/* Mobile: < 768px */
+@media (max-width: 767px) {
+  .display-xxl { font-size: 36px; letter-spacing: -0.72px; } /* display-lg */
+  .display-xl { font-size: 28px; letter-spacing: -0.42px; } /* display-md */
+  .display-md { font-size: 22px; letter-spacing: 0; }
+
+  .hero { padding: 48px 16px 40px; }
+  .hero-actions { flex-direction: column; width: 100%; }
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary { width: 100%; }
+
+  .section-features,
+  .section-code,
+  .section-dark-feature,
+  .section-pricing,
+  .section-cta { padding: 64px 16px; }
+
+  .features-grid { grid-template-columns: 1fr; }
+
+  .pricing-grid { grid-template-columns: 1fr; } /* 1-up */
+  .pricing-card.featured { order: -1; }
+
+  .dark-card { padding: 32px 24px; }
+  .dark-card-stats { flex-direction: column; gap: 24px; align-items: center; }
+
+  .cta-actions { flex-direction: column; width: 100%; }
+  .cta-actions .btn-primary,
+  .cta-actions .btn-secondary { width: 100%; }
+
+  .mockup-row { grid-template-columns: repeat(2, 1fr); }
+  .mockup-cell:nth-child(3) { display: none; }
+  .mockup-cell.header:nth-child(3) { display: none; }
+
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+/* Wide: ≥ 1440px */
+@media (min-width: 1440px) {
+  .hero-mockup { max-width: 1100px; }
+  .mockup-body { min-height: 400px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION — nav-bar-light
+     ============================================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-dot"></span>
+      Supabase
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Product</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#docs">Docs</a></li>
+      <li><a href="#blog">Blog</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="nav-signin">Sign in</a>
+      <button class="btn-primary">Start your project</button>
+    </div>
+    <button class="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero" id="home">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="pill-green">New</span>
+      <span class="body-md" style="color:#707070">Supabase Branching is now available</span>
+    </div>
+    <h1 class="hero-title display-xxl">
+      Build in a weekend.<br>Scale to <em>millions</em>.
+    </h1>
+    <p class="hero-subtitle body-lg">
+      Supabase is an open source Firebase alternative. Start your project with a Postgres database, Authentication, instant APIs, Edge Functions, Realtime subscriptions, Storage, and Vector embeddings.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary">Start your project</button>
+      <button class="btn-secondary">Documentation</button>
+    </div>
+
+    <!-- Product UI Mockup — signature composited mockup -->
+    <div class="hero-mockup">
+      <div class="mockup-window">
+        <div class="mockup-chrome">
+          <span class="mockup-dot"></span>
+          <span class="mockup-dot"></span>
+          <span class="mockup-dot"></span>
+          <span class="mockup-tab">Table Editor — projects</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="mockup-sidebar-item"><span class="dot"></span>Table Editor</div>
+            <div class="mockup-sidebar-item" style="padding-left:22px">users</div>
+            <div class="mockup-sidebar-item active" style="padding-left:22px">projects</div>
+            <div class="mockup-sidebar-item" style="padding-left:22px">todos</div>
+            <div class="mockup-sidebar-item">SQL Editor</div>
+            <div class="mockup-sidebar-item">Authentication</div>
+            <div class="mockup-sidebar-item">Storage</div>
+            <div class="mockup-sidebar-item">Edge Functions</div>
+          </div>
+          <div class="mockup-main">
+            <div class="mockup-row">
+              <span class="mockup-cell header">id</span>
+              <span class="mockup-cell header">name</span>
+              <span class="mockup-cell header">status</span>
+            </div>
+            <div class="mockup-row">
+              <span class="mockup-cell">1</span>
+              <span class="mockup-cell">supabase-labs</span>
+              <span class="mockup-cell"><em>●</em> active</span>
+            </div>
+            <div class="mockup-row">
+              <span class="mockup-cell">2</span>
+              <span class="mockup-cell">realtime-chat</span>
+              <span class="mockup-cell"><em>●</em> active</span>
+            </div>
+            <div class="mockup-row">
+              <span class="mockup-cell">3</span>
+              <span class="mockup-cell">vector-search</span>
+              <span class="mockup-cell" style="color:rgba(255,255,255,0.3)">paused</span>
+            </div>
+            <div class="mockup-row">
+              <span class="mockup-cell">4</span>
+              <span class="mockup-cell">edge-functions</span>
+              <span class="mockup-cell"><em>●</em> active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-floating">
+        <div class="mockup-floating-label">SQL Editor</div>
+        <div class="mockup-floating-code">
+          <span class="keyword">SELECT</span> *<br>
+          <span class="keyword">FROM</span> projects<br>
+          <span class="keyword">WHERE</span> status = <span style="color:#4ade80">'active'</span>;<br>
+          <span style="color:rgba(255,255,255,0.3)">— 3 rows returned in 2ms</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     LOGOS STRIP
+     ============================================================ -->
+<section class="logos-strip">
+  <div class="logos-inner">
+    <span class="logo-placeholder">Mozilla</span>
+    <span class="logo-placeholder">PwC</span>
+    <span class="logo-placeholder">1Password</span>
+    <span class="logo-placeholder">Berkshire Hathaway</span>
+    <span class="logo-placeholder">Nvidia</span>
+    <span class="logo-placeholder">Netflix</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES — card-feature-light
+     ============================================================ -->
+<section class="section-features" id="features">
+  <div class="container" style="max-width:1280px;margin:0 auto;">
+    <div class="section-header">
+      <div class="section-label">
+        <span class="pill-green">Features</span>
+      </div>
+      <h2 class="display-md">Everything you need to build</h2>
+      <p class="body-lg">Supabase provides a full Postgres database for every project with realtime subscriptions, authentication, and instant APIs.</p>
+    </div>
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="11" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="2" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="11" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="heading-md">Database</h3>
+        <p class="body-md">Every project is a full Postgres database, the world's most trusted relational database.</p>
+        <a href="#" class="feature-link">
+          Learn more
+          <svg viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M3 17c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="heading-md">Authentication</h3>
+        <p class="body-md">Add user sign-ups and logins, securing your data with Row Level Security.</p>
+        <a href="#" class="feature-link">
+          Learn more
+          <svg viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 5h16M2 10h12M2 15h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="16" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M15.5 10l.5.5 1-1" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="heading-md">Edge Functions</h3>
+        <p class="body-md">Write custom code without deploying or scaling servers. Globally distributed TypeScript functions.</p>
+        <a href="#" class="feature-link">
+          Learn more
+          <svg viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="14" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M2 14l3-2.5L8 14l3-3 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="heading-md">Realtime</h3>
+        <p class="body-md">Listen to database changes, send and receive messages, and subscribe to presence updates.</p>
+        <a href="#" class="feature-link">
+          Learn more
+          <svg viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M6 8h8M6 12h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="heading-md">Storage</h3>
+        <p class="body-md">Store, organize, and serve any type of digital content — from images to videos.</p>
+        <a href="#" class="feature-link">
+          Learn more
+          <svg viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="14" cy="13" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="9" y1="9" x2="12.5" y2="11.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="heading-md">Vector</h3>
+        <p class="body-md">Integrate your OpenAI embeddings and Hugging Face models into your AI workflow with pgvector.</p>
+        <a href="#" class="feature-link">
+          Learn more
+          <svg viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CODE SHOWCASE — code-block
+     ============================================================ -->
+<section class="section-code" id="docs">
+  <div class="container" style="max-width:1280px;margin:0 auto;">
+    <div class="code-showcase">
+      <div class="code-intro">
+        <h2 class="display-md">Built for developers</h2>
+        <p class="body-md">
+          Every Supabase project is a dedicated Postgres database. Use our client libraries or write raw SQL — we don't lock you in.
+        </p>
+        <button class="btn-secondary">Read the docs</button>
+      </div>
+      <div class="code-block">
+        <div class="line"><span class="line-num">1</span><span class="cmt">// Initialize the Supabase client</span></div>
+        <div class="line"><span class="line-num">2</span><span class="kw">import</span> { createClient } <span class="kw">from</span> <span class="str">'@supabase/supabase-js'</span></div>
+        <div class="line"><span class="line-num">3</span></div>
+        <div class="line"><span class="line-num">4</span><span class="kw">const</span> supabase = <span class="fn">createClient</span>(</div>
+        <div class="line"><span class="line-num">5</span>  <span class="str">'https://xyzcompany.supabase.co'</span>,</div>
+        <div class="line"><span class="line-num">6</span>  <span class="str">'public-anon-key'</span></div>
+        <div class="line"><span class="line-num">7</span>)</div>
+        <div class="line"><span class="line-num">8</span></div>
+        <div class="line"><span class="line-num">9</span><span class="cmt">// Query 1M+ rows in milliseconds</span></div>
+        <div class="line"><span class="line-num">10</span><span class="kw">const</span> { data, error } = <span class="kw">await</span> supabase</div>
+        <div class="line"><span class="line-num">11</span>  .<span class="fn">from</span>(<span class="str">'posts'</span>)</div>
+        <div class="line"><span class="line-num">12</span>  .<span class="fn">select</span>(<span class="str">'title, author(name)'</span>)</div>
+        <div class="line"><span class="line-num">13</span>  .<span class="fn">order</span>(<span class="str">'created_at'</span>, { ascending: <span class="kw">false</span> })</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DARK FEATURE CARD — card-feature-dark
+     ============================================================ -->
+<section class="section-dark-feature">
+  <div class="container" style="max-width:1280px;margin:0 auto;">
+    <div class="dark-card">
+      <h2 class="display-md">Trusted by developers worldwide</h2>
+      <p class="body-lg">
+        From indie hackers to Fortune 500 companies, Supabase powers production applications at every scale.
+      </p>
+      <div class="dark-card-stats">
+        <div class="dark-stat">
+          <div class="display-lg">1M+</div>
+          <div class="caption">Databases launched</div>
+        </div>
+        <div class="dark-stat">
+          <div class="display-lg">99.9%</div>
+          <div class="caption">Uptime SLA</div>
+        </div>
+        <div class="dark-stat">
+          <div class="display-lg">190+</div>
+          <div class="caption">Countries</div>
+        </div>
+      </div>
+      <button class="btn-dark">Explore case studies</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING — card-pricing / card-pricing-featured
+     ============================================================ -->
+<section class="section-pricing" id="pricing">
+  <div class="container" style="max-width:1280px;margin:0 auto;">
+    <div class="section-header">
+      <div class="section-label">
+        <span class="pill-soft">Pricing</span>
+      </div>
+      <h2 class="display-md">Start building for free</h2>
+      <p class="body-lg">No credit card required. Upgrade when you need to scale.</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- Free tier -->
+      <div class="pricing-card">
+        <div class="pricing-tier">Free</div>
+        <div class="pricing-name">Hobby</div>
+        <div class="pricing-price">
+          <span class="amount">$0</span>
+          <span class="period">/month</span>
+        </div>
+        <p class="pricing-desc">Perfect for passion projects &amp; simple sites.</p>
+        <ul class="pricing-features">
+          <li>Up to 2 free projects</li>
+          <li>500&nbsp;MB database</li>
+          <li>1&nbsp;GB bandwidth</li>
+          <li>Community support</li>
+          <li>50&nbsp;MB file storage</li>
+        </ul>
+        <button class="btn-secondary">Start for free</button>
+      </div>
+
+      <!-- Pro tier — FEATURED -->
+      <div class="pricing-card featured">
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-name">Team</div>
+        <div class="pricing-price">
+          <span class="amount">$25</span>
+          <span class="period">/month</span>
+        </div>
+        <p class="pricing-desc">For scaling applications and teams.</p>
+        <ul class="pricing-features">
+          <li>Unlimited projects</li>
+          <li>8&nbsp;GB database</li>
+          <li>50&nbsp;GB bandwidth</li>
+          <li>Email support</li>
+          <li>100&nbsp;GB file storage</li>
+          <li>Daily backups</li>
+          <li>7-day log retention</li>
+        </ul>
+        <button class="btn-primary">Get started</button>
+      </div>
+
+      <!-- Enterprise tier -->
+      <div class="pricing-card">
+        <div class="pricing-tier">Enterprise</div>
+        <div class="pricing-name">Scale</div>
+        <div class="pricing-price">
+          <span class="amount">$599</span>
+          <span class="period">/month</span>
+        </div>
+        <p class="pricing-desc">For large-scale production applications.</p>
+        <ul class="pricing-features">
+          <li>Unlimited projects</li>
+          <li>Custom database size</li>
+          <li>Custom bandwidth</li>
+          <li>Priority support</li>
+          <li>Unlimited file storage</li>
+          <li>Point-in-time recovery</li>
+          <li>28-day log retention</li>
+        </ul>
+        <button class="btn-secondary">Contact sales</button>
+      </div>
+
+      <!-- Custom tier -->
+      <div class="pricing-card">
+        <div class="pricing-tier">Custom</div>
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-price">
+          <span class="amount">Custom</span>
+        </div>
+        <p class="pricing-desc">Dedicated infrastructure for enterprise organizations.</p>
+        <ul class="pricing-features">
+          <li>Dedicated infrastructure</li>
+          <li>SOC2 Type II</li>
+          <li>SSO / SAML</li>
+          <li>24×7×365 support</li>
+          <li>Custom contracts</li>
+          <li>On-premises available</li>
+        </ul>
+        <button class="btn-secondary">Contact us</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BANNER
+     ============================================================ -->
+<section class="section-cta" id="cta">
+  <div class="cta-inner">
+    <h2 class="display-md">Build in a weekend.<br>Scale to millions.</h2>
+    <p class="body-lg">
+      Join thousands of developers building with Supabase. Ship faster with an open source backend that grows with you.
+    </p>
+    <div class="cta-actions">
+      <button class="btn-primary">Start your project</button>
+      <button class="btn-secondary">Talk to sales</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER — footer-light
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <div class="footer-brand">
+        <span class="footer-brand-dot"></span>
+        Supabase
+      </div>
+      <p class="footer-desc">
+        The open source Firebase alternative.<br>
+        Powered by Postgres.
+      </p>
+      <div class="footer-social">
+        <a href="#" aria-label="GitHub">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Twitter">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Discord">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M13.545 2.907a13.2 13.2 0 00-3.257-1.011.05.05 0 00-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 00-3.658 0 8 8 0 00-.412-.833.05.05 0 00-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 00-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.3 13.3 0 004.015 2.03.05.05 0 00.053-.018 10 10 0 00.853-1.33.05.05 0 00-.019-.062 9.7 9.7 0 01-1.303-.62.05.05 0 01-.005-.084c.087-.065.174-.132.257-.2a.05.05 0 01.052-.008c2.734 1.253 5.694 1.253 8.39 0a.05.05 0 01.052.008c.083.068.17.135.258.2a.05.05 0 01-.005.083 9 9 0 01-1.303.62.05.05 0 00-.02.061c.342.48.63.935.854 1.331a.05.05 0 00.053.018 13.2 13.2 0 004.016-2.03.04.04 0 00.021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 00-.02-.02zM5.35 10.207c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612zm5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.63 1.612-1.438 1.612z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8.05 2.5c.6 0 2.73.02 3.98.11l.31.02c.88.08 1.76.24 2.56.56.5.22.92.56 1.22 1 .32.47.5 1.06.5 1.77v.43c.05.73.08 1.64.08 2.43v.36c0 .8-.03 1.7-.08 2.43v.43c0 .71-.18 1.3-.5 1.77-.3.44-.72.78-1.22 1-.8.32-1.68.48-2.56.56l-.31.02c-1.25.09-3.38.11-3.98.11-.6 0-2.73-.02-3.98-.11l-.31-.02a7.14 7.14 0 01-2.56-.56c-.5-.22-.92-.56-1.22-1-.32-.47-.5-1.06-.5-1.77v-.43c-.05-.73-.08-1.63-.08-2.43v-.36c0-.8.03-1.7.08-2.43v-.43c0-.71.18-1.3.5-1.77.3-.44.72-.78 1.22-1 .8-.32 1.68-.48 2.56-.56l.31-.02c1.25-.09 3.38-.11 3.98-.11zM6.5 5.5v5l4.5-2.5-4.5-2.5z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Product</div>
+      <ul>
+        <li><a href="#">Database</a></li>
+        <li><a href="#">Auth</a></li>
+        <li><a href="#">Storage</a></li>
+        <li><a href="#">Edge Functions</a></li>
+        <li><a href="#">Realtime</a></li>
+        <li><a href="#">Vector</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Resources</div>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Guides</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Company</div>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Open Source</a></li>
+        <li><a href="#">Partners</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Legal</div>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">SLA</a></li>
+        <li><a href="#">DPA</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 Supabase, Inc.</span>
+    <span>Powered by Postgres. Built with love.</span>
+  </div>
+</footer>
+
+</body>
+</html>

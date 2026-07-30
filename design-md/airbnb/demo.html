@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airbnb — Vacation Rentals, Cabins, Beach Houses, Unique Homes & Experiences</title>
+  <style>
+    /* ================================================================
+       Airbnb Design System — Demo Page
+       Tokens sourced from DESIGN.md
+       ================================================================ */
+
+    /* --- RESET ------------------------------------------------------ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Colors */
+      --color-primary: #ff385c;
+      --color-primary-active: #e00b41;
+      --color-primary-disabled: #ffd1da;
+      --color-primary-error-text: #c13515;
+      --color-primary-error-text-hover: #b32505;
+      --color-luxe: #460479;
+      --color-plus: #92174d;
+      --color-ink: #222222;
+      --color-body: #3f3f3f;
+      --color-muted: #6a6a6a;
+      --color-muted-soft: #929292;
+      --color-hairline: #dddddd;
+      --color-hairline-soft: #ebebeb;
+      --color-border-strong: #c1c1c1;
+      --color-canvas: #ffffff;
+      --color-surface-soft: #f7f7f7;
+      --color-surface-card: #ffffff;
+      --color-surface-strong: #f2f2f2;
+      --color-on-primary: #ffffff;
+      --color-on-dark: #ffffff;
+      --color-legal-link: #428bff;
+      --color-star-rating: #222222;
+      --color-scrim: #000000;
+
+      /* Typography */
+      --font-stack: 'Airbnb Cereal VF', 'Circular', -apple-system, system-ui, Roboto, 'Helvetica Neue', sans-serif;
+
+      /* Rounded */
+      --rounded-none: 0px;
+      --rounded-xs: 4px;
+      --rounded-sm: 8px;
+      --rounded-md: 14px;
+      --rounded-lg: 20px;
+      --rounded-xl: 32px;
+      --rounded-full: 9999px;
+
+      /* Spacing */
+      --space-xxs: 2px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-xxl: 48px;
+      --space-section: 64px;
+
+      /* Elevation — single shadow tier */
+      --shadow-card: rgba(0,0,0,0.02) 0 0 0 1px, rgba(0,0,0,0.04) 0 2px 6px, rgba(0,0,0,0.1) 0 4px 8px;
+    }
+
+    body {
+      font-family: var(--font-stack);
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ================================================================
+       TOP NAVIGATION — 80px height, white, bottom hairline
+       ================================================================ */
+    .top-nav {
+      background-color: var(--color-canvas);
+      border-bottom: 1px solid var(--color-hairline);
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-lg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .nav-brand svg {
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+    }
+
+    .nav-brand-text {
+      font-family: var(--font-stack);
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-primary);
+    }
+
+    .nav-product-tabs {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xl);
+    }
+
+    .nav-product-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-xs);
+      position: relative;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      font-family: var(--font-stack);
+      color: var(--color-muted);
+    }
+
+    .nav-product-tab--active {
+      color: var(--color-ink);
+    }
+
+    .nav-product-tab--active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% + 8px);
+      height: 2px;
+      background-color: var(--color-ink);
+      border-radius: var(--rounded-full);
+    }
+
+    .nav-product-tab-label {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    /* Icon placeholder for product tabs — hand-illustrated 32px */
+    .nav-product-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .new-tag {
+      position: absolute;
+      top: -6px;
+      right: -18px;
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      font-family: var(--font-stack);
+      font-size: 8px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: 0.32px;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: var(--rounded-full);
+      border: 1px solid var(--color-hairline);
+      white-space: nowrap;
+    }
+
+    .nav-utilities {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .nav-utility-link {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.29;
+      letter-spacing: 0;
+      color: var(--color-ink);
+      padding: var(--space-md);
+      border-radius: var(--rounded-full);
+      transition: background-color 0.2s ease;
+    }
+
+    .nav-utility-link:hover {
+      background-color: var(--color-surface-soft);
+    }
+
+    /* Globe icon button */
+    .icon-button-circle {
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      border-radius: var(--rounded-full);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .icon-button-circle:hover {
+      background-color: var(--color-surface-soft);
+    }
+
+    /* Account menu */
+    .account-menu {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background-color: var(--color-canvas);
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-md);
+      cursor: pointer;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .account-menu:hover {
+      box-shadow: var(--shadow-card);
+    }
+
+    .account-menu svg { width: 16px; height: 16px; }
+
+    .account-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--rounded-full);
+      background-color: var(--color-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-on-dark);
+    }
+
+    .account-avatar svg { width: 18px; height: 18px; }
+
+    /* ================================================================
+       HERO + SEARCH
+       ================================================================ */
+    .hero-section {
+      background-color: var(--color-canvas);
+      padding: var(--space-lg) var(--space-lg) var(--space-section);
+    }
+
+    .search-bar-pill {
+      background-color: var(--color-canvas);
+      border-radius: var(--rounded-full);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      box-shadow: var(--shadow-card);
+      max-width: 850px;
+      margin: 0 auto var(--space-lg);
+      overflow: hidden;
+    }
+
+    .search-field-segment {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 8px 24px;
+      cursor: pointer;
+      text-align: left;
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .search-field-segment + .search-field-segment {
+      border-left: 1px solid var(--color-hairline);
+    }
+
+    .search-field-label {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.29;
+      letter-spacing: 0;
+      color: var(--color-ink);
+    }
+
+    .search-field-placeholder {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-muted);
+    }
+
+    .search-orb {
+      background-color: var(--color-primary);
+      color: var(--color-on-primary);
+      border-radius: var(--rounded-full);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      margin-right: var(--space-sm);
+      flex-shrink: 0;
+      transition: background-color 0.15s ease;
+    }
+
+    .search-orb:hover {
+      background-color: var(--color-primary-active);
+    }
+
+    .search-orb svg { width: 18px; height: 18px; }
+
+    /* Category strip */
+    .category-strip {
+      background-color: var(--color-canvas);
+      display: flex;
+      align-items: center;
+      gap: var(--space-xl);
+      padding: var(--space-base) 0;
+      overflow-x: auto;
+      justify-content: center;
+      max-width: 1280px;
+      margin: 0 auto;
+      scrollbar-width: none;
+    }
+
+    .category-strip::-webkit-scrollbar { display: none; }
+
+    .category-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--color-muted);
+      flex-shrink: 0;
+      min-width: 56px;
+      padding: var(--space-xs) 0;
+      transition: color 0.15s ease, opacity 0.15s ease;
+      opacity: 0.7;
+    }
+
+    .category-tab:hover {
+      color: var(--color-ink);
+      opacity: 1;
+    }
+
+    .category-tab--active {
+      color: var(--color-ink);
+      opacity: 1;
+    }
+
+    .category-tab--active::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-ink);
+      border-radius: var(--rounded-full);
+      margin-top: calc(0px - var(--space-sm));
+    }
+
+    .category-tab-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .category-tab-label {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.29;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    /* ================================================================
+       HERO HEADLINE
+       ================================================================ */
+    .hero-headline-section {
+      text-align: center;
+      padding: var(--space-xxl) var(--space-lg) var(--space-section);
+      background-color: var(--color-canvas);
+    }
+
+    .hero-headline {
+      font-family: var(--font-stack);
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-ink);
+      margin-bottom: var(--space-base);
+    }
+
+    .hero-subheadline {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: 0;
+      color: var(--color-body);
+      margin-bottom: var(--space-xl);
+    }
+
+    /* ================================================================
+       PROPERTY CARDS GRID
+       ================================================================ */
+    .features-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg) var(--space-section);
+    }
+
+    .section-heading {
+      font-family: var(--font-stack);
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.18;
+      letter-spacing: -0.44px;
+      color: var(--color-ink);
+      margin-bottom: var(--space-lg);
+    }
+
+    .property-card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-base);
+    }
+
+    .property-card {
+      background-color: var(--color-surface-card);
+      border-radius: var(--rounded-md);
+      cursor: pointer;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .property-card:hover {
+      box-shadow: var(--shadow-card);
+    }
+
+    .property-card-photo {
+      position: relative;
+      border-radius: var(--rounded-md);
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      background-color: var(--color-surface-soft);
+      margin-bottom: var(--space-md);
+    }
+
+    .property-card-photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--color-surface-soft) 0%, var(--color-surface-strong) 100%);
+    }
+
+    .property-card-photo-placeholder svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.3;
+    }
+
+    /* Photo carousel dots */
+    .photo-dots {
+      position: absolute;
+      bottom: var(--space-sm);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: var(--space-xs);
+      z-index: 2;
+    }
+
+    .photo-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--rounded-full);
+      background-color: rgba(255,255,255,0.5);
+    }
+
+    .photo-dot--active {
+      background-color: var(--color-on-primary);
+      width: 8px;
+      height: 8px;
+    }
+
+    /* Floating badges on photo */
+    .guest-favorite-badge {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      font-family: var(--font-stack);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.18;
+      letter-spacing: 0;
+      padding: 4px 10px;
+      border-radius: var(--rounded-full);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 2;
+    }
+
+    .property-heart {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      z-index: 2;
+    }
+
+    .heart-button {
+      background-color: var(--color-surface-strong);
+      color: var(--color-ink);
+      border-radius: var(--rounded-full);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .heart-button:hover {
+      background-color: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
+    .property-card-meta {
+      padding: 0 var(--space-xs);
+    }
+
+    .property-card-title {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: 0;
+      color: var(--color-ink);
+      margin-bottom: var(--space-xxs);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .property-card-subtitle {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-muted);
+      margin-bottom: var(--space-xxs);
+    }
+
+    .property-card-dates {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-muted);
+      margin-bottom: var(--space-xs);
+    }
+
+    .property-card-price {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0;
+      color: var(--color-ink);
+    }
+
+    .property-card-price span {
+      font-weight: 400;
+      color: var(--color-muted);
+    }
+
+    /* Rating inline */
+    .property-card-rating {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      margin-top: var(--space-xs);
+    }
+
+    .property-card-rating svg {
+      width: 12px;
+      height: 12px;
+      color: var(--color-star-rating);
+    }
+
+    .property-card-rating-text {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-ink);
+    }
+
+    /* ================================================================
+       CITY LINK GRID
+       ================================================================ */
+    .showcase-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg) var(--space-section);
+    }
+
+    .city-link-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--space-base);
+    }
+
+    .city-link-block {
+      background: transparent;
+      cursor: pointer;
+      padding: var(--space-sm) 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .city-link-block:hover {
+      opacity: 0.7;
+    }
+
+    .city-link-block-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--rounded-sm);
+      background-color: var(--color-surface-soft);
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .city-link-block-image-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      background: linear-gradient(135deg, var(--color-surface-soft) 0%, var(--color-hairline-soft) 100%);
+    }
+
+    .city-link-name {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0;
+      color: var(--color-ink);
+    }
+
+    .city-link-subtitle {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-muted);
+    }
+
+    /* ================================================================
+       CTA SECTION — Become a Host
+       ================================================================ */
+    .cta-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg) var(--space-section);
+    }
+
+    .cta-banner {
+      background-color: var(--color-surface-soft);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xxl) var(--space-section);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #e05573 100%);
+      opacity: 0.04;
+    }
+
+    .cta-headline {
+      font-family: var(--font-stack);
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-ink);
+      margin-bottom: var(--space-base);
+      position: relative;
+    }
+
+    .cta-subheadline {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: 0;
+      color: var(--color-body);
+      margin-bottom: var(--space-xl);
+      position: relative;
+    }
+
+    /* Primary button — Rausch fill, white text, 8px radius, 48px height */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-primary);
+      color: var(--color-on-primary);
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0;
+      border-radius: var(--rounded-sm);
+      padding: 14px 24px;
+      height: 48px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      font-family: var(--font-stack);
+      position: relative;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-active);
+    }
+
+    .btn-primary:active {
+      background-color: var(--color-primary-active);
+    }
+
+    .btn-primary:disabled {
+      background-color: var(--color-primary-disabled);
+      cursor: not-allowed;
+    }
+
+    /* Secondary button — white fill, ink text, 1px ink outline */
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0;
+      border-radius: var(--rounded-sm);
+      padding: 13px 23px;
+      height: 48px;
+      border: 1px solid var(--color-ink);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--color-surface-soft);
+    }
+
+    /* Pill button — Rausch fill, white text, full radius */
+    .btn-pill-rausch {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-primary);
+      color: var(--color-on-primary);
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.29;
+      letter-spacing: 0;
+      border-radius: var(--rounded-full);
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-pill-rausch:hover {
+      background-color: var(--color-primary-active);
+    }
+
+    /* ================================================================
+       EXPERIENCE CARDS
+       ================================================================ */
+    .experience-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg) var(--space-section);
+    }
+
+    .experience-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-base);
+    }
+
+    .experience-card {
+      background-color: var(--color-surface-card);
+      border-radius: var(--rounded-md);
+      cursor: pointer;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .experience-card:hover {
+      box-shadow: var(--shadow-card);
+    }
+
+    .experience-card-photo {
+      position: relative;
+      border-radius: var(--rounded-md);
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      background-color: var(--color-surface-soft);
+      margin-bottom: var(--space-md);
+    }
+
+    .experience-card-photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, var(--color-surface-soft) 0%, var(--color-hairline-soft) 100%);
+    }
+
+    .experience-card-photo-placeholder svg {
+      width: 40px;
+      height: 40px;
+      opacity: 0.25;
+    }
+
+    .experience-card .new-tag-floating {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      font-family: var(--font-stack);
+      font-size: 8px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: 0.32px;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: var(--rounded-full);
+      border: 1px solid var(--color-hairline);
+      z-index: 2;
+    }
+
+    .experience-card-title {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: 0;
+      color: var(--color-ink);
+      padding: 0 var(--space-xs);
+    }
+
+    /* ================================================================
+       RATING DISPLAY — the loudest typography moment
+       ================================================================ */
+    .rating-showcase {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg) var(--space-section);
+      text-align: center;
+    }
+
+    .rating-display-number {
+      font-family: var(--font-stack);
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      color: var(--color-ink);
+      margin-bottom: var(--space-sm);
+    }
+
+    .rating-display-label {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0;
+      color: var(--color-muted);
+    }
+
+    /* ================================================================
+       FOOTER — white canvas, 3 columns, 48x80px padding
+       ================================================================ */
+    .footer-light {
+      background-color: var(--color-canvas);
+      padding: 48px 80px;
+      border-top: 1px solid var(--color-hairline);
+    }
+
+    .footer-columns {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xxl);
+    }
+
+    .footer-column-head {
+      font-family: var(--font-stack);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0;
+      color: var(--color-ink);
+      margin-bottom: var(--space-base);
+    }
+
+    .footer-link-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .footer-link-item {
+      font-family: var(--font-stack);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: 0;
+      color: var(--color-ink);
+      cursor: pointer;
+      transition: color 0.2s ease;
+      background: transparent;
+      border: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .footer-link-item:hover {
+      text-decoration: underline;
+    }
+
+    /* Legal band */
+    .legal-band {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-base);
+    }
+
+    .legal-copyright {
+      font-family: var(--font-stack);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.23;
+      letter-spacing: 0;
+      color: var(--color-muted);
+    }
+
+    .legal-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+    }
+
+    .legal-link-item {
+      font-family: var(--font-stack);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.23;
+      letter-spacing: 0;
+      color: var(--color-muted);
+      cursor: pointer;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .legal-link-item:hover {
+      text-decoration: underline;
+    }
+
+    .legal-link-legal {
+      color: var(--color-legal-link);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .legal-social {
+      display: flex;
+      align-items: center;
+      gap: var(--space-base);
+    }
+
+    .legal-social-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--color-ink);
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .legal-social-icon:hover {
+      opacity: 0.7;
+    }
+
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
+    @media (max-width: 1127px) {
+      .property-card-grid { grid-template-columns: repeat(2, 1fr); }
+      .city-link-grid { grid-template-columns: repeat(3, 1fr); }
+      .experience-card-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-light { padding: var(--space-xxl) var(--space-lg); }
+      .search-bar-pill { max-width: 100%; }
+    }
+
+    @media (max-width: 743px) {
+      .property-card-grid { grid-template-columns: 1fr; }
+      .city-link-grid { grid-template-columns: repeat(2, 1fr); }
+      .experience-card-grid { grid-template-columns: 1fr; }
+      .footer-light { padding: var(--space-xl) var(--space-base); }
+      .footer-columns { grid-template-columns: 1fr; }
+      .nav-product-tabs { display: none; }
+      .nav-utility-link { display: none; }
+      .search-field-segment:nth-child(2),
+      .search-field-segment:nth-child(3) { display: none; }
+      .hero-headline { font-size: 24px; }
+      .legal-band { flex-direction: column; align-items: flex-start; }
+      .cta-banner { padding: var(--space-xl) var(--space-lg); }
+    }
+
+    @media (min-width: 1441px) {
+      .features-section,
+      .showcase-section,
+      .experience-section,
+      .cta-section,
+      .footer-columns,
+      .legal-band { max-width: 1280px; }
+    }
+
+    /* ================================================================
+       ANIMATIONS
+       ================================================================ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .property-card,
+    .experience-card,
+    .city-link-block {
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    .property-card:nth-child(1) { animation-delay: 0.05s; }
+    .property-card:nth-child(2) { animation-delay: 0.1s; }
+    .property-card:nth-child(3) { animation-delay: 0.15s; }
+    .property-card:nth-child(4) { animation-delay: 0.2s; }
+    .property-card:nth-child(5) { animation-delay: 0.25s; }
+    .property-card:nth-child(6) { animation-delay: 0.3s; }
+    .property-card:nth-child(7) { animation-delay: 0.35s; }
+    .property-card:nth-child(8) { animation-delay: 0.4s; }
+
+    /* Smooth transitions on interactive elements */
+    .btn-primary,
+    .btn-secondary,
+    .btn-pill-rausch,
+    .property-card,
+    .experience-card,
+    .category-tab,
+    .footer-link-item {
+      transition: all 0.15s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================================
+       TOP NAVIGATION
+       ============================================================= -->
+  <nav class="top-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-brand">
+      <!-- Airbnb logo (Bélo) -->
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M17.5 2C17.5 2 14.5 8 12 10C9.5 8 6.5 2 6.5 2C6.5 2 8 15 8 15C8 15 3 13 3 13C3 13 7 22 12 22C17 22 21 13 21 13C21 13 16 15 16 15C16 15 17.5 2 17.5 2Z" fill="#ff385c"/>
+      </svg>
+      <span class="nav-brand-text">airbnb</span>
+    </div>
+
+    <div class="nav-product-tabs">
+      <div class="nav-product-tab nav-product-tab--active">
+        <div class="nav-product-icon">
+          <!-- House icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <span class="nav-product-tab-label">Homes</span>
+      </div>
+
+      <div class="nav-product-tab">
+        <div class="nav-product-icon">
+          <!-- Star/sparkle icon for Experiences -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          <span class="new-tag">NEW</span>
+        </div>
+        <span class="nav-product-tab-label">Experiences</span>
+      </div>
+
+      <div class="nav-product-tab">
+        <div class="nav-product-icon">
+          <!-- Briefcase / services icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+          <span class="new-tag">NEW</span>
+        </div>
+        <span class="nav-product-tab-label">Services</span>
+      </div>
+    </div>
+
+    <div class="nav-utilities">
+      <a href="#" class="nav-utility-link">Airbnb your home</a>
+      <button class="icon-button-circle" aria-label="Choose language">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </button>
+      <button class="account-menu" aria-label="Account menu">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        <span class="account-avatar">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v1.2c0 .66.54 1.2 1.2 1.2h16.8c.66 0 1.2-.54 1.2-1.2v-1.2c0-3.2-6.4-4.8-9.6-4.8z"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =============================================================
+       HERO + SEARCH BAR
+       ============================================================= -->
+  <section class="hero-section">
+    <!-- Signature pill-shaped search bar -->
+    <div class="search-bar-pill" role="search">
+      <div class="search-field-segment">
+        <span class="search-field-label">Where</span>
+        <span class="search-field-placeholder">Search destinations</span>
+      </div>
+      <div class="search-field-segment">
+        <span class="search-field-label">Check in</span>
+        <span class="search-field-placeholder">Add dates</span>
+      </div>
+      <div class="search-field-segment">
+        <span class="search-field-label">Check out</span>
+        <span class="search-field-placeholder">Add dates</span>
+      </div>
+      <div class="search-field-segment" style="flex: 0.8;">
+        <span class="search-field-label">Who</span>
+        <span class="search-field-placeholder">Add guests</span>
+      </div>
+      <button class="search-orb" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Category strip -->
+    <div class="category-strip" role="tablist" aria-label="Property categories">
+      <button class="category-tab category-tab--active" role="tab" aria-selected="true">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">Icons</span>
+      </button>
+      <button class="category-tab" role="tab" aria-selected="false">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">Amazing views</span>
+      </button>
+      <button class="category-tab" role="tab" aria-selected="false">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">OMG!</span>
+      </button>
+      <button class="category-tab" role="tab" aria-selected="false">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">Tiny homes</span>
+      </button>
+      <button class="category-tab" role="tab" aria-selected="false">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+            <line x1="4" y1="22" x2="4" y2="15"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">Beachfront</span>
+      </button>
+      <button class="category-tab" role="tab" aria-selected="false">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="6" y1="3" x2="6" y2="15"/>
+            <circle cx="18" cy="6" r="3"/>
+            <circle cx="6" cy="18" r="3"/>
+            <path d="M18 9a9 9 0 0 1-9 9"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">Cabins</span>
+      </button>
+      <button class="category-tab" role="tab" aria-selected="false">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">Trending</span>
+      </button>
+      <button class="category-tab" role="tab" aria-selected="false">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 22l10-18 10 18z"/>
+            <path d="M12 18v-4"/>
+            <path d="M12 12v-2"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">Top of the world</span>
+      </button>
+      <button class="category-tab" role="tab" aria-selected="false">
+        <span class="category-tab-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="4"/>
+            <circle cx="12" cy="12" r="4"/>
+          </svg>
+        </span>
+        <span class="category-tab-label">Design</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- =============================================================
+       PROPERTY CARDS — photo-first, 4-up grid
+       ============================================================= -->
+  <div class="features-section" id="features">
+    <h2 class="section-heading">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+      Inspiration for your next trip
+    </h2>
+
+    <div class="property-card-grid">
+
+      <!-- Card 1 -->
+      <div class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <rect x="4" y="8" width="40" height="32" rx="3"/>
+              <path d="M4 32l12-12 8 8 10-10 10 10"/>
+              <circle cx="11" cy="15" r="2"/>
+            </svg>
+          </div>
+          <div class="guest-favorite-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#222222">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/>
+            </svg>
+            Guest favorite
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-dots">
+            <span class="photo-dot photo-dot--active"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+        <div class="property-card-meta">
+          <div class="property-card-title">Santorini, Greece</div>
+          <div class="property-card-subtitle">Cycladic cave house with caldera view</div>
+          <div class="property-card-dates">Apr 12 – 17</div>
+          <div class="property-card-price">$382 <span>night</span></div>
+          <div class="property-card-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="property-card-rating-text">4.93</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M24 4 L4 44h40L24 4z"/>
+              <rect x="16" y="24" width="16" height="20" fill="none"/>
+              <circle cx="24" cy="16" r="3"/>
+            </svg>
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-dots">
+            <span class="photo-dot photo-dot--active"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+        <div class="property-card-meta">
+          <div class="property-card-title">Zermatt, Switzerland</div>
+          <div class="property-card-subtitle">Chalet with Matterhorn panorama</div>
+          <div class="property-card-dates">Mar 3 – 8</div>
+          <div class="property-card-price">$418 <span>night</span></div>
+          <div class="property-card-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="property-card-rating-text">4.98</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M12 36V16l12-8 12 8v20H12z"/>
+              <rect x="20" y="24" width="8" height="12"/>
+              <path d="M20 20h8"/>
+            </svg>
+          </div>
+          <div class="guest-favorite-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#222222">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/>
+            </svg>
+            Guest favorite
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-dots">
+            <span class="photo-dot photo-dot--active"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+        <div class="property-card-meta">
+          <div class="property-card-title">Kyoto, Japan</div>
+          <div class="property-card-subtitle">Traditional machiya townhouse</div>
+          <div class="property-card-dates">May 20 – 25</div>
+          <div class="property-card-price">$294 <span>night</span></div>
+          <div class="property-card-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="property-card-rating-text">4.95</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M8 24 C8 12 16 4 24 4 C32 4 40 12 40 24 C40 36 24 44 24 44 C24 44 8 36 8 24Z"/>
+              <circle cx="24" cy="20" r="6"/>
+              <path d="M24 26 C18 26 14 30 14 36h20C34 30 30 26 24 26z"/>
+            </svg>
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-dots">
+            <span class="photo-dot photo-dot--active"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+        <div class="property-card-meta">
+          <div class="property-card-title">Bali, Indonesia</div>
+          <div class="property-card-subtitle">Bamboo eco-villa in rice terraces</div>
+          <div class="property-card-dates">Jun 8 – 15</div>
+          <div class="property-card-price">$267 <span>night</span></div>
+          <div class="property-card-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="property-card-rating-text">4.89</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <ellipse cx="24" cy="36" rx="18" ry="6"/>
+              <rect x="12" y="10" width="24" height="26" rx="2"/>
+              <rect x="16" y="6" width="16" height="6" rx="1"/>
+            </svg>
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-dots">
+            <span class="photo-dot photo-dot--active"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+        <div class="property-card-meta">
+          <div class="property-card-title">Joshua Tree, CA</div>
+          <div class="property-card-subtitle">Architectural desert retreat</div>
+          <div class="property-card-dates">Feb 14 – 19</div>
+          <div class="property-card-price">$356 <span>night</span></div>
+          <div class="property-card-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="property-card-rating-text">4.92</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M4 44h40V20a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v24z"/>
+              <path d="M28 18h-8v-6a4 4 0 0 1 8 0v6z"/>
+              <circle cx="24" cy="33" r="4"/>
+              <path d="M24 33v4"/>
+            </svg>
+          </div>
+          <div class="guest-favorite-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#222222">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/>
+            </svg>
+            Guest favorite
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-dots">
+            <span class="photo-dot photo-dot--active"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+        <div class="property-card-meta">
+          <div class="property-card-title">Lisbon, Portugal</div>
+          <div class="property-card-subtitle">Tile-clad penthouse in Alfama</div>
+          <div class="property-card-dates">Oct 1 – 6</div>
+          <div class="property-card-price">$312 <span>night</span></div>
+          <div class="property-card-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="property-card-rating-text">4.87</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <rect x="4" y="16" width="40" height="28" rx="3"/>
+              <path d="M4 16 L24 4 L44 16"/>
+              <circle cx="24" cy="30" r="3"/>
+              <line x1="16" y1="22" x2="16" y2="26"/>
+              <line x1="32" y1="22" x2="32" y2="26"/>
+            </svg>
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-dots">
+            <span class="photo-dot photo-dot--active"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+        <div class="property-card-meta">
+          <div class="property-card-title">Tulum, Mexico</div>
+          <div class="property-card-subtitle">Beachfront treehouse with cenote</div>
+          <div class="property-card-dates">Jan 9 – 14</div>
+          <div class="property-card-price">$445 <span>night</span></div>
+          <div class="property-card-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="property-card-rating-text">4.81</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <rect x="6" y="10" width="36" height="30" rx="4"/>
+              <rect x="6" y="10" width="36" height="14" rx="4"/>
+              <circle cx="24" cy="17" r="5"/>
+              <line x1="16" y1="28" x2="32" y2="28"/>
+              <line x1="16" y1="33" x2="28" y2="33"/>
+            </svg>
+          </div>
+          <div class="guest-favorite-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#222222">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/>
+            </svg>
+            Guest favorite
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-dots">
+            <span class="photo-dot photo-dot--active"></span>
+            <span class="photo-dot"></span>
+          </div>
+        </div>
+        <div class="property-card-meta">
+          <div class="property-card-title">Amsterdam, NL</div>
+          <div class="property-card-subtitle">Canal house with garden studio</div>
+          <div class="property-card-dates">Sep 15 – 20</div>
+          <div class="property-card-price">$378 <span>night</span></div>
+          <div class="property-card-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="property-card-rating-text">4.90</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================================================
+       EXPERIENCES — taller aspect (4:5) cards
+       ============================================================= -->
+  <div class="experience-section">
+    <h2 class="section-heading">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align: middle; margin-right: 8px;">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M2 12h20"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      Discover Airbnb Experiences
+    </h2>
+
+    <div class="experience-card-grid">
+
+      <!-- Experience 1 -->
+      <div class="experience-card">
+        <div class="experience-card-photo">
+          <div class="experience-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M8 36c0-12 16-24 16-24s16 12 16 24c0-8-16-18-16-18S8 28 8 36z"/>
+              <circle cx="24" cy="18" r="2"/>
+              <path d="M12 32c6-4 18-4 24 0"/>
+            </svg>
+          </div>
+          <div class="new-tag-floating">NEW</div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="experience-card-title">Pasta-making with Italian Nonnas</div>
+        <div style="font-family: var(--font-stack); font-size: 14px; font-weight: 400; line-height: 1.43; letter-spacing: 0; color: var(--color-muted); padding: 0 var(--space-xs); margin-top: var(--space-xs);">From $94 / person · 4.95</div>
+      </div>
+
+      <!-- Experience 2 -->
+      <div class="experience-card">
+        <div class="experience-card-photo">
+          <div class="experience-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M24 4c-8 0-16 4-20 12l20 8 20-8C40 8 32 4 24 4z"/>
+              <path d="M4 16v20l20 8 20-8V16"/>
+              <circle cx="24" cy="26" r="6"/>
+            </svg>
+          </div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="experience-card-title">Sunset photography in Santorini</div>
+        <div style="font-family: var(--font-stack); font-size: 14px; font-weight: 400; line-height: 1.43; letter-spacing: 0; color: var(--color-muted); padding: 0 var(--space-xs); margin-top: var(--space-xs);">From $78 / person · 4.92</div>
+      </div>
+
+      <!-- Experience 3 -->
+      <div class="experience-card">
+        <div class="experience-card-photo">
+          <div class="experience-card-photo-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M12 12h24v24H12z"/>
+              <path d="M6 6h36v36H6z" stroke-dasharray="4 2"/>
+              <circle cx="24" cy="24" r="8"/>
+              <circle cx="24" cy="24" r="3"/>
+              <line x1="24" y1="16" x2="24" y2="10"/>
+              <line x1="24" y1="38" x2="24" y2="32"/>
+              <line x1="16" y1="24" x2="10" y2="24"/>
+              <line x1="38" y1="24" x2="32" y2="24"/>
+            </svg>
+          </div>
+          <div class="new-tag-floating">NEW</div>
+          <div class="property-heart">
+            <button class="heart-button" aria-label="Save to wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="experience-card-title">Meditation retreat in Bali jungle</div>
+        <div style="font-family: var(--font-stack); font-size: 14px; font-weight: 400; line-height: 1.43; letter-spacing: 0; color: var(--color-muted); padding: 0 var(--space-xs); margin-top: var(--space-xs);">From $55 / person · 4.88</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================================================
+       RATING SHOWCASE — 64px loudest typography moment
+       ============================================================= -->
+  <div class="rating-showcase">
+    <div class="rating-display-number">4.81</div>
+    <div class="rating-display-label">Average rating across all homes — guests love their stays</div>
+    <div style="margin-top: var(--space-base); display: flex; align-items: center; justify-content: center; gap: var(--space-xs);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-star-rating)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-star-rating)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-star-rating)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-star-rating)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-star-rating)"><polygon points="17.5 2C17.5 2 14.5 8 12 10C9.5 8 6.5 2 6.5 2C6.5 2 8 15 8 15C8 15 3 13 3 13C3 13 7 22 12 22C17 22 21 13 21 13C21 13 16 15 16 15C16 15 17.5 2 17.5 2Z"/></svg>
+    </div>
+  </div>
+
+  <!-- =============================================================
+       CITY LINK GRID — 6 columns
+       ============================================================= -->
+  <div class="showcase-section" id="showcase">
+    <h2 class="section-heading">Inspiration for future getaways</h2>
+    <div class="city-link-grid">
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🏛️</div>
+        </div>
+        <div class="city-link-name">Athens</div>
+        <div class="city-link-subtitle">Acropolis views</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🍜</div>
+        </div>
+        <div class="city-link-name">Tokyo</div>
+        <div class="city-link-subtitle">Shibuya stays</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🗼</div>
+        </div>
+        <div class="city-link-name">Paris</div>
+        <div class="city-link-subtitle">Montmartre lofts</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🌉</div>
+        </div>
+        <div class="city-link-name">San Francisco</div>
+        <div class="city-link-subtitle">Victorian homes</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🏰</div>
+        </div>
+        <div class="city-link-name">Edinburgh</div>
+        <div class="city-link-subtitle">Castle district</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🏖️</div>
+        </div>
+        <div class="city-link-name">Sydney</div>
+        <div class="city-link-subtitle">Bondi apartments</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🎭</div>
+        </div>
+        <div class="city-link-name">Barcelona</div>
+        <div class="city-link-subtitle">Gothic Quarter</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🌮</div>
+        </div>
+        <div class="city-link-name">Mexico City</div>
+        <div class="city-link-subtitle">Roma Norte lofts</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🏙️</div>
+        </div>
+        <div class="city-link-name">New York</div>
+        <div class="city-link-subtitle">Brooklyn brownstones</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🌋</div>
+        </div>
+        <div class="city-link-name">Reykjavik</div>
+        <div class="city-link-subtitle">Northern lights cabins</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🌸</div>
+        </div>
+        <div class="city-link-name">Seoul</div>
+        <div class="city-link-subtitle">Hanok village stays</div>
+      </div>
+
+      <div class="city-link-block">
+        <div class="city-link-block-image">
+          <div class="city-link-block-image-inner">🕌</div>
+        </div>
+        <div class="city-link-name">Istanbul</div>
+        <div class="city-link-subtitle">Bosphorus mansions</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================================================
+       CTA — Become a Host
+       ============================================================= -->
+  <div class="cta-section" id="cta">
+    <div class="cta-banner">
+      <h2 class="cta-headline">Become a Host</h2>
+      <p class="cta-subheadline">Share your space and earn extra income — hosting is easier than you think</p>
+      <a href="#" class="btn-pill-rausch">Airbnb your home</a>
+    </div>
+  </div>
+
+  <!-- =============================================================
+       FOOTER — 3 columns, white canvas
+       ============================================================= -->
+  <footer class="footer-light" id="footer">
+    <div class="footer-columns">
+      <!-- Column 1: Support -->
+      <div>
+        <h3 class="footer-column-head">Support</h3>
+        <ul class="footer-link-list">
+          <li><button class="footer-link-item">Help Center</button></li>
+          <li><button class="footer-link-item">AirCover</button></li>
+          <li><button class="footer-link-item">Anti-discrimination</button></li>
+          <li><button class="footer-link-item">Disability support</button></li>
+          <li><button class="footer-link-item">Cancellation options</button></li>
+          <li><button class="footer-link-item">Report neighborhood concern</button></li>
+        </ul>
+      </div>
+
+      <!-- Column 2: Hosting -->
+      <div>
+        <h3 class="footer-column-head">Hosting</h3>
+        <ul class="footer-link-list">
+          <li><button class="footer-link-item">Airbnb your home</button></li>
+          <li><button class="footer-link-item">AirCover for Hosts</button></li>
+          <li><button class="footer-link-item">Hosting resources</button></li>
+          <li><button class="footer-link-item">Community forum</button></li>
+          <li><button class="footer-link-item">Hosting responsibly</button></li>
+          <li><button class="footer-link-item">Join a free Hosting class</button></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Airbnb -->
+      <div>
+        <h3 class="footer-column-head">Airbnb</h3>
+        <ul class="footer-link-list">
+          <li><button class="footer-link-item">Newsroom</button></li>
+          <li><button class="footer-link-item">New features</button></li>
+          <li><button class="footer-link-item">Careers</button></li>
+          <li><button class="footer-link-item">Investors</button></li>
+          <li><button class="footer-link-item">Gift cards</button></li>
+          <li><button class="footer-link-item">Airbnb.org emergency stays</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Legal band -->
+    <div class="legal-band">
+      <span class="legal-copyright">© 2026 Airbnb, Inc.</span>
+      <div class="legal-links">
+        <span class="legal-link-item legal-link-legal">Privacy</span>
+        <span class="legal-link-item">·</span>
+        <span class="legal-link-item legal-link-legal">Terms</span>
+        <span class="legal-link-item">·</span>
+        <span class="legal-link-item legal-link-legal">Sitemap</span>
+        <span class="legal-link-item">·</span>
+        <span class="legal-link-item legal-link-legal">Company details</span>
+      </div>
+      <div class="legal-links">
+        <span class="legal-link-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          English (US)
+        </span>
+        <span class="legal-link-item">$ USD</span>
+        <div class="legal-social">
+          <svg class="legal-social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          <svg class="legal-social-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="white"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"/></svg>
+          <svg class="legal-social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

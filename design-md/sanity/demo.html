@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanity — The Composable Content Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;425;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   SANITY DESIGN SYSTEM — DEMO PAGE
+   Based on design-md/sanity/DESIGN.md
+   ============================================ */
+
+:root {
+  /* Colors — exact from DESIGN.md */
+  --canvas: #0b0b0b;
+  --surface: #212121;
+  --surface-prominent: #353535;
+  --border-subtle: #212121;
+  --border-visible: #353535;
+  --border-light: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: #b9b9b9;
+  --text-tertiary: #797979;
+  --cta: #f36458;
+  --interactive: #0052ef;
+  --success: #19d600;
+  --error: #dd0000;
+  --light-surface: #ededed;
+  --light-surface-alt: #ffffff;
+  --pure-black: #000000;
+
+  /* Typography — Inter substitutes waldenburgNormal */
+  --font-display: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  --font-code: 'IBM Plex Mono', 'SF Mono', ui-monospace, monospace;
+
+  /* Border Radius Scale */
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-pill: 99999px;
+
+  /* Spacing — base unit 8px */
+  --space-hairline: 1px;
+  --space-mini: 2px;
+  --space-tight: 4px;
+  --space-compact: 6px;
+  --space-base: 8px;
+  --space-std: 12px;
+  --space-section: 16px;
+  --space-card: 24px;
+  --space-gutter: 32px;
+  --space-large: 48px;
+  --space-break: 64px;
+  --space-hero: 120px;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--space-gutter);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-section);
+  }
+}
+
+/* ============================================
+   BUTTONS — exact from DESIGN.md
+   ============================================ */
+
+/* Primary CTA (Pill) */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-base);
+  background: var(--cta);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--space-base) var(--space-section);
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--interactive);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+/* Secondary (Dark Pill) */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-base);
+  background: var(--canvas);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--space-base) var(--space-std);
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  background: var(--interactive);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+/* Ghost / Subtle */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-base);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: 0 var(--space-std);
+  border: var(--space-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-ghost:hover {
+  background: var(--interactive);
+  color: var(--text-primary);
+  border-color: var(--interactive);
+}
+
+/* Label / Uppercase tab button */
+.btn-label {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  background: transparent;
+  color: var(--text-secondary);
+  padding: var(--space-tight) var(--space-std);
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-label:hover,
+.btn-label.active {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+/* ============================================
+   NAVIGATION — exact from DESIGN.md
+   ============================================ */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--canvas);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: var(--space-hairline) solid var(--border-subtle);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--space-gutter);
+  height: 56px;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-base);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+
+/* Sanity logo SVG — simplified brand mark */
+.nav-logo svg {
+  height: 28px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-gutter);
+}
+
+.nav-links a {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+  line-height: 1.50;
+}
+
+.nav-links a:hover {
+  color: var(--interactive);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-std);
+}
+
+.nav-actions .nav-signin {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.nav-actions .nav-signin:hover {
+  color: var(--text-primary);
+}
+
+/* Mobile menu toggle */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: var(--space-base);
+  background: none;
+  border: none;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text-secondary);
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+  .nav-inner {
+    padding: 0 var(--space-section);
+  }
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+  padding: var(--space-hero) 0 var(--space-break);
+  text-align: center;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle at center, rgba(0, 82, 239, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-base);
+  background: var(--surface);
+  border: var(--space-hairline) solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: var(--space-compact) var(--space-std);
+  margin-bottom: var(--space-card);
+  font-family: var(--font-code);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: normal;
+}
+
+.hero-badge .badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--success);
+  border-radius: 50%;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 112px;
+  font-weight: 400;
+  line-height: 1.00;
+  letter-spacing: -4.48px;
+  color: var(--text-primary);
+  margin-bottom: var(--space-card);
+}
+
+.hero-title span {
+  color: var(--interactive);
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.18px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto var(--space-gutter);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-std);
+  flex-wrap: wrap;
+}
+
+.hero-term {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.13px;
+  color: var(--text-tertiary);
+  margin-top: var(--space-section);
+}
+
+@media (max-width: 960px) {
+  .hero-title {
+    font-size: 72px;
+    letter-spacing: -2.88px;
+    line-height: 1.05;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding: var(--space-large) 0 var(--space-large);
+  }
+  .hero-title {
+    font-size: 48px;
+    letter-spacing: -1.68px;
+    line-height: 1.08;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 38px;
+    letter-spacing: -1.14px;
+    line-height: 1.10;
+  }
+}
+
+/* ============================================
+   SECTION HEADING
+   ============================================ */
+.section-label {
+  font-family: var(--font-code);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.30;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin-bottom: var(--space-section);
+  display: block;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -1.68px;
+  color: var(--text-primary);
+  margin-bottom: var(--space-section);
+}
+
+.section-desc {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.18px;
+  color: var(--text-secondary);
+  max-width: 640px;
+}
+
+@media (max-width: 720px) {
+  .section-title {
+    font-size: 38px;
+    letter-spacing: -1.14px;
+    line-height: 1.10;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 32px;
+    letter-spacing: -0.32px;
+    line-height: 1.24;
+  }
+}
+
+/* ============================================
+   FEATURES SECTION
+   ============================================ */
+#features {
+  padding: var(--space-break) 0;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: var(--space-large);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-card);
+}
+
+.feature-card {
+  background: var(--surface);
+  border: var(--space-hairline) solid var(--border-visible);
+  border-radius: var(--radius-lg);
+  padding: var(--space-gutter);
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--interactive);
+  transform: translateY(-2px);
+}
+
+.feature-card-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--canvas);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-section);
+}
+
+.feature-card-tag {
+  font-family: var(--font-code);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.30;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin-bottom: var(--space-base);
+  display: block;
+}
+
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 425;
+  line-height: 1.24;
+  letter-spacing: -0.24px;
+  color: var(--text-primary);
+  margin-bottom: var(--space-base);
+}
+
+.feature-card p {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.13px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-section);
+}
+
+.feature-card-link {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-tight);
+  transition: color 0.2s ease;
+}
+
+.feature-card-link:hover {
+  color: var(--interactive);
+}
+
+.feature-card-link svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.feature-card-link:hover svg {
+  transform: translateX(2px);
+}
+
+@media (max-width: 960px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-section);
+  }
+}
+
+/* ============================================
+   SHOWCASE / CAPABILITIES SECTION
+   ============================================ */
+#showcase {
+  padding: var(--space-break) 0;
+}
+
+.showcase-header {
+  margin-bottom: var(--space-large);
+}
+
+.showcase-tabs {
+  display: flex;
+  gap: var(--space-base);
+  margin-bottom: var(--space-gutter);
+  flex-wrap: wrap;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-card);
+}
+
+.showcase-item {
+  background: var(--surface);
+  border: var(--space-hairline) solid var(--border-visible);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.showcase-item:hover {
+  border-color: var(--interactive);
+}
+
+.showcase-item-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, var(--canvas) 0%, var(--surface) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.showcase-item-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, var(--surface-prominent) 0%, transparent 70%);
+  opacity: 0.5;
+}
+
+.showcase-item-image svg {
+  position: relative;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.showcase-item-body {
+  padding: var(--space-card);
+}
+
+.showcase-item-tag {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin-bottom: var(--space-base);
+  display: block;
+}
+
+.showcase-item h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 425;
+  line-height: 1.13;
+  letter-spacing: -0.2px;
+  color: var(--text-primary);
+  margin-bottom: var(--space-tight);
+}
+
+.showcase-item p {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.13px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 960px) {
+  .showcase-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .showcase-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   CTA BANNER
+   ============================================ */
+#cta {
+  padding: var(--space-break) 0;
+}
+
+.cta-banner {
+  background: var(--surface);
+  border: var(--space-hairline) solid var(--border-visible);
+  border-radius: var(--radius-lg);
+  padding: var(--space-large) var(--space-gutter);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle at center, rgba(243, 100, 88, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-banner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-banner h2 {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1.10;
+  letter-spacing: -1.14px;
+  color: var(--text-primary);
+  margin-bottom: var(--space-section);
+}
+
+.cta-banner p {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.18px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto var(--space-card);
+}
+
+.cta-banner .cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-std);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 720px) {
+  .cta-banner h2 {
+    font-size: 32px;
+    letter-spacing: -0.32px;
+    line-height: 1.24;
+  }
+  .cta-banner {
+    padding: var(--space-gutter) var(--space-section);
+  }
+}
+
+/* ============================================
+   FOOTER — exact from DESIGN.md
+   ============================================ */
+footer {
+  background: var(--canvas);
+  border-top: var(--space-hairline) solid var(--border-subtle);
+  padding: var(--space-large) 0 var(--space-gutter);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--space-gutter);
+  margin-bottom: var(--space-large);
+}
+
+.footer-col h4 {
+  font-family: var(--font-code);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.30;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  margin-bottom: var(--space-section);
+}
+
+.footer-col a,
+.footer-col p {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.13px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-base);
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--interactive);
+}
+
+.footer-brand {
+  max-width: 280px;
+}
+
+.footer-brand p {
+  margin-bottom: var(--space-section);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-card);
+  border-top: var(--space-hairline) solid var(--border-subtle);
+}
+
+.footer-bottom span {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.12px;
+  color: var(--text-tertiary);
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--space-section);
+}
+
+.footer-social a {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.footer-social a:hover {
+  color: var(--interactive);
+}
+
+@media (max-width: 960px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+    max-width: none;
+    margin-bottom: var(--space-section);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-card);
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--space-section);
+    text-align: center;
+  }
+}
+
+/* ============================================
+   UTILITY ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-title,
+.hero-subtitle,
+.hero-actions,
+.hero-badge {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.hero-subtitle {
+  animation-delay: 0.1s;
+}
+
+.hero-actions {
+  animation-delay: 0.2s;
+}
+
+/* ============================================
+   SCROLLBAR — subtle dark
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-prominent);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <a href="#" class="nav-logo" aria-label="Sanity Home">
+        <!-- Sanity-style wordmark SVG -->
+        <svg viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="2" width="24" height="24" rx="6" fill="#f36458"/>
+          <text x="32" y="21" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#ffffff" letter-spacing="-0.4px">sanity</text>
+        </svg>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="#features">Platform</a>
+      <a href="#showcase">Solutions</a>
+      <a href="#">Docs</a>
+      <a href="#">Pricing</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="nav-signin">Sign in</a>
+      <button class="btn-primary">Get started</button>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================
+     HERO
+     ============================================ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      NEW
+    </div>
+    <h1 class="hero-title">
+      Composable<br><span>content</span> cloud
+    </h1>
+    <p class="hero-subtitle">
+      Sanity is the content operating system that gives your team the freedom to create, structure, and distribute content across any channel — built for developers, loved by editors.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary">Start building free</button>
+      <button class="btn-secondary">Talk to sales</button>
+    </div>
+    <p class="hero-term">No credit card required · Free forever developer plan</p>
+  </div>
+</header>
+
+<!-- ============================================
+     FEATURES
+     ============================================ -->
+<section id="features">
+  <div class="container">
+    <div class="features-header">
+      <span class="section-label">Platform</span>
+      <h2 class="section-title">Everything you need<br>to ship content at scale</h2>
+      <p class="section-desc" style="margin: 0 auto;">
+        A unified content backend that treats content as data — structured, reusable, and ready for any frontend.
+      </p>
+    </div>
+    <div class="features-grid">
+
+      <!-- Card 1 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="2" width="16" height="16" rx="3" stroke="#b9b9b9" stroke-width="1.5"/>
+            <line x1="6" y1="7" x2="14" y2="7" stroke="#b9b9b9" stroke-width="1.5"/>
+            <line x1="6" y1="10" x2="12" y2="10" stroke="#b9b9b9" stroke-width="1.5"/>
+            <line x1="6" y1="13" x2="10" y2="13" stroke="#b9b9b9" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <span class="feature-card-tag">CONTENT MODELING</span>
+        <h3>Structured content</h3>
+        <p>Define schemas as code. Content becomes typed, validated data that any frontend can consume. No rigid templates, no lock-in.</p>
+        <a href="#" class="feature-card-link">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="#b9b9b9" stroke-width="1.5"/>
+            <path d="M10 6V10L13 13" stroke="#b9b9b9" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="feature-card-tag">REAL-TIME</span>
+        <h3>Instant collaboration</h3>
+        <p>Multiple editors working on the same document simultaneously. Changes sync in real-time with conflict-free resolution built in.</p>
+        <a href="#" class="feature-card-link">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="3" y="3" width="14" height="14" rx="2" stroke="#b9b9b9" stroke-width="1.5"/>
+            <path d="M7 10H13" stroke="#b9b9b9" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M10 7V13" stroke="#b9b9b9" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="feature-card-tag">EXTENSIBILITY</span>
+        <h3>Customizable studio</h3>
+        <p>Build your own editing environment with React components. Add custom inputs, previews, and workflows that match your team's needs.</p>
+        <a href="#" class="feature-card-link">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 14L8 9L11 12L17 6" stroke="#b9b9b9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 6H17V9" stroke="#b9b9b9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="feature-card-tag">DELIVERY</span>
+        <h3>API-first distribution</h3>
+        <p>REST and GraphQL APIs serve your content anywhere — websites, mobile apps, e-commerce, digital signage. Query exactly what you need.</p>
+        <a href="#" class="feature-card-link">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="4" width="16" height="12" rx="2" stroke="#b9b9b9" stroke-width="1.5"/>
+            <circle cx="10" cy="10" r="2" stroke="#b9b9b9" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <span class="feature-card-tag">VISUAL EDITING</span>
+        <h3>Presentation-native</h3>
+        <p>Edit content directly on your website with visual previews. See exactly how content renders in production before you publish.</p>
+        <a href="#" class="feature-card-link">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 8L10 3L15 8" stroke="#b9b9b9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 12L10 17L15 12" stroke="#b9b9b9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="feature-card-tag">DEVELOPER DX</span>
+        <h3>Built for developers</h3>
+        <p>TypeScript-first SDKs, CLI tooling, webhooks, and a generous free tier. Content infrastructure that integrates into your existing stack.</p>
+        <a href="#" class="feature-card-link">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SHOWCASE
+     ============================================ -->
+<section id="showcase">
+  <div class="container">
+    <div class="showcase-header">
+      <span class="section-label">Solutions</span>
+      <h2 class="section-title">Content infrastructure<br>for every use case</h2>
+      <p class="section-desc">
+        From marketing sites to product databases, Sanity adapts to how your team works.
+      </p>
+    </div>
+    <div class="showcase-tabs">
+      <button class="btn-label active">Marketing sites</button>
+      <button class="btn-label">E‑commerce</button>
+      <button class="btn-label">Mobile apps</button>
+      <button class="btn-label">Product data</button>
+      <button class="btn-label">Enterprise</button>
+    </div>
+    <div class="showcase-grid">
+
+      <!-- Showcase 1 -->
+      <div class="showcase-item">
+        <div class="showcase-item-image">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="14" y="18" width="20" height="13" rx="2" stroke="#797979" stroke-width="1.5"/>
+            <path d="M18 18V15C18 12.7909 19.7909 11 22 11H26C28.2091 11 30 12.7909 30 15V18" stroke="#797979" stroke-width="1.5"/>
+            <rect x="22" y="22" width="4" height="4" rx="1" stroke="#797979" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="showcase-item-body">
+          <span class="showcase-item-tag">GLOBAL BRAND</span>
+          <h3>Enterprise marketing</h3>
+          <p>Power multi-region marketing sites with localized content workflows.</p>
+        </div>
+      </div>
+
+      <!-- Showcase 2 -->
+      <div class="showcase-item">
+        <div class="showcase-item-image">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="12" y="16" width="24" height="20" rx="3" stroke="#797979" stroke-width="1.5"/>
+            <rect x="16" y="20" width="16" height="8" rx="1" stroke="#797979" stroke-width="1"/>
+            <path d="M24 31V35" stroke="#797979" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="showcase-item-body">
+          <span class="showcase-item-tag">STARTUP</span>
+          <h3>Product-led growth</h3>
+          <p>Ship marketing pages and docs from the same content platform.</p>
+        </div>
+      </div>
+
+      <!-- Showcase 3 -->
+      <div class="showcase-item">
+        <div class="showcase-item-image">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="10" stroke="#797979" stroke-width="1.5"/>
+            <path d="M24 14V24L30 30" stroke="#797979" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M14 14L18 18" stroke="#797979" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="showcase-item-body">
+          <span class="showcase-item-tag">AGENCY</span>
+          <h3>Client delivery</h3>
+          <p>Reusable content models and studios for rapid client project delivery.</p>
+        </div>
+      </div>
+
+      <!-- Showcase 4 -->
+      <div class="showcase-item">
+        <div class="showcase-item-image">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="10" y="10" width="28" height="28" rx="4" stroke="#797979" stroke-width="1.5"/>
+            <rect x="16" y="16" width="16" height="12" rx="2" stroke="#797979" stroke-width="0.75"/>
+            <line x1="16" y1="34" x2="24" y2="34" stroke="#797979" stroke-width="0.75"/>
+          </svg>
+        </div>
+        <div class="showcase-item-body">
+          <span class="showcase-item-tag">E-COMMERCE</span>
+          <h3>Headless commerce</h3>
+          <p>Enrich product catalogs with editorial content and rich media.</p>
+        </div>
+      </div>
+
+      <!-- Showcase 5 -->
+      <div class="showcase-item">
+        <div class="showcase-item-image">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="12" y="14" width="24" height="20" rx="3" stroke="#797979" stroke-width="1.5"/>
+            <path d="M18 20L22 24L18 28" stroke="#797979" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="24" y1="28" x2="30" y2="28" stroke="#797979" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="showcase-item-body">
+          <span class="showcase-item-tag">DOCUMENTATION</span>
+          <h3>Developer docs</h3>
+          <p>Structured documentation with code samples, versioning, and search.</p>
+        </div>
+      </div>
+
+      <!-- Showcase 6 -->
+      <div class="showcase-item">
+        <div class="showcase-item-image">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="10" y="10" width="28" height="28" rx="4" stroke="#797979" stroke-width="1.5"/>
+            <circle cx="24" cy="22" r="5" stroke="#797979" stroke-width="1"/>
+            <path d="M19 30L22 27L24 29L27 26L30 29" stroke="#797979" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="showcase-item-body">
+          <span class="showcase-item-tag">DIGITAL MEDIA</span>
+          <h3>Multi-channel publishing</h3>
+          <p>Single content hub powering web, mobile, newsletter, and social.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CTA BANNER
+     ============================================ -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-banner">
+      <h2>Ready to treat content like data?</h2>
+      <p>Start building on the composable content cloud trusted by teams at PUMA, AT&amp;T, Figma, and thousands more.</p>
+      <div class="cta-actions">
+        <button class="btn-primary">Start building free</button>
+        <button class="btn-secondary">Request a demo</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-col footer-brand">
+        <a href="#" class="nav-logo" aria-label="Sanity Home" style="margin-bottom: var(--space-std); display: block;">
+          <svg viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 28px; width: auto;">
+            <rect x="0" y="2" width="24" height="24" rx="6" fill="#f36458"/>
+            <text x="32" y="21" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#ffffff" letter-spacing="-0.4px">sanity</text>
+          </svg>
+        </a>
+        <p>The composable content cloud for modern teams. Structured content, real-time collaboration, and API-first distribution.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">Content Lake</a>
+        <a href="#">Sanity Studio</a>
+        <a href="#">Visual Editing</a>
+        <a href="#">APIs</a>
+        <a href="#">Pricing</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <a href="#">Marketing</a>
+        <a href="#">E‑commerce</a>
+        <a href="#">Enterprise</a>
+        <a href="#">Startups</a>
+        <a href="#">Agencies</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Guides</a>
+        <a href="#">Blog</a>
+        <a href="#">Community</a>
+        <a href="#">Status</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Partners</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2025 Sanity. All rights reserved.</span>
+      <div class="footer-social">
+        <a href="#" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1C4.58 1 1 4.58 1 9C1 12.54 3.29 15.53 6.47 16.59C6.87 16.66 7.02 16.42 7.02 16.21C7.02 16.02 7.01 15.39 7.01 14.72C4.78 15.2 4.31 13.78 4.31 13.78C3.95 12.86 3.42 12.62 3.42 12.62C2.68 12.12 3.47 12.12 3.47 12.12C4.28 12.18 4.71 12.95 4.71 12.95C5.42 14.17 6.58 13.82 7.04 13.61C7.1 13.09 7.3 12.73 7.51 12.53C5.78 12.34 3.96 11.65 3.96 8.58C3.96 7.71 4.28 6.99 4.8 6.44C4.73 6.24 4.46 5.43 4.86 4.34C4.86 4.34 5.51 4.14 7 5.18C7.64 5 8.32 4.91 9 4.91C9.68 4.91 10.36 5 11 5.18C12.49 4.14 13.14 4.34 13.14 4.34C13.54 5.43 13.27 6.24 13.2 6.44C13.72 6.99 14.04 7.71 14.04 8.58C14.04 11.66 12.21 12.33 10.48 12.53C10.75 12.78 11 13.25 11 14C11 15.05 10.99 15.9 10.99 16.21C10.99 16.42 11.14 16.67 11.54 16.59C14.71 15.53 17 12.53 17 9C17 4.58 13.42 1 9 1Z"/></svg>
+        </a>
+        <a href="#" aria-label="Twitter">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M14.176 2.5H16.388L11.564 7.946L17.248 15.5H12.78L9.298 10.954L5.376 15.5H3.164L8.332 9.648L2.896 2.5H7.472L10.614 6.63L14.176 2.5ZM13.4 14.18H14.626L6.772 3.75H5.448L13.4 14.18Z"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M16.2 5.4C16.2 5.4 16.06 4.4 15.62 3.96C15.06 3.38 14.42 3.38 14.14 3.34C12.14 3.2 9.14 3.2 9.14 3.2H9.14C9.14 3.2 6.14 3.2 4.14 3.34C3.86 3.38 3.22 3.38 2.66 3.96C2.22 4.4 2.08 5.4 2.08 5.4C2.08 5.4 1.92 6.58 1.92 7.76V8.88C1.92 10.06 2.08 11.24 2.08 11.24C2.08 11.24 2.22 12.24 2.66 12.68C3.22 13.26 3.96 13.24 4.28 13.32C5.46 13.44 9 13.46 9 13.46C9 13.46 12.14 13.44 14.14 13.3C14.42 13.26 15.06 13.26 15.62 12.68C16.06 12.24 16.2 11.24 16.2 11.24C16.2 11.24 16.36 10.06 16.36 8.88V7.76C16.36 6.58 16.2 5.4 16.2 5.4ZM7.62 10.66V5.74L11.56 8.2L7.62 10.66Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

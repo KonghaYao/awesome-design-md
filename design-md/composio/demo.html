@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Composio — Connect AI Agents to 250+ Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   DESIGN TOKENS — composio/DESIGN.md
+   ============================================ */
+
+:root {
+  /* Colors */
+  --primary: #0007cd;
+  --primary-active: #0005a3;
+  --primary-glow: #1a26ff;
+  --ink: #ffffff;
+  --body: #a8a8a8;
+  --body-strong: #ffffff;
+  --muted: #888888;
+  --muted-soft: #666666;
+  --hairline: #222222;
+  --hairline-soft: #1a1a1a;
+  --hairline-strong: #333333;
+  --canvas: #0f0f0f;
+  --canvas-deep: #000000;
+  --surface-card: #181818;
+  --surface-card-elevated: #222222;
+  --surface-strong: #2a2a2a;
+  --on-primary: #ffffff;
+  --on-dark: #ffffff;
+  --accent-cyan: #00d4ff;
+  --accent-violet: #7b3aed;
+  --semantic-error: #ff4d4d;
+  --semantic-success: #33d17a;
+
+  /* Typography — using Inter as abcDiatype substitute */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Rounded */
+  --rounded-none: 0px;
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-pill: 9999px;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-base: 16px;
+  --spacing-md: 20px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 96px;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--canvas);
+  color: var(--body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================
+   TOP NAVIGATION — top-nav-dark
+   ============================================ */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--canvas);
+  color: var(--body-strong);
+  height: 64px;
+  border-bottom: 1px solid var(--hairline);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.site-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--body-strong);
+}
+
+.nav-brand-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  border-radius: var(--rounded-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-primary);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  list-style: none;
+}
+
+.nav-menu a {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--body);
+  transition: color 0.15s ease;
+}
+
+.nav-menu a:hover {
+  color: var(--body-strong);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-base);
+}
+
+.nav-github {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--body);
+  transition: color 0.15s ease;
+}
+
+.nav-github:hover {
+  color: var(--body-strong);
+}
+
+.nav-signin {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--body);
+  transition: color 0.15s ease;
+}
+
+.nav-signin:hover {
+  color: var(--body-strong);
+}
+
+/* button-primary */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 10px 18px;
+  height: 40px;
+  border: none;
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-active);
+}
+
+.btn-primary:active {
+  background-color: var(--primary-active);
+  transform: scale(0.98);
+}
+
+/* button-secondary-dark */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-card-elevated);
+  color: var(--body-strong);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 10px 18px;
+  height: 40px;
+  border: none;
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-strong);
+}
+
+/* button-outline */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--body-strong);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 9px 17px;
+  height: 40px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-outline:hover {
+  border-color: var(--muted-soft);
+  background-color: var(--surface-card);
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--body-strong);
+}
+
+.nav-toggle svg {
+  display: block;
+}
+
+/* ============================================
+   HERO BAND — hero-band
+   ============================================ */
+
+.hero {
+  position: relative;
+  background-color: var(--canvas);
+  padding: var(--spacing-section) var(--spacing-lg) calc(var(--spacing-section) + 32px);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Spotlight glow backdrop */
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle at center, var(--primary-glow) 0%, rgba(26,38,255,0.08) 35%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface-card-elevated);
+  color: var(--body-strong);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--rounded-pill);
+  margin-bottom: var(--spacing-lg);
+}
+
+.hero-badge-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--semantic-success);
+  margin-right: 8px;
+}
+
+/* display-mega */
+.hero-headline {
+  font-family: var(--font-sans);
+  font-size: 72px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -2.16px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-headline .hl-blue {
+  color: var(--primary);
+}
+
+/* display-md used as subheadline */
+.hero-subheadline {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  max-width: 640px;
+  margin: 0 auto var(--spacing-xl);
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xxl);
+  flex-wrap: wrap;
+}
+
+.hero-ctas .btn-primary {
+  height: 44px;
+  padding: 0 22px;
+}
+
+.hero-ctas .btn-secondary {
+  height: 44px;
+  padding: 0 22px;
+}
+
+/* ============================================
+   TERMINAL MOCKUP GRID — terminal-mockup-grid
+   ============================================ */
+
+.terminal-grid {
+  max-width: 860px;
+  margin: 0 auto;
+  background-color: var(--canvas-deep);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  position: relative;
+  box-shadow: 0 0 120px rgba(0,7,205,0.08);
+}
+
+/* terminal-pane */
+.terminal-pane {
+  background-color: var(--surface-card);
+  color: var(--body);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  border-radius: var(--rounded-lg);
+  padding: 20px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.terminal-pane-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.terminal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background: #ff5f56; }
+.terminal-dot.amber { background: #ffbd2e; }
+.terminal-dot.green { background: #27c93f; }
+
+.terminal-line {
+  margin-bottom: 6px;
+  white-space: pre;
+}
+
+.terminal-line .prompt { color: var(--muted-soft); }
+.terminal-line .cmd { color: var(--body-strong); }
+.terminal-line .str { color: var(--accent-cyan); }
+.terminal-line .keyword { color: var(--accent-violet); }
+.terminal-line .comment { color: var(--muted-soft); }
+.terminal-line .output-dim { color: var(--muted); }
+.terminal-line .output-bright { color: var(--body-strong); }
+.terminal-line .success { color: var(--semantic-success); }
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background-color: var(--primary);
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ============================================
+   FEATURES SECTION — feature-card grid
+   ============================================ */
+
+.features {
+  padding: var(--spacing-section) var(--spacing-lg);
+  background-color: var(--canvas);
+}
+
+.features-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: var(--spacing-base);
+  display: block;
+}
+
+/* display-lg */
+.section-headline {
+  font-family: var(--font-sans);
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1.32px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-base);
+}
+
+.section-subhead {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+  max-width: 600px;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+/* feature-card */
+.feature-card {
+  background-color: var(--surface-card);
+  color: var(--body);
+  border-radius: var(--rounded-xl);
+  padding: 28px;
+  border: 1px solid var(--hairline);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--hairline-strong);
+  background-color: var(--surface-card-elevated);
+}
+
+.feature-card-icon {
+  width: 44px;
+  height: 44px;
+  background-color: var(--surface-card-elevated);
+  border-radius: var(--rounded-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-base);
+  color: var(--primary);
+}
+
+.feature-card h3 {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--body-strong);
+  margin-bottom: var(--spacing-xs);
+}
+
+.feature-card p {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+}
+
+/* ============================================
+   TOOLKITS SECTION — toolkit-card grid
+   ============================================ */
+
+.toolkits {
+  padding: var(--spacing-section) var(--spacing-lg);
+  background-color: var(--canvas);
+  border-top: 1px solid var(--hairline);
+}
+
+.toolkits-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.toolkits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-base);
+}
+
+/* toolkit-card */
+.toolkit-card {
+  background-color: var(--surface-card);
+  color: var(--body-strong);
+  border-radius: var(--rounded-lg);
+  padding: 20px;
+  border: 1px solid var(--hairline-soft);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  text-align: center;
+}
+
+.toolkit-card:hover {
+  border-color: var(--hairline);
+  background-color: var(--surface-card-elevated);
+}
+
+/* toolkit-icon */
+.toolkit-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--surface-card-elevated);
+  border-radius: var(--rounded-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-sm);
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.toolkit-card h4 {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--body-strong);
+  margin-bottom: 4px;
+}
+
+.toolkit-card p {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ============================================
+   SHOWCASE — spotlight-glow-card
+   ============================================ */
+
+.showcase {
+  padding: var(--spacing-section) var(--spacing-lg);
+  background-color: var(--canvas);
+  border-top: 1px solid var(--hairline);
+}
+
+.showcase-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+}
+
+/* spotlight-glow-card */
+.spotlight-card {
+  position: relative;
+  background-color: var(--surface-card);
+  color: var(--body-strong);
+  border-radius: var(--rounded-xl);
+  padding: 48px;
+  text-align: center;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+}
+
+.spotlight-card-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(26,38,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.spotlight-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.spotlight-card h2 {
+  font-family: var(--font-sans);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.96px;
+  color: var(--body-strong);
+  margin-bottom: var(--spacing-sm);
+}
+
+.spotlight-card p {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+  margin-bottom: var(--spacing-lg);
+}
+
+.spotlight-stat {
+  font-family: var(--font-sans);
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1.32px;
+  color: var(--primary);
+  margin-bottom: var(--spacing-xxs);
+}
+
+.spotlight-stat-label {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--body);
+}
+
+/* testimonial-card */
+.testimonial-card {
+  background-color: var(--surface-card);
+  color: var(--body);
+  border-radius: var(--rounded-lg);
+  padding: 24px;
+  border: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.testimonial-quote {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+  margin-bottom: var(--spacing-base);
+}
+
+.testimonial-quote::before {
+  content: '\201C';
+  color: var(--primary);
+  font-size: 32px;
+  line-height: 0;
+  vertical-align: -8px;
+  margin-right: 2px;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.testimonial-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--rounded-pill);
+  background-color: var(--surface-card-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--body-strong);
+}
+
+.testimonial-name {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--body-strong);
+}
+
+.testimonial-role {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ============================================
+   CODE SECTION — code-block
+   ============================================ */
+
+.code-section {
+  padding: var(--spacing-section) var(--spacing-lg);
+  background-color: var(--canvas);
+  border-top: 1px solid var(--hairline);
+}
+
+.code-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.code-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.code-block {
+  background-color: var(--canvas-deep);
+  color: var(--body);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  border-radius: var(--rounded-lg);
+  padding: 20px;
+  overflow: auto;
+  border: 1px solid var(--hairline);
+}
+
+.code-block .line {
+  display: block;
+  min-height: 19.5px;
+}
+
+.code-block .kw { color: var(--accent-violet); }
+.code-block .fn { color: var(--accent-cyan); }
+.code-block .str { color: var(--semantic-success); }
+.code-block .num { color: var(--accent-cyan); }
+.code-block .cm { color: var(--muted-soft); }
+.code-block .var { color: var(--body-strong); }
+.code-block .op { color: var(--muted); }
+
+.code-description h3 {
+  font-family: var(--font-sans);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: var(--body-strong);
+  margin-bottom: var(--spacing-base);
+}
+
+.code-description p {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================
+   CTA BAND — cta-band-spotlight
+   ============================================ */
+
+.cta-band {
+  position: relative;
+  background-color: var(--canvas);
+  padding: var(--spacing-section) var(--spacing-lg);
+  text-align: center;
+  overflow: hidden;
+  border-top: 1px solid var(--hairline);
+}
+
+.cta-band-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(26,38,255,0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.cta-band-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-band h2 {
+  font-family: var(--font-sans);
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1.32px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-base);
+}
+
+.cta-band p {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+  margin-bottom: var(--spacing-xl);
+}
+
+.cta-band .btn-primary {
+  height: 44px;
+  padding: 0 28px;
+  font-size: 15px;
+}
+
+.cta-band .btn-secondary {
+  height: 44px;
+  padding: 0 28px;
+  font-size: 15px;
+}
+
+.cta-band-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* ============================================
+   FOOTER — footer-dark
+   ============================================ */
+
+.site-footer {
+  background-color: var(--canvas);
+  color: var(--body);
+  padding: 64px 48px;
+  border-top: 1px solid var(--hairline);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--spacing-xl);
+}
+
+.footer-brand {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+}
+
+.footer-brand-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--body-strong);
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-brand-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  border-radius: var(--rounded-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-primary);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.footer-brand p {
+  max-width: 240px;
+  margin-top: var(--spacing-xs);
+}
+
+.footer-col h5 {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--body-strong);
+  margin-bottom: var(--spacing-base);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* footer-link */
+.footer-col a {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+  transition: color 0.15s ease;
+}
+
+.footer-col a:hover {
+  color: var(--body-strong);
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: var(--spacing-xxl) auto 0;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-base);
+}
+
+.footer-bottom p {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.footer-bottom-links a {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--body);
+}
+
+/* ============================================
+   RESPONSIVE — per DESIGN.md breakpoints
+   ============================================ */
+
+/* Tablet: 640–1024px */
+@media (max-width: 1024px) {
+  .hero-headline { font-size: 56px; letter-spacing: -1.68px; }
+  .section-headline { font-size: 36px; letter-spacing: -1.08px; }
+  .cta-band h2 { font-size: 36px; letter-spacing: -1.08px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .toolkits-grid { grid-template-columns: repeat(2, 1fr); }
+  .showcase-inner { grid-template-columns: 1fr; }
+  .code-showcase { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr 1fr; }
+  .nav-menu { display: none; }
+}
+
+/* Mobile: < 640px */
+@media (max-width: 640px) {
+  .hero-headline { font-size: 36px; letter-spacing: -1.08px; }
+  .hero-glow { width: 400px; height: 400px; }
+  .section-headline { font-size: 28px; letter-spacing: -0.84px; }
+  .cta-band h2 { font-size: 28px; letter-spacing: -0.84px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .toolkits-grid { grid-template-columns: 1fr; }
+  .terminal-grid { grid-template-columns: 1fr; padding: 16px; gap: 8px; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .nav-actions .nav-github,
+  .nav-actions .nav-signin { display: none; }
+  .nav-menu { display: none; }
+  .site-nav-inner { padding: 0 var(--spacing-base); }
+  .spotlight-card { padding: var(--spacing-xl); }
+  .hero { padding: var(--spacing-xxl) var(--spacing-base); }
+  .features, .toolkits, .showcase, .code-section, .cta-band { padding: var(--spacing-xxl) var(--spacing-base); }
+  .site-footer { padding: 48px var(--spacing-lg); }
+  .btn-primary, .btn-secondary, .btn-outline { width: 100%; justify-content: center; }
+  .hero-ctas, .cta-band-actions { flex-direction: column; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     TOP NAVIGATION — top-nav-dark
+     ============================================ -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="#" class="nav-brand">
+      <span class="nav-brand-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="6" width="4" height="8" rx="1" fill="white"/>
+          <rect x="6" y="3" width="4" height="11" rx="1" fill="white"/>
+          <rect x="11" y="7" width="4" height="7" rx="1" fill="white"/>
+        </svg>
+      </span>
+      Composio
+    </a>
+    <ul class="nav-menu">
+      <li><a href="#">Product</a></li>
+      <li><a href="#">Toolkits</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Customers</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="nav-github">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+          <path d="M9 0C4.03 0 0 4.03 0 9c0 3.98 2.58 7.35 6.16 8.54.45.08.61-.2.61-.43v-1.53c-2.5.54-3.03-1.2-3.03-1.2-.41-1.04-1-1.32-1-1.32-.82-.56.06-.55.06-.55.9.06 1.38.93 1.38.93.8 1.38 2.1.98 2.62.75.08-.58.31-.98.57-1.2-2-.23-4.1-1-4.1-4.45 0-.98.35-1.78.93-2.41-.1-.23-.4-1.14.08-2.38 0 0 .75-.24 2.47.92A8.6 8.6 0 0 1 9 4.35c.76 0 1.52.1 2.23.3 1.72-1.16 2.47-.92 2.47-.92.48 1.24.18 2.15.09 2.38.58.63.93 1.43.93 2.41 0 3.46-2.11 4.22-4.11 4.44.32.28.6.83.6 1.67v2.47c0 .24.16.52.62.43A9 9 0 0 0 18 9c0-4.97-4.03-9-9-9z"/>
+        </svg>
+        <span>4.2k</span>
+      </a>
+      <a href="#" class="nav-signin">Sign In</a>
+      <a href="#" class="btn-primary">Get started</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="5" x2="17" y2="5"/>
+        <line x1="3" y1="10" x2="17" y2="10"/>
+        <line x1="3" y1="15" x2="17" y2="15"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================
+     HERO BAND — hero-band
+     ============================================ -->
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <!-- badge-pill -->
+    <span class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Now in Public Beta
+    </span>
+    <h1 class="hero-headline">
+      Connect <span class="hl-blue">AI Agents</span> to<br>250+ Tools
+    </h1>
+    <p class="hero-subheadline">
+      Composio gives your AI agents access to Slack, GitHub, Stripe, Notion and more &mdash; with built-in auth management, execution monitoring, and one-line integration.
+    </p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-primary">Get started free</a>
+      <a href="#" class="btn-secondary">Read the docs</a>
+    </div>
+
+    <!-- terminal-mockup-grid -->
+    <div class="terminal-grid">
+      <!-- Pane 1: Agent definition -->
+      <div class="terminal-pane">
+        <div class="terminal-pane-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot amber"></span>
+          <span class="terminal-dot green"></span>
+        </div>
+        <div class="terminal-line"><span class="prompt">$</span> <span class="cmd">cat agent_def.py</span></div>
+        <div class="terminal-line"><span class="keyword">from</span> <span class="var">composio</span> <span class="keyword">import</span> <span class="var">ComposioToolSet</span></div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="var">toolset</span> = <span class="var">ComposioToolSet</span>(</div>
+        <div class="terminal-line">  <span class="var">api_key</span>=<span class="str">"••••••••"</span>,</div>
+        <div class="terminal-line">  <span class="var">entity_id</span>=<span class="str">"agent-01"</span></div>
+        <div class="terminal-line">)</div>
+      </div>
+
+      <!-- Pane 2: GitHub action -->
+      <div class="terminal-pane">
+        <div class="terminal-pane-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot amber"></span>
+          <span class="terminal-dot green"></span>
+        </div>
+        <div class="terminal-line"><span class="prompt">$</span> <span class="cmd">agent --action create_issue</span></div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="output-dim">▸ Creating issue in</span></div>
+        <div class="terminal-line"><span class="output-dim">  composiohq/composio...</span></div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="success">✓ Issue #847 created</span></div>
+        <div class="terminal-line"><span class="output-bright">  https://github.com/c/847</span></div>
+      </div>
+
+      <!-- Pane 3: Slack integration -->
+      <div class="terminal-pane">
+        <div class="terminal-pane-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot amber"></span>
+          <span class="terminal-dot green"></span>
+        </div>
+        <div class="terminal-line"><span class="prompt">$</span> <span class="cmd">agent --tool slack_send</span></div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="output-dim">▸ Channel: #eng-deploy</span></div>
+        <div class="terminal-line"><span class="output-dim">▸ Sending message...</span></div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="success">✓ Delivered to #eng-deploy</span></div>
+        <div class="terminal-line"><span class="output-dim">  Reactions: 🚀🚀🚀</span></div>
+      </div>
+
+      <!-- Pane 4: Monitoring -->
+      <div class="terminal-pane">
+        <div class="terminal-pane-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot amber"></span>
+          <span class="terminal-dot green"></span>
+        </div>
+        <div class="terminal-line"><span class="prompt">$</span> <span class="cmd">composio logs --tail</span></div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="output-dim">14:32:05</span> <span class="output-bright">create_issue</span> <span class="success">OK</span> <span class="output-dim">280ms</span></div>
+        <div class="terminal-line"><span class="output-dim">14:32:06</span> <span class="output-bright">slack_send</span>  <span class="success">OK</span> <span class="output-dim">142ms</span></div>
+        <div class="terminal-line"><span class="output-dim">14:32:12</span> <span class="output-bright">notion_page</span> <span class="success">OK</span> <span class="output-dim">315ms</span></div>
+        <div class="terminal-line"><span class="output-dim">14:32:18</span> <span class="output-bright">linear_task</span> <span class="success">OK</span> <span class="output-dim">196ms</span><span class="terminal-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================
+     FEATURES SECTION — feature-card grid
+     ============================================ -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <span class="section-label">Platform</span>
+    <h2 class="section-headline">Everything agents need<br>to interact with the world</h2>
+    <p class="section-subhead">
+      Managed authentication, reliable execution, and full observability across every tool your agents touch.
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3>Built-in Auth</h3>
+        <p>Manage OAuth for 250+ tools in one place. Users authenticate once &mdash; agents get secure, scoped access automatically.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 3 21 3 21 8"/>
+            <line x1="4" y1="20" x2="21" y2="3"/>
+            <polyline points="21 16 21 21 16 21"/>
+            <line x1="15" y1="15" x2="21" y2="21"/>
+            <line x1="4" y1="4" x2="9" y2="9"/>
+          </svg>
+        </div>
+        <h3>Managed Execution</h3>
+        <p>Run tool calls reliably with automatic retries, rate-limit handling, and intelligent queuing &mdash; no boilerplate required.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <h3>Observability</h3>
+        <p>Real-time logs, execution traces, and usage dashboards. Know exactly what your agents are doing across every integration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     TOOLKITS SECTION — toolkit-card grid
+     ============================================ -->
+<section class="toolkits" id="toolkits">
+  <div class="toolkits-inner">
+    <span class="section-label">Toolkits</span>
+    <h2 class="section-headline">250+ integrations,<br>one API</h2>
+    <p class="section-subhead">
+      From communication to code, payments to productivity &mdash; every tool your agent needs.
+    </p>
+
+    <div class="toolkits-grid">
+      <div class="toolkit-card">
+        <div class="toolkit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="8" y1="13" x2="16" y2="13"/>
+            <line x1="8" y1="17" x2="12" y2="17"/>
+          </svg>
+        </div>
+        <h4>GitHub</h4>
+        <p>Issues, PRs, code review</p>
+      </div>
+
+      <div class="toolkit-card">
+        <div class="toolkit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <h4>Gmail</h4>
+        <p>Send, read, and search emails</p>
+      </div>
+
+      <div class="toolkit-card">
+        <div class="toolkit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h4>Slack</h4>
+        <p>Channels, DMs, threads</p>
+      </div>
+
+      <div class="toolkit-card">
+        <div class="toolkit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </div>
+        <h4>Notion</h4>
+        <p>Pages, databases, wikis</p>
+      </div>
+
+      <div class="toolkit-card">
+        <div class="toolkit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <h4>Stripe</h4>
+        <p>Payments, invoices, subscriptions</p>
+      </div>
+
+      <div class="toolkit-card">
+        <div class="toolkit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h4>Linear</h4>
+        <p>Issues, cycles, projects</p>
+      </div>
+
+      <div class="toolkit-card">
+        <div class="toolkit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h4>Salesforce</h4>
+        <p>CRM records, reports, flows</p>
+      </div>
+
+      <div class="toolkit-card">
+        <div class="toolkit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h4>Jira</h4>
+        <p>Issues, boards, sprints</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SHOWCASE — spotlight-glow-card + testimonial
+     ============================================ -->
+<section class="showcase" id="showcase">
+  <div class="showcase-inner">
+
+    <!-- spotlight-glow-card -->
+    <div class="spotlight-card">
+      <div class="spotlight-card-glow"></div>
+      <div class="spotlight-card-content">
+        <h2>Production-ready agent infrastructure</h2>
+        <p>From prototype to production in minutes, not months.</p>
+        <div class="spotlight-stat">99.95%</div>
+        <div class="spotlight-stat-label">Uptime SLA</div>
+      </div>
+    </div>
+
+    <!-- testimonial-card -->
+    <div class="testimonial-card">
+      <p class="testimonial-quote">
+        Composio cut our agent-tool integration time from weeks to hours. The managed auth alone was worth it &mdash; we never worry about OAuth token rotation again.
+      </p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">SR</div>
+        <div>
+          <div class="testimonial-name">Sarah Reynolds</div>
+          <div class="testimonial-role">Staff Engineer, Acme AI</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================
+     CODE SECTION — code-block
+     ============================================ -->
+<section class="code-section">
+  <div class="code-inner">
+    <span class="section-label">Developer Experience</span>
+    <h2 class="section-headline">One SDK, every tool</h2>
+    <p class="section-subhead">
+      Python or JavaScript &mdash; integrate any tool with the same clean interface.
+    </p>
+
+    <div class="code-showcase">
+      <div class="code-block">
+        <span class="line"><span class="kw">import</span> { <span class="var">Composio</span> } <span class="kw">from</span> <span class="str">"composio"</span>;</span>
+        <span class="line">&nbsp;</span>
+        <span class="line"><span class="kw">const</span> <span class="var">client</span> = <span class="kw">new</span> <span class="fn">Composio</span>({</span>
+        <span class="line">  <span class="var">apiKey</span>: <span class="var">process</span>.<span class="var">env</span>.<span class="str">COMPOSIO_API_KEY</span>,</span>
+        <span class="line">});</span>
+        <span class="line">&nbsp;</span>
+        <span class="line"><span class="cm">// Execute a tool with one call</span></span>
+        <span class="line"><span class="kw">const</span> <span class="var">result</span> = <span class="kw">await</span> <span class="var">client</span>.<span class="fn">execute</span>({</span>
+        <span class="line">  <span class="var">tool</span>: <span class="str">"github.create_issue"</span>,</span>
+        <span class="line">  <span class="var">params</span>: { <span class="var">repo</span>: <span class="str">"acme/api"</span>, <span class="var">title</span>: <span class="str">"Fix auth bug"</span> },</span>
+        <span class="line">  <span class="var">entityId</span>: <span class="str">"agent-prod-01"</span>,</span>
+        <span class="line">});</span>
+        <span class="line">&nbsp;</span>
+        <span class="line"><span class="var">console</span>.<span class="fn">log</span>(<span class="var">result</span>.<span class="var">data</span>.<span class="var">html_url</span>);</span>
+        <span class="line"><span class="cm">// → https://github.com/acme/api/issues/293</span></span>
+      </div>
+
+      <div class="code-description">
+        <h3>Ship faster with a unified API</h3>
+        <p>No per-tool SDKs. No auth boilerplate. No retry logic. Composio normalizes 250+ tools behind a single, consistent interface so your agents focus on reasoning &mdash; not plumbing.</p>
+        <a href="#" class="btn-outline">Explore the docs &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CTA BAND — cta-band-spotlight
+     ============================================ -->
+<section class="cta-band" id="cta">
+  <div class="cta-band-glow"></div>
+  <div class="cta-band-inner">
+    <h2>Give your agents<br>superpowers today</h2>
+    <p>Free for up to 1,000 tool calls per month. No credit card required.</p>
+    <div class="cta-band-actions">
+      <a href="#" class="btn-primary">Start building free</a>
+      <a href="#" class="btn-secondary">Talk to sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER — footer-dark
+     ============================================ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-brand-name">
+        <span class="footer-brand-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <rect x="1" y="6" width="4" height="8" rx="1" fill="white"/>
+            <rect x="6" y="3" width="4" height="11" rx="1" fill="white"/>
+            <rect x="11" y="7" width="4" height="7" rx="1" fill="white"/>
+          </svg>
+        </span>
+        Composio
+      </div>
+      <p>The integration platform for AI agents. Connect, authenticate, and monitor 250+ tools from a single API.</p>
+    </div>
+
+    <div class="footer-col">
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Toolkits</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">SDKs</a></li>
+        <li><a href="#">Quickstart</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Customers</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Partners</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">DPA</a></li>
+        <li><a href="#">SLA</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2026 Composio, Inc. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

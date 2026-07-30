@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clay — Go-to-market with unique data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CLAY DESIGN SYSTEM TOKENS — All values from DESIGN.md
+   ============================================================ */
+
+/* ---------- CSS Custom Properties (Token references) ---------- */
+:root {
+  /* Colors */
+  --color-primary: #0a0a0a;
+  --color-primary-active: #1f1f1f;
+  --color-primary-disabled: #e5e5e5;
+  --color-ink: #0a0a0a;
+  --color-body: #3a3a3a;
+  --color-body-strong: #1a1a1a;
+  --color-muted: #6a6a6a;
+  --color-muted-soft: #9a9a9a;
+  --color-hairline: #e5e5e5;
+  --color-hairline-soft: #f0f0f0;
+  --color-canvas: #fffaf0;
+  --color-surface-soft: #faf5e8;
+  --color-surface-card: #f5f0e0;
+  --color-surface-strong: #ebe6d6;
+  --color-surface-dark: #0a1a1a;
+  --color-surface-dark-elevated: #1a2a2a;
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+  --color-on-dark-soft: #a0a0a0;
+
+  /* Brand & Accent */
+  --color-brand-pink: #ff4d8b;
+  --color-brand-teal: #1a3a3a;
+  --color-brand-lavender: #b8a4ed;
+  --color-brand-peach: #ffb084;
+  --color-brand-ochre: #e8b94a;
+  --color-brand-mint: #a4d4c5;
+  --color-brand-coral: #ff6b5a;
+
+  /* Semantic */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* Typography — Using Inter as Plain Black substitute (weight 500 + negative ls) */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 96px;
+
+  /* Rounded */
+  --rounded-xs: 6px;
+  --rounded-sm: 8px;
+  --rounded-md: 12px;
+  --rounded-lg: 16px;
+  --rounded-xl: 24px;
+  --rounded-pill: 9999px;
+  --rounded-full: 9999px;
+
+  /* Component heights */
+  --nav-height: 64px;
+  --button-height: 44px;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-body);
+  background-color: var(--color-canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Typography Utility Classes ---------- */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -2.5px;
+  color: var(--color-ink);
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--color-ink);
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--color-ink);
+}
+
+.display-sm {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: var(--color-ink);
+}
+
+.title-lg {
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+.title-md {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.title-sm {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.body-md {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+.body-sm {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.caption-uppercase {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ---------- Button Components (from DESIGN.md components) ---------- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  padding: 12px 20px;
+  height: var(--button-height);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-active);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  padding: 12px 20px;
+  height: var(--button-height);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-primary);
+}
+
+.btn-on-color {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  padding: 12px 20px;
+  height: var(--button-height);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  border: none;
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.btn-on-color:hover {
+  opacity: 0.9;
+}
+
+.btn-text-link {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  background: transparent;
+  color: var(--color-ink);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.btn-text-link:hover {
+  opacity: 0.7;
+}
+
+/* ---------- Top Navigation (top-nav) ---------- */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-height);
+  background-color: var(--color-canvas);
+  border-bottom: 1px solid var(--color-hairline);
+  display: flex;
+  align-items: center;
+}
+
+.nav-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-ink);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.nav-logo svg {
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover {
+  opacity: 0.6;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+}
+
+/* ---------- Hero Band (hero-band) ---------- */
+.hero-band {
+  padding: var(--spacing-section) 0;
+  background-color: var(--color-canvas);
+}
+
+.hero-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: var(--spacing-xxl);
+  align-items: center;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xxs) var(--spacing-sm);
+  background-color: var(--color-surface-card);
+  color: var(--color-ink);
+  border-radius: var(--rounded-pill);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  align-self: flex-start;
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-success);
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -2.5px;
+  color: var(--color-ink);
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-body);
+  max-width: 480px;
+}
+
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* Hero-illustration-card */
+.hero-illustration-card {
+  background-color: var(--color-surface-soft);
+  border-radius: var(--rounded-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 3D Claymation SVG illustration placeholder */
+.clay-illustration {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Section Common ---------- */
+.section {
+  padding: var(--spacing-section) 0;
+}
+
+.section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.section-label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-md);
+}
+
+.section-headline {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-md);
+  max-width: 700px;
+}
+
+.section-subheadline {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-muted);
+  max-width: 560px;
+  margin-bottom: var(--spacing-xxl);
+}
+
+/* ---------- Feature Cards Grid ---------- */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+/* feature-card-pink */
+.feature-card-pink {
+  background-color: var(--color-brand-pink);
+  color: var(--color-on-primary);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: transform 0.3s ease;
+}
+
+.feature-card-pink:hover {
+  transform: translateY(-4px);
+}
+
+/* feature-card-teal */
+.feature-card-teal {
+  background-color: var(--color-brand-teal);
+  color: var(--color-on-dark);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: transform 0.3s ease;
+}
+
+.feature-card-teal:hover {
+  transform: translateY(-4px);
+}
+
+/* feature-card-lavender */
+.feature-card-lavender {
+  background-color: var(--color-brand-lavender);
+  color: var(--color-ink);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: transform 0.3s ease;
+}
+
+.feature-card-lavender:hover {
+  transform: translateY(-4px);
+}
+
+/* feature-card-peach */
+.feature-card-peach {
+  background-color: var(--color-brand-peach);
+  color: var(--color-ink);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: transform 0.3s ease;
+}
+
+.feature-card-peach:hover {
+  transform: translateY(-4px);
+}
+
+/* feature-card-ochre */
+.feature-card-ochre {
+  background-color: var(--color-brand-ochre);
+  color: var(--color-ink);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: transform 0.3s ease;
+}
+
+.feature-card-ochre:hover {
+  transform: translateY(-4px);
+}
+
+/* feature-card-cream */
+.feature-card-cream {
+  background-color: var(--color-surface-card);
+  color: var(--color-ink);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: transform 0.3s ease;
+}
+
+.feature-card-cream:hover {
+  transform: translateY(-4px);
+}
+
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--rounded-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-card-title {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.feature-card-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  opacity: 0.85;
+}
+
+.feature-card-ui-fragment {
+  margin-top: auto;
+  border-radius: var(--rounded-sm);
+  overflow: hidden;
+  background: rgba(255,255,255,0.15);
+  padding: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feature-card-ui-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feature-card-ui-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.25);
+  border-radius: var(--rounded-pill);
+}
+
+.feature-card-ui-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--rounded-full);
+  background: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+/* ---------- Showcase / Product Mockup Cards ---------- */
+.product-mockup-card {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: border-color 0.3s ease;
+}
+
+.product-mockup-card:hover {
+  border-color: var(--color-ink);
+}
+
+/* ---------- Testimonial Cards ---------- */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.testimonial-card {
+  background-color: var(--color-surface-card);
+  color: var(--color-ink);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.testimonial-card-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.testimonial-card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-full);
+  background: var(--color-surface-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-ink);
+  flex-shrink: 0;
+}
+
+.testimonial-card-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.testimonial-card-role {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-muted);
+}
+
+.testimonial-card-quote {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-body);
+  font-style: italic;
+}
+
+.testimonial-card-quote::before {
+  content: '"';
+}
+
+.testimonial-card-quote::after {
+  content: '"';
+}
+
+/* ---------- Pricing Section ---------- */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.pricing-tier-card {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: border-color 0.3s ease;
+}
+
+.pricing-tier-card:hover {
+  border-color: var(--color-primary);
+}
+
+.pricing-tier-card-featured {
+  background-color: var(--color-brand-teal);
+  color: var(--color-on-dark);
+  border: none;
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.pricing-tier-card-featured .pricing-plan-name {
+  color: var(--color-on-dark);
+}
+
+.pricing-plan-name {
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  color: var(--color-ink);
+}
+
+.pricing-plan-price {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.pricing-plan-price span {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+.pricing-tier-card-featured .pricing-plan-price {
+  color: var(--color-on-dark);
+}
+.pricing-tier-card-featured .pricing-plan-price span {
+  color: var(--color-on-dark-soft);
+}
+
+.pricing-plan-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-muted);
+}
+
+.pricing-tier-card-featured .pricing-plan-desc {
+  color: var(--color-on-dark-soft);
+}
+
+.pricing-feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.pricing-feature-list li {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.pricing-tier-card-featured .pricing-feature-list li {
+  color: var(--color-on-dark);
+}
+
+/* ---------- CTA Band (cta-band-illustrated) ---------- */
+.cta-band {
+  background-color: var(--color-surface-soft);
+  border-radius: var(--rounded-xl);
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-band-headline {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--color-ink);
+  max-width: 600px;
+}
+
+.cta-band-subline {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-muted);
+  max-width: 480px;
+}
+
+.cta-band-cta-row {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Decorative claymation mountains at bottom */
+.cta-band-mountains {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+}
+
+/* ---------- Footer (footer) ---------- */
+.footer {
+  background-color: var(--color-surface-soft);
+  padding: 80px 0 0 0;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--spacing-xxl);
+}
+
+.footer-logo-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-ink);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.footer-logo-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-body);
+}
+
+.footer-col-title {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.footer-col-links a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-body);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-col-links a:hover {
+  color: var(--color-ink);
+}
+
+/* Footer mountains decoration */
+.footer-mountains {
+  margin-top: var(--spacing-xxl);
+  height: 80px;
+  overflow: hidden;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--color-hairline);
+  padding: var(--spacing-lg) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-muted);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.footer-bottom-links a {
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--color-ink);
+}
+
+/* ---------- Responsive (from DESIGN.md breakpoints) ---------- */
+
+/* Tablet: 768–1024px */
+@media (max-width: 1024px) {
+  .nav-links {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+  }
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+  .hero-headline {
+    font-size: 56px;
+    letter-spacing: -2px;
+  }
+  .hero-illustration-card {
+    min-height: 300px;
+  }
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .testimonial-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .section-headline {
+    font-size: 40px;
+    letter-spacing: -1px;
+  }
+  .cta-band {
+    padding: 48px var(--spacing-lg);
+  }
+  .footer-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: < 768px */
+@media (max-width: 768px) {
+  .nav-links, .nav-actions .btn-text-link {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+  }
+  .hero-headline {
+    font-size: 36px;
+    letter-spacing: -1px;
+    line-height: 1.05;
+  }
+  .hero-illustration-card {
+    min-height: 240px;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .section-headline {
+    font-size: 32px;
+    letter-spacing: -0.5px;
+  }
+  .cta-band {
+    padding: 40px var(--spacing-lg);
+  }
+  .cta-band-headline {
+    font-size: 32px;
+    letter-spacing: -0.5px;
+  }
+  .footer-columns {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+  :root {
+    --spacing-section: 64px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAVIGATION (top-nav)
+     ============================================================ -->
+<nav class="top-nav">
+  <div class="nav-container">
+    <a href="#" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="28" height="28" rx="8" fill="#0a0a0a"/>
+        <path d="M8 14C8 14 10 8 14 8C18 8 20 14 20 14C20 14 18 20 14 20C10 20 8 14 8 14Z" fill="white"/>
+        <circle cx="14" cy="14" r="3" fill="#ffb084"/>
+      </svg>
+      Clay
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Product</a></li>
+      <li><a href="#">Solutions</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Customers</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn-text-link">Sign in</a>
+      <a href="#" class="btn-primary">Try free</a>
+    </div>
+    <button class="hamburger" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO BAND (hero-band)
+     ============================================================ -->
+<header class="hero-band">
+  <div class="hero-container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        New: Claygent 2.0 AI Agent
+      </div>
+      <h1 class="hero-headline">Go to market with unique data</h1>
+      <p class="hero-subheadline">
+        Clay is the data-orchestration platform that helps growth teams enrich, automate, and activate their GTM motion — all in one place.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#" class="btn-primary">Try Clay for free</a>
+        <a href="#" class="btn-secondary">Watch a demo</a>
+      </div>
+    </div>
+    <!-- hero-illustration-card -->
+    <div class="hero-illustration-card">
+      <!-- 3D Claymation Mountains + Character SVG -->
+      <svg class="clay-illustration" viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="clay-shadow" x="-5%" y="-5%" width="110%" height="110%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0a0a0a" flood-opacity="0.08"/>
+          </filter>
+        </defs>
+        <!-- Sky background -->
+        <rect width="400" height="420" rx="24" fill="#faf5e8"/>
+        <!-- Sun -->
+        <circle cx="320" cy="80" r="36" fill="#ffb084" opacity="0.8"/>
+        <circle cx="330" cy="68" r="12" fill="#e8b94a" opacity="0.5"/>
+        <!-- Far mountain (lavender) -->
+        <path d="M0 280 Q80 180 160 280 Q200 220 260 280 Q320 200 400 280 V420 H0 Z" fill="#b8a4ed" opacity="0.6"/>
+        <!-- Mid mountain (peach) -->
+        <path d="M0 340 Q100 240 200 340 Q260 260 340 340 Q360 280 400 340 V420 H0 Z" fill="#ffb084" opacity="0.8"/>
+        <!-- Ground -->
+        <rect x="0" y="360" width="400" height="60" fill="#a4d4c5" opacity="0.5" rx="0"/>
+        <!-- Clay character (simplified mascot) -->
+        <g filter="url(#clay-shadow)">
+          <!-- Body -->
+          <rect x="155" y="230" width="90" height="110" rx="32" fill="#ff4d8b"/>
+          <!-- Head -->
+          <circle cx="200" cy="210" r="38" fill="#ffb084"/>
+          <!-- Eyes -->
+          <circle cx="186" cy="208" r="5" fill="#0a0a0a"/>
+          <circle cx="214" cy="208" r="5" fill="#0a0a0a"/>
+          <!-- Smile -->
+          <path d="M190 222 Q200 232 210 222" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Blush dots -->
+          <circle cx="175" cy="218" r="6" fill="#ff4d8b" opacity="0.3"/>
+          <circle cx="225" cy="218" r="6" fill="#ff4d8b" opacity="0.3"/>
+          <!-- Left arm -->
+          <ellipse cx="140" cy="270" rx="18" ry="30" fill="#ffb084" transform="rotate(15 140 270)"/>
+          <!-- Right arm -->
+          <ellipse cx="260" cy="270" rx="18" ry="30" fill="#ffb084" transform="rotate(-15 260 270)"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     FEATURES SECTION (saturated feature cards in rotation)
+     ============================================================ -->
+<section id="features" class="section">
+  <div class="section-container">
+    <span class="section-label">FEATURES</span>
+    <h2 class="section-headline">Everything your GTM team needs to scale</h2>
+    <p class="section-subheadline">Clay replaces a dozen point solutions with a single canvas for data enrichment, waterfall enrichment, AI research, and automated outreach.</p>
+
+    <div class="features-grid">
+      <!-- feature-card-pink: Outbound / Sequencer -->
+      <div class="feature-card-pink">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="rgba(255,255,255,0.2)"/><path d="M16 32V20L24 26L32 20V32H16Z" fill="white"/></svg>
+        </div>
+        <h3 class="feature-card-title">AI-powered enrichment</h3>
+        <p class="feature-card-desc">Claygent auto-researches companies and contacts using AI — pulling from 50+ data providers to build complete profiles.</p>
+        <div class="feature-card-ui-fragment">
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-dot"></div>
+            <div class="feature-card-ui-bar" style="width:60%"></div>
+          </div>
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-dot"></div>
+            <div class="feature-card-ui-bar" style="width:80%"></div>
+          </div>
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-dot"></div>
+            <div class="feature-card-ui-bar" style="width:45%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- feature-card-teal: Enterprise / Featured -->
+      <div class="feature-card-teal">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="rgba(255,255,255,0.15)"/><rect x="14" y="12" width="20" height="24" rx="4" stroke="white" stroke-width="2"/><line x1="14" y1="18" x2="34" y2="18" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="feature-card-title">Waterfall enrichment</h3>
+        <p class="feature-card-desc">Chain data providers in sequence — if Provider A misses, fall through to Provider B, C, D. Maximize match rates automatically.</p>
+        <div class="feature-card-ui-fragment">
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-bar" style="width:100%;background:rgba(255,255,255,0.2)"></div>
+          </div>
+          <div class="feature-card-ui-row" style="gap:4px">
+            <div class="feature-card-ui-dot" style="background:#22c55e"></div>
+            <div class="feature-card-ui-dot" style="background:#22c55e"></div>
+            <div class="feature-card-ui-dot" style="background:#f59e0b"></div>
+            <div class="feature-card-ui-dot" style="background:rgba(255,255,255,0.2)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- feature-card-lavender: AI-agent products -->
+      <div class="feature-card-lavender">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="rgba(0,0,0,0.08)"/><circle cx="24" cy="20" r="8" stroke="#0a0a0a" stroke-width="2"/><path d="M18 32 Q24 26 30 32" stroke="#0a0a0a" stroke-width="2"/></svg>
+        </div>
+        <h3 class="feature-card-title">CRM enrichment</h3>
+        <p class="feature-card-desc">Auto-enrich every new lead in your CRM with firmographics, technographics, and intent signals — directly in your workflow.</p>
+        <div class="feature-card-ui-fragment">
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-bar" style="width:35%;background:rgba(0,0,0,0.1)"></div>
+            <div class="feature-card-ui-bar" style="width:50%;background:rgba(0,0,0,0.1)"></div>
+          </div>
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-bar" style="width:65%;background:rgba(0,0,0,0.1)"></div>
+            <div class="feature-card-ui-bar" style="width:25%;background:rgba(0,0,0,0.1)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- feature-card-peach: General SaaS warmth -->
+      <div class="feature-card-peach">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="rgba(0,0,0,0.06)"/><rect x="14" y="14" width="8" height="8" rx="2" stroke="#0a0a0a" stroke-width="2"/><rect x="26" y="14" width="8" height="8" rx="2" stroke="#0a0a0a" stroke-width="2"/><rect x="14" y="26" width="8" height="8" rx="2" stroke="#0a0a0a" stroke-width="2"/><rect x="26" y="26" width="8" height="8" rx="2" stroke="#0a0a0a" stroke-width="2"/></svg>
+        </div>
+        <h3 class="feature-card-title">Sequencer & campaigns</h3>
+        <p class="feature-card-desc">Build multi-channel outreach sequences. Automate email, LinkedIn, and phone touchpoints synced with your enrichment pipeline.</p>
+        <div class="feature-card-ui-fragment">
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-bar" style="width:70%;background:rgba(0,0,0,0.08)"></div>
+          </div>
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-bar" style="width:50%;background:rgba(0,0,0,0.08)"></div>
+            <div style="width:8px;height:8px;background:rgba(0,0,0,0.08);border-radius:9999px;flex-shrink:0"></div>
+            <div class="feature-card-ui-bar" style="width:25%;background:rgba(0,0,0,0.08)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- feature-card-ochre: Community / Collaboration -->
+      <div class="feature-card-ochre">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="rgba(0,0,0,0.06)"/><path d="M24 10 L32 26 L16 26 Z" stroke="#0a0a0a" stroke-width="2"/><line x1="24" y1="26" x2="24" y2="36" stroke="#0a0a0a" stroke-width="2"/></svg>
+        </div>
+        <h3 class="feature-card-title">Data tables & views</h3>
+        <p class="feature-card-desc">Visualize enriched data in flexible table views. Sort, filter, group, and export — your GTM command center in one place.</p>
+        <div class="feature-card-ui-fragment">
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-bar" style="width:30%;background:rgba(0,0,0,0.08)"></div>
+            <div class="feature-card-ui-bar" style="width:20%;background:rgba(0,0,0,0.08)"></div>
+            <div class="feature-card-ui-bar" style="width:40%;background:rgba(0,0,0,0.08)"></div>
+          </div>
+          <div class="feature-card-ui-row">
+            <div class="feature-card-ui-bar" style="width:55%;background:rgba(0,0,0,0.08)"></div>
+            <div class="feature-card-ui-bar" style="width:35%;background:rgba(0,0,0,0.08)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- feature-card-cream: Lower-key feature -->
+      <div class="feature-card-cream">
+        <div class="feature-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="rgba(0,0,0,0.04)"/><circle cx="24" cy="20" r="10" stroke="#0a0a0a" stroke-width="2"/><circle cx="24" cy="20" r="4" fill="#ff4d8b" opacity="0.5"/></svg>
+        </div>
+        <h3 class="feature-card-title">50+ integrations</h3>
+        <p class="feature-card-desc">Connect Clay to Salesforce, HubSpot, Outreach, Slack, and dozens more. Data flows where your team already works.</p>
+        <a href="#" class="btn-text-link" style="margin-top:auto">Explore integrations →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRODUCT SHOWCASE SECTION
+     ============================================================ -->
+<section class="section" style="background-color: var(--color-surface-soft);">
+  <div class="section-container">
+    <span class="section-label">HOW IT WORKS</span>
+    <h2 class="section-headline">Your GTM stack in one canvas</h2>
+    <p class="section-subheadline">Drag in data sources, chain enrichments, and activate workflows — all on a single visual canvas.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--spacing-lg)">
+      <div class="product-mockup-card">
+        <div class="title-md" style="color:var(--color-ink)">Enrich leads</div>
+        <p class="body-sm" style="color:var(--color-muted)">Pull in lists from CSV, Salesforce, or manual entry. Clay instantly enriches every record with 50+ data sources.</p>
+        <!-- Product UI fragment -->
+        <div style="background:var(--color-surface-soft);border-radius:var(--rounded-sm);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;gap:4px">
+            <div style="width:40px;height:8px;background:var(--color-hairline);border-radius:var(--rounded-pill)"></div>
+            <div style="width:30px;height:8px;background:var(--color-brand-pink);border-radius:var(--rounded-pill);opacity:0.7"></div>
+          </div>
+          <div style="display:flex;gap:4px">
+            <div style="width:60px;height:8px;background:var(--color-hairline);border-radius:var(--rounded-pill)"></div>
+            <div style="width:20px;height:8px;background:var(--color-brand-lavender);border-radius:var(--rounded-pill);opacity:0.7"></div>
+          </div>
+          <div style="display:flex;gap:4px">
+            <div style="width:35px;height:8px;background:var(--color-hairline);border-radius:var(--rounded-pill)"></div>
+            <div style="width:45px;height:8px;background:var(--color-brand-peach);border-radius:var(--rounded-pill);opacity:0.7"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-mockup-card">
+        <div class="title-md" style="color:var(--color-ink)">Build sequences</div>
+        <p class="body-sm" style="color:var(--color-muted)">Design multi-step outreach campaigns. Email → LinkedIn → Call. Clay handles the handoffs.</p>
+        <div style="background:var(--color-surface-soft);border-radius:var(--rounded-sm);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:8px;height:8px;background:var(--color-success);border-radius:var(--rounded-full);flex-shrink:0"></div>
+            <div style="flex:1;height:8px;background:var(--color-hairline);border-radius:var(--rounded-pill)"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:8px;height:8px;background:var(--color-warning);border-radius:var(--rounded-full);flex-shrink:0"></div>
+            <div style="flex:1;height:8px;background:var(--color-hairline);border-radius:var(--rounded-pill)"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:8px;height:8px;background:var(--color-hairline);border-radius:var(--rounded-full);flex-shrink:0"></div>
+            <div style="flex:1;height:8px;background:var(--color-surface-strong);border-radius:var(--rounded-pill)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-mockup-card">
+        <div class="title-md" style="color:var(--color-ink)">Activate & measure</div>
+        <p class="body-sm" style="color:var(--color-muted)">Push enriched data to your CRM. Track opens, replies, meetings booked — all from the Clay dashboard.</p>
+        <div style="background:var(--color-surface-soft);border-radius:var(--rounded-sm);padding:var(--spacing-sm)">
+          <div style="display:flex;gap:8px;align-items:flex-end;height:40px">
+            <div style="width:18px;height:24px;background:var(--color-brand-pink);border-radius:3px;opacity:0.7"></div>
+            <div style="width:18px;height:36px;background:var(--color-brand-lavender);border-radius:3px;opacity:0.7"></div>
+            <div style="width:18px;height:28px;background:var(--color-brand-peach);border-radius:3px;opacity:0.7"></div>
+            <div style="width:18px;height:40px;background:var(--color-brand-teal);border-radius:3px;opacity:0.7"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS SECTION
+     ============================================================ -->
+<section class="section">
+  <div class="section-container">
+    <span class="section-label">CUSTOMER STORIES</span>
+    <h2 class="section-headline">Loved by the fastest-growing GTM teams</h2>
+    <p class="section-subheadline">Thousands of companies use Clay to power their go-to-market motion.</p>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-card-avatar-row">
+          <div class="testimonial-card-avatar">SJ</div>
+          <div>
+            <div class="testimonial-card-name">Sarah Johnson</div>
+            <div class="testimonial-card-role">Head of Growth, Ramp</div>
+          </div>
+        </div>
+        <p class="testimonial-card-quote">Clay cut our enrichment time by 80%. We went from manual spreadsheet lookups to fully automated waterfall enrichment across 50+ data sources.</p>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card-avatar-row">
+          <div class="testimonial-card-avatar">MC</div>
+          <div>
+            <div class="testimonial-card-name">Marcus Chen</div>
+            <div class="testimonial-card-role">VP Revenue Ops, Notion</div>
+          </div>
+        </div>
+        <p class="testimonial-card-quote">The Claygent AI agent does research that used to take our SDRs hours. It's like having a team of researchers that never sleeps.</p>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card-avatar-row">
+          <div class="testimonial-card-avatar">EP</div>
+          <div>
+            <div class="testimonial-card-name">Elena Park</div>
+            <div class="testimonial-card-role">Director of Sales, Vercel</div>
+          </div>
+        </div>
+        <p class="testimonial-card-quote">We consolidated six point tools into Clay. One canvas for enrichment, sequencing, and CRM sync. The ROI was immediate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING SECTION
+     ============================================================ -->
+<section id="pricing" class="section" style="background-color: var(--color-surface-soft);">
+  <div class="section-container">
+    <span class="section-label">PRICING</span>
+    <h2 class="section-headline">Plans that scale with your GTM engine</h2>
+    <p class="section-subheadline">Start free, grow at your own pace. All plans include a 14-day trial of premium features.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-tier-card">
+        <div class="pricing-plan-name">Starter</div>
+        <div class="pricing-plan-price" style="color:var(--color-ink)">$0<span>/mo</span></div>
+        <p class="pricing-plan-desc">Perfect for exploring Clay's enrichment capabilities.</p>
+        <ul class="pricing-feature-list">
+          <li>✓ 100 credits / month</li>
+          <li>✓ Basic enrichment</li>
+          <li>✓ CSV import</li>
+          <li>✓ Community support</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="margin-top:auto">Get started</a>
+      </div>
+
+      <div class="pricing-tier-card">
+        <div class="pricing-plan-name">Explorer</div>
+        <div class="pricing-plan-price" style="color:var(--color-ink)">$149<span>/mo</span></div>
+        <p class="pricing-plan-desc">For teams building their first GTM workflows.</p>
+        <ul class="pricing-feature-list">
+          <li>✓ 2,000 credits / month</li>
+          <li>✓ Waterfall enrichment</li>
+          <li>✓ CRM integrations</li>
+          <li>✓ Email sequences</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="margin-top:auto">Start free trial</a>
+      </div>
+
+      <!-- pricing-tier-card-featured -->
+      <div class="pricing-tier-card-featured">
+        <div class="pricing-plan-name">Pro</div>
+        <div class="pricing-plan-price">$800<span>/mo</span></div>
+        <p class="pricing-plan-desc">The full Clay platform for scaling GTM teams.</p>
+        <ul class="pricing-feature-list">
+          <li>✓ 10,000 credits / month</li>
+          <li>✓ 50+ data providers</li>
+          <li>✓ Claygent AI agent</li>
+          <li>✓ Advanced sequences</li>
+          <li>✓ Custom webhooks</li>
+        </ul>
+        <a href="#" class="btn-on-color" style="margin-top:auto">Start free trial</a>
+      </div>
+
+      <div class="pricing-tier-card">
+        <div class="pricing-plan-name">Enterprise</div>
+        <div class="pricing-plan-price" style="color:var(--color-ink)">Custom</div>
+        <p class="pricing-plan-desc">For organizations with complex GTM operations.</p>
+        <ul class="pricing-feature-list">
+          <li>✓ Unlimited credits</li>
+          <li>✓ Custom data sources</li>
+          <li>✓ SSO & SAML</li>
+          <li>✓ Dedicated support</li>
+          <li>✓ Custom SLAs</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="margin-top:auto">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BAND (cta-band-illustrated)
+     ============================================================ -->
+<section class="section">
+  <div class="section-container">
+    <div class="cta-band">
+      <svg class="cta-band-mountains" viewBox="0 0 1280 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 120 Q160 40 320 120 Q480 60 640 120 Q800 50 960 120 Q1120 70 1280 120 V120" fill="#b8a4ed" opacity="0.3"/>
+        <path d="M0 120 Q200 60 400 120 Q600 70 800 120 Q1000 55 1280 120 V120" fill="#ffb084" opacity="0.3"/>
+        <path d="M0 120 Q240 75 480 120 Q720 85 960 120 Q1120 70 1280 120 V120" fill="#a4d4c5" opacity="0.25"/>
+      </svg>
+      <h2 class="cta-band-headline">Turn your growth ideas into reality today</h2>
+      <p class="cta-band-subline">Join thousands of revenue teams who use Clay to power their entire go-to-market motion — from enrichment to outreach.</p>
+      <div class="cta-band-cta-row">
+        <a href="#" class="btn-primary">Try Clay for free</a>
+        <a href="#" class="btn-secondary" style="background:transparent">Talk to sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER (footer) — Cream-tinted, NOT dark
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-columns">
+      <div class="footer-logo-area">
+        <a href="#" class="footer-logo">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="8" fill="#0a0a0a"/>
+            <path d="M8 14C8 14 10 8 14 8C18 8 20 14 20 14C20 14 18 20 14 20C10 20 8 14 8 14Z" fill="white"/>
+            <circle cx="14" cy="14" r="3" fill="#ffb084"/>
+          </svg>
+          Clay
+        </a>
+        <p class="footer-logo-desc">The data-orchestration platform for modern GTM teams. Enrich, automate, and activate your go-to-market motion.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-col-links">
+          <li><a href="#">Enrichment</a></li>
+          <li><a href="#">Sequences</a></li>
+          <li><a href="#">CRM Sync</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Claygent AI</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Resources</div>
+        <ul class="footer-col-links">
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-col-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Legal</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer mountains — Clay's signature horizon illustration -->
+    <div class="footer-mountains">
+      <svg width="100%" height="80" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 80 Q200 20 400 80 Q600 30 800 80 Q1000 25 1200 80 V80" fill="#b8a4ed" opacity="0.25"/>
+        <path d="M0 80 Q250 35 500 80 Q750 40 1000 80 Q1100 35 1200 80 V80" fill="#ffb084" opacity="0.25"/>
+      </svg>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2025 Clay Labs, Inc.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awesome DESIGN.md — Demo Gallery</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: #141414;
+    --bg-card-hover: #1a1a1a;
+    --border: #222;
+    --text: #e8e8e8;
+    --text-secondary: #888;
+    --accent: #6c8cff;
+    --overlay-bg: rgba(0, 0, 0, 0.92);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header ── */
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    background: linear-gradient(180deg, var(--bg) 60%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 28px 32px 20px;
+  }
+  .header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+  .header h1 span { color: var(--accent); }
+  .header .subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .header .count { font-weight: 600; color: var(--accent); }
+
+  /* ── Search ── */
+  .search-wrap {
+    margin-top: 16px;
+    position: relative;
+    max-width: 420px;
+  }
+  .search-wrap svg {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px; color: var(--text-secondary);
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 10px 16px 10px 42px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .search-input::placeholder { color: #555; }
+  .search-input:focus {
+    border-color: var(--accent);
+    background: #1a1a1a;
+  }
+
+  /* ── Grid ── */
+  .container {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 0 32px 48px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 1024px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    .container, .header { padding-left: 16px; padding-right: 16px; }
+    .header h1 { font-size: 1.4rem; }
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: #333;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+  .card:active { transform: scale(0.98); }
+
+  /* ── Preview iframe ── */
+  .preview-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+    overflow: hidden;
+    background: #000;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 333.333%;
+    height: 333.333%;
+    border: 0;
+    transform: scale(0.3);
+    transform-origin: 0 0;
+    pointer-events: none;
+    user-select: none;
+    filter: brightness(0.95);
+  }
+  .card:hover .preview-wrap iframe { filter: brightness(1); }
+
+  /* ── Card footer ── */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    gap: 8px;
+  }
+  .card-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-arrow {
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+    opacity: 0.35;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .card:hover .card-arrow { opacity: 0.7; transform: translateX(2px); }
+
+  /* ── No results ── */
+  .no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 64px 0;
+    color: var(--text-secondary);
+  }
+  .no-results p { font-size: 0.9rem; }
+
+  /* ── Overlay ── */
+  .overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: var(--overlay-bg);
+    display: flex; flex-direction: column;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .overlay.active { opacity: 1; pointer-events: all; }
+
+  .overlay-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    min-height: 56px;
+  }
+  .overlay-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  .overlay-actions { display: flex; gap: 8px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18); }
+  .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .overlay-iframe-wrap {
+    flex: 1; overflow: hidden; background: #000;
+  }
+  .overlay-iframe-wrap iframe {
+    width: 100%; height: 100%; border: 0;
+  }
+
+  .overlay-counter {
+    font-size: 0.75rem; color: var(--text-secondary);
+  }
+
+  /* ── Loading ── */
+  .loader {
+    display: flex; align-items: center; justify-content: center;
+    grid-column: 1 / -1; padding: 80px 0;
+  }
+  .spinner {
+    width: 28px; height: 28px;
+    border: 2.5px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Scroll ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+  /* ── footer ── */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: #444;
+    font-size: 0.75rem;
+    border-top: 1px solid #151515;
+  }
+  .footer a { color: #666; text-decoration: none; }
+  .footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Awesome <span>DESIGN.md</span> — Demo Gallery</h1>
+  <p class="subtitle">Explore <span class="count" id="demoCount">…</span> design system demos</p>
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input class="search-input" type="text" id="searchInput" placeholder="Filter demos by name…" autocomplete="off">
+  </div>
+</div>
+
+<div class="container">
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer class="footer">
+  <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank">github.com/VoltAgent/awesome-design-md</a>
+</footer>
+
+<!-- ── Full-screen overlay ── -->
+<div class="overlay" id="overlay">
+  <div class="overlay-toolbar">
+    <span class="overlay-title" id="overlayTitle">Demo</span>
+    <div class="overlay-actions">
+      <span class="overlay-counter" id="overlayCounter"></span>
+      <button class="btn" id="btnPrev" title="Previous">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Prev
+      </button>
+      <button class="btn" id="btnNext" title="Next">
+        Next
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="btn" id="btnOpen" title="Open in new tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </button>
+      <button class="btn" id="btnClose" title="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="overlay-iframe-wrap">
+    <iframe id="overlayIframe" src="" allow="clipboard-write"></iframe>
+  </div>
+</div>
+
+<script>
+(async function () {
+  const grid = document.getElementById('grid')
+  const searchInput = document.getElementById('searchInput')
+  const countEl = document.getElementById('demoCount')
+  const overlay = document.getElementById('overlay')
+  const overlayIframe = document.getElementById('overlayIframe')
+  const overlayTitle = document.getElementById('overlayTitle')
+  const overlayCounter = document.getElementById('overlayCounter')
+
+  let demos = []
+  let filteredDemos = []
+  let currentIndex = -1
+
+  // Fetch demos
+  try {
+    const res = await fetch('/api/demos')
+    demos = await res.json()
+    filteredDemos = [...demos]
+    countEl.textContent = demos.length
+  } catch (err) {
+    grid.innerHTML = '<div class="no-results"><p>Failed to load demos. Is the server running?</p></div>'
+    return
+  }
+
+  // Render
+  function render(list) {
+    grid.innerHTML = ''
+    if (list.length === 0) {
+      grid.innerHTML = '<div class="no-results"><p>No demos match your search.</p></div>'
+      return
+    }
+
+    for (const demo of list) {
+      const displayName = formatName(demo.name)
+
+      const card = document.createElement('div')
+      card.className = 'card'
+      card.title = displayName
+      card.innerHTML = `
+        <div class="preview-wrap">
+          <iframe src="${demo.path}" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+        </div>
+        <div class="card-footer">
+          <span class="card-name">${displayName}</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      `
+
+      card.addEventListener('click', () => openOverlay(demo, list.indexOf(demo)))
+
+      grid.appendChild(card)
+    }
+  }
+
+  function formatName(name) {
+    return name
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase())
+      .replace(/\bAi\b/i, 'AI')
+      .replace(/\.app$/i, '')
+  }
+
+  // Search
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim()
+    filteredDemos = q
+      ? demos.filter(d => d.name.toLowerCase().includes(q))
+      : [...demos]
+    render(filteredDemos)
+  })
+
+  // Overlay
+  function openOverlay(demo, idx) {
+    currentIndex = idx
+    overlayIframe.src = demo.path
+    overlayTitle.textContent = formatName(demo.name)
+    overlay.classList.add('active')
+    document.body.style.overflow = 'hidden'
+    updateOverlayCounter()
+  }
+
+  function closeOverlay() {
+    overlay.classList.remove('active')
+    overlayIframe.src = ''
+    document.body.style.overflow = ''
+    currentIndex = -1
+  }
+
+  function updateOverlayCounter() {
+    overlayCounter.textContent = `${currentIndex + 1} / ${filteredDemos.length}`
+  }
+
+  function navigate(dir) {
+    if (filteredDemos.length === 0) return
+    currentIndex = (currentIndex + dir + filteredDemos.length) % filteredDemos.length
+    const demo = filteredDemos[currentIndex]
+    overlayIframe.src = demo.path
+    overlayTitle.textContent = formatName(demo.name)
+    updateOverlayCounter()
+  }
+
+  // Overlay button events
+  document.getElementById('btnPrev').addEventListener('click', (e) => { e.stopPropagation(); navigate(-1) })
+  document.getElementById('btnNext').addEventListener('click', (e) => { e.stopPropagation(); navigate(1) })
+  document.getElementById('btnClose').addEventListener('click', (e) => { e.stopPropagation(); closeOverlay() })
+  document.getElementById('btnOpen').addEventListener('click', (e) => {
+    e.stopPropagation()
+    if (currentIndex >= 0) window.open(filteredDemos[currentIndex].path, '_blank')
+  })
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!overlay.classList.contains('active')) return
+    switch (e.key) {
+      case 'Escape': closeOverlay(); break
+      case 'ArrowLeft': navigate(-1); break
+      case 'ArrowRight': navigate(1); break
+    }
+  })
+
+  // Click overlay background to close
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeOverlay()
+  })
+
+  // Initial render
+  render(filteredDemos)
+})()
+</script>
+</body>
+</html>

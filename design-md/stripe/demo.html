@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moden — Financial infrastructure for the internet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & GLOBAL ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Colors */
+  --primary: #533afd;
+  --primary-deep: #4434d4;
+  --primary-press: #2e2b8c;
+  --primary-soft: #665efd;
+  --primary-bg-subdued-hover: #b9b9f9;
+  --brand-dark-900: #1c1e54;
+  --ink: #0d253d;
+  --ink-secondary: #273951;
+  --ink-mute: #64748d;
+  --ink-mute-2: #61718a;
+  --on-primary: #ffffff;
+  --canvas: #ffffff;
+  --canvas-soft: #f6f9fc;
+  --canvas-cream: #f5e9d4;
+  --hairline: #e3e8ee;
+  --hairline-input: #a8c3de;
+  --ruby: #ea2261;
+  --magenta: #f96bee;
+  --lemon: #9b6829;
+  --shadow-blue: #003770;
+
+  /* Spacing */
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-huge: 64px;
+
+  /* Rounded */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-pill: 9999px;
+
+  /* Shadows */
+  --shadow-1: rgba(0,55,112,0.08) 0 1px 3px;
+  --shadow-2: rgba(0,55,112,0.08) 0 8px 24px, rgba(0,55,112,0.04) 0 2px 6px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-feature-settings: "ss01";
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ===== TYPOGRAPHY TOKENS ===== */
+.display-xxl {
+  font-size: 56px;
+  font-weight: 300;
+  line-height: 1.03;
+  letter-spacing: -1.4px;
+  font-feature-settings: "ss01";
+}
+.display-xl {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.96px;
+  font-feature-settings: "ss01";
+}
+.display-lg {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.64px;
+  font-feature-settings: "ss01";
+}
+.display-md {
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.26px;
+  font-feature-settings: "ss01";
+}
+.heading-lg {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.22px;
+  font-feature-settings: "ss01";
+}
+.heading-md {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+  font-feature-settings: "ss01";
+}
+.heading-sm {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+}
+.body-lg {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+}
+.body-md {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+}
+.body-tabular {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.42px;
+  font-feature-settings: "tnum";
+}
+.button-md {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+}
+.button-sm {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+}
+.caption {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.39px;
+  font-feature-settings: "tnum";
+}
+.micro {
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+}
+.micro-cap {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.1px;
+  font-feature-settings: "ss01";
+  text-transform: uppercase;
+}
+
+/* ===== COMPONENT TOKENS ===== */
+/* Button Primary Pill */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--rounded-pill);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.btn-primary:hover {
+  background: var(--primary-deep);
+  text-decoration: none;
+}
+.btn-primary:active {
+  background: var(--primary-press);
+  transform: scale(0.98);
+}
+
+/* Button Secondary */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--canvas);
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--rounded-pill);
+  border: 1px solid var(--primary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.btn-secondary:hover {
+  background: var(--canvas-soft);
+  text-decoration: none;
+}
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+/* Button On Dark */
+.btn-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-dark-900);
+  color: var(--on-primary);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--rounded-pill);
+  border: 1px solid rgba(255,255,255,0.3);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.btn-on-dark:hover {
+  background: rgba(255,255,255,0.1);
+  text-decoration: none;
+}
+.btn-on-dark:active {
+  transform: scale(0.98);
+}
+
+/* Pill Tag */
+.pill-tag {
+  display: inline-flex;
+  align-items: center;
+  background: var(--primary-bg-subdued-hover);
+  color: var(--primary-deep);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.1px;
+  font-feature-settings: "ss01";
+  text-transform: uppercase;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--rounded-pill);
+}
+
+/* Card Feature Light */
+.card-feature {
+  background: var(--canvas);
+  color: var(--ink);
+  padding: var(--spacing-xxl);
+  border-radius: var(--rounded-lg);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card-feature:hover {
+  box-shadow: var(--shadow-2);
+  transform: translateY(-2px);
+}
+
+/* Card Pricing */
+.card-pricing {
+  background: var(--canvas);
+  color: var(--ink);
+  padding: var(--spacing-xxl);
+  border-radius: var(--rounded-lg);
+  border: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Pricing Featured */
+.card-pricing-featured {
+  background: var(--brand-dark-900);
+  color: var(--on-primary);
+  padding: var(--spacing-xxl);
+  border-radius: var(--rounded-lg);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  transform: scale(1.04);
+  box-shadow: var(--shadow-2);
+}
+
+/* Card Cream Band */
+.card-cream {
+  background: var(--canvas-cream);
+  color: var(--ink);
+  padding: var(--spacing-xxl);
+  border-radius: var(--rounded-lg);
+}
+
+/* Input */
+.text-input {
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--rounded-sm);
+  border: 1px solid var(--hairline-input);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.text-input:focus {
+  border-color: var(--primary);
+}
+
+/* ===== GRADIENT MESH ===== */
+.gradient-mesh {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.gradient-mesh-layer-1 {
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 50%;
+  height: 80%;
+  background: radial-gradient(ellipse at 30% 40%, rgba(245,233,212,0.7) 0%, transparent 70%);
+  filter: blur(60px);
+}
+.gradient-mesh-layer-2 {
+  position: absolute;
+  top: -15%;
+  left: 15%;
+  width: 45%;
+  height: 75%;
+  background: radial-gradient(ellipse at 40% 35%, rgba(255,180,120,0.5) 0%, transparent 65%);
+  filter: blur(80px);
+}
+.gradient-mesh-layer-3 {
+  position: absolute;
+  top: -10%;
+  left: 35%;
+  width: 40%;
+  height: 70%;
+  background: radial-gradient(ellipse at 50% 30%, rgba(200,180,255,0.55) 0%, transparent 60%);
+  filter: blur(90px);
+}
+.gradient-mesh-layer-4 {
+  position: absolute;
+  top: -12%;
+  left: 50%;
+  width: 45%;
+  height: 72%;
+  background: radial-gradient(ellipse at 40% 35%, rgba(83,58,253,0.35) 0%, transparent 65%);
+  filter: blur(85px);
+}
+.gradient-mesh-layer-5 {
+  position: absolute;
+  top: -18%;
+  right: -5%;
+  width: 40%;
+  height: 78%;
+  background: radial-gradient(ellipse at 60% 40%, rgba(234,34,97,0.35) 0%, transparent 70%);
+  filter: blur(70px);
+}
+.gradient-mesh-layer-6 {
+  position: absolute;
+  top: -8%;
+  left: 60%;
+  width: 30%;
+  height: 60%;
+  background: radial-gradient(ellipse at 50% 30%, rgba(249,107,238,0.2) 0%, transparent 65%);
+  filter: blur(75px);
+}
+
+/* ===== NAV ===== */
+.nav {
+  position: relative;
+  z-index: 10;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+  font-feature-settings: "ss01";
+  text-decoration: none;
+}
+.nav-logo:hover { text-decoration: none; }
+.nav-logo svg { width: 28px; height: 28px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  list-style: none;
+}
+.nav-links a {
+  color: var(--ink-mute-2);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.nav-links a:hover { color: var(--ink); text-decoration: none; }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+.nav-actions .nav-signin {
+  color: var(--ink-mute);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.nav-actions .nav-signin:hover { color: var(--ink); text-decoration: none; }
+
+/* ===== HERO ===== */
+.hero-wrap {
+  position: relative;
+  padding: var(--spacing-xxl) 0 var(--spacing-huge);
+  overflow: hidden;
+}
+.hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: var(--spacing-huge) var(--spacing-xl) var(--spacing-xxl);
+}
+.hero .pill-tag { margin-bottom: var(--spacing-xl); }
+.hero h1 { margin-bottom: var(--spacing-xl); }
+.hero .hero-subtitle {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  color: var(--ink-secondary);
+  margin-bottom: var(--spacing-xxl);
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+/* Dashboard Mockup */
+.dashboard-mockup {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+.mockup-chrome {
+  background: var(--canvas);
+  border-radius: var(--rounded-lg);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+}
+.mockup-header {
+  background: var(--brand-dark-900);
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mockup-dot:nth-child(1) { background: #ff5f57; }
+.mockup-dot:nth-child(2) { background: #febc2e; }
+.mockup-dot:nth-child(3) { background: #28c840; }
+.mockup-body {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  background: var(--canvas-soft);
+}
+.mockup-panel {
+  background: var(--canvas);
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--hairline);
+  padding: var(--spacing-md);
+  min-height: 200px;
+}
+.mockup-panel-code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+}
+.mockup-panel-code .kw { color: var(--primary-soft); }
+.mockup-panel-code .str { color: var(--ruby); }
+.mockup-panel-code .fn { color: var(--lemon); }
+.mockup-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.mockup-table th {
+  text-align: left;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.42px;
+  font-feature-settings: "tnum";
+  color: var(--ink-mute);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-bottom: 1px solid var(--hairline);
+}
+.mockup-table td {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.42px;
+  font-feature-settings: "tnum";
+  color: var(--ink);
+  padding: var(--spacing-sm);
+  border-bottom: 1px solid var(--hairline);
+}
+.mockup-table .amount { color: var(--ink); }
+.mockup-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+  height: 100%;
+  padding-top: var(--spacing-lg);
+}
+.mockup-bar {
+  flex: 1;
+  border-radius: var(--rounded-xs) var(--rounded-xs) 0 0;
+  transition: height 0.3s ease;
+}
+.mockup-bar:nth-child(1) { height: 40%; background: var(--primary-soft); }
+.mockup-bar:nth-child(2) { height: 65%; background: var(--primary-bg-subdued-hover); }
+.mockup-bar:nth-child(3) { height: 50%; background: var(--primary-soft); }
+.mockup-bar:nth-child(4) { height: 80%; background: var(--primary); }
+.mockup-bar:nth-child(5) { height: 55%; background: var(--primary-bg-subdued-hover); }
+.mockup-bar:nth-child(6) { height: 70%; background: var(--primary-soft); }
+.mockup-bar:nth-child(7) { height: 45%; background: var(--primary-bg-subdued-hover); }
+
+/* ===== CUSTOMER LOGOS ===== */
+.customer-strip {
+  padding: var(--spacing-xxl) 0;
+  background: var(--canvas);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+.customer-strip .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-huge);
+  flex-wrap: wrap;
+}
+.customer-logo {
+  width: 90px;
+  height: 28px;
+  opacity: 0.4;
+  transition: opacity 0.15s ease;
+}
+.customer-logo:hover { opacity: 0.7; }
+
+/* ===== FEATURES ===== */
+.features {
+  padding: var(--spacing-huge) 0;
+  background: var(--canvas-soft);
+}
+.features-header {
+  text-align: center;
+  margin-bottom: var(--spacing-huge);
+}
+.features-header .pill-tag { margin-bottom: var(--spacing-xl); }
+.features-header h2 { margin-bottom: var(--spacing-lg); }
+.features-header p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  color: var(--ink-secondary);
+  max-width: 560px;
+  margin: 0 auto;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+}
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--rounded-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+  font-feature-settings: "ss01";
+  margin-bottom: var(--spacing-sm);
+  color: var(--ink);
+}
+.feature-card p {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  color: var(--ink-mute);
+  margin-bottom: var(--spacing-lg);
+}
+.feature-link {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.feature-link:hover { text-decoration: underline; }
+
+/* ===== CREAM BAND ===== */
+.cream-band {
+  padding: var(--spacing-huge) 0;
+  background: var(--canvas);
+}
+.cream-card {
+  padding: var(--spacing-huge);
+}
+.cream-card-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-huge);
+}
+.cream-text { flex: 1; }
+.cream-text h2 {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.64px;
+  font-feature-settings: "ss01";
+  margin-bottom: var(--spacing-lg);
+  color: var(--ink);
+}
+.cream-text p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  color: var(--ink-secondary);
+  margin-bottom: var(--spacing-xl);
+}
+.cream-stats {
+  display: flex;
+  gap: var(--spacing-huge);
+}
+.cream-stat-val {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.64px;
+  font-feature-settings: "ss01";
+  color: var(--ink);
+}
+.cream-stat-label {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.39px;
+  font-feature-settings: "tnum";
+  color: var(--ink-mute);
+  margin-top: var(--spacing-xs);
+}
+.cream-visual {
+  flex: 0 0 380px;
+  background: var(--canvas);
+  border-radius: var(--rounded-lg);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+}
+.cream-visual-header {
+  background: var(--brand-dark-900);
+  padding: var(--spacing-sm) var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.cream-visual-body {
+  padding: var(--spacing-xl);
+}
+.cream-code-line {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+}
+.cream-code-line .kw { color: var(--primary-soft); }
+.cream-code-line .str { color: var(--ruby); }
+
+/* ===== PRICING ===== */
+.pricing {
+  padding: var(--spacing-huge) 0;
+  background: var(--canvas);
+}
+.pricing-header {
+  text-align: center;
+  margin-bottom: var(--spacing-huge);
+}
+.pricing-header .pill-tag { margin-bottom: var(--spacing-xl); }
+.pricing-header h2 { margin-bottom: var(--spacing-lg); }
+.pricing-header p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  color: var(--ink-secondary);
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+.pricing-tier-name {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.22px;
+  font-feature-settings: "ss01";
+  margin-bottom: var(--spacing-lg);
+}
+.card-pricing-featured .pricing-tier-name { color: var(--on-primary); }
+.pricing-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+.pricing-amount {
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.26px;
+  font-feature-settings: "ss01";
+}
+.card-pricing .pricing-amount { color: var(--ink); }
+.card-pricing-featured .pricing-amount { color: var(--on-primary); }
+.pricing-period {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+}
+.card-pricing .pricing-period { color: var(--ink-mute); }
+.card-pricing-featured .pricing-period { color: rgba(255,255,255,0.6); }
+.pricing-desc {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  margin-bottom: var(--spacing-xl);
+}
+.card-pricing .pricing-desc { color: var(--ink-mute); }
+.card-pricing-featured .pricing-desc { color: rgba(255,255,255,0.6); }
+.pricing-features {
+  list-style: none;
+  margin-bottom: var(--spacing-xxl);
+  flex: 1;
+}
+.pricing-features li {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  padding: var(--spacing-xs) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.card-pricing .pricing-features li { color: var(--ink-secondary); }
+.card-pricing-featured .pricing-features li { color: rgba(255,255,255,0.8); }
+.pricing-check {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.pricing-cta { margin-top: auto; }
+.pricing-cta .btn-primary {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+.card-pricing-featured .pricing-cta .btn-primary {
+  background: var(--on-primary);
+  color: var(--brand-dark-900);
+}
+.card-pricing-featured .pricing-cta .btn-primary:hover {
+  background: rgba(255,255,255,0.9);
+}
+.card-pricing-featured .pricing-cta .btn-primary:active {
+  background: rgba(255,255,255,0.8);
+}
+
+/* ===== CTA ===== */
+.cta-section {
+  padding: var(--spacing-huge) 0;
+  background: var(--brand-dark-900);
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 60%;
+  height: 160%;
+  background: radial-gradient(ellipse at 40% 50%, rgba(83,58,253,0.2) 0%, transparent 70%);
+  filter: blur(60px);
+}
+.cta-section::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 60%;
+  height: 160%;
+  background: radial-gradient(ellipse at 60% 50%, rgba(234,34,97,0.15) 0%, transparent 70%);
+  filter: blur(60px);
+}
+.cta-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+.cta-content h2 {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.96px;
+  font-feature-settings: "ss01";
+  color: var(--on-primary);
+  margin-bottom: var(--spacing-lg);
+}
+.cta-content p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: "ss01";
+  color: rgba(255,255,255,0.7);
+  margin-bottom: var(--spacing-xxl);
+}
+.cta-form {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cta-form .text-input {
+  width: 300px;
+  height: 44px;
+}
+.cta-form .btn-primary {
+  height: 44px;
+  padding: 0 var(--spacing-xl);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--canvas);
+  padding: var(--spacing-huge) var(--spacing-xl);
+  border-top: 1px solid var(--hairline);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: var(--spacing-xxl);
+  max-width: 1200px;
+  margin: 0 auto var(--spacing-huge);
+}
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.39px;
+  font-feature-settings: "tnum";
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+}
+.footer-col ul {
+  list-style: none;
+}
+.footer-col li {
+  margin-bottom: var(--spacing-sm);
+}
+.footer-col a {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.39px;
+  font-feature-settings: "tnum";
+  color: var(--ink-mute);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.footer-col a:hover { color: var(--ink); text-decoration: none; }
+.footer-brand p {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.39px;
+  font-feature-settings: "tnum";
+  color: var(--ink-mute);
+  margin-bottom: var(--spacing-lg);
+  max-width: 260px;
+}
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+}
+.footer-bottom p {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.39px;
+  font-feature-settings: "tnum";
+  color: var(--ink-mute);
+}
+.footer-social {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+.footer-social a {
+  color: var(--ink-mute);
+  transition: color 0.15s ease;
+}
+.footer-social a:hover { color: var(--ink); }
+.footer-social svg { width: 18px; height: 18px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .display-xxl { font-size: 48px; letter-spacing: -0.96px; }
+  .display-xl { font-size: 40px; letter-spacing: -0.8px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .mockup-body { grid-template-columns: 1fr 2fr; }
+  .mockup-panel:nth-child(3) { display: none; }
+  .cream-card-inner { flex-direction: column; }
+  .cream-visual { flex: 0 0 auto; width: 100%; }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .footer-grid > *:first-child { grid-column: 1 / -1; }
+  .card-pricing-featured { transform: none; }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 768px) {
+  .display-xxl { font-size: 36px; letter-spacing: -0.72px; }
+  .display-xl { font-size: 32px; letter-spacing: -0.64px; }
+  .display-lg { font-size: 26px; letter-spacing: -0.26px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .mockup-body { grid-template-columns: 1fr; }
+  .mockup-panel:nth-child(2),
+  .mockup-panel:nth-child(3) { display: none; }
+  .cta-content h2 { font-size: 32px; letter-spacing: -0.64px; }
+  .cta-form { flex-direction: column; }
+  .cta-form .text-input { width: 100%; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero { padding: var(--spacing-xxl) var(--spacing-xl); }
+  .cream-stats { flex-direction: column; gap: var(--spacing-xl); }
+  .nav-links, .nav-actions .nav-signin { display: none; }
+  .customer-strip .container { gap: var(--spacing-xl); }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none"><rect x="2" y="6" width="24" height="16" rx="3" fill="var(--primary)"/><path d="M8 12h3v4H8zM13 10h3v6h-3zM18 8h3v8h-3z" fill="var(--on-primary)" opacity="0.5"/></svg>
+    Moden
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Products</a></li>
+    <li><a href="#">Solutions</a></li>
+    <li><a href="#">Developers</a></li>
+    <li><a href="#">Pricing</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="nav-signin">Sign in</a>
+    <a href="#" class="btn-primary">Contact sales</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero-wrap">
+  <div class="gradient-mesh">
+    <div class="gradient-mesh-layer-1"></div>
+    <div class="gradient-mesh-layer-2"></div>
+    <div class="gradient-mesh-layer-3"></div>
+    <div class="gradient-mesh-layer-4"></div>
+    <div class="gradient-mesh-layer-5"></div>
+    <div class="gradient-mesh-layer-6"></div>
+  </div>
+
+  <div class="hero">
+    <span class="pill-tag">New — Moden Atlas</span>
+    <h1 class="display-xxl">Financial infrastructure to grow your revenue</h1>
+    <p class="hero-subtitle">
+      Join millions of companies that use Moden to accept payments online and in person, embed financial services, and build custom revenue models.
+    </p>
+    <div class="hero-cta">
+      <a href="#" class="btn-primary">Start now →</a>
+      <a href="#" class="btn-secondary">Contact sales</a>
+    </div>
+  </div>
+
+  <!-- Dashboard Mockup -->
+  <div class="dashboard-mockup">
+    <div class="mockup-chrome">
+      <div class="mockup-header">
+        <span class="mockup-dot"></span>
+        <span class="mockup-dot"></span>
+        <span class="mockup-dot"></span>
+      </div>
+      <div class="mockup-body">
+        <!-- Code Panel -->
+        <div class="mockup-panel">
+          <div class="mockup-panel-code">
+            <span class="kw">const</span> moden = <span class="kw">new</span> <span class="fn">Moden</span>(<br>
+            &nbsp;&nbsp;<span class="str">'sk_live_...'</span><br>
+            );<br><br>
+            <span class="kw">const</span> payment = <span class="kw">await</span><br>
+            &nbsp;&nbsp;moden.payments.<span class="fn">create</span>({<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;amount: <span class="fn">1999</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;currency: <span class="str">'usd'</span>,<br>
+            &nbsp;&nbsp;});
+          </div>
+        </div>
+        <!-- Table Panel -->
+        <div class="mockup-panel">
+          <table class="mockup-table">
+            <thead><tr><th>Transaction</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>pi_3Nk...8jK2</td><td class="amount">$199.00</td><td>Complete</td></tr>
+              <tr><td>pi_8Rm...2sL4</td><td class="amount">$89.50</td><td>Complete</td></tr>
+              <tr><td>pi_5Tq...9fA1</td><td class="amount">$340.00</td><td>Processing</td></tr>
+              <tr><td>pi_2Jx...4mB7</td><td class="amount">$55.99</td><td>Complete</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Chart Panel -->
+        <div class="mockup-panel">
+          <div class="mockup-chart">
+            <div class="mockup-bar"></div>
+            <div class="mockup-bar"></div>
+            <div class="mockup-bar"></div>
+            <div class="mockup-bar"></div>
+            <div class="mockup-bar"></div>
+            <div class="mockup-bar"></div>
+            <div class="mockup-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CUSTOMER LOGOS ===== -->
+<div class="customer-strip">
+  <div class="container">
+    <svg class="customer-logo" viewBox="0 0 90 28"><rect x="0" y="4" width="28" height="20" rx="4" fill="var(--ink-mute)"/><text x="14" y="18" text-anchor="middle" font-size="11" fill="#fff" font-weight="500">A</text><rect x="34" y="4" width="56" height="8" rx="2" fill="var(--ink-mute)" opacity="0.5"/><rect x="34" y="16" width="40" height="8" rx="2" fill="var(--ink-mute)" opacity="0.3"/></svg>
+    <svg class="customer-logo" viewBox="0 0 90 28"><circle cx="14" cy="14" r="10" fill="var(--ink-mute)" opacity="0.5"/><text x="30" y="16" font-size="12" fill="var(--ink-mute)" font-weight="500">B</text><rect x="38" y="8" width="52" height="6" rx="2" fill="var(--ink-mute)" opacity="0.4"/><rect x="38" y="18" width="36" height="6" rx="2" fill="var(--ink-mute)" opacity="0.25"/></svg>
+    <svg class="customer-logo" viewBox="0 0 90 28"><rect x="0" y="6" width="22" height="16" rx="3" fill="var(--ink-mute)" opacity="0.5"/><text x="28" y="16" font-size="12" fill="var(--ink-mute)" font-weight="500">C</text><rect x="40" y="8" width="50" height="6" rx="2" fill="var(--ink-mute)" opacity="0.35"/><rect x="40" y="18" width="32" height="6" rx="2" fill="var(--ink-mute)" opacity="0.2"/></svg>
+    <svg class="customer-logo" viewBox="0 0 90 28"><rect x="0" y="2" width="24" height="24" rx="5" fill="var(--ink-mute)" opacity="0.5"/><text x="28" y="16" font-size="12" fill="var(--ink-mute)" font-weight="500">D</text><rect x="40" y="8" width="50" height="6" rx="2" fill="var(--ink-mute)" opacity="0.35"/><rect x="40" y="18" width="28" height="6" rx="2" fill="var(--ink-mute)" opacity="0.2"/></svg>
+    <svg class="customer-logo" viewBox="0 0 90 28"><text x="0" y="18" font-size="14" fill="var(--ink-mute)" font-weight="500" opacity="0.5">E</text><rect x="16" y="4" width="74" height="8" rx="2" fill="var(--ink-mute)" opacity="0.4"/><rect x="16" y="16" width="50" height="8" rx="2" fill="var(--ink-mute)" opacity="0.25"/></svg>
+  </div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<section id="features" class="features">
+  <div class="container">
+    <div class="features-header">
+      <span class="pill-tag">Payments</span>
+      <h2 class="display-xl">Everything you need to manage payments</h2>
+      <p>Accept payments, send payouts, automate revenue operations, and manage your business from a single platform.</p>
+    </div>
+    <div class="features-grid">
+      <!-- Card 1 -->
+      <div class="card-feature feature-card">
+        <div class="feature-icon" style="background:var(--primary-bg-subdued-hover);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="var(--primary)" stroke-width="1.5"/><line x1="2" y1="8" x2="18" y2="8" stroke="var(--primary)" stroke-width="1.5"/><circle cx="5" cy="14" r="1" fill="var(--primary)"/><circle cx="8" cy="14" r="1" fill="var(--primary)"/></svg>
+        </div>
+        <h3>Online payments</h3>
+        <p>Accept cards, wallets, bank debits, and local payment methods with a single integration. Optimize conversion with a checkout flow built by economists.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+      <!-- Card 2 -->
+      <div class="card-feature feature-card">
+        <div class="feature-icon" style="background:var(--canvas-cream);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="3" stroke="var(--lemon)" stroke-width="1.5"/><circle cx="10" cy="10" r="2" fill="var(--lemon)"/><line x1="10" y1="2" x2="10" y2="8" stroke="var(--lemon)" stroke-width="1.5"/><line x1="10" y1="12" x2="10" y2="18" stroke="var(--lemon)" stroke-width="1.5"/></svg>
+        </div>
+        <h3>In-person payments</h3>
+        <p>Unify your online and in-store payments with a terminal that integrates directly with your existing stack. No separate processor needed.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+      <!-- Card 3 -->
+      <div class="card-feature feature-card">
+        <div class="feature-icon" style="background:rgba(234,34,97,0.1);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 14V6l7-4 7 4v8l-7 4-7-4z" stroke="var(--ruby)" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 6l7 4 7-4" stroke="var(--ruby)" stroke-width="1.5" stroke-linejoin="round"/><line x1="10" y1="10" x2="10" y2="18" stroke="var(--ruby)" stroke-width="1.5"/></svg>
+        </div>
+        <h3>Revenue optimization</h3>
+        <p>Reduce churn with smart retries, automated card updater, and adaptive acceptance that increases authorization rates by 4-8%.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+      <!-- Card 4 -->
+      <div class="card-feature feature-card">
+        <div class="feature-icon" style="background:var(--primary-bg-subdued-hover);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="var(--primary)" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="var(--primary)" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="var(--primary)" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="var(--primary)" stroke-width="1.5"/></svg>
+        </div>
+        <h3>Fraud & risk</h3>
+        <p>Machine learning trained on hundreds of billions of data points helps you block fraud before it happens, without blocking good customers.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+      <!-- Card 5 -->
+      <div class="card-feature feature-card">
+        <div class="feature-icon" style="background:var(--canvas-cream);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="var(--lemon)" stroke-width="1.5"/><path d="M10 6v4l3 2" stroke="var(--lemon)" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Real-time reporting</h3>
+        <p>Reconcile transactions in real time with programmable webhooks, automated reporting, and a unified dashboard that tracks every payment.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+      <!-- Card 6 -->
+      <div class="card-feature feature-card">
+        <div class="feature-icon" style="background:rgba(234,34,97,0.1);">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 17V3h10v14l-5-3-5 3z" stroke="var(--ruby)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Global reach</h3>
+        <p>Accept payments in 135+ currencies, settle in your preferred currency, and expand internationally without local entities.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CREAM BAND ===== -->
+<section id="developers" class="cream-band">
+  <div class="container">
+    <div class="card-cream cream-card">
+      <div class="cream-card-inner">
+        <div class="cream-text">
+          <h2>Built for developers, designed for growth</h2>
+          <p>Our SDKs and APIs are designed to get you running in minutes — and scaling for years. Every feature is accessible through clean, composable interfaces that match how modern engineering teams work.</p>
+          <div class="cream-stats">
+            <div>
+              <div class="cream-stat-val">99.999%</div>
+              <div class="cream-stat-label">API UPTIME</div>
+            </div>
+            <div>
+              <div class="cream-stat-val">450ms</div>
+              <div class="cream-stat-label">AVG API LATENCY</div>
+            </div>
+            <div>
+              <div class="cream-stat-val">135+</div>
+              <div class="cream-stat-label">CURRENCIES</div>
+            </div>
+          </div>
+        </div>
+        <div class="cream-visual">
+          <div class="cream-visual-header">
+            <span class="mockup-dot" style="background:#ff5f57;width:10px;height:10px;"></span>
+            <span class="mockup-dot" style="background:#febc2e;width:10px;height:10px;"></span>
+            <span class="mockup-dot" style="background:#28c840;width:10px;height:10px;"></span>
+          </div>
+          <div class="cream-visual-body">
+            <div class="cream-code-line"><span class="kw">curl</span> https://api.moden.com/v1/charges \</div>
+            <div class="cream-code-line">&nbsp;&nbsp;-u sk_live_xxxxxxxxxxxxxxxxx: \</div>
+            <div class="cream-code-line">&nbsp;&nbsp;-d <span class="str">"amount=2000"</span> \</div>
+            <div class="cream-code-line">&nbsp;&nbsp;-d <span class="str">"currency=usd"</span> \</div>
+            <div class="cream-code-line">&nbsp;&nbsp;-d <span class="str">"source=tok_visa"</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section id="pricing" class="pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <span class="pill-tag">Pricing</span>
+      <h2 class="display-xl">Transparent pricing for every stage</h2>
+      <p>Start for free. Pay-as-you-go as you grow. No setup fees, no monthly fees, no hidden costs.</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- Tier 1 -->
+      <div class="card-pricing">
+        <h3 class="pricing-tier-name">Startup</h3>
+        <div class="pricing-price">
+          <span class="pricing-amount">2.9%</span>
+          <span class="pricing-period">+ 30¢</span>
+        </div>
+        <p class="pricing-desc">per successful transaction</p>
+        <ul class="pricing-features">
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Global payments
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Basic analytics
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Payouts
+          </li>
+        </ul>
+        <div class="pricing-cta"><a href="#" class="btn-primary">Start now</a></div>
+      </div>
+
+      <!-- Tier 2 - Featured -->
+      <div class="card-pricing-featured">
+        <h3 class="pricing-tier-name">Scale</h3>
+        <div class="pricing-price">
+          <span class="pricing-amount">Custom</span>
+        </div>
+        <p class="pricing-desc">volume-based pricing</p>
+        <ul class="pricing-features">
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--on-primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--on-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Everything in Startup
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--on-primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--on-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Volume discounts
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--on-primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--on-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Dedicated support
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--on-primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--on-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Custom contracts
+          </li>
+        </ul>
+        <div class="pricing-cta"><a href="#" class="btn-primary">Contact sales</a></div>
+      </div>
+
+      <!-- Tier 3 -->
+      <div class="card-pricing">
+        <h3 class="pricing-tier-name">Atlas</h3>
+        <div class="pricing-price">
+          <span class="pricing-amount">$500</span>
+          <span class="pricing-period">/mo</span>
+        </div>
+        <p class="pricing-desc">for incorporated businesses</p>
+        <ul class="pricing-features">
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            US incorporation
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Bank account setup
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Legal & tax guidance
+          </li>
+        </ul>
+        <div class="pricing-cta"><a href="#" class="btn-primary">Get started</a></div>
+      </div>
+
+      <!-- Tier 4 -->
+      <div class="card-pricing">
+        <h3 class="pricing-tier-name">Enterprise</h3>
+        <div class="pricing-price">
+          <span class="pricing-amount">Custom</span>
+        </div>
+        <p class="pricing-desc">tailored to your needs</p>
+        <ul class="pricing-features">
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Everything in Scale
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            SLA guarantees
+          </li>
+          <li>
+            <svg class="pricing-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--primary)" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            White-glove migration
+          </li>
+        </ul>
+        <div class="pricing-cta"><a href="#" class="btn-primary">Contact sales</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="cta" class="cta-section">
+  <div class="cta-content">
+    <h2>Ready to get started?</h2>
+    <p>Join millions of businesses that use Moden to accept payments and grow revenue. Get started in minutes with our APIs, SDKs, and no-code options.</p>
+    <div class="cta-form">
+      <input class="text-input" type="email" placeholder="Enter your email" />
+      <a href="#" class="btn-primary">Start now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <p>Moden is a financial infrastructure platform for businesses. Millions of companies — from startups to Fortune 500s — use Moden to accept payments and manage their operations online.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="#">Payments</a></li>
+        <li><a href="#">Billing</a></li>
+        <li><a href="#">Connect</a></li>
+        <li><a href="#">Terminal</a></li>
+        <li><a href="#">Atlas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Developers</h4>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">API reference</a></li>
+        <li><a href="#">SDKs</a></li>
+        <li><a href="#">Status</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Customers</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">Guides</a></li>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Moden, Inc.</p>
+    <div class="footer-social">
+      <a href="#" aria-label="Twitter">
+        <svg viewBox="0 0 18 18" fill="currentColor"><path d="M14.176 2h2.76l-6.03 6.777L18 18h-5.554l-4.35-5.594L3.115 18H.354l6.448-7.25L0 2h5.695l3.932 5.112L14.176 2zm-.97 14.374h1.53L4.864 3.539H3.222l9.984 12.835z"/></svg>
+      </a>
+      <a href="#" aria-label="GitHub">
+        <svg viewBox="0 0 18 18" fill="currentColor"><path d="M9 1C4.58 1 1 4.58 1 9c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0017 9c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

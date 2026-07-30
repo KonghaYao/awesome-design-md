@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replicate — Run AI models with a cloud API</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:opsz,wght@14..32,400;14..32,600&family=JetBrains+Mono:ital,wght@0,400;0,600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   REPLICATE DESIGN SYSTEM — DEMO PAGE
+   All tokens from design-md/replicate/DESIGN.md
+   ============================================================ */
+
+:root {
+  /* Brand & Accent */
+  --primary: #ea2804;
+  --primary-deep: #c01f00;
+  --on-primary: #ffffff;
+  --hero-warm: #ea2804;
+  --hero-glow: #ff6a3d;
+  --hero-pink: #f4a8a0;
+
+  /* Surface */
+  --canvas: #f9f7f3;
+  --surface-bone: #f3f0e8;
+  --surface-card: #ffffff;
+  --surface-dark: #202020;
+  --surface-deep: #000000;
+  --hairline: rgba(32,32,32,0.12);
+  --hairline-strong: #202020;
+  --divider-dark: rgba(255,255,255,0.2);
+
+  /* Text */
+  --ink: #202020;
+  --body-color: #3a3a3a;
+  --charcoal: #575757;
+  --mute: #646464;
+  --ash: #8d8d8d;
+  --stone: #bbbbbb;
+  --on-dark: #fcfcfc;
+  --on-dark-mute: rgba(252,252,252,0.72);
+
+  /* Semantic */
+  --badge-success: #2b9a66;
+  --link: #ea2804;
+  --ring-focus: rgba(59,130,246,0.5);
+  --github-dark: #24292e;
+
+  /* Rounded */
+  --rounded-none: 0px;
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 10px;
+  --rounded-lg: 16px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-xxxl: 48px;
+  --spacing-section: 96px;
+  --spacing-band: 160px;
+
+  /* Typography - Display (freigeist-neue → Bricolage Grotesque) */
+  --font-display: 'Bricolage Grotesque', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  --font-ui: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+  background-color: var(--canvas);
+}
+
+/* ============================================================
+   NAV BAR
+   token: nav-bar — canvas bg, hairline bottom, 60px height
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 60px;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-xl);
+}
+
+.nav-inner {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.nav-logo svg {
+  width: 32px;
+  height: 32px;
+}
+
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: 0;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.nav-signin {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: 0;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 0.15s ease;
+}
+
+.nav-signin:hover {
+  color: var(--primary);
+}
+
+/* button-primary */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-full);
+  padding: 12px 24px;
+  height: 44px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background: var(--primary-deep);
+}
+
+.btn-primary:active {
+  background: var(--primary-deep);
+  transform: scale(0.97);
+}
+
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring-focus);
+}
+
+/* button-dark */
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--surface-dark);
+  color: var(--on-dark);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-full);
+  padding: 12px 24px;
+  height: 44px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.btn-dark:hover {
+  opacity: 0.9;
+}
+
+.btn-dark:active {
+  transform: scale(0.97);
+}
+
+/* button-outline */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: 0;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--rounded-full);
+  padding: 11px 23px;
+  height: 44px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--ink);
+}
+
+.btn-outline:active {
+  transform: scale(0.97);
+}
+
+/* button-ghost */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-full);
+  padding: 8px 16px;
+  height: 36px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--surface-bone);
+}
+
+/* ============================================================
+   HERO BAND
+   token: hero-band — hero-warm bg, display-xxl, full-bleed, atmospheric mesh
+   ============================================================ */
+.hero {
+  position: relative;
+  background: var(--hero-warm);
+  overflow: hidden;
+  padding: var(--spacing-band) var(--spacing-xxl) 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Hero atmospheric mesh */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, var(--primary) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 70% 60%, var(--hero-glow) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 30% 70%, var(--hero-pink) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+}
+
+.hero-tagline {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--on-dark-mute);
+  background: rgba(255,255,255,0.12);
+  border-radius: var(--rounded-full);
+  padding: 4px 14px;
+  margin-bottom: var(--spacing-xl);
+}
+
+/* display-xxl */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 128px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -3px;
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* subtitle */
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.56;
+  letter-spacing: 0;
+  color: var(--on-dark-mute);
+  max-width: 560px;
+  margin: 0 auto var(--spacing-xxxl);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.hero-btn-dark {
+  background: var(--surface-deep);
+  color: var(--on-dark);
+}
+
+.hero-btn-dark:hover {
+  background: #333;
+}
+
+.hero-btn-ghost {
+  background: transparent;
+  color: var(--on-dark);
+  border: 1px solid rgba(252,252,252,0.25);
+}
+
+.hero-btn-ghost:hover {
+  background: rgba(252,252,252,0.08);
+}
+
+/* Hero illustration — tinkerer at workbench stand-in */
+.hero-illustration {
+  margin-top: var(--spacing-xxxl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-illustration svg {
+  max-width: 480px;
+  width: 100%;
+  opacity: 0.85;
+}
+
+/* ============================================================
+   SECTION COMMON
+   ============================================================ */
+.section {
+  padding: var(--spacing-section) var(--spacing-xl);
+}
+
+.section-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* display-xl section header */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xxxl);
+}
+
+.section-label {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.56;
+  letter-spacing: 0;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-md);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -1.8px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-desc {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.56;
+  letter-spacing: 0;
+  color: var(--body-color);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   FEATURES SECTION — cream canvas, surface-bone inset band
+   ============================================================ */
+.features-section {
+  background: var(--canvas);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-xl);
+}
+
+/* model-card */
+.feature-card {
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-md);
+  padding: var(--spacing-lg);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 8px 24px rgba(32,32,32,0.08);
+  transform: translateY(-2px);
+}
+
+.feature-card-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--rounded-md);
+  background: var(--surface-bone);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.feature-card-thumb svg {
+  width: 48px;
+  height: 48px;
+  opacity: 0.3;
+}
+
+.feature-card-meta {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0;
+  color: var(--charcoal);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* heading-md */
+.feature-card-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+.feature-card-desc {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--charcoal);
+  margin-bottom: var(--spacing-md);
+}
+
+.feature-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* badge-status */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--badge-success);
+  color: var(--on-dark);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0;
+  border-radius: var(--rounded-full);
+  padding: 4px 10px;
+}
+
+.badge-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--on-dark);
+}
+
+/* badge-tag */
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-full);
+  padding: 4px 10px;
+}
+
+.feature-card-tags {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+/* Bone inset band for categories */
+.categories-band {
+  margin-top: var(--spacing-section);
+  background: var(--surface-bone);
+  padding: var(--spacing-section) var(--spacing-xl);
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-xl);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* collection-tile */
+.category-tile {
+  background: var(--canvas);
+  border-radius: var(--rounded-md);
+  padding: var(--spacing-xl);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.33;
+  letter-spacing: -0.35px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.category-tile:hover {
+  background: var(--surface-card);
+}
+
+.category-tile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-full);
+  background: var(--surface-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   HOW IT WORKS — surface-dark full-bleed, code-story split
+   ============================================================ */
+.how-section {
+  background: var(--surface-dark);
+  padding: var(--spacing-band) var(--spacing-xl);
+}
+
+.how-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.how-header {
+  margin-bottom: var(--spacing-xxxl);
+}
+
+.how-label {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.56;
+  letter-spacing: 0;
+  color: var(--on-dark-mute);
+  display: block;
+  margin-bottom: var(--spacing-md);
+}
+
+.how-title {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -1.8px;
+  color: var(--on-dark);
+  max-width: 720px;
+}
+
+.how-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxxl);
+  align-items: center;
+}
+
+.how-narrative h3 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-md);
+}
+
+.how-narrative p {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.56;
+  letter-spacing: 0;
+  color: var(--on-dark-mute);
+  margin-bottom: var(--spacing-lg);
+}
+
+.how-narrative .btn-dark {
+  margin-top: var(--spacing-md);
+}
+
+/* code-block */
+.code-block {
+  background: var(--surface-deep);
+  border-radius: var(--rounded-md);
+  padding: var(--spacing-xl);
+  overflow: hidden;
+}
+
+/* code-tab strip */
+.code-tabs {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+/* code-tab */
+.code-tab {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--on-dark-mute);
+  background: var(--surface-deep);
+  border: none;
+  border-radius: var(--rounded-xs);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.code-tab.active {
+  color: var(--on-dark);
+  border-bottom: 2px solid var(--primary);
+  border-radius: var(--rounded-none);
+}
+
+.code-content {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.code-content .keyword { color: #ff79c6; }
+.code-content .string { color: #f1fa8c; }
+.code-content .comment { color: var(--on-dark-mute); }
+.code-content .function { color: #8be9fd; }
+
+/* ============================================================
+   PRICING — cream canvas, 3-tier grid, center featured in dark
+   ============================================================ */
+.pricing-section {
+  background: var(--canvas);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  align-items: stretch;
+}
+
+/* pricing-tier */
+.pricing-card {
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-card.featured {
+  background: var(--surface-dark);
+  border: none;
+  color: var(--on-dark);
+}
+
+.pricing-card.featured .pricing-name,
+.pricing-card.featured .pricing-desc,
+.pricing-card.featured .pricing-feature {
+  color: var(--on-dark);
+}
+
+.pricing-card.featured .pricing-desc,
+.pricing-card.featured .pricing-feature[data-mute] {
+  color: var(--on-dark-mute);
+}
+
+.pricing-card.featured .pricing-amount,
+.pricing-card.featured .pricing-period {
+  color: var(--on-dark);
+}
+
+.pricing-card.featured .pricing-divider {
+  background: var(--divider-dark);
+}
+
+.pricing-card.featured .pricing-feature svg {
+  stroke: var(--on-dark);
+}
+
+/* display-lg */
+.pricing-name {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pricing-desc {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body-color);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* display-md */
+.pricing-amount {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pricing-period {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0;
+  color: var(--charcoal);
+  margin-bottom: var(--spacing-xl);
+}
+
+.pricing-divider {
+  height: 1px;
+  background: var(--hairline);
+  margin-bottom: var(--spacing-xl);
+}
+
+.pricing-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  flex: 1;
+  margin-bottom: var(--spacing-xl);
+}
+
+.pricing-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0;
+  color: var(--body-color);
+}
+
+.pricing-feature svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.pricing-feature[data-mute] {
+  color: var(--mute);
+}
+
+.pricing-cta {
+  margin-top: auto;
+}
+
+.pricing-card.featured .pricing-cta .btn-primary {
+  background: var(--on-dark);
+  color: var(--surface-dark);
+}
+
+.pricing-card.featured .pricing-cta .btn-primary:hover {
+  background: var(--on-dark-mute);
+  color: var(--surface-dark);
+}
+
+/* ============================================================
+   CTA BANNER — cream canvas
+   ============================================================ */
+.cta-section {
+  background: var(--canvas);
+  text-align: center;
+}
+
+.cta-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+}
+
+.cta-desc {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.56;
+  letter-spacing: 0;
+  color: var(--body-color);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* text-input — pill search field */
+.input-pill {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-full);
+  padding: 12px 20px;
+  height: 44px;
+  min-width: 280px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.input-pill:focus {
+  border-color: var(--hairline-strong);
+}
+
+.input-pill::placeholder {
+  color: var(--ash);
+}
+
+/* ============================================================
+   FOOTER
+   token: footer — surface-deep, on-dark text, body-sm
+   ============================================================ */
+.footer {
+  background: var(--surface-deep);
+  color: var(--on-dark);
+  padding: 64px var(--spacing-xxl);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0;
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--spacing-xxxl);
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-logo svg {
+  width: 24px;
+  height: 24px;
+}
+
+.footer-logo-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--on-dark);
+}
+
+.footer-desc {
+  color: var(--on-dark-mute);
+  font-size: 14px;
+  line-height: 1.43;
+}
+
+.footer-col-title {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  letter-spacing: -0.35px;
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.footer-links a {
+  color: var(--on-dark-mute);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-links a:hover {
+  color: var(--on-dark);
+}
+
+.footer-bottom {
+  margin-top: var(--spacing-xxxl);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--divider-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0;
+  color: var(--on-dark-mute);
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.footer-social a {
+  color: var(--on-dark-mute);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-social a:hover {
+  color: var(--on-dark);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1279px) {
+  .features-grid { grid-template-columns: repeat(3, 1fr); }
+  .categories-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 1023px) {
+  .hero-title { font-size: 96px; }
+  .section-title { font-size: 56px; }
+  .how-title { font-size: 56px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .how-split { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .footer-inner { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+@media (max-width: 767px) {
+  .hero-title { font-size: 64px; letter-spacing: -1.5px; }
+  .section-title { font-size: 40px; letter-spacing: -0.8px; }
+  .how-title { font-size: 40px; letter-spacing: -0.8px; }
+  .how-split { gap: var(--spacing-xl); }
+  .features-grid { grid-template-columns: 1fr; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .section { padding: 64px var(--spacing-lg); }
+  .hero { padding: 96px var(--spacing-lg) 80px; }
+  .footer { padding: 48px var(--spacing-lg); }
+}
+
+@media (max-width: 425px) {
+  .hero-title { font-size: 48px; letter-spacing: -1px; }
+  .section-title { font-size: 32px; letter-spacing: -0.6px; }
+  .how-title { font-size: 32px; letter-spacing: -0.6px; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .pricing-name { font-size: 36px; }
+  .cta-title { font-size: 36px; }
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.feature-card { animation: fadeInUp 0.5s ease backwards; }
+.feature-card:nth-child(1) { animation-delay: 0.1s; }
+.feature-card:nth-child(2) { animation-delay: 0.2s; }
+.feature-card:nth-child(3) { animation-delay: 0.3s; }
+.feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+.pricing-card { animation: fadeInUp 0.5s ease backwards; }
+.pricing-card:nth-child(1) { animation-delay: 0.1s; }
+.pricing-card:nth-child(2) { animation-delay: 0.25s; }
+.pricing-card:nth-child(3) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV BAR
+     token: nav-bar — canvas, 60px, hairline bottom border
+     ============================================================ -->
+<nav class="nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Replicate home">
+      <!-- Replicate wordmark logo: orange geometric mark -->
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#ea2804"/>
+        <path d="M8 12 L16 8 L24 12 L24 20 L16 16 L8 20 Z" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="16" cy="14" r="3" fill="white" opacity="0.6"/>
+      </svg>
+      <span class="nav-logo-text">replicate</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">Explore</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="#" class="nav-signin">Sign in</a>
+      <a href="#" class="btn-primary">
+        <!-- GitHub icon -->
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Sign in with GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO BAND
+     token: hero-band — hero-warm bg, atmospheric mesh, display-xxl
+     ============================================================ -->
+<header class="hero" role="banner">
+  <div class="hero-inner">
+    <span class="hero-tagline">Run AI with an API</span>
+    <h1 class="hero-title">Imagine what<br>you can build</h1>
+    <p class="hero-subtitle">Run open-source and custom machine learning models with a single line of code. No infrastructure to manage.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" style="background: var(--surface-deep); border: none;">Start building free →</a>
+      <a href="#" class="btn-primary hero-btn-ghost">Explore models</a>
+    </div>
+
+    <!-- Hero illustration: tinkerer at workbench → stylized geometric code editor -->
+    <div class="hero-illustration">
+      <svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Monitor -->
+        <rect x="100" y="20" width="280" height="165" rx="12" fill="rgba(0,0,0,0.15)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <!-- Screen -->
+        <rect x="110" y="30" width="260" height="145" rx="8" fill="rgba(0,0,0,0.2)"/>
+        <!-- Code lines -->
+        <rect x="120" y="45" width="120" height="6" rx="3" fill="rgba(252,252,252,0.2)"/>
+        <rect x="120" y="58" width="180" height="6" rx="3" fill="rgba(252,252,252,0.12)"/>
+        <rect x="130" y="71" width="140" height="6" rx="3" fill="rgba(252,252,252,0.12)"/>
+        <rect x="120" y="84" width="200" height="6" rx="3" fill="rgba(252,252,252,0.08)"/>
+        <!-- Orange cursor line -->
+        <rect x="150" y="97" width="160" height="6" rx="3" fill="#ea2804" opacity="0.6"/>
+        <rect x="120" y="110" width="100" height="6" rx="3" fill="rgba(252,252,252,0.08)"/>
+        <!-- Output box -->
+        <rect x="120" y="130" width="230" height="28" rx="6" fill="rgba(234,40,4,0.15)" stroke="#ea2804" stroke-width="1"/>
+        <text x="135" y="150" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(252,252,252,0.7)">✓ Output generated in 2.3s</text>
+        <!-- Stand -->
+        <rect x="220" y="185" width="40" height="6" rx="3" fill="rgba(0,0,0,0.15)"/>
+        <rect x="205" y="191" width="70" height="4" rx="2" fill="rgba(0,0,0,0.1)"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     FEATURES — cream canvas, model cards, bone inset for categories
+     ============================================================ -->
+<section class="section features-section" id="features">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Explore models</span>
+      <h2 class="section-title">Thousands of models<br>ready to run</h2>
+      <p class="section-desc">From image generation to text analysis, find the right model for your project and run it with a single API call.</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Card 1 -->
+      <article class="feature-card">
+        <div class="feature-card-thumb">
+          <!-- Image generation icon -->
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" stroke="#8d8d8d" stroke-width="1"/>
+            <circle cx="20" cy="18" r="4" stroke="#8d8d8d" stroke-width="1.5"/>
+            <path d="M10 38 L20 28 L28 36 L34 30 L38 34 V38H10Z" stroke="#8d8d8d" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="feature-card-meta">stability-ai</p>
+        <h3 class="feature-card-title">Stable Diffusion</h3>
+        <p class="feature-card-desc">Generate high-quality images from text descriptions. The gold standard for creative AI imagery.</p>
+        <div class="feature-card-footer">
+          <span class="badge-status">Running</span>
+          <div class="feature-card-tags">
+            <span class="badge-tag">text-to-image</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="feature-card">
+        <div class="feature-card-thumb">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" stroke="#8d8d8d" stroke-width="1"/>
+            <rect x="10" y="10" width="28" height="28" rx="4" stroke="#8d8d8d" stroke-width="1.5"/>
+            <line x1="16" y1="18" x2="32" y2="18" stroke="#8d8d8d" stroke-width="1.5"/>
+            <line x1="16" y1="24" x2="28" y2="24" stroke="#8d8d8d" stroke-width="1.5"/>
+            <line x1="16" y1="30" x2="24" y2="30" stroke="#8d8d8d" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <p class="feature-card-meta">meta</p>
+        <h3 class="feature-card-title">Llama 3</h3>
+        <p class="feature-card-desc">Meta's latest large language model. Run inference, fine-tune, and deploy at scale.</p>
+        <div class="feature-card-footer">
+          <span class="badge-status">Running</span>
+          <div class="feature-card-tags">
+            <span class="badge-tag">text</span>
+            <span class="badge-tag">llm</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="feature-card">
+        <div class="feature-card-thumb">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" stroke="#8d8d8d" stroke-width="1"/>
+            <circle cx="24" cy="16" r="6" stroke="#8d8d8d" stroke-width="1.5"/>
+            <path d="M14 38 Q24 28 34 38" stroke="#8d8d8d" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="24" cy="38" r="1.5" fill="#8d8d8d"/>
+          </svg>
+        </div>
+        <p class="feature-card-meta">openai</p>
+        <h3 class="feature-card-title">Whisper</h3>
+        <p class="feature-card-desc">State-of-the-art speech recognition. Transcribe audio to text in 100+ languages.</p>
+        <div class="feature-card-footer">
+          <span class="badge-status">Running</span>
+          <div class="feature-card-tags">
+            <span class="badge-tag">audio</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="feature-card">
+        <div class="feature-card-thumb">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" stroke="#8d8d8d" stroke-width="1"/>
+            <rect x="14" y="10" width="20" height="28" rx="3" stroke="#8d8d8d" stroke-width="1.5"/>
+            <circle cx="24" cy="24" r="4" stroke="#8d8d8d" stroke-width="1.5"/>
+            <polygon points="22,22 22,26 27,24" fill="#8d8d8d"/>
+          </svg>
+        </div>
+        <p class="feature-card-meta">black-forest-labs</p>
+        <h3 class="feature-card-title">FLUX.1</h3>
+        <p class="feature-card-desc">Next-gen diffusion model with unprecedented realism and prompt adherence.</p>
+        <div class="feature-card-footer">
+          <span class="badge-status">Running</span>
+          <div class="feature-card-tags">
+            <span class="badge-tag">text-to-image</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Bone inset category band -->
+<div class="categories-band">
+  <div class="section-header">
+    <span class="section-label" style="color: var(--mute);">Browse by task</span>
+    <h2 style="font-family: var(--font-display); font-size: 48px; font-weight: 700; line-height: 1.0; letter-spacing: -1px; color: var(--ink); margin-bottom: var(--spacing-lg);">Find models for<br>what you're building</h2>
+  </div>
+
+  <div class="categories-grid">
+    <div class="category-tile">
+      <div class="category-tile-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="4" stroke="#ea2804" stroke-width="1.5"/><circle cx="8" cy="8" r="2" stroke="#ea2804" stroke-width="1"/><path d="M3 14l3-3 3 3 2-2 3 3" stroke="#ea2804" stroke-width="1" stroke-linejoin="round"/></svg>
+      </div>
+      Image generation
+    </div>
+    <div class="category-tile">
+      <div class="category-tile-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="12" rx="2" stroke="#ea2804" stroke-width="1.5"/><line x1="6" y1="8" x2="14" y2="8" stroke="#ea2804" stroke-width="1"/><line x1="6" y1="12" x2="11" y2="12" stroke="#ea2804" stroke-width="1"/></svg>
+      </div>
+      Text & language
+    </div>
+    <div class="category-tile">
+      <div class="category-tile-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="2" width="14" height="16" rx="3" stroke="#ea2804" stroke-width="1.5"/><polygon points="8,7 8,13 14,10" fill="#ea2804"/></svg>
+      </div>
+      Audio & video
+    </div>
+    <div class="category-tile">
+      <div class="category-tile-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v4M10 14v4M4 10H2M18 10h-2M5.5 5.5l-1.5-1.5M16 4.5L14.5 6M5.5 14.5l-1.5 1.5M16 15.5l-1.5-1.5" stroke="#ea2804" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="10" r="3" stroke="#ea2804" stroke-width="1.5"/></svg>
+      </div>
+      Fine-tuning
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     HOW IT WORKS — surface-dark full-bleed, code-story split
+     ============================================================ -->
+<section class="how-section" id="how-it-works">
+  <div class="how-inner">
+    <div class="how-header">
+      <span class="how-label">How it works</span>
+      <h2 class="how-title">Run models with<br>a few lines of code</h2>
+    </div>
+
+    <div class="how-split">
+      <div class="how-narrative">
+        <h3>One API. Every model.</h3>
+        <p>Install the Replicate client, pick a model, and start running predictions. We handle GPU provisioning, scaling, and cold starts — you focus on building.</p>
+        <p>Every model on Replicate exposes the same clean prediction interface. Switch between models without rewriting your integration code.</p>
+        <a href="#" class="btn-dark">Read the docs →</a>
+      </div>
+
+      <!-- code-block -->
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="code-tab active">Python</button>
+          <button class="code-tab">Node.js</button>
+          <button class="code-tab">cURL</button>
+          <button class="code-tab">HTTP</button>
+        </div>
+        <div class="code-content">
+<span class="keyword">import</span> replicate
+
+<span class="comment"># Run a model and get the output</span>
+output = replicate.<span class="function">run</span>(
+    <span class="string">"black-forest-labs/flux-schnell"</span>,
+    <span class="keyword">input</span>={
+        <span class="string">"prompt"</span>: <span class="string">"an astronaut riding a rainbow unicorn"</span>,
+        <span class="string">"num_outputs"</span>: <span class="number">1</span>,
+        <span class="string">"aspect_ratio"</span>: <span class="string">"1:1"</span>,
+    }
+)
+<span class="comment"># Output is a URL to the generated image</span>
+<span class="function">print</span>(output)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING — cream canvas, 3-tier, center featured in dark
+     ============================================================ -->
+<section class="section pricing-section" id="pricing">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Pricing</span>
+      <h2 class="section-title">Scale on<br>your terms</h2>
+      <p class="section-desc">Pay only for the compute you use. No monthly fees, no hidden costs.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Tier 1 — Free -->
+      <div class="pricing-card">
+        <h3 class="pricing-name">Free</h3>
+        <p class="pricing-desc">Get started with public models. No credit card required.</p>
+        <div class="pricing-amount">$0</div>
+        <div class="pricing-period">per month</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Public models on shared GPUs
+          </li>
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Community support
+          </li>
+          <li class="pricing-feature" data-mute>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#bbbbbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Custom models
+          </li>
+          <li class="pricing-feature" data-mute>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#bbbbbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Priority support
+          </li>
+        </ul>
+        <div class="pricing-cta">
+          <a href="#" class="btn-outline" style="width: 100%;">Get started</a>
+        </div>
+      </div>
+
+      <!-- Tier 2 — Pro (featured = dark inversion) -->
+      <div class="pricing-card featured">
+        <h3 class="pricing-name">Pro</h3>
+        <p class="pricing-desc">For teams shipping AI features in production.</p>
+        <div class="pricing-amount">$0.0023</div>
+        <div class="pricing-period">per second of GPU</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Private models
+          </li>
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Priority GPU access
+          </li>
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Fine-tuning & training
+          </li>
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Webhook deployments
+          </li>
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Email support
+          </li>
+        </ul>
+        <div class="pricing-cta">
+          <a href="#" class="btn-primary" style="width: 100%;">Start building</a>
+        </div>
+      </div>
+
+      <!-- Tier 3 — Enterprise -->
+      <div class="pricing-card">
+        <h3 class="pricing-name">Enterprise</h3>
+        <p class="pricing-desc">Dedicated infrastructure for organizations at scale.</p>
+        <div class="pricing-amount">Custom</div>
+        <div class="pricing-period">contact us</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Dedicated GPU clusters
+          </li>
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            VPC deployment
+          </li>
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            SSO & audit logs
+          </li>
+          <li class="pricing-feature">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="#2b9a66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            SLA & priority support
+          </li>
+        </ul>
+        <div class="pricing-cta">
+          <a href="#" class="btn-outline" style="width: 100%;">Contact sales</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BANNER — cream canvas
+     ============================================================ -->
+<section class="section cta-section" id="cta">
+  <div class="cta-inner">
+    <h2 class="cta-title">Ready to build with AI?</h2>
+    <p class="cta-desc">Start running models in seconds. No GPUs to manage, no infrastructure to configure.</p>
+    <div class="cta-actions">
+      <input type="email" class="input-pill" placeholder="you@company.com" aria-label="Email address">
+      <a href="#" class="btn-primary">Sign up free</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     token: footer — surface-deep, on-dark text, body-sm, 64px padding
+     ============================================================ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="8" fill="#ea2804"/>
+          <path d="M8 12 L16 8 L24 12 L24 20 L16 16 L8 20 Z" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="16" cy="14" r="3" fill="white" opacity="0.6"/>
+        </svg>
+        <span class="footer-logo-text">replicate</span>
+      </div>
+      <p class="footer-desc">Run AI with an API. No infrastructure to manage.</p>
+    </div>
+
+    <div>
+      <h4 class="footer-col-title">Product</h4>
+      <ul class="footer-links">
+        <li><a href="#">Explore</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">API Reference</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="footer-col-title">Company</h4>
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="footer-col-title">Resources</h4>
+      <ul class="footer-links">
+        <li><a href="#">Cookbook</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="footer-col-title">Legal</h4>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Security</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom" style="max-width: 1280px; margin: var(--spacing-xxxl) auto 0;">
+    <span>&copy; 2025 Replicate, Inc.</span>
+    <div class="footer-social">
+      <a href="#" aria-label="GitHub">GitHub</a>
+      <a href="#" aria-label="Twitter">Twitter</a>
+      <a href="#" aria-label="Discord">Discord</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

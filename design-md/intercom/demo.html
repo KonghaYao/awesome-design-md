@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intercom — The complete AI-first customer service platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   DESIGN TOKENS from Intercom DESIGN.md
+   ============================================ */
+
+:root {
+  /* Colors */
+  --color-ink: #111111;
+  --color-on-primary: #ffffff;
+  --color-ink-muted: #626260;
+  --color-ink-subtle: #7b7b78;
+  --color-ink-tertiary: #9c9fa5;
+  --color-canvas: #f5f1ec;
+  --color-surface-1: #ffffff;
+  --color-surface-2: #ebe7e1;
+  --color-inverse-canvas: #000000;
+  --color-inverse-surface-1: #313130;
+  --color-inverse-ink: #ffffff;
+  --color-inverse-ink-muted: #9c9fa5;
+  --color-hairline: #d3cec6;
+  --color-hairline-soft: #ebe7e1;
+  --color-fin-orange: #ff5600;
+  --color-report-orange: #fe4c02;
+  --color-report-blue: #65b5ff;
+  --color-report-green: #0bdf50;
+  --color-report-pink: #ff2067;
+  --color-report-lime: #b3e01c;
+  --color-report-cyan: #03b2cb;
+  --color-brand-blue: #0007cb;
+  --color-semantic-error: #c41c1c;
+  --color-semantic-success: #0bdf50;
+
+  /* Rounded */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 24px;
+  --rounded-pill: 9999px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 96px;
+
+  /* Typography - Saans substitute: Inter */
+  --font-sans: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  background-color: var(--color-canvas);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ============================================
+   TYPOGRAPHY TOKENS
+   ============================================ */
+
+.display-xl {
+  font-family: var(--font-sans);
+  font-size: 72px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -2.0px;
+}
+
+.display-lg {
+  font-family: var(--font-sans);
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1.10;
+  letter-spacing: -1.4px;
+}
+
+.display-md {
+  font-family: var(--font-sans);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+}
+
+.headline {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+}
+
+.card-title {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+}
+
+.subhead {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: -0.2px;
+}
+
+.body-lg {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.1px;
+}
+
+.body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+}
+
+.body-sm {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+}
+
+.caption {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+}
+
+.button-text {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  letter-spacing: 0;
+  color: var(--color-ink-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+}
+
+.ink-muted { color: var(--color-ink-muted); }
+.ink-subtle { color: var(--color-ink-subtle); }
+.ink-tertiary { color: var(--color-ink-tertiary); }
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: 0;
+  padding: 10px 18px;
+  border-radius: var(--rounded-md);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* button-primary */
+.btn-primary {
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-inverse-canvas);
+}
+
+.btn-primary:active {
+  background-color: var(--color-inverse-canvas);
+  transform: scale(0.98);
+}
+
+/* button-secondary */
+.btn-secondary {
+  background-color: var(--color-surface-1);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-canvas);
+}
+
+.btn-secondary:active {
+  background-color: var(--color-canvas);
+  transform: scale(0.98);
+}
+
+/* button-tertiary */
+.btn-tertiary {
+  background-color: transparent;
+  color: var(--color-ink);
+}
+
+.btn-tertiary:hover {
+  background-color: var(--color-surface-2);
+}
+
+/* button-fin */
+.btn-fin {
+  background-color: var(--color-fin-orange);
+  color: var(--color-on-primary);
+}
+
+.btn-fin:hover {
+  background-color: #e64d00;
+}
+
+.btn-fin:active {
+  background-color: #cc4400;
+  transform: scale(0.98);
+}
+
+/* ============================================
+   TOP NAV
+   ============================================ */
+
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-canvas);
+  height: 56px;
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+
+.top-nav .container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: var(--spacing-xl);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.nav-brand svg {
+  width: 32px;
+  height: 32px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  margin-left: auto;
+}
+
+.nav-links a {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--color-ink-subtle);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.hero {
+  padding: var(--spacing-section) 0 var(--spacing-xxl);
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xxl);
+}
+
+.hero-content h1 {
+  margin-bottom: var(--spacing-lg);
+}
+
+.hero-content .subhead {
+  color: var(--color-ink-muted);
+  margin-bottom: var(--spacing-xl);
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.hero-mockup {
+  /* product-mockup-card */
+  background-color: var(--color-surface-1);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-lg);
+  max-width: 1080px;
+  margin: 0 auto;
+  border: 1px solid var(--color-hairline);
+}
+
+.hero-mockup-inner {
+  background-color: var(--color-canvas);
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mockup-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+
+.mockup-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-hairline);
+}
+
+.mockup-dot:nth-child(1) { background-color: #ff5f56; }
+.mockup-dot:nth-child(2) { background-color: #ffbd2e; }
+.mockup-dot:nth-child(3) { background-color: #27c93f; }
+
+.mockup-search {
+  margin-left: var(--spacing-md);
+  flex: 1;
+  max-width: 240px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: var(--color-ink-tertiary);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-sm);
+}
+
+.mockup-body {
+  display: flex;
+  flex: 1;
+  min-height: 400px;
+}
+
+.mockup-sidebar {
+  width: 220px;
+  background-color: var(--color-surface-1);
+  border-right: 1px solid var(--color-hairline-soft);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+}
+
+.sidebar-item {
+  padding: 8px 12px;
+  border-radius: var(--rounded-sm);
+  font-size: 14px;
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-item.active {
+  background-color: var(--color-canvas);
+  font-weight: 500;
+}
+
+.sidebar-badge {
+  margin-left: auto;
+  background-color: var(--color-fin-orange);
+  color: var(--color-on-primary);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: var(--rounded-xs);
+}
+
+.mockup-main {
+  flex: 1;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.mockup-msg {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: var(--rounded-lg);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.mockup-msg.inbound {
+  background-color: var(--color-surface-1);
+  border: 1px solid var(--color-hairline-soft);
+  align-self: flex-start;
+}
+
+.mockup-msg.outbound {
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  align-self: flex-end;
+}
+
+.mockup-msg.fin {
+  background-color: #fff5f0;
+  border-left: 3px solid var(--color-fin-orange);
+  padding-left: 14px;
+  align-self: flex-start;
+}
+
+.mockup-msg-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-fin-orange);
+  margin-bottom: 4px;
+}
+
+.mockup-composer {
+  margin-top: auto;
+  display: flex;
+  gap: var(--spacing-xs);
+  padding: 12px;
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-md);
+  align-items: center;
+}
+
+.mockup-composer input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--color-ink);
+  outline: none;
+  font-family: var(--font-sans);
+}
+
+.mockup-composer input::placeholder {
+  color: var(--color-ink-tertiary);
+}
+
+.mockup-send {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-md);
+  background-color: var(--color-ink);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   CUSTOMER LOGOS MARQUEE
+   ============================================ */
+
+.customer-marquee {
+  padding: var(--spacing-xxl) 0;
+}
+
+.customer-marquee .eyebrow {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.logo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.customer-logo-tile {
+  /* customer-logo-tile component */
+  background-color: var(--color-canvas);
+  border-radius: var(--rounded-xs);
+  padding: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+
+.customer-logo-tile svg {
+  height: 24px;
+  width: auto;
+}
+
+/* ============================================
+   FEATURES SECTION
+   ============================================ */
+
+.features {
+  padding: var(--spacing-section) 0;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--spacing-xxl);
+}
+
+.section-header .eyebrow {
+  margin-bottom: var(--spacing-md);
+}
+
+.section-header h2 {
+  margin-bottom: var(--spacing-md);
+}
+
+.section-header p {
+  color: var(--color-ink-muted);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.feature-card {
+  /* feature-card component */
+  background-color: var(--color-surface-1);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-hairline);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.feature-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-md);
+  background-color: var(--color-canvas);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.feature-card .card-title {
+  margin-bottom: var(--spacing-xs);
+}
+
+.feature-card p {
+  color: var(--color-ink-muted);
+}
+
+/* ============================================
+   PRODUCT MOCKUP SHOWCASE
+   ============================================ */
+
+.product-showcase {
+  padding: var(--spacing-section) 0;
+  background-color: var(--color-canvas);
+}
+
+.product-mockup-card {
+  /* product-mockup-card component */
+  background-color: var(--color-surface-1);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-hairline);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.product-mockup-card:last-child {
+  margin-bottom: 0;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxl);
+  align-items: center;
+}
+
+.showcase-text .eyebrow {
+  margin-bottom: var(--spacing-md);
+}
+
+.showcase-text h3 {
+  margin-bottom: var(--spacing-md);
+}
+
+.showcase-text p {
+  color: var(--color-ink-muted);
+  margin-bottom: var(--spacing-lg);
+}
+
+.showcase-visual {
+  background-color: var(--color-canvas);
+  border-radius: var(--rounded-md);
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-hairline-soft);
+}
+
+.showcase-visual-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-hairline-soft);
+  gap: 6px;
+}
+
+.showcase-visual-toolbar .mockup-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.showcase-visual-body {
+  flex: 1;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.showcase-chart {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-sm);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+
+.chart-bar {
+  flex: 1;
+  border-radius: var(--rounded-xs) var(--rounded-xs) 0 0;
+  min-height: 20px;
+}
+
+.chart-bar:nth-child(1) { height: 60%; background-color: var(--color-report-blue); }
+.chart-bar:nth-child(2) { height: 45%; background-color: var(--color-report-green); }
+.chart-bar:nth-child(3) { height: 80%; background-color: var(--color-report-pink); }
+.chart-bar:nth-child(4) { height: 35%; background-color: var(--color-report-lime); }
+.chart-bar:nth-child(5) { height: 70%; background-color: var(--color-report-orange); }
+.chart-bar:nth-child(6) { height: 55%; background-color: var(--color-report-cyan); }
+
+.showcase-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.stat-item {
+  text-align: center;
+  padding: var(--spacing-sm);
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--color-ink-subtle);
+}
+
+/* ============================================
+   TESTIMONIALS
+   ============================================ */
+
+.testimonials {
+  padding: var(--spacing-section) 0;
+}
+
+.testimonials .section-header {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.testimonial-card {
+  /* testimonial-card component */
+  background-color: var(--color-surface-1);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xl);
+  border: 1px solid var(--color-hairline);
+}
+
+.testimonial-card .body-lg {
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-lg);
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.testimonial-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-canvas);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-ink-muted);
+}
+
+.testimonial-name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  color: var(--color-ink);
+}
+
+.testimonial-role {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--color-ink-subtle);
+}
+
+/* ============================================
+   PRICING SECTION
+   ============================================ */
+
+.pricing {
+  padding: var(--spacing-section) 0;
+}
+
+.pricing-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-xxl);
+  background-color: var(--color-surface-2);
+  padding: 4px;
+  border-radius: var(--rounded-pill);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pricing-tab {
+  /* pricing-tab-default */
+  background-color: transparent;
+  color: var(--color-ink-muted);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: 0;
+  padding: 8px 16px;
+  border-radius: var(--rounded-pill);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.pricing-tab.selected {
+  /* pricing-tab-selected */
+  background-color: var(--color-surface-1);
+  color: var(--color-ink);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.pricing-tab:hover:not(.selected) {
+  color: var(--color-ink);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.pricing-card {
+  /* pricing-card component */
+  background-color: var(--color-surface-1);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-hairline);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.pricing-card.featured {
+  /* pricing-card-featured component */
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  border-color: var(--color-ink);
+}
+
+.pricing-card.featured:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.pricing-card-header {
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.pricing-card.featured .pricing-card-header {
+  border-bottom-color: rgba(255,255,255,0.15);
+}
+
+.pricing-tier-name {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.pricing-card.featured .pricing-tier-name {
+  color: var(--color-on-primary);
+}
+
+.pricing-tier-desc {
+  color: var(--color-ink-muted);
+  margin-bottom: var(--spacing-md);
+}
+
+.pricing-card.featured .pricing-tier-desc {
+  color: var(--color-inverse-ink-muted);
+}
+
+.pricing-price {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+}
+
+.pricing-card.featured .pricing-price {
+  color: var(--color-on-primary);
+}
+
+.pricing-interval {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-ink-muted);
+  line-height: 1.50;
+}
+
+.pricing-card.featured .pricing-interval {
+  color: var(--color-inverse-ink-muted);
+}
+
+.pricing-features {
+  flex: 1;
+  margin-bottom: var(--spacing-lg);
+}
+
+.pricing-features li {
+  padding: 8px 0;
+  color: var(--color-ink);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.pricing-card.featured .pricing-features li {
+  color: var(--color-on-primary);
+}
+
+.feature-check {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+}
+
+.pricing-card .btn {
+  width: 100%;
+}
+
+.pricing-card.featured .btn {
+  background-color: var(--color-on-primary);
+  color: var(--color-ink);
+}
+
+.pricing-card.featured .btn:hover {
+  background-color: var(--color-canvas);
+}
+
+/* startup-discount-card */
+.startup-discount-card {
+  background-color: var(--color-surface-2);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.startup-discount-card h4 {
+  margin-bottom: var(--spacing-xs);
+}
+
+.startup-discount-card p {
+  color: var(--color-ink-muted);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================
+   FAQ SECTION
+   ============================================ */
+
+.faq {
+  padding: var(--spacing-section) 0;
+}
+
+.faq .section-header {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.faq-grid {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-row {
+  /* faq-row component */
+  background-color: var(--color-canvas);
+  border-radius: var(--rounded-md);
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-hairline-soft);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.15s ease;
+}
+
+.faq-row:hover {
+  background-color: var(--color-surface-2);
+}
+
+.faq-row:last-child {
+  border-bottom: none;
+}
+
+.faq-row .body {
+  font-weight: 500;
+}
+
+.faq-arrow {
+  flex-shrink: 0;
+  color: var(--color-ink-subtle);
+  transition: transform 0.2s ease;
+}
+
+/* ============================================
+   CTA BANNER
+   ============================================ */
+
+.cta-section {
+  padding: var(--spacing-section) 0;
+}
+
+.cta-banner {
+  /* cta-banner component */
+  background-color: var(--color-surface-1);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  text-align: center;
+  border: 1px solid var(--color-hairline);
+}
+
+.cta-banner h3 {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--spacing-md);
+}
+
+.cta-banner p {
+  color: var(--color-ink-muted);
+  margin-bottom: var(--spacing-xl);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-banner .btn-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.cta-banner .btn {
+  min-width: 140px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+  /* footer component */
+  background-color: var(--color-canvas);
+  padding: 64px var(--spacing-xl);
+  border-top: 1px solid var(--color-hairline-soft);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.footer-brand p {
+  color: var(--color-ink-muted);
+  margin-top: var(--spacing-md);
+  max-width: 280px;
+}
+
+.footer-col h4 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-col a {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--color-ink-muted);
+  padding: 4px 0;
+  transition: color 0.15s ease;
+}
+
+.footer-col a:hover {
+  color: var(--color-ink);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-hairline-soft);
+}
+
+.footer-bottom p {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--color-ink-subtle);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.footer-bottom-links a {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--color-ink-subtle);
+  transition: color 0.15s ease;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--color-ink);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .features-grid,
+  .testimonials-grid,
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .showcase-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .display-xl { font-size: 44px; letter-spacing: -1.2px; }
+  .display-lg { font-size: 36px; letter-spacing: -0.8px; }
+  .display-md { font-size: 28px; letter-spacing: -0.5px; }
+  .headline { font-size: 24px; letter-spacing: -0.3px; }
+
+  .nav-links { display: none; }
+  .hero-mockup-inner { min-height: 320px; }
+  .mockup-sidebar { display: none; }
+
+  .features-grid,
+  .testimonials-grid,
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  .hero {
+    padding: var(--spacing-xxl) 0 var(--spacing-xl);
+  }
+
+  .features,
+  .testimonials,
+  .pricing,
+  .cta-section,
+  .faq,
+  .product-showcase {
+    padding: var(--spacing-xxl) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .display-xl { font-size: 32px; letter-spacing: -0.8px; }
+  .display-lg { font-size: 28px; letter-spacing: -0.5px; }
+
+  .container { padding: 0 var(--spacing-md); }
+  .footer-grid { grid-template-columns: 1fr; }
+
+  .hero-cta { flex-direction: column; width: 100%; }
+  .hero-cta .btn { width: 100%; }
+
+  .cta-banner { padding: var(--spacing-xl); }
+  .pricing-tabs { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     TOP NAV
+     ============================================ -->
+<nav class="top-nav">
+  <div class="container">
+    <a href="#" class="nav-brand" aria-label="Intercom home">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="6" fill="#111111"/>
+        <path d="M8 22 L8 10 L16 16 L10 16 L10 22 Z" fill="white"/>
+        <path d="M16 10 L24 10 L21 14 L16 12 Z" fill="white" opacity="0.7"/>
+        <path d="M24 22 L16 22 L19 18 L24 20 Z" fill="white" opacity="0.7"/>
+      </svg>
+    </a>
+    <div class="nav-links">
+      <a href="#">Platform</a>
+      <a href="#">Solutions</a>
+      <a href="#">Pricing</a>
+      <a href="#">Customers</a>
+      <a href="#">Resources</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-tertiary">Sign in</a>
+      <a href="#" class="btn btn-primary">Start free trial</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================
+     HERO SECTION
+     ============================================ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="display-xl">The complete AI-first<br>customer service platform</h1>
+      <p class="subhead">Intercom brings together the best of human support, AI agent, and proactive tools — all in one platform that grows with you.</p>
+      <div class="hero-cta">
+        <a href="#" class="btn btn-primary">Start free trial</a>
+        <a href="#" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><polygon points="6,5 11,8 6,11" fill="currentColor"/></svg>
+          Watch demo
+        </a>
+      </div>
+    </div>
+
+    <!-- product-mockup-card -->
+    <div class="hero-mockup">
+      <div class="hero-mockup-inner">
+        <div class="mockup-toolbar">
+          <span class="mockup-dot"></span>
+          <span class="mockup-dot"></span>
+          <span class="mockup-dot"></span>
+          <span class="mockup-search">Inbox — All conversations</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="sidebar-item active">Inbox</div>
+            <div class="sidebar-item">Unassigned <span class="sidebar-badge">3</span></div>
+            <div class="sidebar-item">Assigned to me</div>
+            <div class="sidebar-item">All</div>
+            <div class="sidebar-item" style="margin-top:auto; color: var(--color-ink-muted);">Draft</div>
+            <div class="sidebar-item" style="color: var(--color-ink-muted);">Snoozed</div>
+          </div>
+          <div class="mockup-main">
+            <div class="mockup-msg inbound">
+              Hi, I'm having trouble resetting my password. Can you help?
+            </div>
+            <div class="mockup-msg fin">
+              <div class="mockup-msg-label">Fin AI</div>
+              I can help with that! I've found your account. Let me send a reset link to your email on file.
+            </div>
+            <div class="mockup-msg outbound">
+              Great, thank you! That would be perfect.
+            </div>
+            <div class="mockup-msg inbound">
+              I got the link and it worked. You're amazing!
+            </div>
+            <div class="mockup-composer">
+              <input type="text" placeholder="Reply to customer...">
+              <button class="mockup-send">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7L13 1L7 13L6 8Z" fill="white"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================
+     CUSTOMER LOGOS
+     ============================================ -->
+<section class="customer-marquee">
+  <div class="container">
+    <p class="eyebrow">Trusted by 25,000+ businesses</p>
+    <div class="logo-grid">
+      <div class="customer-logo-tile">
+        <svg height="24" viewBox="0 0 80 24" fill="none"><rect x="0" y="4" width="32" height="16" rx="3" fill="#111" opacity="0.15"/><rect x="38" y="4" width="42" height="16" rx="3" fill="#111" opacity="0.08"/></svg>
+      </div>
+      <div class="customer-logo-tile">
+        <svg height="24" viewBox="0 0 64 24" fill="none"><rect x="0" y="2" width="44" height="20" rx="4" fill="#111" opacity="0.12"/></svg>
+      </div>
+      <div class="customer-logo-tile">
+        <svg height="24" viewBox="0 0 72 24" fill="none"><rect x="0" y="6" width="36" height="12" rx="2" fill="#111" opacity="0.15"/><rect x="42" y="6" width="30" height="12" rx="2" fill="#111" opacity="0.08"/></svg>
+      </div>
+      <div class="customer-logo-tile">
+        <svg height="24" viewBox="0 0 68 24" fill="none"><rect x="0" y="3" width="40" height="18" rx="4" fill="#111" opacity="0.12"/></svg>
+      </div>
+      <div class="customer-logo-tile">
+        <svg height="24" viewBox="0 0 76 24" fill="none"><rect x="0" y="5" width="34" height="14" rx="3" fill="#111" opacity="0.15"/><rect x="40" y="5" width="36" height="14" rx="3" fill="#111" opacity="0.08"/></svg>
+      </div>
+      <div class="customer-logo-tile">
+        <svg height="24" viewBox="0 0 60 24" fill="none"><rect x="0" y="2" width="48" height="20" rx="4" fill="#111" opacity="0.12"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FEATURES
+     ============================================ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Everything you need to support customers</p>
+      <h2 class="display-md">One platform, every channel,<br>every customer need</h2>
+      <p class="body-lg">Intercom brings AI agent, help desk, and proactive support together in a single, beautifully designed workspace.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#111" stroke-width="1.5"/><circle cx="11" cy="8" r="3" stroke="#111" stroke-width="1.5"/><path d="M6 18c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#111" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card-title">AI Agent — Fin</h3>
+        <p class="body">Resolve up to 50% of customer questions instantly with Fin, our AI agent that delivers human-quality answers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="3" width="18" height="15" rx="2" stroke="#111" stroke-width="1.5"/><path d="M6 8h10M6 12h8M6 16h5" stroke="#111" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card-title">Help Desk</h3>
+        <p class="body">A shared inbox, ticketing, and macros that give your team the speed and context to resolve issues fast.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 17V7l7-5 7 5v10" stroke="#111" stroke-width="1.5" stroke-linejoin="round"/><rect x="8" y="11" width="6" height="7" rx="1" stroke="#111" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="card-title">Proactive Support</h3>
+        <p class="body">Send targeted messages, product tours, and surveys to the right people at the right moment.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#111" stroke-width="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5" stroke="#111" stroke-width="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5" stroke="#111" stroke-width="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5" stroke="#111" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="card-title">Omnichannel</h3>
+        <p class="body">Chat, email, social, phone, SMS — bring every conversation from every channel into one place.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="8" height="8" rx="1" stroke="#111" stroke-width="1.5"/><rect x="12" y="2" width="8" height="18" rx="1" stroke="#111" stroke-width="1.5"/><rect x="2" y="12" width="8" height="8" rx="1" stroke="#111" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="card-title">Reports & Insights</h3>
+        <p class="body">Real-time dashboards and AI-driven analytics that show you what matters most in your support operation.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 21V9l7-7 7 7v12" stroke="#111" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 16l2 2 4-4" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="card-title">Integrations</h3>
+        <p class="body">Connect with 450+ apps including Salesforce, Jira, Shopify, and Slack — right out of the box.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     PRODUCT SHOWCASE
+     ============================================ -->
+<section class="product-showcase" id="showcase">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="display-lg">See how it works</h2>
+      <p class="body-lg">Every feature is designed to be immediately useful, with zero setup friction.</p>
+    </div>
+
+    <!-- product-mockup-card: Inbox -->
+    <div class="product-mockup-card">
+      <div class="showcase-grid">
+        <div class="showcase-text">
+          <p class="eyebrow">Help Desk</p>
+          <h3 class="display-md">Your inbox, supercharged</h3>
+          <p class="body">See every customer conversation across every channel in a single, blazing-fast inbox. Macros, collision detection, and smart routing keep your team moving.</p>
+          <a href="#" class="btn btn-secondary">Explore Help Desk</a>
+        </div>
+        <div class="showcase-visual">
+          <div class="showcase-visual-toolbar">
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+          </div>
+          <div class="showcase-visual-body">
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <span style="background:var(--color-canvas);padding:4px 10px;border-radius:var(--rounded-pill);font-size:12px;font-weight:500;">All</span>
+              <span style="padding:4px 10px;border-radius:var(--rounded-pill);font-size:12px;color:var(--color-ink-muted);">Open</span>
+              <span style="padding:4px 10px;border-radius:var(--rounded-pill);font-size:12px;color:var(--color-ink-muted);">Closed</span>
+            </div>
+            <div style="background:var(--color-surface-1);border:1px solid var(--color-hairline-soft);border-radius:var(--rounded-md);padding:12px;margin-bottom:8px;">
+              <div style="font-size:13px;font-weight:500;">Password reset not working</div>
+              <div style="font-size:12px;color:var(--color-ink-subtle);">Jamie L. · 2m ago · Chat</div>
+            </div>
+            <div style="background:var(--color-surface-1);border:1px solid var(--color-hairline-soft);border-radius:var(--rounded-md);padding:12px;margin-bottom:8px;">
+              <div style="font-size:13px;font-weight:500;">Can't find my invoice #4428</div>
+              <div style="font-size:12px;color:var(--color-ink-subtle);">Taylor M. · 8m ago · Email</div>
+            </div>
+            <div style="background:var(--color-surface-1);border:1px solid var(--color-hairline-soft);border-radius:var(--rounded-md);padding:12px;">
+              <div style="font-size:13px;font-weight:500;">How do I set up SAML SSO?</div>
+              <div style="font-size:12px;color:var(--color-ink-subtle);">Alex K. · 14m ago · Chat</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- product-mockup-card: Analytics -->
+    <div class="product-mockup-card">
+      <div class="showcase-grid">
+        <div class="showcase-visual">
+          <div class="showcase-visual-toolbar">
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+          </div>
+          <div class="showcase-visual-body">
+            <div style="display:flex;gap:16px;margin-bottom:12px;">
+              <div><span style="font-size:12px;color:var(--color-ink-subtle);">Response time</span><div style="font-size:20px;font-weight:500;">1.4m</div></div>
+              <div><span style="font-size:12px;color:var(--color-ink-subtle);">Resolution</span><div style="font-size:20px;font-weight:500;">94%</div></div>
+              <div><span style="font-size:12px;color:var(--color-ink-subtle);">CSAT</span><div style="font-size:20px;font-weight:500;">4.8</div></div>
+            </div>
+            <div class="showcase-chart">
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+            </div>
+            <div style="display:flex;gap:12px;justify-content:center;font-size:11px;color:var(--color-ink-subtle);">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-text">
+          <p class="eyebrow">Reports</p>
+          <h3 class="display-md">Know what's working</h3>
+          <p class="body">See real-time metrics on response time, resolution rate, and CSAT. AI-powered insights surface trends before they become problems.</p>
+          <a href="#" class="btn btn-secondary">Explore Reports</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     TESTIMONIALS
+     ============================================ -->
+<section class="testimonials" id="customers">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Loved by teams everywhere</p>
+      <h2 class="display-md">What our customers say</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p class="body-lg">"Fin handles 45% of our support volume automatically. Our team can now focus on the conversations that truly need a human touch."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SL</div>
+          <div>
+            <div class="testimonial-name">Sarah Lin</div>
+            <div class="testimonial-role">Head of Support, Amplitude</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="body-lg">"Moving to Intercom was the best decision we made. The shared inbox eliminated the chaos of juggling 6 different tools."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MP</div>
+          <div>
+            <div class="testimonial-name">Marcus Price</div>
+            <div class="testimonial-role">VP Customer Experience, Atlassian</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="body-lg">"We saw a 30% increase in CSAT within the first month. The proactive messaging features are a game-changer for onboarding."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">RT</div>
+          <div>
+            <div class="testimonial-name">Rebecca Torres</div>
+            <div class="testimonial-role">Director of CS, Notion</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     PRICING
+     ============================================ -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="display-lg">Plans for every stage</h2>
+      <p class="body-lg">Start small and scale. No hidden fees, no surprises.</p>
+    </div>
+
+    <div class="pricing-tabs">
+      <button class="pricing-tab selected">Monthly</button>
+      <button class="pricing-tab">Annual — Save 10%</button>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Essential -->
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <div class="pricing-tier-name">Essential</div>
+          <div class="pricing-tier-desc body">For small teams getting started</div>
+          <div class="pricing-price">$29</div>
+          <span class="pricing-interval">/seat/mo</span>
+        </div>
+        <ul class="pricing-features body">
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Shared inbox for your whole team
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Basic ticketing & macros
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Chat & email channels
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Basic reporting
+          </li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Start free trial</a>
+      </div>
+
+      <!-- Advanced (featured) -->
+      <div class="pricing-card featured">
+        <div class="pricing-card-header">
+          <div class="pricing-tier-name">Advanced</div>
+          <div class="pricing-tier-desc body">For growing teams ready to scale</div>
+          <div class="pricing-price">$85</div>
+          <span class="pricing-interval">/seat/mo</span>
+        </div>
+        <ul class="pricing-features body">
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Everything in Essential
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Fin AI Agent included
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Workflows & automation
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Proactive messaging
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Advanced analytics
+          </li>
+        </ul>
+        <a href="#" class="btn btn-primary">Start free trial</a>
+      </div>
+
+      <!-- Expert -->
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <div class="pricing-tier-name">Expert</div>
+          <div class="pricing-tier-desc body">For teams that need it all</div>
+          <div class="pricing-price">$132</div>
+          <span class="pricing-interval">/seat/mo</span>
+        </div>
+        <ul class="pricing-features body">
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Everything in Advanced
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            SSO & advanced permissions
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Custom reports & API access
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Dedicated account team
+          </li>
+          <li>
+            <span class="feature-check">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 10l3 3 7-7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            SLA & uptime guarantee
+          </li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Start free trial</a>
+      </div>
+    </div>
+
+    <!-- startup-discount-card -->
+    <div class="startup-discount-card">
+      <h4 class="headline">Startups get 90% off</h4>
+      <p class="body">If you're an early-stage startup with less than $1M in funding, you qualify for our Startup Program. Get the full Advanced plan for a fraction of the cost.</p>
+      <a href="#" class="btn btn-secondary">Apply now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FAQ
+     ============================================ -->
+<section class="faq">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="display-md">Frequently asked questions</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-row">
+        <span class="body">Can I try Intercom before I buy?</span>
+        <span class="faq-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+      <div class="faq-row">
+        <span class="body">How does Fin AI Agent handle complex questions?</span>
+        <span class="faq-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+      <div class="faq-row">
+        <span class="body">Can I integrate Intercom with my existing tools?</span>
+        <span class="faq-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+      <div class="faq-row">
+        <span class="body">What kind of support do you offer?</span>
+        <span class="faq-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+      <div class="faq-row">
+        <span class="body">Is my data secure with Intercom?</span>
+        <span class="faq-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CTA BANNER
+     ============================================ -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-banner">
+      <h3>Experience Fin — the AI agent that resolves<br>50% of your support instantly</h3>
+      <p class="body-lg">Join 25,000+ businesses already using Intercom. Start your free trial today — no credit card required.</p>
+      <div class="btn-group">
+        <a href="#" class="btn btn-fin">Try Fin for free</a>
+        <a href="#" class="btn btn-secondary">Talk to sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" style="display:flex;align-items:center;gap:8px;">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="6" fill="#111111"/>
+            <path d="M8 22 L8 10 L16 16 L10 16 L10 22 Z" fill="white"/>
+            <path d="M16 10 L24 10 L21 14 L16 12 Z" fill="white" opacity="0.7"/>
+            <path d="M24 22 L16 22 L19 18 L24 20 Z" fill="white" opacity="0.7"/>
+          </svg>
+          <span style="font-size:16px;font-weight:500;color:var(--color-ink);">Intercom</span>
+        </a>
+        <p class="caption">The complete AI-first customer service platform. One platform, every channel, every customer need.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">Platform overview</a>
+        <a href="#">Fin AI Agent</a>
+        <a href="#">Help Desk</a>
+        <a href="#">Proactive Support</a>
+        <a href="#">Integrations</a>
+        <a href="#">What's new</a>
+      </div>
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <a href="#">Customer Support</a>
+        <a href="#">Customer Engagement</a>
+        <a href="#">AI-first Platform</a>
+        <a href="#">Startups</a>
+        <a href="#">Enterprise</a>
+        <a href="#">E-commerce</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Developer Hub</a>
+        <a href="#">Community</a>
+        <a href="#">Blog</a>
+        <a href="#">Webinars</a>
+        <a href="#">Status</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About us</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+        <a href="#">Contact sales</a>
+        <a href="#">Partners</a>
+        <a href="#">Legal</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Intercom, Inc. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Pricing tab toggle
+document.querySelectorAll('.pricing-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.pricing-tab').forEach(t => t.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+// FAQ accordion toggle
+document.querySelectorAll('.faq-row').forEach(row => {
+  row.addEventListener('click', function() {
+    const arrow = this.querySelector('.faq-arrow');
+    arrow.style.transform = arrow.style.transform === 'rotate(180deg)' ? '' : 'rotate(180deg)';
+  });
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>

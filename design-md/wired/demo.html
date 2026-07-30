@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WIRED — The Future Is Here</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   WIRED DESIGN SYSTEM — CSS RESET & TOKENS
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: #ffffff;           /* colors.canvas */
+  color: #000000;                       /* colors.ink */
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   TYPOGRAPHY — mapped exactly from DESIGN.md tokens
+   ============================================================ */
+
+/* display-hero — WiredDisplay → Playfair Display */
+.display-hero {
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 59.52px;
+  letter-spacing: -0.5px;
+}
+/* display-lg */
+.display-lg {
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 50.4px;
+  letter-spacing: -0.4px;
+}
+/* display-md */
+.display-md {
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 35.2px;
+  letter-spacing: -0.3px;
+}
+/* display-sm */
+.display-sm {
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 28.08px;
+}
+/* display-xs — Apercu → Inter */
+.display-xs {
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.28px;
+}
+/* body-serif-lg — BreveText → Lora */
+.body-serif-lg {
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 27.93px;
+  letter-spacing: 0.108px;
+}
+/* body-serif-md — BreveText → Lora */
+.body-serif-md {
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.09px;
+}
+/* body-md — Apercu → Inter */
+.body-md {
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 20px;
+}
+/* body-md-strong — Apercu → Inter */
+.body-md-strong {
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.144px;
+}
+/* body-sm — Apercu → Inter */
+.body-sm {
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+}
+/* body-sm-strong — Apercu → Inter */
+.body-sm-strong {
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+}
+/* byline — BreveText → Lora */
+.byline {
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 12.73px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.108px;
+}
+/* caption — Apercu → Inter */
+.caption {
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+/* button-md — Apercu → Inter */
+.button-md {
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   COLOR UTILITY CLASSES
+   ============================================================ */
+.text-ink { color: #000000; }
+.text-ink-soft { color: #1a1a1a; }
+.text-body { color: #757575; }
+.text-link { color: #057dbc; }
+.text-on-primary { color: #ffffff; }
+.bg-canvas { background-color: #ffffff; }
+.bg-canvas-soft { background-color: #f5f5f5; }
+.bg-primary { background-color: #000000; }
+.border-hairline { border-color: #e0e0e0; }
+
+/* ============================================================
+   BUTTONS — exact tokens from DESIGN.md
+   ============================================================ */
+
+/* button-primary */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;          /* colors.primary */
+  color: #ffffff;                      /* colors.on-primary */
+  border: none;
+  border-radius: 0px;                  /* rounded.none */
+  padding: 12px 20px;                  /* spacing.md spacing.xl */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  opacity: 0.8;
+  transform: translateY(0);
+}
+
+/* button-outline */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;           /* colors.canvas */
+  color: #000000;                      /* colors.ink */
+  border: 1px solid #000000;           /* colors.ink */
+  border-radius: 0px;                  /* rounded.none */
+  padding: 12px 20px;                  /* spacing.md spacing.xl */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-outline:hover {
+  background-color: #000000;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+/* button-icon-circular */
+.btn-icon-circular {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: #ffffff;           /* colors.canvas */
+  color: #000000;                      /* colors.ink */
+  border: 1px solid #000000;
+  border-radius: 9999px;               /* rounded.full */
+  padding: 8px;                        /* spacing.sm */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-icon-circular:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* ============================================================
+   TEXT INPUT — exact tokens from DESIGN.md
+   ============================================================ */
+.text-input {
+  background-color: #ffffff;           /* colors.canvas */
+  color: #000000;                      /* colors.ink */
+  border: 1px solid #000000;           /* colors.ink */
+  border-radius: 0px;                  /* rounded.none */
+  padding: 12px 16px;                  /* spacing.md spacing.lg */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 20px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.text-input:focus {
+  border-color: #000000;
+  border-width: 2px;
+}
+.text-input::placeholder {
+  color: #757575;                      /* colors.body */
+}
+
+/* ============================================================
+   NAV BAR — masthead-band + nav-bar tokens
+   ============================================================ */
+.nav-bar {
+  background-color: #ffffff;           /* colors.canvas */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.masthead-band {
+  background-color: #ffffff;           /* colors.canvas */
+  padding: 12px 20px;                  /* spacing.md spacing.xl */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;                           /* spacing.2xl */
+}
+.nav-links {
+  display: flex;
+  gap: 20px;                           /* spacing.xl */
+  list-style: none;
+}
+.nav-link {
+  color: #000000;                      /* colors.ink */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: opacity 0.2s ease;
+}
+.nav-link:hover { opacity: 0.6; }
+.wordmark {
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #000000;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-decoration: none;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;                           /* spacing.md */
+}
+
+/* hairline divider below nav */
+.nav-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;       /* colors.hairline */
+  margin: 0;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #000000;
+  margin: 4px 0;
+  transition: all 0.2s ease;
+}
+
+/* ============================================================
+   HERO BAND — hero-band token
+   ============================================================ */
+.hero-band {
+  background-color: #ffffff;           /* colors.canvas */
+  padding: 48px 20px;                  /* spacing.4xl spacing.xl */
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;                           /* spacing.4xl */
+  align-items: center;
+  min-height: 520px;
+}
+.hero-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #f5f5f5;           /* colors.canvas-soft */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-image-pattern {
+  width: 100%;
+  height: 100%;
+}
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;                           /* spacing.xl */
+}
+.hero-eyebrow {
+  color: #000000;                      /* colors.ink */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.hero-headline {
+  color: #000000;                      /* colors.ink */
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 59.52px;
+  letter-spacing: -0.5px;
+}
+.hero-subheadline {
+  color: #1a1a1a;                      /* colors.ink-soft */
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 27.93px;
+  letter-spacing: 0.108px;
+}
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;                           /* spacing.md */
+  flex-wrap: wrap;
+}
+.hero-byline {
+  color: #757575;                      /* colors.body */
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 12.73px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.108px;
+}
+.hero-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;               /* rounded.full */
+  background-color: #e0e0e0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.hero-divider-dot {
+  color: #e0e0e0;                      /* colors.hairline */
+  font-size: 16px;
+}
+.hero-cta-group {
+  display: flex;
+  gap: 12px;                           /* spacing.md */
+  flex-wrap: wrap;
+  margin-top: 8px;                     /* spacing.sm */
+}
+
+/* ============================================================
+   STORY GRID — story-card-large + story-card tokens
+   ============================================================ */
+.section-label {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px 20px 0;                /* spacing.4xl spacing.xl 0 */
+}
+.section-label-text {
+  color: #000000;                      /* colors.ink */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.hairline-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;       /* colors.hairline */
+  max-width: 1400px;
+  margin: 16px auto;                   /* spacing.lg */
+}
+
+.feature-story {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 20px 0;                /* spacing.3xl spacing.xl 0 */
+}
+.feature-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;                           /* spacing.3xl */
+  align-items: center;
+}
+.feature-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #f5f5f5;           /* colors.canvas-soft */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feature-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;                           /* spacing.lg */
+}
+.feature-headline {
+  color: #000000;                      /* colors.ink */
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 35.2px;
+  letter-spacing: -0.3px;
+}
+.feature-lead {
+  color: #1a1a1a;                      /* colors.ink-soft */
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.09px;
+}
+
+/* 2-up secondary story grid */
+.secondary-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 20px;                  /* spacing.3xl spacing.xl */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;                           /* spacing.3xl */
+}
+.secondary-card {
+  background-color: #ffffff;           /* colors.canvas */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                           /* spacing.md */
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.secondary-card:hover { opacity: 0.8; }
+.secondary-image-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: #f5f5f5;           /* colors.canvas-soft */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.secondary-headline {
+  color: #000000;                      /* colors.ink */
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 28.08px;
+}
+.secondary-lead {
+  color: #757575;                      /* colors.body */
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.09px;
+}
+.secondary-byline {
+  color: #757575;                      /* colors.body */
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 12.73px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.108px;
+}
+
+/* ============================================================
+   STORY ROWS — story-row token
+   ============================================================ */
+.story-rows {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;                     /* spacing.xl */
+}
+.story-row {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 24px;                           /* spacing.2xl */
+  align-items: center;
+  padding: 16px 0;                     /* spacing.lg */
+  border-bottom: 1px solid #e0e0e0;    /* colors.hairline */
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.story-row:hover { opacity: 0.75; }
+.story-row:first-child {
+  border-top: 1px solid #e0e0e0;       /* colors.hairline */
+}
+.story-row-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: #f5f5f5;           /* colors.canvas-soft */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.story-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;                            /* spacing.xs */
+}
+.story-row-title {
+  color: #000000;                      /* colors.ink */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.144px;
+}
+.story-row-excerpt {
+  color: #757575;                      /* colors.body */
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.09px;
+}
+.story-row-byline {
+  color: #757575;                      /* colors.body */
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 12.73px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.108px;
+}
+
+/* ============================================================
+   NEWSLETTER CTA — uses text-input + button-primary tokens
+   ============================================================ */
+.newsletter-section {
+  max-width: 1400px;
+  margin: 48px auto;                   /* spacing.4xl */
+  padding: 48px 20px;                  /* spacing.4xl spacing.xl */
+  background-color: #f5f5f5;           /* colors.canvas-soft */
+  text-align: center;
+}
+.newsletter-headline {
+  color: #000000;                      /* colors.ink */
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 50.4px;
+  letter-spacing: -0.4px;
+  margin-bottom: 16px;                 /* spacing.lg */
+}
+.newsletter-subheadline {
+  color: #1a1a1a;                      /* colors.ink-soft */
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 27.93px;
+  letter-spacing: 0.108px;
+  margin-bottom: 32px;                 /* spacing.3xl */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.newsletter-form {
+  display: flex;
+  gap: 8px;                            /* spacing.sm */
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.newsletter-form .text-input {
+  width: 360px;
+  max-width: 100%;
+}
+
+/* ============================================================
+   FOOTER — footer token
+   ============================================================ */
+.footer {
+  background-color: #000000;           /* colors.primary */
+  color: #ffffff;                      /* colors.on-primary */
+  padding: 48px 20px;                  /* spacing.4xl spacing.xl */
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 32px;                           /* spacing.3xl */
+}
+.footer-wordmark {
+  font-family: 'Playfair Display', "Times New Roman", Georgia, serif;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 16px;                 /* spacing.lg */
+}
+.footer-tagline {
+  color: #ffffff;                      /* colors.on-primary */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  opacity: 0.7;
+  margin-bottom: 20px;                 /* spacing.xl */
+}
+.footer-social {
+  display: flex;
+  gap: 8px;                            /* spacing.sm */
+}
+.footer-col-title {
+  color: #ffffff;                      /* colors.on-primary */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 16px;                 /* spacing.lg */
+}
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;                            /* spacing.sm */
+  list-style: none;
+  padding: 0;
+}
+.footer-col a {
+  color: #ffffff;                      /* colors.on-primary */
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.footer-col a:hover { opacity: 1; }
+.footer-bottom {
+  max-width: 1400px;
+  margin: 32px auto 0;                /* spacing.3xl */
+  padding-top: 16px;                   /* spacing.lg */
+  border-top: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;                           /* spacing.md */
+}
+.footer-copyright {
+  color: #ffffff;
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  opacity: 0.5;
+}
+.footer-legal {
+  display: flex;
+  gap: 20px;                           /* spacing.xl */
+  list-style: none;
+}
+.footer-legal a {
+  color: #ffffff;
+  font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+.footer-legal a:hover { opacity: 0.8; }
+
+/* ============================================================
+   SVG PLACEHOLDER PATTERNS
+   ============================================================ */
+.placeholder-tech-circuit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.placeholder-geometric {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
+  .hero-band {
+    grid-template-columns: 1fr;
+    gap: 32px;                         /* spacing.3xl */
+    min-height: auto;
+  }
+  .hero-headline {
+    font-size: 48px;
+    line-height: 50.4px;
+    letter-spacing: -0.4px;
+  }
+  .feature-card {
+    grid-template-columns: 1fr;
+    gap: 24px;                         /* spacing.2xl */
+  }
+  .story-row {
+    grid-template-columns: 140px 1fr;
+  }
+  .story-row > *:last-child {
+    display: none;
+  }
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;                         /* spacing.2xl */
+  }
+  .footer-inner > *:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .hamburger { display: block; }
+  .masthead-band .nav-left { gap: 12px; }   /* spacing.md */
+  .wordmark { font-size: 22px; letter-spacing: 4px; }
+  .hero-headline {
+    font-size: 40px;
+    line-height: 42px;
+    letter-spacing: -0.4px;
+  }
+  .hero-band { padding: 32px 16px; }   /* spacing.3xl spacing.lg */
+  .display-lg {
+    font-size: 36px;
+    line-height: 39.6px;
+  }
+  .secondary-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;                         /* spacing.2xl */
+  }
+  .story-row {
+    grid-template-columns: 1fr;
+    gap: 12px;                         /* spacing.md */
+  }
+  .story-row-image {
+    aspect-ratio: 16 / 9;
+  }
+  .newsletter-form {
+    flex-direction: column;
+    align-items: center;
+  }
+  .newsletter-form .text-input {
+    width: 100%;
+  }
+  .newsletter-form .btn-primary {
+    width: 100%;
+  }
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;                         /* spacing.2xl */
+  }
+  .newsletter-headline {
+    font-size: 36px;
+    line-height: 39.6px;
+  }
+  .feature-story { padding: 24px 16px 0; }    /* spacing.2xl spacing.lg */
+  .secondary-grid { padding: 24px 16px; }     /* spacing.2xl spacing.lg */
+  .section-label { padding: 32px 16px 0; }     /* spacing.3xl spacing.lg */
+  .story-rows { padding: 0 16px; }            /* spacing.lg */
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV BAR — masthead-band + nav-bar tokens
+     ============================================================ -->
+<nav class="nav-bar">
+  <div class="masthead-band">
+    <div class="nav-left">
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link">Backchannel</a></li>
+        <li><a href="#" class="nav-link">Business</a></li>
+        <li><a href="#" class="nav-link">Culture</a></li>
+        <li><a href="#" class="nav-link">Gear</a></li>
+        <li><a href="#" class="nav-link">Ideas</a></li>
+        <li><a href="#" class="nav-link">Science</a></li>
+        <li><a href="#" class="nav-link">Security</a></li>
+      </ul>
+    </div>
+    <a href="#" class="wordmark" aria-label="WIRED Home">WIRED</a>
+    <div class="nav-right">
+      <a href="#" class="nav-link">Sign In</a>
+      <a href="#" class="btn-primary" style="padding: 8px 16px;">Subscribe</a>
+    </div>
+  </div>
+  <hr class="nav-divider">
+</nav>
+
+<!-- ============================================================
+     HERO BAND — hero-band token
+     ============================================================ -->
+<header class="hero-band">
+  <div class="hero-image-placeholder">
+    <!-- Abstract tech/science SVG placeholder — represents the cover story imagery -->
+    <svg class="hero-image-pattern" viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="heroGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="20" cy="20" r="1.5" fill="#d0d0d0"/>
+        </pattern>
+      </defs>
+      <rect width="640" height="360" fill="#f5f5f5"/>
+      <rect width="640" height="360" fill="url(#heroGrid)"/>
+      <!-- Central data visualization abstract shape -->
+      <g transform="translate(320,180)">
+        <circle cx="0" cy="0" r="80" fill="none" stroke="#000000" stroke-width="1" opacity="0.15"/>
+        <circle cx="0" cy="0" r="50" fill="none" stroke="#000000" stroke-width="1" opacity="0.25"/>
+        <circle cx="0" cy="0" r="20" fill="#000000" opacity="0.08"/>
+        <!-- Orbital nodes -->
+        <circle cx="80" cy="0" r="6" fill="#000000" opacity="0.3"/>
+        <circle cx="-80" cy="0" r="6" fill="#000000" opacity="0.3"/>
+        <circle cx="0" cy="-80" r="6" fill="#000000" opacity="0.3"/>
+        <circle cx="0" cy="80" r="6" fill="#000000" opacity="0.3"/>
+        <circle cx="56" cy="-56" r="5" fill="#000000" opacity="0.25"/>
+        <circle cx="-56" cy="56" r="5" fill="#000000" opacity="0.25"/>
+        <circle cx="-56" cy="-56" r="5" fill="#000000" opacity="0.25"/>
+        <circle cx="56" cy="56" r="5" fill="#000000" opacity="0.25"/>
+        <!-- Connecting lines -->
+        <line x1="80" y1="0" x2="56" y2="-56" stroke="#000000" stroke-width="0.5" opacity="0.15"/>
+        <line x1="56" y1="-56" x2="0" y2="-80" stroke="#000000" stroke-width="0.5" opacity="0.15"/>
+        <line x1="0" y1="-80" x2="-56" y2="-56" stroke="#000000" stroke-width="0.5" opacity="0.15"/>
+        <line x1="-56" y1="-56" x2="-80" y2="0" stroke="#000000" stroke-width="0.5" opacity="0.15"/>
+        <line x1="-80" y1="0" x2="-56" y2="56" stroke="#000000" stroke-width="0.5" opacity="0.15"/>
+        <line x1="-56" y1="56" x2="0" y2="80" stroke="#000000" stroke-width="0.5" opacity="0.15"/>
+        <line x1="0" y1="80" x2="56" y2="56" stroke="#000000" stroke-width="0.5" opacity="0.15"/>
+        <line x1="56" y1="56" x2="80" y2="0" stroke="#000000" stroke-width="0.5" opacity="0.15"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Cover Story</div>
+    <h1 class="hero-headline">The Race to Build a General-Purpose AI Body</h1>
+    <p class="hero-subheadline">Robotics companies are designing humanoid machines that can walk, grasp, and reason — but the hardest problem isn't the hardware. It's teaching them to understand the physical world the way we do.</p>
+    <div class="hero-meta">
+      <div class="hero-avatar">
+        <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="10" r="6" fill="#757575" opacity="0.5"/>
+          <ellipse cx="14" cy="24" rx="10" ry="8" fill="#757575" opacity="0.5"/>
+        </svg>
+      </div>
+      <span class="hero-byline">By Matt Simon</span>
+      <span class="hero-divider-dot">·</span>
+      <span class="hero-byline">July 28, 2026</span>
+      <span class="hero-divider-dot">·</span>
+      <span class="hero-byline">18 min read</span>
+    </div>
+    <div class="hero-cta-group">
+      <a href="#" class="btn-primary">Read the Story</a>
+      <a href="#" class="btn-outline">Listen</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     SECTION: LATEST STORIES
+     ============================================================ -->
+<div class="section-label">
+  <span class="section-label-text">Latest</span>
+</div>
+<hr class="hairline-divider" style="margin: 16px auto;">
+
+<!-- Feature Story -->
+<section class="feature-story">
+  <div class="feature-card">
+    <div class="feature-image-placeholder">
+      <svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+        <rect width="640" height="360" fill="#f5f5f5"/>
+        <!-- Abstract circuit/network lines -->
+        <g opacity="0.12">
+          <line x1="120" y1="100" x2="280" y2="100" stroke="#000" stroke-width="1.5"/>
+          <line x1="280" y1="100" x2="280" y2="180" stroke="#000" stroke-width="1.5"/>
+          <line x1="280" y1="180" x2="400" y2="180" stroke="#000" stroke-width="1.5"/>
+          <line x1="400" y1="180" x2="400" y2="260" stroke="#000" stroke-width="1.5"/>
+          <line x1="400" y1="260" x2="520" y2="260" stroke="#000" stroke-width="1.5"/>
+          <circle cx="120" cy="100" r="5" fill="#000"/>
+          <circle cx="280" cy="100" r="5" fill="#000"/>
+          <circle cx="280" cy="180" r="5" fill="#000"/>
+          <circle cx="400" cy="180" r="5" fill="#000"/>
+          <circle cx="400" cy="260" r="5" fill="#000"/>
+          <circle cx="520" cy="260" r="5" fill="#000"/>
+        </g>
+        <!-- Second path -->
+        <g opacity="0.08">
+          <line x1="200" y1="140" x2="200" y2="60" stroke="#000" stroke-width="1.5"/>
+          <line x1="200" y1="60" x2="440" y2="60" stroke="#000" stroke-width="1.5"/>
+          <line x1="440" y1="60" x2="440" y2="200" stroke="#000" stroke-width="1.5"/>
+          <line x1="440" y1="200" x2="560" y2="200" stroke="#000" stroke-width="1.5"/>
+          <circle cx="200" cy="140" r="4" fill="#000"/>
+          <circle cx="200" cy="60" r="4" fill="#000"/>
+          <circle cx="440" cy="60" r="4" fill="#000"/>
+          <circle cx="440" cy="200" r="4" fill="#000"/>
+          <circle cx="560" cy="200" r="4" fill="#000"/>
+        </g>
+      </svg>
+    </div>
+    <div class="feature-body">
+      <div class="hero-eyebrow">Security</div>
+      <h2 class="feature-headline">Inside the Secret Race to Hack Quantum Encryption Before It Even Exists</h2>
+      <p class="feature-lead">Nation-states are harvesting encrypted data today to crack with quantum computers tomorrow. The cryptographic community is scrambling to replace every lock on the internet before the clock runs out.</p>
+      <div class="hero-meta">
+        <span class="hero-byline">By Andy Greenberg</span>
+        <span class="hero-divider-dot">·</span>
+        <span class="hero-byline">12 min read</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Secondary 2-up Story Grid -->
+<section class="secondary-grid">
+  <!-- Card 1 -->
+  <article class="secondary-card">
+    <div class="secondary-image-placeholder">
+      <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="240" fill="#f5f5f5"/>
+        <!-- Abstract topography/contour lines -->
+        <g opacity="0.1">
+          <path d="M0,120 Q80,60 160,120 Q240,180 320,120" fill="none" stroke="#000" stroke-width="1.5"/>
+          <path d="M0,100 Q80,40 160,100 Q240,160 320,100" fill="none" stroke="#000" stroke-width="1.5"/>
+          <path d="M0,140 Q80,80 160,140 Q240,200 320,140" fill="none" stroke="#000" stroke-width="1.5"/>
+          <path d="M0,80 Q80,20 160,80 Q240,140 320,80" fill="none" stroke="#000" stroke-width="1"/>
+          <path d="M0,160 Q80,100 160,160 Q240,220 320,160" fill="none" stroke="#000" stroke-width="1"/>
+        </g>
+      </svg>
+    </div>
+    <h3 class="secondary-headline">The Deep Sea Mining Boom No One Is Ready For</h3>
+    <p class="secondary-lead">A new generation of autonomous submarines can extract rare minerals from the ocean floor — and regulators are racing to write the rules.</p>
+    <span class="secondary-byline">By Morgan Meaker</span>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="secondary-card">
+    <div class="secondary-image-placeholder">
+      <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="240" fill="#f5f5f5"/>
+        <!-- Abstract grid/blockchain nodes -->
+        <g opacity="0.1">
+          <rect x="40" y="40" width="50" height="50" fill="none" stroke="#000" stroke-width="1.5"/>
+          <rect x="100" y="40" width="50" height="50" fill="none" stroke="#000" stroke-width="1.5"/>
+          <rect x="160" y="40" width="50" height="50" fill="none" stroke="#000" stroke-width="1.5"/>
+          <rect x="220" y="40" width="50" height="50" fill="none" stroke="#000" stroke-width="1.5"/>
+          <rect x="40" y="100" width="50" height="50" fill="none" stroke="#000" stroke-width="1"/>
+          <rect x="100" y="100" width="50" height="50" fill="#000" opacity="0.2"/>
+          <rect x="160" y="100" width="50" height="50" fill="none" stroke="#000" stroke-width="1"/>
+          <rect x="220" y="100" width="50" height="50" fill="none" stroke="#000" stroke-width="1"/>
+          <rect x="40" y="160" width="50" height="50" fill="none" stroke="#000" stroke-width="1"/>
+          <rect x="100" y="160" width="50" height="50" fill="none" stroke="#000" stroke-width="1"/>
+          <rect x="160" y="160" width="50" height="50" fill="none" stroke="#000" stroke-width="1"/>
+          <rect x="220" y="160" width="50" height="50" fill="none" stroke="#000" stroke-width="1"/>
+        </g>
+      </svg>
+    </div>
+    <h3 class="secondary-headline">The Crypto Comeback That Nobody Predicted</h3>
+    <p class="secondary-lead">Three years after the crash, blockchain technology is quietly powering the infrastructure of AI governance.</p>
+    <span class="secondary-byline">By Joel Khalili</span>
+  </article>
+</section>
+
+<hr class="hairline-divider" style="max-width: 1400px; margin: 0 auto;">
+
+<!-- ============================================================
+     STORY ROWS — story-row token vertical stack
+     ============================================================ -->
+<section class="story-rows">
+  <!-- Row 1 -->
+  <article class="story-row">
+    <div class="story-row-image">
+      <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="150" fill="#f5f5f5"/>
+        <g opacity="0.1">
+          <circle cx="100" cy="75" r="40" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="100" cy="75" r="25" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="100" cy="75" r="10" fill="#000" opacity="0.3"/>
+        </g>
+      </svg>
+    </div>
+    <div class="story-row-body">
+      <div class="hero-eyebrow" style="font-size:12px;">Business</div>
+      <h4 class="story-row-title">Apple's Secret AI Lab Is Building the Post-iPhone Era</h4>
+      <p class="story-row-excerpt">A team inside Cupertino is developing ambient computing that makes screens feel obsolete. WIRED got an exclusive look.</p>
+      <span class="story-row-byline">By Lauren Goode</span>
+    </div>
+    <span class="hero-byline">Jul 27</span>
+  </article>
+
+  <!-- Row 2 -->
+  <article class="story-row">
+    <div class="story-row-image">
+      <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="150" fill="#f5f5f5"/>
+        <g opacity="0.1">
+          <line x1="30" y1="60" x2="170" y2="60" stroke="#000" stroke-width="1.5"/>
+          <line x1="30" y1="90" x2="170" y2="90" stroke="#000" stroke-width="1"/>
+          <line x1="100" y1="20" x2="100" y2="130" stroke="#000" stroke-width="0.5"/>
+          <polygon points="100,30 110,50 90,50" fill="#000" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+    <div class="story-row-body">
+      <div class="hero-eyebrow" style="font-size:12px;">Science</div>
+      <h4 class="story-row-title">The Climate Tech That Works — and the Billions Spent on What Doesn't</h4>
+      <p class="story-row-excerpt">After a decade of venture capital bets on carbon capture, a new analysis reveals which technologies actually move the needle.</p>
+      <span class="story-row-byline">By Gregory Barber</span>
+    </div>
+    <span class="hero-byline">Jul 26</span>
+  </article>
+
+  <!-- Row 3 -->
+  <article class="story-row">
+    <div class="story-row-image">
+      <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="150" fill="#f5f5f5"/>
+        <g opacity="0.1">
+          <rect x="30" y="30" width="50" height="90" rx="0" fill="none" stroke="#000" stroke-width="1.5"/>
+          <rect x="90" y="50" width="50" height="70" rx="0" fill="none" stroke="#000" stroke-width="1.5"/>
+          <rect x="150" y="40" width="50" height="80" rx="0" fill="none" stroke="#000" stroke-width="1.5"/>
+          <line x1="55" y1="75" x2="55" y2="90" stroke="#000" stroke-width="1"/>
+          <line x1="115" y1="85" x2="115" y2="100" stroke="#000" stroke-width="1"/>
+          <line x1="175" y1="80" x2="175" y2="95" stroke="#000" stroke-width="1"/>
+        </g>
+      </svg>
+    </div>
+    <div class="story-row-body">
+      <div class="hero-eyebrow" style="font-size:12px;">Gear</div>
+      <h4 class="story-row-title">The Best Wireless Earbuds for Every Kind of Listener</h4>
+      <p class="story-row-excerpt">We tested 47 pairs across every price point. These 8 are the ones worth your money.</p>
+      <span class="story-row-byline">By Parker Hall</span>
+    </div>
+    <span class="hero-byline">Jul 25</span>
+  </article>
+
+  <!-- Row 4 -->
+  <article class="story-row">
+    <div class="story-row-image">
+      <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="150" fill="#f5f5f5"/>
+        <g opacity="0.1">
+          <ellipse cx="100" cy="75" rx="60" ry="50" fill="none" stroke="#000" stroke-width="1"/>
+          <ellipse cx="100" cy="75" rx="40" ry="33" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="100" cy="75" r="15" fill="#000" opacity="0.15"/>
+          <circle cx="70" cy="65" r="3" fill="#000" opacity="0.2"/>
+          <circle cx="130" cy="85" r="3" fill="#000" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+    <div class="story-row-body">
+      <div class="hero-eyebrow" style="font-size:12px;">Ideas</div>
+      <h4 class="story-row-title">We Need to Talk About Your AI Therapist</h4>
+      <p class="story-row-excerpt">Millions are already using chatbots for mental health support. The ethical questions are just getting started.</p>
+      <span class="story-row-byline">By Kate Knibbs</span>
+    </div>
+    <span class="hero-byline">Jul 24</span>
+  </article>
+
+  <!-- Row 5 -->
+  <article class="story-row">
+    <div class="story-row-image">
+      <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="150" fill="#f5f5f5"/>
+        <g opacity="0.1">
+          <path d="M30,110 L60,40 L90,90 L120,20 L150,80 L170,50" fill="none" stroke="#000" stroke-width="1.5"/>
+          <circle cx="60" cy="40" r="5" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="90" cy="90" r="5" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="120" cy="20" r="5" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="150" cy="80" r="5" fill="none" stroke="#000" stroke-width="1"/>
+        </g>
+      </svg>
+    </div>
+    <div class="story-row-body">
+      <div class="hero-eyebrow" style="font-size:12px;">Culture</div>
+      <h4 class="story-row-title">Streaming Services Killed the Watercooler Show. Or Did They?</h4>
+      <p class="story-row-excerpt">Release schedules are fragmenting audiences, but the shared experience isn't dead — it's just changed shape.</p>
+      <span class="story-row-byline">By Angela Watercutter</span>
+    </div>
+    <span class="hero-byline">Jul 23</span>
+  </article>
+</section>
+
+<!-- ============================================================
+     NEWSLETTER CTA — uses text-input + button-primary tokens
+     ============================================================ -->
+<section class="newsletter-section">
+  <h2 class="newsletter-headline">The future,<br>delivered to your inbox.</h2>
+  <p class="newsletter-subheadline">WIRED's best longreads, investigations, and tech analysis every Sunday — free.</p>
+  <form class="newsletter-form" onsubmit="event.preventDefault();">
+    <input type="email" class="text-input" placeholder="Enter your email address" required>
+    <button type="submit" class="btn-primary">Subscribe Now</button>
+  </form>
+</section>
+
+<!-- ============================================================
+     FOOTER — footer token (black band)
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-inner" style="max-width:1400px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;">
+    <div>
+      <div class="footer-wordmark">WIRED</div>
+      <p class="footer-tagline">WIRED is where tomorrow is realized. It is the essential source of information and ideas that make sense of a world in constant transformation.</p>
+      <div class="footer-social">
+        <a href="#" class="btn-icon-circular" style="background:#000;color:#fff;border-color:rgba(255,255,255,0.3)" aria-label="Twitter">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="#" class="btn-icon-circular" style="background:#000;color:#fff;border-color:rgba(255,255,255,0.3)" aria-label="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+        </a>
+        <a href="#" class="btn-icon-circular" style="background:#000;color:#fff;border-color:rgba(255,255,255,0.3)" aria-label="YouTube">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="10,8 16,12 10,16" fill="currentColor"/><rect x="2" y="4" width="20" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Sections</div>
+      <ul class="footer-col">
+        <li><a href="#">Backchannel</a></li>
+        <li><a href="#">Business</a></li>
+        <li><a href="#">Culture</a></li>
+        <li><a href="#">Gear</a></li>
+        <li><a href="#">Ideas</a></li>
+        <li><a href="#">Science</a></li>
+        <li><a href="#">Security</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">More</div>
+      <ul class="footer-col">
+        <li><a href="#">Podcasts</a></li>
+        <li><a href="#">Video</a></li>
+        <li><a href="#">Newsletters</a></li>
+        <li><a href="#">WIRED Events</a></li>
+        <li><a href="#">Coupons</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">About</div>
+      <ul class="footer-col">
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Center</a></li>
+        <li><a href="#">Advertise</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Subscribe</div>
+      <ul class="footer-col">
+        <li><a href="#">Magazine</a></li>
+        <li><a href="#">Gift Subscription</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom" style="max-width:1400px;margin:32px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+    <span class="footer-copyright">© 2026 Condé Nast. All rights reserved.</span>
+    <ul class="footer-legal">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Accessibility</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HashiCorp — Infrastructure Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Design Tokens ── */
+:root {
+  /* Colors */
+  --canvas: #000000;
+  --surface-1: #15181e;
+  --surface-2: #1f232b;
+  --surface-3: #3b3d45;
+  --ink: #ffffff;
+  --ink-muted: #b2b6bd;
+  --ink-subtle: #656a76;
+  --hairline: #3b3d45;
+  --hairline-soft: #252830;
+  --inverse-canvas: #ffffff;
+  --inverse-ink: #000000;
+  --accent-blue: #2b89ff;
+  --semantic-visited: #a737ff;
+
+  /* Per-Product Identity */
+  --product-terraform: #7b42bc;
+  --product-terraform-bright: #911ced;
+  --product-vault: #ffcf25;
+  --product-waypoint: #14c6cb;
+  --product-waypoint-deep: #12b6bb;
+  --product-consul: #e62b1e;
+  --product-vagrant: #1868f2;
+  --product-nomad: #00ca8e;
+  --product-boundary: #f24c53;
+
+  /* Rounded */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 24px;
+  --rounded-pill: 9999px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --spacing-hair: 1px;
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 96px;
+
+  /* Typography */
+  --font: 'Inter', 'SF Pro Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+/* ── Base ── */
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.50;
+  letter-spacing: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Utility Classes ── */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 var(--spacing-xxl); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* ── Typography ── */
+.eyebrow {
+  font-size: 12px; font-weight: 600; line-height: 1.23; letter-spacing: 0.6px;
+  text-transform: uppercase; color: var(--ink-muted);
+  display: block; margin-bottom: var(--spacing-md);
+}
+.display-xl { font-size: 80px; font-weight: 700; line-height: 1.17; letter-spacing: -2.5px; }
+.display-lg { font-size: 56px; font-weight: 700; line-height: 1.18; letter-spacing: -1.6px; }
+.display-md { font-size: 40px; font-weight: 600; line-height: 1.19; letter-spacing: -1.0px; }
+.headline { font-size: 28px; font-weight: 600; line-height: 1.21; letter-spacing: -0.6px; }
+.card-title { font-size: 22px; font-weight: 600; line-height: 1.18; letter-spacing: -0.4px; }
+.subhead { font-size: 20px; font-weight: 600; line-height: 1.35; letter-spacing: -0.2px; }
+.body-lg { font-size: 18px; font-weight: 500; line-height: 1.69; letter-spacing: 0; }
+.body-sm { font-size: 14px; font-weight: 500; line-height: 1.71; letter-spacing: 0; }
+.caption { font-size: 13px; font-weight: 500; line-height: 1.38; letter-spacing: 0.2px; }
+.text-button { font-size: 14px; font-weight: 600; line-height: 1.29; letter-spacing: 0; }
+.text-muted { color: var(--ink-muted); }
+.text-subtle { color: var(--ink-subtle); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-xs);
+  font-family: var(--font); font-size: 14px; font-weight: 600; line-height: 1.29; letter-spacing: 0;
+  padding: 10px 18px; border-radius: var(--rounded-md); border: none; cursor: pointer;
+  text-decoration: none; transition: opacity 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn:hover { opacity: 0.88; }
+.btn:active { transform: scale(0.98); }
+
+.btn-primary { background: var(--inverse-canvas); color: var(--inverse-ink); }
+.btn-secondary { background: var(--surface-2); color: var(--ink); }
+.btn-tertiary { background: var(--canvas); color: var(--ink); }
+
+.btn-product-terraform { background: var(--product-terraform); color: var(--ink); }
+.btn-product-vault { background: var(--product-vault); color: var(--inverse-ink); }
+.btn-product-waypoint { background: var(--product-waypoint); color: var(--inverse-ink); }
+.btn-product-consul { background: var(--product-consul); color: var(--ink); }
+.btn-product-vagrant { background: var(--product-vagrant); color: var(--ink); }
+.btn-product-nomad { background: var(--product-nomad); color: var(--inverse-ink); }
+.btn-product-boundary { background: var(--product-boundary); color: var(--ink); }
+
+/* ── Pill ── */
+.pill {
+  display: inline-flex; align-items: center;
+  background: var(--surface-3); color: var(--ink-muted);
+  font-family: var(--font); font-size: 13px; font-weight: 500; line-height: 1.38; letter-spacing: 0.2px;
+  padding: 4px 10px; border-radius: var(--rounded-pill);
+}
+
+/* ── Navigation ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--canvas); height: 64px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 100%; max-width: 1280px; margin: 0 auto; padding: 0 var(--spacing-xxl);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: var(--spacing-sm);
+  font-size: 14px; font-weight: 600; line-height: 1.29; color: var(--ink); text-decoration: none;
+}
+.nav-logo svg { display: block; }
+.nav-links { display: flex; align-items: center; gap: var(--spacing-xl); list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; line-height: 1.71; color: var(--ink-muted); text-decoration: none;
+  transition: color 0.15s ease;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-actions { display: flex; align-items: center; gap: var(--spacing-sm); }
+
+/* ── Sections ── */
+.section { padding: var(--spacing-section) 0; }
+.section-dark { background: var(--canvas); }
+.section-lifted { background: var(--surface-1); }
+
+/* ── Hero ── */
+.hero { padding: calc(var(--spacing-section) + 64px) 0 var(--spacing-section); background: var(--canvas); }
+.hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-xxl); align-items: center; }
+.hero-content { max-width: 580px; }
+.hero-content .display-xl { margin-bottom: var(--spacing-lg); }
+.hero-content .body-lg { color: var(--ink-muted); margin-bottom: var(--spacing-xl); }
+.hero-actions { display: flex; align-items: center; gap: var(--spacing-md); flex-wrap: wrap; }
+.hero-visual {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.hero-visual svg { width: 100%; max-width: 480px; height: auto; }
+
+/* ── Product Marquee ── */
+.product-marquee { padding: var(--spacing-xl) 0; border-top: 1px solid var(--hairline-soft); border-bottom: 1px solid var(--hairline-soft); }
+.product-marquee-inner { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xxl); flex-wrap: wrap; }
+.marquee-item {
+  display: flex; align-items: center; gap: var(--spacing-xs);
+  font-size: 14px; font-weight: 600; color: var(--ink-muted);
+}
+.marquee-dot { width: 10px; height: 10px; border-radius: var(--rounded-full); display: inline-block; }
+.marquee-dot-terraform { background: var(--product-terraform); }
+.marquee-dot-vault { background: var(--product-vault); }
+.marquee-dot-consul { background: var(--product-consul); }
+.marquee-dot-waypoint { background: var(--product-waypoint); }
+.marquee-dot-vagrant { background: var(--product-vagrant); }
+.marquee-dot-nomad { background: var(--product-nomad); }
+.marquee-dot-boundary { background: var(--product-boundary); }
+
+/* ── Feature Cards ── */
+.feature-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-xl); margin-top: var(--spacing-xxl);
+}
+.feature-card {
+  background: var(--surface-1); border: 1px solid rgba(178,182,189,0.1);
+  border-radius: var(--rounded-lg); padding: var(--spacing-lg);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.feature-card:hover { background: var(--surface-2); border-color: var(--hairline); }
+.feature-card-icon {
+  width: 40px; height: 40px; border-radius: var(--rounded-md); display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--spacing-lg);
+  background: var(--surface-2);
+}
+.feature-card .card-title { margin-bottom: var(--spacing-sm); }
+.feature-card .body-sm { color: var(--ink-muted); }
+
+/* ── Product Cards ── */
+.product-card-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-lg); margin-top: var(--spacing-xxl);
+}
+.product-card {
+  border-radius: var(--rounded-lg); padding: var(--spacing-lg);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  cursor: pointer; position: relative; overflow: hidden;
+}
+.product-card:hover { transform: translateY(-2px); }
+.product-card .card-title { margin-bottom: var(--spacing-xs); }
+.product-card .body-sm { margin-bottom: var(--spacing-lg); }
+.product-card-tag {
+  display: inline-block; background: rgba(255,255,255,0.1); padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--rounded-sm); font-size: 12px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase;
+  margin-bottom: var(--spacing-lg);
+}
+.product-card-terraform { background: var(--product-terraform); color: var(--ink); }
+.product-card-vault { background: var(--product-vault); color: var(--inverse-ink); }
+.product-card-waypoint { background: var(--product-waypoint); color: var(--inverse-ink); }
+.product-card-consul { background: var(--product-consul); color: var(--ink); }
+.product-card-vagrant { background: var(--product-vagrant); color: var(--ink); }
+.product-card-nomad { background: var(--product-nomad); color: var(--inverse-ink); }
+
+/* ── Pricing ── */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg); margin-top: var(--spacing-xxl); }
+.pricing-card {
+  background: var(--surface-1); border: 1px solid rgba(178,182,189,0.1);
+  border-radius: var(--rounded-lg); padding: var(--spacing-xl);
+  transition: border-color 0.2s ease;
+}
+.pricing-card:hover { border-color: var(--hairline); }
+.pricing-card-featured {
+  background: var(--surface-2); border-color: var(--hairline);
+}
+.pricing-card-badge {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: var(--spacing-md);
+}
+.pricing-tier { margin-bottom: var(--spacing-sm); color: var(--ink); }
+.pricing-price { display: flex; align-items: baseline; gap: var(--spacing-xxs); margin-bottom: var(--spacing-lg); }
+.pricing-amount { font-size: 40px; font-weight: 600; line-height: 1.19; letter-spacing: -1.0px; }
+.pricing-period { font-size: 14px; font-weight: 500; line-height: 1.71; color: var(--ink-muted); }
+.pricing-desc { color: var(--ink-muted); margin-bottom: var(--spacing-lg); }
+.pricing-features { list-style: none; margin-bottom: var(--spacing-lg); }
+.pricing-features li {
+  padding: var(--spacing-xs) 0; font-size: 14px; font-weight: 500; line-height: 1.71;
+  color: var(--ink-muted); display: flex; align-items: flex-start; gap: var(--spacing-xs);
+}
+.pricing-features li::before {
+  content: ''; display: inline-block; width: 6px; height: 6px; border-radius: var(--rounded-full);
+  background: var(--product-nomad); margin-top: 8px; flex-shrink: 0;
+}
+.pricing-features li.featured::before { background: var(--product-vault); }
+
+/* ── CTA Banner ── */
+.cta-banner {
+  background: var(--surface-1); border-radius: var(--rounded-xxl); padding: var(--spacing-xxl);
+  text-align: center; max-width: 1280px; margin: 0 auto;
+  border: 1px solid rgba(178,182,189,0.1);
+}
+.cta-banner .headline { margin-bottom: var(--spacing-md); }
+.cta-banner .body-lg { color: var(--ink-muted); margin-bottom: var(--spacing-xl); }
+.cta-banner-actions { display: flex; align-items: center; justify-content: center; gap: var(--spacing-md); flex-wrap: wrap; }
+
+/* ── Footer ── */
+.footer {
+  background: var(--canvas); color: var(--ink-muted);
+  font-size: 13px; font-weight: 500; line-height: 1.38; letter-spacing: 0.2px;
+  padding: 64px var(--spacing-xl);
+  border-top: 1px solid var(--hairline-soft);
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: var(--spacing-xxl); max-width: 1280px; margin: 0 auto; }
+.footer-brand .body-sm { color: var(--ink-muted); margin: var(--spacing-md) 0 var(--spacing-lg); }
+.footer-socials { display: flex; gap: var(--spacing-sm); }
+.footer-socials a { color: var(--ink-muted); transition: color 0.15s ease; }
+.footer-socials a:hover { color: var(--ink); }
+.footer-col h4 {
+  font-size: 12px; font-weight: 600; line-height: 1.23; letter-spacing: 0.6px;
+  text-transform: uppercase; color: var(--ink); margin-bottom: var(--spacing-lg);
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: var(--spacing-sm); }
+.footer-col a { color: var(--ink-muted); text-decoration: none; transition: color 0.15s ease; }
+.footer-col a:hover { color: var(--ink); }
+.footer-bottom {
+  max-width: 1280px; margin: var(--spacing-xxl) auto 0; padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--hairline-soft);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--spacing-md);
+}
+.footer-bottom-links { display: flex; gap: var(--spacing-lg); list-style: none; }
+.footer-bottom-links a { color: var(--ink-muted); text-decoration: none; font-size: 13px; }
+
+/* ── Animations ── */
+.fade-up {
+  opacity: 0; transform: translateY(24px);
+  animation: fadeUp 0.6s ease forwards;
+}
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+.fade-up:nth-child(1) { animation-delay: 0s; }
+.fade-up:nth-child(2) { animation-delay: 0.1s; }
+.fade-up:nth-child(3) { animation-delay: 0.2s; }
+.fade-up:nth-child(4) { animation-delay: 0.3s; }
+
+/* ── Hero 3D Visual ── */
+.cube-scene { perspective: 800px; }
+.cube { width: 200px; height: 200px; position: relative; transform-style: preserve-3d; animation: rotateCube 12s linear infinite; }
+.cube-face {
+  position: absolute; width: 200px; height: 200px;
+  background: linear-gradient(135deg, var(--product-terraform), var(--product-terraform-bright));
+  border: 2px solid rgba(255,255,255,0.15); border-radius: var(--rounded-md);
+  opacity: 0.85;
+}
+.cube-face.front { transform: translateZ(100px); }
+.cube-face.back { transform: rotateY(180deg) translateZ(100px); }
+.cube-face.right { transform: rotateY(90deg) translateZ(100px); }
+.cube-face.left { transform: rotateY(-90deg) translateZ(100px); }
+.cube-face.top { transform: rotateX(90deg) translateZ(100px); }
+.cube-face.bottom { transform: rotateX(-90deg) translateZ(100px); }
+@keyframes rotateCube { 0% { transform: rotateX(-15deg) rotateY(0deg); } 100% { transform: rotateX(-15deg) rotateY(360deg); } }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .hero-content { max-width: 100%; }
+  .hero-actions { justify-content: center; }
+  .hero-visual { margin-top: var(--spacing-xxl); }
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-card-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .display-xl { font-size: 48px; }
+  .display-lg { font-size: 36px; }
+  .container { padding: 0 var(--spacing-lg); }
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .product-card-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .display-xl { font-size: 36px; }
+  .display-lg { font-size: 28px; }
+  .display-md { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" role="navigation">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="6" fill="#ffffff"/>
+        <path d="M16 6L16 26M9 11V25M23 11V25M6 16H26" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span>HashiCorp</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#features">Solutions</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#docs">Docs</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-tertiary">Sign In</a>
+      <a href="#" class="btn btn-primary">Try Cloud</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<header class="hero">
+  <div class="container hero-inner">
+    <div class="hero-content fade-up">
+      <span class="eyebrow">Infrastructure Cloud</span>
+      <h1 class="display-xl">Infrastructure<br>enables innovation</h1>
+      <p class="body-lg">
+        HashiCorp solves development, security, and operations challenges in infrastructure
+        so organizations can focus on business-critical tasks.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary">Get started for free</a>
+        <a href="#" class="btn btn-secondary">View docs</a>
+      </div>
+    </div>
+    <div class="hero-visual fade-up">
+      <div class="cube-scene" aria-hidden="true">
+        <div class="cube">
+          <div class="cube-face front"></div>
+          <div class="cube-face back"></div>
+          <div class="cube-face right"></div>
+          <div class="cube-face left"></div>
+          <div class="cube-face top"></div>
+          <div class="cube-face bottom"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── Product Marquee ── -->
+<div class="product-marquee" aria-label="HashiCorp products">
+  <div class="container product-marquee-inner">
+    <span class="marquee-item"><span class="marquee-dot marquee-dot-terraform" aria-hidden="true"></span> Terraform</span>
+    <span class="marquee-item"><span class="marquee-dot marquee-dot-vault" aria-hidden="true"></span> Vault</span>
+    <span class="marquee-item"><span class="marquee-dot marquee-dot-consul" aria-hidden="true"></span> Consul</span>
+    <span class="marquee-item"><span class="marquee-dot marquee-dot-waypoint" aria-hidden="true"></span> Waypoint</span>
+    <span class="marquee-item"><span class="marquee-dot marquee-dot-vagrant" aria-hidden="true"></span> Vagrant</span>
+    <span class="marquee-item"><span class="marquee-dot marquee-dot-nomad" aria-hidden="true"></span> Nomad</span>
+    <span class="marquee-item"><span class="marquee-dot marquee-dot-boundary" aria-hidden="true"></span> Boundary</span>
+  </div>
+</div>
+
+<!-- ── Product Cards ── -->
+<section id="products" class="section">
+  <div class="container">
+    <span class="eyebrow">Products</span>
+    <h2 class="display-lg">Everything you need<br>to run infrastructure at scale</h2>
+    <div class="product-card-grid">
+      <!-- Terraform -->
+      <a href="#" class="product-card product-card-terraform fade-up" style="text-decoration:none;">
+        <span class="product-card-tag">Infrastructure as Code</span>
+        <h3 class="card-title">Terraform</h3>
+        <p class="body-sm" style="color:rgba(255,255,255,0.7);">Provision, change, and version infrastructure across any environment with declarative configuration.</p>
+        <span class="btn btn-product-terraform" style="background:rgba(255,255,255,0.15);">Learn more</span>
+      </a>
+      <!-- Vault -->
+      <a href="#" class="product-card product-card-vault fade-up" style="text-decoration:none;">
+        <span class="product-card-tag">Secrets Management</span>
+        <h3 class="card-title">Vault</h3>
+        <p class="body-sm" style="color:rgba(0,0,0,0.6);">Secure, store, and tightly control access to tokens, passwords, certificates, and encryption keys.</p>
+        <span class="btn btn-product-vault" style="background:rgba(0,0,0,0.1);">Learn more</span>
+      </a>
+      <!-- Waypoint -->
+      <a href="#" class="product-card product-card-waypoint fade-up" style="text-decoration:none;">
+        <span class="product-card-tag">Application Delivery</span>
+        <h3 class="card-title">Waypoint</h3>
+        <p class="body-sm" style="color:rgba(0,0,0,0.6);">Build, deploy, and release applications across any platform with a developer-friendly workflow.</p>
+        <span class="btn btn-product-waypoint" style="background:rgba(0,0,0,0.1);">Learn more</span>
+      </a>
+      <!-- Consul -->
+      <a href="#" class="product-card product-card-consul fade-up" style="text-decoration:none;">
+        <span class="product-card-tag">Service Networking</span>
+        <h3 class="card-title">Consul</h3>
+        <p class="body-sm" style="color:rgba(255,255,255,0.7);">Discover services, automate network configurations, and enable secure connectivity across any cloud.</p>
+        <span class="btn btn-product-consul" style="background:rgba(255,255,255,0.15);">Learn more</span>
+      </a>
+      <!-- Vagrant -->
+      <a href="#" class="product-card product-card-vagrant fade-up" style="text-decoration:none;">
+        <span class="product-card-tag">Development Environments</span>
+        <h3 class="card-title">Vagrant</h3>
+        <p class="body-sm" style="color:rgba(255,255,255,0.7);">Build and manage portable development environments with reproducible, declarative configuration.</p>
+        <span class="btn btn-product-vagrant" style="background:rgba(255,255,255,0.15);">Learn more</span>
+      </a>
+      <!-- Nomad -->
+      <a href="#" class="product-card product-card-nomad fade-up" style="text-decoration:none;">
+        <span class="product-card-tag">Workload Orchestration</span>
+        <h3 class="card-title">Nomad</h3>
+        <p class="body-sm" style="color:rgba(0,0,0,0.6);">Schedule containers, legacy, and batch applications with a single unified workflow across on-prem and cloud.</p>
+        <span class="btn btn-product-nomad" style="background:rgba(0,0,0,0.1);">Learn more</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ── -->
+<section id="features" class="section section-dark">
+  <div class="container">
+    <span class="eyebrow">The HashiCorp Platform</span>
+    <h2 class="display-lg">Unified, automated,<br>and secure by default</h2>
+    <div class="feature-grid">
+      <div class="feature-card fade-up">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10h14M10 3v14" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card-title">Infrastructure<br>as Code</h3>
+        <p class="body-sm">Define infrastructure in configuration files that can be versioned, shared, and automated across teams.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="3" stroke="#ffffff" stroke-width="2"/></svg>
+        </div>
+        <h3 class="card-title">Zero Trust<br>Security</h3>
+        <p class="body-sm">Authenticate and authorize every access request dynamically based on identity, not network perimeter.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#ffffff" stroke-width="2"/></svg>
+        </div>
+        <h3 class="card-title">Multi-Cloud<br>Flexibility</h3>
+        <p class="body-sm">Run your workloads on the right cloud for the right use case without vendor lock-in.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 6h16M2 10h16M2 14h16" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card-title">Workflow<br>Automation</h3>
+        <p class="body-sm">Standardize infrastructure provisioning, security policies, and networking across all environments.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 2v16M14 2v16M2 6h16M2 14h16" stroke="#ffffff" stroke-width="2"/></svg>
+        </div>
+        <h3 class="card-title">Service<br>Discovery</h3>
+        <p class="body-sm">Automatically locate services across dynamic environments with real-time health monitoring.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-card-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M4 8l6-6 6 6M4 12l6 6 6-6" stroke="#ffffff" stroke-width="2"/></svg>
+        </div>
+        <h3 class="card-title">Unified<br>Platform</h3>
+        <p class="body-sm">Manage your full infrastructure lifecycle through a single platform with integrated workflows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pricing ── -->
+<section id="pricing" class="section section-lifted">
+  <div class="container">
+    <span class="eyebrow">Pricing</span>
+    <h2 class="display-lg">Plans for teams<br>of every size</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-up">
+        <p class="pricing-card-badge">Free</p>
+        <h3 class="headline pricing-tier">HCP Free</h3>
+        <div class="pricing-price">
+          <span class="pricing-amount">$0</span>
+          <span class="pricing-period">/month</span>
+        </div>
+        <p class="body-sm pricing-desc">Get started with up to 5 users and essential features at no cost.</p>
+        <ul class="pricing-features">
+          <li>Up to 5 users</li>
+          <li>Vault secrets management</li>
+          <li>Terraform run tasks</li>
+          <li>Community support</li>
+        </ul>
+        <a href="#" class="btn btn-secondary" style="width:100%;">Start free</a>
+      </div>
+      <div class="pricing-card pricing-card-featured fade-up">
+        <p class="pricing-card-badge">Standard</p>
+        <h3 class="headline pricing-tier">HCP Plus</h3>
+        <div class="pricing-price">
+          <span class="pricing-amount">$0.05</span>
+          <span class="pricing-period">/resource/hr</span>
+        </div>
+        <p class="body-sm pricing-desc">Unlock advanced features with usage-based pricing and priority support.</p>
+        <ul class="pricing-features">
+          <li class="featured">Unlimited users</li>
+          <li class="featured">Sentinel policy as code</li>
+          <li class="featured">Drift detection</li>
+          <li class="featured">SSO &amp; SAML</li>
+          <li class="featured">Priority support</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="width:100%;">Get started</a>
+      </div>
+      <div class="pricing-card fade-up">
+        <p class="pricing-card-badge">Enterprise</p>
+        <h3 class="headline pricing-tier">HCP Enterprise</h3>
+        <div class="pricing-price">
+          <span class="pricing-amount">Custom</span>
+    </div>
+        <p class="body-sm pricing-desc">Tailored for large organizations with compliance, dedicated support, and SLAs.</p>
+        <ul class="pricing-features">
+          <li>Everything in Plus</li>
+          <li>Private networking</li>
+          <li>FedRAMP &amp; HIPAA</li>
+          <li>Dedicated support</li>
+          <li>Custom SLAs</li>
+        </ul>
+        <a href="#" class="btn btn-secondary" style="width:100%;">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA Banner ── -->
+<section id="cta" class="section">
+  <div class="container">
+    <div class="cta-banner fade-up">
+      <h2 class="headline">Ready to standardize your infrastructure?</h2>
+      <p class="body-lg">
+        Start automating provisioning, security, networking, and application delivery with the HashiCorp platform.
+      </p>
+      <div class="cta-banner-actions">
+        <a href="#" class="btn btn-primary">Get started for free</a>
+        <a href="#" class="btn btn-secondary">Talk to sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-md);">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="#b2b6bd"/><path d="M16 6L16 26M9 11V25M23 11V25M6 16H26" stroke="#000000" stroke-width="3" stroke-linecap="round"/></svg>
+        <span style="font-weight:700;font-size:18px;color:var(--ink);">HashiCorp</span>
+      </div>
+      <p class="body-sm">Infrastructure Cloud simplifies provisioning, security, networking, and application delivery.</p>
+      <div class="footer-socials">
+        <a href="#" aria-label="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34a2.65 2.65 0 0 0-1.11-1.47c-.91-.62.07-.61.07-.61a2.1 2.1 0 0 1 1.53 1.03 2.14 2.14 0 0 0 2.92.83 2.16 2.16 0 0 1 .64-1.34c-2.22-.25-4.56-1.11-4.56-4.94a3.87 3.87 0 0 1 1.03-2.69 3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02a3.6 3.6 0 0 1 .1 2.64 3.87 3.87 0 0 1 1.03 2.69c0 3.84-2.34 4.68-4.57 4.93a2.39 2.39 0 0 1 .68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></a>
+        <a href="#" aria-label="Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="#">Terraform</a></li>
+        <li><a href="#">Vault</a></li>
+        <li><a href="#">Consul</a></li>
+        <li><a href="#">Waypoint</a></li>
+        <li><a href="#">Nomad</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="#">Infrastructure Cloud</a></li>
+        <li><a href="#">Multi-Cloud</a></li>
+        <li><a href="#">Zero Trust</a></li>
+        <li><a href="#">Compliance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Tutorials</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Partners</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 HashiCorp. All rights reserved.</p>
+    <ul class="footer-bottom-links">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Security</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>

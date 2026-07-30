@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MongoDB — One Data Platform. Unlimited AI Potential.</title>
+<style>
+/* ============================================================
+   DESIGN TOKENS — MongoDB Design System
+   ============================================================ */
+:root {
+  /* Brand & Accent */
+  --brand-green: #00ed64;
+  --brand-green-dark: #00684a;
+  --brand-green-mid: #00a35c;
+  --brand-green-soft: #c3f0d2;
+  --brand-teal-deep: #001e2b;
+  --brand-teal: #003d4f;
+  --brand-teal-mid: #00684a;
+  --primary-pressed: #008c34;
+  --on-primary: #001e2b;
+  --accent-purple: #7b3ff2;
+  --accent-orange: #fa6e39;
+  --accent-pink: #f06bb8;
+  --accent-blue: #3d4f9f;
+
+  /* Surface */
+  --canvas: #ffffff;
+  --canvas-dark: #001e2b;
+  --surface: #f9fbfa;
+  --surface-soft: #f4f7f6;
+  --surface-feature: #e3fcef;
+  --hairline: #e1e5e8;
+  --hairline-soft: #eceff1;
+  --hairline-strong: #c1ccd6;
+  --hairline-dark: #1c2d38;
+
+  /* Text */
+  --ink: #001e2b;
+  --charcoal: #1c2d38;
+  --slate: #3d4f5b;
+  --steel: #5c6c7a;
+  --stone: #7c8c9a;
+  --muted: #a8b3bc;
+  --on-dark: #ffffff;
+  --on-dark-muted: #a8b3bc;
+
+  /* Semantic */
+  --warning-bg: #fff8e0;
+  --warning-text: #946f3f;
+
+  /* Typography */
+  --font-display: 'Euclid Circular A', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'Source Code Pro', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-xxxl: 40px;
+  --spacing-section: 64px;
+  --spacing-section-lg: 96px;
+  --spacing-hero: 120px;
+
+  /* Rounded */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 24px;
+  --rounded-full: 9999px;
+
+  /* Elevation */
+  --elevation-0: none;
+  --elevation-1: rgba(0, 30, 43, 0.04) 0px 1px 2px 0px;
+  --elevation-2: rgba(0, 30, 43, 0.08) 0px 4px 12px 0px;
+  --elevation-3: rgba(0, 30, 43, 0.12) 0px 12px 24px -4px;
+  --elevation-4: rgba(0, 30, 43, 0.16) 0px 16px 48px -8px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-display);
+  background-color: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ============================================================
+   PROMO BANNER
+   ============================================================ */
+.promo-banner {
+  background-color: var(--brand-teal-deep);
+  color: var(--on-dark);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: center;
+  letter-spacing: 0;
+}
+
+.promo-banner a {
+  color: var(--brand-green);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--canvas);
+  height: 64px;
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xxl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.40;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.nav-logo svg {
+  width: 28px;
+  height: 28px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--steel);
+  transition: color 150ms ease;
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.nav-signin {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--steel);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  transition: color 150ms ease;
+}
+
+.nav-signin:hover {
+  color: var(--ink);
+}
+
+/* Button Primary — green pill (button-primary) */
+.btn-primary,
+.btn-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--brand-green);
+  color: var(--on-primary);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.30;
+  padding: 10px 22px;
+  border: none;
+  border-radius: var(--rounded-full);
+  cursor: pointer;
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover,
+.btn-on-dark:hover {
+  background-color: var(--primary-pressed);
+}
+
+/* Button Secondary — outlined pill (button-secondary) */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.30;
+  padding: 10px 22px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--rounded-full);
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* Button Secondary on Dark (button-secondary-on-dark) */
+.btn-secondary-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--on-dark);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.30;
+  padding: 10px 22px;
+  border: 1px solid var(--hairline-dark);
+  border-radius: var(--rounded-full);
+  cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease;
+  white-space: nowrap;
+}
+
+.btn-secondary-on-dark:hover {
+  border-color: var(--on-dark);
+  background-color: rgba(255,255,255,0.06);
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 16px;
+}
+
+/* ============================================================
+   HERO SECTION (hero-band-dark)
+   ============================================================ */
+.hero {
+  background-color: var(--brand-teal-deep);
+  color: var(--on-dark);
+  padding: var(--spacing-hero) var(--spacing-xxl) var(--spacing-section);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  right: -20%;
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(ellipse at center,
+    rgba(0, 106, 74, 0.15) 0%,
+    transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xxxl);
+}
+
+/* Badge green (badge-green) */
+.badge-green {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--brand-green);
+  color: var(--on-primary);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--rounded-sm);
+  padding: 2px 8px;
+  margin-bottom: var(--spacing-xl);
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 500;
+  line-height: 1.10;
+  letter-spacing: -1.5px;
+  margin-bottom: var(--spacing-xl);
+}
+
+.hero-headline span {
+  color: var(--brand-green);
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--on-dark-muted);
+  margin-bottom: var(--spacing-xxl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* Code Mockup Card (code-mockup-card) */
+.code-mockup-card {
+  background-color: var(--canvas-dark);
+  color: var(--on-dark);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  max-width: 720px;
+  margin: 0 auto;
+  box-shadow: var(--elevation-3);
+  border: 1px solid var(--hairline-dark);
+}
+
+.code-mockup-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--hairline-dark);
+}
+
+.code-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.code-dot--red { background: #ff5f56; }
+.code-dot--yellow { background: #ffbd2e; }
+.code-dot--green { background: #27c93f; }
+
+.code-mockup-body {
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--on-dark-muted);
+  overflow-x: auto;
+}
+
+.code-mockup-body .keyword { color: #ff79c6; }
+.code-mockup-body .string  { color: var(--brand-green); }
+.code-mockup-body .func    { color: #8be9fd; }
+.code-mockup-body .comment { color: var(--steel); font-style: italic; }
+
+/* ============================================================
+   SECTION UTILITIES
+   ============================================================ */
+.section {
+  padding: var(--spacing-section-lg) var(--spacing-xxl);
+  background-color: var(--canvas);
+}
+
+.section--soft {
+  background-color: var(--surface);
+}
+
+.section--dark {
+  background-color: var(--brand-teal-deep);
+  color: var(--on-dark);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.section-eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.40;
+  letter-spacing: 1px;
+  color: var(--brand-green-dark);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-md);
+  display: block;
+}
+
+.section--dark .section-eyebrow {
+  color: var(--brand-green);
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--spacing-md);
+}
+
+.section--dark .section-heading {
+  color: var(--on-dark);
+}
+
+.section-subtitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+  max-width: 600px;
+}
+
+.section--dark .section-subtitle {
+  color: var(--on-dark-muted);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-section);
+}
+
+.section-header .section-subtitle {
+  margin: 0 auto;
+}
+
+/* ============================================================
+   FEATURES GRID (card-feature)
+   ============================================================ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+}
+
+/* card-feature */
+.feature-card {
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  border: 1px solid var(--hairline);
+  transition: box-shadow 200ms ease;
+}
+
+.feature-card:hover {
+  box-shadow: var(--elevation-2);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--rounded-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-lg);
+  font-size: 22px;
+}
+
+.feature-icon--green {
+  background-color: var(--surface-feature);
+  color: var(--brand-green-dark);
+}
+
+.feature-icon--purple {
+  background-color: #f3eeff;
+  color: var(--accent-purple);
+}
+
+.feature-icon--blue {
+  background-color: #edf2ff;
+  color: var(--accent-blue);
+}
+
+.feature-card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.35;
+  margin-bottom: var(--spacing-sm);
+  color: var(--ink);
+}
+
+.feature-card-desc {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+  margin-bottom: var(--spacing-lg);
+}
+
+.feature-card-link {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--brand-green-dark);
+  transition: color 150ms ease;
+}
+
+.feature-card-link:hover {
+  color: var(--brand-green-mid);
+}
+
+/* ============================================================
+   CODE SHOWCASE SECTION
+   ============================================================ */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxxl);
+  align-items: center;
+}
+
+.showcase-text .section-heading {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--spacing-md);
+}
+
+.showcase-text .section-subtitle {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* hero-platform-card variant for dark showcase */
+.showcase-card {
+  background-color: var(--canvas-dark);
+  color: var(--on-dark);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--hairline-dark);
+  box-shadow: var(--elevation-3);
+}
+
+/* ============================================================
+   PRICING SECTION (3-tier)
+   ============================================================ */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+
+/* pricing-card */
+.pricing-card {
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  border: 1px solid var(--hairline);
+  transition: box-shadow 200ms ease;
+}
+
+.pricing-card:hover {
+  box-shadow: var(--elevation-2);
+}
+
+/* pricing-card-featured */
+.pricing-card--featured {
+  background-color: var(--surface-feature);
+  border: 2px solid var(--brand-green);
+  box-shadow: rgba(0, 237, 100, 0.08) 0px 4px 20px 0px;
+}
+
+.pricing-card--featured:hover {
+  box-shadow: rgba(0, 237, 100, 0.14) 0px 4px 24px 0px;
+}
+
+.pricing-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.pricing-card-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+/* badge-popular (badge-popular) */
+.badge-popular {
+  background-color: var(--brand-teal-deep);
+  color: var(--brand-green);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--rounded-full);
+  padding: 4px 10px;
+}
+
+.pricing-card-price {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-xxs);
+}
+
+.pricing-card-period {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--steel);
+  margin-bottom: var(--spacing-xl);
+}
+
+.pricing-card-desc {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+  margin-bottom: var(--spacing-xl);
+}
+
+.pricing-card-features {
+  list-style: none;
+  margin-bottom: var(--spacing-xl);
+}
+
+.pricing-card-features li {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--charcoal);
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px solid var(--hairline-soft);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.pricing-card-features li:last-child {
+  border-bottom: none;
+}
+
+.feature-check {
+  color: var(--brand-green-dark);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   LOGO WALL
+   ============================================================ */
+.logo-wall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xxxl);
+  flex-wrap: wrap;
+  padding: var(--spacing-section) 0;
+}
+
+.logo-wall-item {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--steel);
+  padding: var(--spacing-lg);
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+
+.logo-wall-item:hover {
+  opacity: 1;
+}
+
+/* ============================================================
+   CTA BANNER (cta-banner-dark)
+   ============================================================ */
+.cta-banner {
+  background-color: var(--brand-teal-deep);
+  color: var(--on-dark);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-section);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 50%;
+  height: 200%;
+  background: radial-gradient(ellipse at center,
+    rgba(0, 106, 74, 0.12) 0%,
+    transparent 70%);
+  pointer-events: none;
+}
+
+.cta-banner-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-banner-heading {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--spacing-md);
+}
+
+.cta-banner-desc {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--on-dark-muted);
+  margin-bottom: var(--spacing-xl);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-banner-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   FOOTER (footer-region)
+   ============================================================ */
+.footer {
+  background-color: var(--brand-teal-deep);
+  color: var(--on-dark);
+  padding: var(--spacing-section) var(--spacing-xxl);
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-xxl);
+  margin-bottom: var(--spacing-section);
+}
+
+.footer-column h4 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column li {
+  margin-bottom: var(--spacing-xxs);
+}
+
+.footer-column a {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--on-dark-muted);
+  padding: var(--spacing-xxs) 0;
+  display: inline-block;
+  transition: color 150ms ease;
+}
+
+.footer-column a:hover {
+  color: var(--on-dark);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--hairline-dark);
+}
+
+.footer-bottom-text {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--on-dark-muted);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.footer-bottom-links a {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--on-dark-muted);
+  transition: color 150ms ease;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--on-dark);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1279px) {
+  .hero-headline { font-size: 64px; }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-headline { font-size: 56px; letter-spacing: -1px; }
+
+  .section-heading {
+    font-size: 36px;
+    letter-spacing: -0.5px;
+  }
+
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricing-card--featured {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .showcase-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding: var(--spacing-section) var(--spacing-xl) var(--spacing-xxxl);
+  }
+
+  .hero-headline {
+    font-size: 48px;
+    letter-spacing: -0.5px;
+  }
+
+  .section-heading {
+    font-size: 28px;
+    line-height: 1.30;
+    letter-spacing: 0;
+  }
+
+  .section {
+    padding: var(--spacing-section) var(--spacing-xl);
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 479px) {
+  .hero-headline { font-size: 36px; }
+
+  .section-heading { font-size: 22px; }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  .hero-actions,
+  .cta-banner-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-on-dark,
+  .btn-secondary,
+  .btn-secondary-on-dark {
+    width: 100%;
+  }
+
+  .pricing-card,
+  .feature-card {
+    padding: var(--spacing-xl);
+  }
+
+  .code-mockup-card {
+    overflow-x: auto;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PROMO BANNER
+     ============================================================ -->
+<div class="promo-banner">
+  New: MongoDB 8.0 is now available. <a href="#">See what's new</a> →
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" aria-label="MongoDB Home">
+      <!-- MongoDB leaf logo SVG -->
+      <svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="512" cy="512" r="512" fill="#00ed64"/>
+        <path d="M541 184c-63-23-67-15-79 41-6 28-13 56-22 83-20 45-53 103-103 158-17 18-37 39-61 65-15 16-17 18-27 30-39 57-58 130-42 195 3 13 7 27 10 40 3 22-5 34-28 36-33 3-44-34-56-60-14-32-17-65-16-98 0-78 19-151 55-219 22-43 50-82 80-120 18-22 37-43 56-63 29-38 53-78 64-124 11-44 15-89 25-137 11-8 26-20 44-27z" fill="#001e2b"/>
+        <path d="M534 810c-20 30-48 57-66 87-4 9-8 18-13 27-13 40-21 82-24 100h2c2-5 4-10 6-16 19-50 44-96 95-198z" fill="#001e2b"/>
+        <path d="M577 206c9-13 22-26 36-30 12-4 18 2 20 16 3 29 6 58 12 86 12 56 32 110 63 159 24 39 53 74 82 110 17 22 35 44 52 67 50 67 83 143 83 226 0 84-31 158-82 184h2c63-33 89-114 89-213 0-93-36-180-94-250-22-27-47-53-72-78-31-31-55-66-73-105-19-42-29-88-37-134-3-16-6-33-11-44z" fill="#001e2b"/>
+      </svg>
+      MongoDB
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">Products</a></li>
+      <li><a href="#">Solutions</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">Company</a></li>
+      <li><a href="#">Pricing</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="#" class="nav-signin">Sign In</a>
+      <a href="#" class="btn-primary">Try Free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO SECTION (hero-band-dark)
+     ============================================================ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <span class="badge-green">New</span>
+      <h1 class="hero-headline">
+        One <span>data platform.</span><br>Unlimited <span>AI</span> potential.
+      </h1>
+      <p class="hero-subtitle">
+        Build smarter with the developer data platform trusted by millions.
+        From prototypes to global scale, MongoDB lets you model any data
+        and power any workload.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn-on-dark btn-lg">Start Free</a>
+        <a href="#" class="btn-secondary-on-dark btn-lg">Contact Sales</a>
+      </div>
+    </div>
+
+    <!-- Code Mockup Card (code-mockup-card) — signature MongoDB element -->
+    <div class="code-mockup-card">
+      <div class="code-mockup-header">
+        <span class="code-dot code-dot--red"></span>
+        <span class="code-dot code-dot--yellow"></span>
+        <span class="code-dot code-dot--green"></span>
+      </div>
+      <div class="code-mockup-body">
+        <span class="comment">// Connect to MongoDB Atlas</span><br>
+        <span class="keyword">const</span> { <span class="func">MongoClient</span> } = <span class="keyword">require</span>(<span class="string">'mongodb'</span>);<br><br>
+        <span class="keyword">const</span> client = <span class="keyword">new</span> <span class="func">MongoClient</span>(uri);<br>
+        <span class="keyword">await</span> client.<span class="func">connect</span>();<br><br>
+        <span class="comment">// Run a vector search query</span><br>
+        <span class="keyword">const</span> results = <span class="keyword">await</span> collection<br>
+        &nbsp;&nbsp;.<span class="func">aggregate</span>([<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="string">'$vectorSearch'</span>: {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'index'</span>: <span class="string">'default'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'path'</span>: <span class="string">'embedding'</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'queryVector'</span>: embedding,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'numCandidates'</span>: <span class="string">150</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'limit'</span>: <span class="string">10</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}}<br>
+        &nbsp;&nbsp;]).<span class="func">toArray</span>();<br>
+        <br>
+        <span class="comment">// → AI-powered search in &lt;10 lines</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES SECTION
+     ============================================================ -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Why MongoDB</span>
+      <h2 class="section-heading">Built for modern applications</h2>
+      <p class="section-subtitle">
+        The document model maps to how developers think and code.
+        Break free from rigid tabular structures.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <div class="feature-icon feature-icon--green">
+          <!-- Document icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10,9 9,9 8,9"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Document Model</h3>
+        <p class="feature-card-desc">
+          Store data as flexible, JSON-like documents. The document model
+          maps naturally to objects in your application code, making it
+          intuitive to work with.
+        </p>
+        <a href="#" class="feature-card-link">Learn more →</a>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <div class="feature-icon feature-icon--purple">
+          <!-- Globe icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Global Distribution</h3>
+        <p class="feature-card-desc">
+          Deploy in 100+ regions across AWS, Azure, and GCP.
+          Geo-partition your data for low-latency access anywhere
+          on the planet.
+        </p>
+        <a href="#" class="feature-card-link">Learn more →</a>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card">
+        <div class="feature-icon feature-icon--blue">
+          <!-- Shield icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Enterprise Security</h3>
+        <p class="feature-card-desc">
+          Always-on authentication, network isolation, and end-to-end
+          encryption. Field-level encryption keeps sensitive data
+          protected at every layer.
+        </p>
+        <a href="#" class="feature-card-link">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CODE SHOWCASE SECTION
+     ============================================================ -->
+<section class="section section--dark" id="showcase">
+  <div class="container">
+    <div class="showcase-grid">
+      <div class="showcase-text">
+        <span class="section-eyebrow">Vector Search</span>
+        <h2 class="section-heading">AI-native from the ground up</h2>
+        <p class="section-subtitle">
+          Run semantic search, RAG (Retrieval-Augmented Generation),
+          and AI workloads directly on your operational data — no sync,
+          no ETL, no extra copies.
+        </p>
+        <a href="#" class="btn-on-dark btn-lg">Explore AI features</a>
+      </div>
+      <div class="showcase-card">
+        <div class="code-mockup-header">
+          <span class="code-dot code-dot--red"></span>
+          <span class="code-dot code-dot--yellow"></span>
+          <span class="code-dot code-dot--green"></span>
+        </div>
+        <div class="code-mockup-body">
+          <span class="comment">// Atlas Vector Search — scale to billions</span><br>
+          <span class="keyword">db</span>.<span class="string">articles</span>.<span class="func">createSearchIndex</span>({<br>
+          &nbsp;&nbsp;<span class="string">'name'</span>: <span class="string">'vector_index'</span>,<br>
+          &nbsp;&nbsp;<span class="string">'definition'</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'mappings'</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'dynamic'</span>: <span class="keyword">true</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'fields'</span>: {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'embedding'</span>: [{<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'type'</span>: <span class="string">'knnVector'</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'dimensions'</span>: <span class="string">1536</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'similarity'</span>: <span class="string">'cosine'</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+          &nbsp;&nbsp;}<br>
+          });<br>
+          <br>
+          <span class="comment">// Semantic search, zero infrastructure</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LOGO WALL
+     ============================================================ -->
+<section class="section section--soft">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Trusted by industry leaders</span>
+    </div>
+    <div class="logo-wall">
+      <span class="logo-wall-item">Toyota</span>
+      <span class="logo-wall-item">Cisco</span>
+      <span class="logo-wall-item">Verizon</span>
+      <span class="logo-wall-item">Adobe</span>
+      <span class="logo-wall-item">Forbes</span>
+      <span class="logo-wall-item">Coinbase</span>
+      <span class="logo-wall-item">Expedia</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING SECTION (3-tier)
+     ============================================================ -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Pricing</span>
+      <h2 class="section-heading">
+        Simple, transparent pricing
+      </h2>
+      <p class="section-subtitle">
+        Start free and scale as you grow. No hidden fees, no surprises.
+      </p>
+    </div>
+
+    <!-- Pill Tabs (pill-tab) for pricing toggle -->
+    <div style="display:flex; gap:var(--spacing-xs); justify-content:center; margin-bottom:var(--spacing-xxxl)">
+      <span style="background:var(--ink); color:var(--on-dark); font-family:var(--font-display); font-size:14px; font-weight:500; line-height:1.50; border-radius:var(--rounded-full); padding:8px 16px; border:1px solid var(--ink);">MongoDB Atlas</span>
+      <span style="background:transparent; color:var(--steel); font-family:var(--font-display); font-size:14px; font-weight:500; line-height:1.50; border-radius:var(--rounded-full); padding:8px 16px; border:1px solid var(--hairline);">Enterprise Advanced</span>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Free Tier (pricing-card) -->
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <h3 class="pricing-card-name">Free</h3>
+        </div>
+        <div class="pricing-card-price">$0</div>
+        <div class="pricing-card-period">/ month</div>
+        <p class="pricing-card-desc">
+          Get started with a shared cluster. Perfect for prototyping
+          and early-stage development.
+        </p>
+        <ul class="pricing-card-features">
+          <li><span class="feature-check">✓</span> 512 MB storage</li>
+          <li><span class="feature-check">✓</span> Shared RAM</li>
+          <li><span class="feature-check">✓</span> Basic monitoring</li>
+          <li><span class="feature-check">✓</span> Automated backups</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="width:100%; text-align:center;">Try Free</a>
+      </div>
+
+      <!-- Flex Tier (pricing-card-featured) -->
+      <div class="pricing-card pricing-card--featured">
+        <div class="pricing-card-header">
+          <h3 class="pricing-card-name">Flex</h3>
+          <span class="badge-popular">Most Popular</span>
+        </div>
+        <div class="pricing-card-price">$0.10</div>
+        <div class="pricing-card-period">/ hour</div>
+        <p class="pricing-card-desc">
+          For production apps with variable workloads. Pay only for
+          what you use.
+        </p>
+        <ul class="pricing-card-features">
+          <li><span class="feature-check">✓</span> Dedicated resources</li>
+          <li><span class="feature-check">✓</span> Multi-region clusters</li>
+          <li><span class="feature-check">✓</span> Advanced monitoring</li>
+          <li><span class="feature-check">✓</span> Vector Search included</li>
+          <li><span class="feature-check">✓</span> 24/7 support</li>
+        </ul>
+        <a href="#" class="btn-primary" style="width:100%; text-align:center;">Start Flex</a>
+      </div>
+
+      <!-- Dedicated Tier (pricing-card) -->
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <h3 class="pricing-card-name">Dedicated</h3>
+        </div>
+        <div class="pricing-card-price">Custom</div>
+        <div class="pricing-card-period">pricing</div>
+        <p class="pricing-card-desc">
+          For large-scale, enterprise workloads with predictable
+          performance and advanced security.
+        </p>
+        <ul class="pricing-card-features">
+          <li><span class="feature-check">✓</span> Isolated compute</li>
+          <li><span class="feature-check">✓</span> Multi-cloud</li>
+          <li><span class="feature-check">✓</span> SSO / LDAP / SAML</li>
+          <li><span class="feature-check">✓</span> Private networking</li>
+          <li><span class="feature-check">✓</span> Premium support SLA</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="width:100%; text-align:center;">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BANNER (cta-banner-dark)
+     ============================================================ -->
+<section class="section">
+  <div class="container">
+    <div class="cta-banner">
+      <div class="cta-banner-inner">
+        <h2 class="cta-banner-heading">
+          Ready to start building?
+        </h2>
+        <p class="cta-banner-desc">
+          Create your free MongoDB Atlas cluster and deploy in minutes.
+          No credit card required.
+        </p>
+        <div class="cta-banner-actions">
+          <a href="#" class="btn-on-dark btn-lg" style="background:var(--brand-green); color:var(--on-primary)">Try Free →</a>
+          <a href="#" class="btn-secondary-on-dark btn-lg">Schedule a demo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER (footer-region)
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">MongoDB Atlas</a></li>
+          <li><a href="#">Atlas Search</a></li>
+          <li><a href="#">Atlas Vector Search</a></li>
+          <li><a href="#">Community Edition</a></li>
+          <li><a href="#">Enterprise Advanced</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#">Artificial Intelligence</a></li>
+          <li><a href="#">Internet of Things</a></li>
+          <li><a href="#">Mobile</a></li>
+          <li><a href="#">Real-Time Analytics</a></li>
+          <li><a href="#">Gaming</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">MongoDB University</a></li>
+          <li><a href="#">Developer Center</a></li>
+          <li><a href="#">Community Forums</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Investor Relations</a></li>
+          <li><a href="#">Legal</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="#">Drivers &amp; Connectors</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Stack Overflow</a></li>
+          <li><a href="#">Release Notes</a></li>
+          <li><a href="#">Technical Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Compare</h4>
+        <ul>
+          <li><a href="#">MongoDB vs. PostgreSQL</a></li>
+          <li><a href="#">MongoDB vs. DynamoDB</a></li>
+          <li><a href="#">MongoDB vs. Firebase</a></li>
+          <li><a href="#">MongoDB vs. Cassandra</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-bottom-text">
+        &copy; 2025 MongoDB, Inc.
+      </span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Preferences</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

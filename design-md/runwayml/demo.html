@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runway — Advancing creativity with AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================
+   RESET & DESIGN TOKENS
+   ============================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors */
+  --color-black: #000000;
+  --color-deep-black: #030303;
+  --color-dark-surface: #1a1a1a;
+  --color-white: #ffffff;
+  --color-near-white: #fefefe;
+  --color-cool-cloud: #e9ecf2;
+  --color-border-dark: #27272a;
+  --color-charcoal: #404040;
+  --color-near-charcoal: #3f3f3f;
+  --color-cool-slate: #767d88;
+  --color-mid-slate: #7d848e;
+  --color-muted-gray: #a7a7a7;
+  --color-cool-silver: #c9ccd1;
+  --color-light-silver: #d0d4d4;
+  --color-tailwind-gray: #6b7280;
+  --color-dark-link: #0c0c0c;
+  --color-footer-gray: #999999;
+
+  /* Typography */
+  --font-primary: 'Inter', 'DM Sans', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+
+  /* Border Radius */
+  --radius-sharp: 4px;
+  --radius-subtle: 6px;
+  --radius-comfortable: 8px;
+  --radius-generous: 16px;
+
+  /* Spacing (base 8px) */
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-78: 78px;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--color-black);
+  color: var(--color-white);
+  line-height: 1.4;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ============================
+   CONTAINER
+   ============================ */
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 var(--space-32);
+}
+
+.container-narrow {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-32);
+}
+
+/* ============================
+   NAVIGATION
+   ============================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: var(--space-20) var(--space-32);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.3s ease;
+}
+
+.nav.scrolled {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.nav-logo {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.16px;
+  color: var(--color-white);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-32);
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.16px;
+  color: var(--color-cool-slate);
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--color-white);
+}
+
+.nav-btn {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  color: var(--color-white);
+  background: transparent;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sharp);
+  padding: var(--space-8) var(--space-20);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: var(--color-dark-surface);
+  border-color: var(--color-cool-slate);
+}
+
+/* ============================
+   HERO SECTION
+   ============================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-black);
+}
+
+/* Cinematic background — AI-generated abstract visual */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(80, 40, 120, 0.25), transparent 60%),
+    radial-gradient(ellipse 60% 80% at 75% 30%, rgba(20, 60, 120, 0.3), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 80%, rgba(30, 80, 100, 0.2), transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 75%, rgba(100, 30, 80, 0.2), transparent 50%);
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.8) 100%);
+}
+
+/* Floating abstract shapes — simulating AI-generated imagery */
+.hero-shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.hero-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: float 20s ease-in-out infinite;
+}
+
+.hero-shape:nth-child(1) {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(80, 40, 180, 0.4), transparent 70%);
+  top: -10%;
+  left: -5%;
+  animation-delay: 0s;
+}
+
+.hero-shape:nth-child(2) {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(20, 80, 160, 0.4), transparent 70%);
+  top: 30%;
+  right: -8%;
+  animation-delay: -7s;
+}
+
+.hero-shape:nth-child(3) {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(30, 100, 130, 0.35), transparent 70%);
+  bottom: 10%;
+  left: 30%;
+  animation-delay: -14s;
+}
+
+.hero-shape:nth-child(4) {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(120, 40, 80, 0.3), transparent 70%);
+  top: 50%;
+  left: 50%;
+  animation-delay: -3s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(10px, -30px) scale(1.02); }
+}
+
+/* Cinematic grid lines */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.03;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 900px;
+  padding: 0 var(--space-32);
+}
+
+/* Section label */
+.hero-label {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  color: var(--color-cool-slate);
+  margin-bottom: var(--space-24);
+}
+
+/* Hero headline — 48px, weight 400, line-height 1.0, letter-spacing -1.2px */
+.hero-headline {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -1.2px;
+  color: var(--color-white);
+  margin-bottom: var(--space-24);
+}
+
+/* Hero subheadline */
+.hero-subheadline {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.16px;
+  color: var(--color-cool-slate);
+  max-width: 640px;
+  margin: 0 auto var(--space-32);
+}
+
+/* Hero CTA buttons */
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  color: var(--color-black);
+  background: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sharp);
+  padding: var(--space-12) var(--space-28);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-cool-cloud);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  color: var(--color-white);
+  background: transparent;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sharp);
+  padding: var(--space-12) var(--space-28);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--color-dark-surface);
+  border-color: var(--color-cool-slate);
+}
+
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: var(--space-48);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.hero-scroll span {
+  font-size: 11px;
+  font-weight: 450;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 32px;
+  background: var(--color-border-dark);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.4); }
+}
+
+/* ============================
+   SECTION LABELS
+   ============================ */
+.section-label {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  color: var(--color-cool-slate);
+  margin-bottom: var(--space-16);
+}
+
+/* ============================
+   FEATURES SECTION
+   ============================ */
+.features {
+  padding: var(--space-78) 0;
+  background: var(--color-near-white);
+  color: var(--color-charcoal);
+}
+
+.features .section-label {
+  color: var(--color-cool-slate);
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: var(--space-64);
+}
+
+/* Section heading — 40px, weight 400, line-height 1.05, letter-spacing -0.8px */
+.features-heading {
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.8px;
+  color: var(--color-charcoal);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-24);
+}
+
+/* Feature card */
+.feature-card {
+  position: relative;
+  border-radius: var(--radius-comfortable);
+  overflow: hidden;
+  background: var(--color-dark-surface);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+}
+
+.feature-card-image {
+  position: relative;
+  width: 100%;
+  padding-bottom: 66%;
+  overflow: hidden;
+}
+
+/* Cinematic abstract image placeholders */
+.cinematic-img {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.cinematic-img-1 {
+  background:
+    linear-gradient(135deg, #1a1040 0%, #0a1a30 30%, #101830 60%, #0a1025 100%);
+}
+
+.cinematic-img-1::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 40%, rgba(80, 50, 180, 0.5), transparent),
+    radial-gradient(circle 30% at 70% 60%, rgba(20, 100, 180, 0.4), transparent),
+    radial-gradient(circle 15% at 60% 30%, rgba(255, 255, 255, 0.15), transparent);
+}
+
+.cinematic-img-2 {
+  background:
+    linear-gradient(160deg, #0a1530 0%, #140a20 40%, #0a1a25 70%, #081020 100%);
+}
+
+.cinematic-img-2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 65% 35%, rgba(20, 80, 150, 0.5), transparent),
+    radial-gradient(circle 25% at 30% 70%, rgba(100, 30, 150, 0.35), transparent),
+    radial-gradient(circle 12% at 50% 40%, rgba(255, 255, 255, 0.12), transparent);
+}
+
+.cinematic-img-3 {
+  background:
+    linear-gradient(145deg, #101828 0%, #1a0a20 35%, #0a1825 65%, #051015 100%);
+}
+
+.cinematic-img-3::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 40% 50%, rgba(30, 100, 130, 0.5), transparent),
+    radial-gradient(circle 28% at 75% 30%, rgba(60, 20, 100, 0.4), transparent),
+    radial-gradient(circle 10% at 55% 65%, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.cinematic-img-4 {
+  background:
+    linear-gradient(155deg, #0c1225 0%, #150a20 45%, #0c1520 75%, #081018 100%);
+}
+
+.cinematic-img-4::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 40%, rgba(15, 70, 140, 0.5), transparent),
+    radial-gradient(circle 22% at 25% 55%, rgba(120, 40, 80, 0.35), transparent),
+    radial-gradient(circle 14% at 60% 20%, rgba(255, 255, 255, 0.08), transparent);
+}
+
+.feature-card-body {
+  padding: var(--space-24);
+}
+
+/* Feature Title — 20px, weight 400, line-height 1.0 */
+.feature-card-title {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: normal;
+  color: var(--color-white);
+  margin-bottom: var(--space-12);
+}
+
+.feature-card-desc {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.16px;
+  color: var(--color-cool-slate);
+}
+
+/* ============================
+   SHOWCASE / RESEARCH SECTION
+   ============================ */
+.showcase {
+  padding: var(--space-78) 0;
+  background: var(--color-black);
+}
+
+.showcase-header {
+  margin-bottom: var(--space-48);
+}
+
+/* Sub-heading — 36px, weight 400, line-height 1.0, letter-spacing -0.9px */
+.showcase-heading {
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.9px;
+  color: var(--color-white);
+}
+
+/* Research article grid — mixed sizes */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: auto auto;
+  gap: var(--space-24);
+}
+
+.showcase-card {
+  position: relative;
+  border-radius: var(--radius-comfortable);
+  overflow: hidden;
+  background: var(--color-dark-surface);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.showcase-card:hover {
+  transform: translateY(-2px);
+}
+
+.showcase-card.featured {
+  grid-row: span 2;
+}
+
+.showcase-card-image {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56%;
+  overflow: hidden;
+}
+
+.showcase-card.featured .showcase-card-image {
+  padding-bottom: 75%;
+}
+
+.showcase-card-image .cinematic-img {
+  position: absolute;
+  inset: 0;
+}
+
+.cinematic-a {
+  background: linear-gradient(150deg, #0a1025 0%, #150a28 35%, #0a1820 70%);
+}
+.cinematic-a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 35%, rgba(25, 80, 150, 0.5), transparent),
+    radial-gradient(circle 20% at 30% 70%, rgba(130, 30, 90, 0.3), transparent),
+    radial-gradient(circle 8% at 70% 50%, rgba(255,255,255,0.1), transparent);
+}
+
+.cinematic-b {
+  background: linear-gradient(140deg, #0c1525 0%, #180c20 45%, #0c1820 80%);
+}
+.cinematic-b::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 50% at 65% 40%, rgba(20, 90, 160, 0.45), transparent),
+    radial-gradient(circle 18% at 35% 60%, rgba(90, 25, 130, 0.3), transparent),
+    radial-gradient(circle 10% at 55% 30%, rgba(255,255,255,0.08), transparent);
+}
+
+.cinematic-c {
+  background: linear-gradient(160deg, #0e1828 0%, #1a0e20 40%, #0e1a20 70%);
+}
+.cinematic-c::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 50% at 40% 45%, rgba(15, 70, 140, 0.5), transparent),
+    radial-gradient(circle 15% at 70% 30%, rgba(110, 35, 70, 0.3), transparent),
+    radial-gradient(circle 12% at 50% 70%, rgba(255,255,255,0.07), transparent);
+}
+
+.showcase-card-body {
+  padding: var(--space-20) var(--space-24);
+}
+
+.showcase-card-label {
+  font-size: 11px;
+  font-weight: 450;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: var(--color-mid-slate);
+  margin-bottom: var(--space-8);
+}
+
+/* Card title — 24px, weight 400, line-height 1.0 */
+.showcase-card-title {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: normal;
+  color: var(--color-white);
+  margin-bottom: var(--space-12);
+}
+
+.showcase-card-desc {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.16px;
+  color: var(--color-cool-slate);
+}
+
+.showcase-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.43;
+  letter-spacing: normal;
+  color: var(--color-cool-slate);
+  margin-top: var(--space-16);
+  transition: color 0.2s ease;
+}
+
+.showcase-card-link:hover {
+  color: var(--color-white);
+}
+
+.showcase-card-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ============================
+   TRUST BAR
+   ============================ */
+.trust-bar {
+  padding: var(--space-64) 0;
+  background: var(--color-black);
+  border-top: 1px solid var(--color-border-dark);
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.trust-label {
+  font-size: 11px;
+  font-weight: 450;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: var(--color-mid-slate);
+  text-align: center;
+  margin-bottom: var(--space-32);
+}
+
+.trust-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-48);
+  flex-wrap: wrap;
+  opacity: 0.5;
+}
+
+.trust-logo {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.16px;
+  color: var(--color-cool-slate);
+  white-space: nowrap;
+}
+
+/* ============================
+   MISSION SECTION
+   ============================ */
+.mission {
+  padding: var(--space-78) 0;
+  background: var(--color-black);
+  text-align: center;
+}
+
+/* Mission text — 36px, weight 400, line-height 1.0, letter-spacing -0.9px */
+.mission-quote {
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.9px;
+  color: var(--color-white);
+  max-width: 768px;
+  margin: 0 auto var(--space-32);
+}
+
+.mission-author {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.43;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  color: var(--color-cool-slate);
+}
+
+/* ============================
+   CTA SECTION
+   ============================ */
+.cta {
+  padding: var(--space-78) 0;
+  background: var(--color-dark-surface);
+  text-align: center;
+}
+
+/* CTA heading — 40px, weight 400, line-height 1.0, letter-spacing -1px */
+.cta-heading {
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -1px;
+  color: var(--color-white);
+  margin-bottom: var(--space-20);
+}
+
+.cta-subtext {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.16px;
+  color: var(--color-cool-slate);
+  margin-bottom: var(--space-32);
+}
+
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.cta-note {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.16px;
+  color: var(--color-mid-slate);
+  margin-top: var(--space-20);
+}
+
+/* ============================
+   FOOTER
+   ============================ */
+.footer {
+  padding: var(--space-64) 0 var(--space-48);
+  background: var(--color-black);
+  border-top: 1px solid var(--color-border-dark);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--space-32);
+  margin-bottom: var(--space-64);
+}
+
+.footer-brand {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.16px;
+  color: var(--color-white);
+  margin-bottom: var(--space-12);
+}
+
+.footer-desc {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.16px;
+  color: var(--color-cool-slate);
+  max-width: 280px;
+}
+
+.footer-col-title {
+  font-size: 11px;
+  font-weight: 450;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: var(--color-mid-slate);
+  margin-bottom: var(--space-20);
+}
+
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.footer-col-links a {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.16px;
+  color: var(--color-footer-gray);
+  transition: color 0.2s ease;
+}
+
+.footer-col-links a:hover {
+  color: var(--color-cool-slate);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  padding-top: var(--space-32);
+  border-top: 1px solid var(--color-border-dark);
+}
+
+.footer-bottom-text {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.16px;
+  color: var(--color-footer-gray);
+}
+
+.footer-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+  list-style: none;
+}
+
+.footer-bottom-links a {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.16px;
+  color: var(--color-footer-gray);
+  transition: color 0.2s ease;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--color-cool-slate);
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .showcase-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .showcase-card.featured {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-32);
+  }
+
+  .footer-brand-col {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-headline {
+    font-size: 36px;
+    letter-spacing: -0.9px;
+  }
+
+  .features-heading {
+    font-size: 32px;
+    letter-spacing: -0.6px;
+  }
+
+  .showcase-heading {
+    font-size: 28px;
+    letter-spacing: -0.6px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-card.featured {
+    grid-column: span 1;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-brand-col {
+    grid-column: span 2;
+  }
+
+  .mission-quote {
+    font-size: 28px;
+    letter-spacing: -0.6px;
+  }
+
+  .cta-heading {
+    font-size: 32px;
+    letter-spacing: -0.8px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .container, .container-narrow {
+    padding: 0 var(--space-16);
+  }
+
+  .hero-headline {
+    font-size: 28px;
+    letter-spacing: -0.6px;
+  }
+
+  .features-heading {
+    font-size: 26px;
+  }
+
+  .showcase-heading {
+    font-size: 24px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-brand-col {
+    grid-column: span 1;
+  }
+
+  .trust-logos {
+    gap: var(--space-24);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================
+     NAVIGATION
+     ============================ -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">Runway</a>
+  <ul class="nav-links">
+    <li><a href="#features">Products</a></li>
+    <li><a href="#showcase">Research</a></li>
+    <li><a href="#">Company</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">Sign in</a></li>
+  </ul>
+  <button class="nav-btn">Get started</button>
+</nav>
+
+<!-- ============================
+     HERO
+     ============================ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-shapes">
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+  </div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <p class="hero-label">Introducing Gen-4</p>
+    <h1 class="hero-headline">Everything you need to tell stories.</h1>
+    <p class="hero-subheadline">
+      Runway is an applied AI research company shaping the next era of art, entertainment, and human creativity. Our tools let you generate and edit video, images, and audio — directly in your browser.
+    </p>
+    <div class="hero-cta">
+      <button class="btn-primary">Try Runway for free</button>
+      <button class="btn-secondary">Watch demo</button>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============================
+     FEATURES
+     ============================ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header">
+      <p class="section-label">Products</p>
+      <h2 class="features-heading">Tools built for the next generation of storytelling.</h2>
+    </div>
+
+    <div class="features-grid">
+      <article class="feature-card">
+        <div class="feature-card-image">
+          <div class="cinematic-img cinematic-img-1"></div>
+        </div>
+        <div class="feature-card-body">
+          <h3 class="feature-card-title">Text to Video</h3>
+          <p class="feature-card-desc">
+            Generate high-fidelity video clips from text descriptions. Create cinematic scenes with precise control over motion, lighting, and composition.
+          </p>
+        </div>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card-image">
+          <div class="cinematic-img cinematic-img-2"></div>
+        </div>
+        <div class="feature-card-body">
+          <h3 class="feature-card-title">Image to Video</h3>
+          <p class="feature-card-desc">
+            Transform static images into dynamic video sequences. Animate characters, landscapes, and abstract compositions with natural motion.
+          </p>
+        </div>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card-image">
+          <div class="cinematic-img cinematic-img-3"></div>
+        </div>
+        <div class="feature-card-body">
+          <h3 class="feature-card-title">Video to Video</h3>
+          <p class="feature-card-desc">
+            Apply cinematic styles, change environments, or transform video content while preserving motion, structure, and temporal consistency.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     SHOWCASE / RESEARCH
+     ============================ -->
+<section class="showcase" id="showcase">
+  <div class="container">
+    <div class="showcase-header">
+      <p class="section-label">Research</p>
+      <h2 class="showcase-heading">Advancing the frontier of generative media.</h2>
+    </div>
+
+    <div class="showcase-grid">
+      <article class="showcase-card featured">
+        <div class="showcase-card-image">
+          <div class="cinematic-img cinematic-a"></div>
+        </div>
+        <div class="showcase-card-body">
+          <p class="showcase-card-label">Gen-4</p>
+          <h3 class="showcase-card-title">General World Models</h3>
+          <p class="showcase-card-desc">
+            Our latest research introduces general world models that simulate dynamic environments with unprecedented fidelity — from physics to lighting to character behavior.
+          </p>
+          <span class="showcase-card-link">
+            Read paper
+            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+      </article>
+
+      <article class="showcase-card">
+        <div class="showcase-card-image">
+          <div class="cinematic-img cinematic-b"></div>
+        </div>
+        <div class="showcase-card-body">
+          <p class="showcase-card-label">Frames</p>
+          <h3 class="showcase-card-title">Image Generation</h3>
+          <p class="showcase-card-desc">
+            State-of-the-art image synthesis with style consistency and precise compositional control.
+          </p>
+        </div>
+      </article>
+
+      <article class="showcase-card">
+        <div class="showcase-card-image">
+          <div class="cinematic-img cinematic-c"></div>
+        </div>
+        <div class="showcase-card-body">
+          <p class="showcase-card-label">Act-One</p>
+          <h3 class="showcase-card-title">Character Animation</h3>
+          <p class="showcase-card-desc">
+            Expressive character performance from a single driving video input with natural emotional range.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     TRUST BAR
+     ============================ -->
+<section class="trust-bar">
+  <div class="container">
+    <p class="trust-label">Trusted by the world's most creative teams</p>
+    <div class="trust-logos">
+      <span class="trust-logo">Pixar</span>
+      <span class="trust-logo">Netflix</span>
+      <span class="trust-logo">BBC</span>
+      <span class="trust-logo">Publicis</span>
+      <span class="trust-logo">CBS</span>
+      <span class="trust-logo">Ogilvy</span>
+      <span class="trust-logo">WPP</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     MISSION
+     ============================ -->
+<section class="mission">
+  <div class="container-narrow">
+    <blockquote class="mission-quote">
+      We are building AI to simulate the world through imagination, art, and aesthetics.
+    </blockquote>
+    <p class="mission-author">Runway Research</p>
+  </div>
+</section>
+
+<!-- ============================
+     CTA
+     ============================ -->
+<section class="cta" id="cta">
+  <div class="container-narrow">
+    <h2 class="cta-heading">Start creating today.</h2>
+    <p class="cta-subtext">
+      Join millions of artists, filmmakers, and storytellers who use Runway to bring their ideas to life.
+    </p>
+    <div class="cta-buttons">
+      <button class="btn-primary">Try Runway for free</button>
+      <button class="btn-secondary">Explore plans</button>
+    </div>
+    <p class="cta-note">No credit card required. Start with free credits.</p>
+  </div>
+</section>
+
+<!-- ============================
+     FOOTER
+     ============================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-brand">Runway</div>
+        <p class="footer-desc">
+          An applied AI research company building the next generation of creative tools.
+        </p>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Products</p>
+        <ul class="footer-col-links">
+          <li><a href="#">Text to Video</a></li>
+          <li><a href="#">Image to Video</a></li>
+          <li><a href="#">Video to Video</a></li>
+          <li><a href="#">Gen-4</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-col-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Resources</p>
+        <ul class="footer-col-links">
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Research</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">Community</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Legal</p>
+        <ul class="footer-col-links">
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-bottom-text">&copy; 2026 Runway ML, Inc.</span>
+      <ul class="footer-bottom-links">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Cookie Settings</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================
+     NAV SCROLL BEHAVIOR
+     ============================ -->
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+</script>
+
+</body>
+</html>

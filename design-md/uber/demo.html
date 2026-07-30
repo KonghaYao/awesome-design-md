@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uber — Go anywhere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #ffffff;
+  color: #000000;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; }
+
+/* ── Container ── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ── Design Tokens ── */
+:root {
+  --color-primary: #000000;
+  --color-on-primary: #ffffff;
+  --color-ink: #000000;
+  --color-body: #5e5e5e;
+  --color-mute: #afafaf;
+  --color-hairline-mid: #4b4b4b;
+  --color-canvas: #ffffff;
+  --color-canvas-soft: #efefef;
+  --color-canvas-softer: #f3f3f3;
+  --color-surface-pressed: #e2e2e2;
+  --color-link: #0000ee;
+  --color-on-dark: #ffffff;
+  --color-black-elevated: #282828;
+
+  --rounded-none: 0px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-pill: 999px;
+  --rounded-pill-tab: 36px;
+  --rounded-full: 9999px;
+
+  --spacing-xxs: 4px;
+  --spacing-xs: 6px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+}
+
+/* ── Typography ── */
+.display-xxl {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 64px;
+  font-feature-settings: "ss01";
+}
+.display-xl {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 44px;
+  font-feature-settings: "ss01";
+}
+.display-lg {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  font-feature-settings: "ss01";
+}
+.display-md {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  font-feature-settings: "ss01";
+}
+.display-sm {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  font-feature-settings: "ss01";
+}
+.body-lg {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+}
+.body-md {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.body-md-strong {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+.body-sm {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.body-sm-strong {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+.caption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.button-large-text {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+}
+.button-md-text {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 12px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-primary:hover { background: #333333; }
+.btn-primary:active { background: #555555; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 999px;
+  padding: 12px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-secondary:hover { background: #f5f5f5; }
+.btn-secondary:active { background: #e2e2e2; }
+
+.btn-subtle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #efefef;
+  color: #000000;
+  border-radius: 999px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-subtle:hover { background: #e2e2e2; }
+
+.btn-floating {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 999px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px 0px;
+  transition: box-shadow 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+.btn-floating:hover { box-shadow: rgba(0, 0, 0, 0.22) 0px 4px 12px 0px; }
+
+.btn-large-rounded {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #000000;
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  transition: background 0.2s;
+}
+.btn-large-rounded:hover { background: #333333; }
+
+/* ── Category Button ── */
+.category-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #efefef;
+  color: #000000;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.category-btn:hover { background: #e2e2e2; }
+
+/* ── App Download Pill ── */
+.app-download-pill {
+  display: inline-flex;
+  align-items: center;
+  background: #000000;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.app-download-pill:hover { background: #333333; }
+
+/* ── Nav Bar ── */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+  padding: 16px 32px;
+}
+.nav-bar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-feature-settings: "ss01";
+  color: #000000;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-link {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #000000;
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+.nav-link:hover { background: #efefef; }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Hero Band ── */
+.hero-band {
+  background: #ffffff;
+  padding: 32px 32px;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.hero-content { display: flex; flex-direction: column; gap: 20px; }
+.hero-content p { color: #5e5e5e; max-width: 480px; }
+.hero-cta-group { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+/* Ride-request form card */
+.request-form-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 4px 16px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.request-form-card h3 { font-size: 24px; font-weight: 700; line-height: 32px; }
+.tab-toggle-group {
+  display: flex;
+  gap: 8px;
+}
+.tab-toggle {
+  background: #ffffff;
+  color: #000000;
+  border-radius: 36px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: background 0.2s;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+.tab-toggle.active { background: #efefef; }
+.tab-toggle:hover:not(.active) { background: #f3f3f3; }
+.request-form-input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #efefef;
+  border-radius: 8px;
+  padding: 16px;
+}
+.request-form-input-row .input-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+.request-form-input-row .input-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.request-form-input-row .input-label {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #5e5e5e;
+}
+.request-form-input-row .input-value {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #000000;
+}
+
+/* ── Category Section ── */
+.category-section {
+  background: #ffffff;
+  padding: 16px 32px;
+}
+.category-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.category-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Promo Cards ── */
+.promo-section {
+  padding: 32px;
+}
+.promo-section .container { display: flex; flex-direction: column; gap: 32px; }
+
+.promo-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  gap: 32px;
+  align-items: center;
+}
+.promo-card.card-elevated {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px 0px;
+}
+.promo-card.card-soft {
+  background: #efefef;
+}
+.promo-card.card-dark {
+  background: #000000;
+  color: #ffffff;
+}
+.promo-card.card-dark .card-body-text {
+  color: #ffffff;
+}
+.promo-card.card-dark .card-body-text--muted {
+  color: #afafaf;
+}
+.promo-card.card-dark .btn-secondary {
+  background: #ffffff;
+  color: #000000;
+}
+.promo-card.card-dark .btn-subtle {
+  background: #282828;
+  color: #ffffff;
+}
+.promo-card.card-dark .btn-subtle:hover {
+  background: #4b4b4b;
+}
+.promo-card .card-illustration {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.promo-card .card-content-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.promo-card .card-content-inner h2 { margin-bottom: 4px; }
+.card-body-text { color: #5e5e5e; }
+.card-body-text--muted { color: #5e5e5e; }
+.promo-card .card-cta-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+/* Illustration placeholders */
+.illust-city {
+  background: linear-gradient(135deg, #efefef 0%, #e2e2e2 100%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.illust-city::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 45%;
+  background: #000000;
+  border-radius: 4px 4px 0 0;
+}
+.illust-city::after {
+  content: '';
+  position: absolute;
+  bottom: 45%;
+  left: 15%;
+  width: 15%;
+  height: 25%;
+  background: #000000;
+  border-radius: 3px 3px 0 0;
+  box-shadow:
+    68px 12px 0 #000000,
+    140px -8px 0 #000000,
+    210px 20px 0 #000000,
+    280px 0 0 #000000;
+}
+.illust-ride {
+  background: linear-gradient(135deg, #e2e2e2 0%, #cccccc 100%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.illust-ride::before {
+  content: '';
+  width: 80px;
+  height: 40px;
+  background: #000000;
+  border-radius: 10px 10px 4px 4px;
+  position: relative;
+}
+.illust-ride::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: #000000;
+  opacity: 0.1;
+}
+.illust-map {
+  background: linear-gradient(135deg, #efefef 0%, #dcdcdc 100%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.illust-map::before {
+  content: '';
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #000000;
+  opacity: 0.08;
+}
+.illust-map::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #000000;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    -30px -20px 0 #00000050,
+    40px -10px 0 #00000050,
+    -15px 25px 0 #00000050,
+    30px 30px 0 #00000050;
+}
+.illust-food {
+  background: linear-gradient(135deg, #efefef 0%, #e8e8e8 100%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  gap: 16px;
+}
+.illust-food svg { opacity: 0.15; }
+.illust-delivery {
+  background: linear-gradient(135deg, #e8e8e8 0%, #d8d8d8 100%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.illust-delivery::before {
+  content: '';
+  width: 100px;
+  height: 50px;
+  background: #000000;
+  border-radius: 8px;
+  opacity: 0.12;
+}
+.illust-delivery::after {
+  content: '';
+  position: absolute;
+  bottom: 30%;
+  left: 25%;
+  width: 50%;
+  height: 4px;
+  background: #000000;
+  opacity: 0.08;
+  border-radius: 2px;
+}
+
+/* ── Download Section ── */
+.download-section {
+  background: #ffffff;
+  padding: 32px;
+}
+.download-section .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+.download-section .download-pills {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Safety Section ── */
+.safety-section {
+  padding: 32px;
+}
+.safety-section .container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.safety-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.safety-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.safety-card.card-elevated {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px 0px;
+}
+.safety-card .safety-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  background: #efefef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.safety-card p { color: #5e5e5e; }
+
+/* ── Footer ── */
+.footer {
+  background: #000000;
+  color: #ffffff;
+  padding: 32px 32px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+.footer-col { display: flex; flex-direction: column; gap: 16px; }
+.footer-col h4 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #ffffff;
+}
+.footer-col a {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #4b4b4b;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: #ffffff; }
+.footer-divider {
+  border: none;
+  border-top: 1px solid #4b4b4b;
+  margin: 24px 0 24px;
+  opacity: 0.3;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-socials {
+  display: flex;
+  gap: 16px;
+}
+.footer-socials a {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background: #efefef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.footer-socials a:hover { background: #ffffff; }
+.footer-bottom p { color: #afafaf; font-size: 12px; font-weight: 400; line-height: 20px; }
+.footer-bottom a { color: #0000ee; }
+
+/* ── Responsive ── */
+@media (max-width: 1119px) {
+  .display-xxl { font-size: 42px; line-height: 52px; }
+  .display-xl { font-size: 30px; line-height: 38px; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .promo-card { grid-template-columns: 1fr; }
+  .promo-card.card-dark .card-illustration { order: -1; }
+  .promo-card .card-illustration { aspect-ratio: 16 / 9; }
+  .safety-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .container { padding: 0 16px; }
+  .nav-bar { padding: 16px; }
+  .nav-links { display: none; }
+  .hero-band { padding: 32px 16px; }
+  .promo-section { padding: 32px 16px; }
+  .category-section { padding: 16px; }
+  .download-section { padding: 32px 16px; }
+  .safety-section { padding: 32px 16px; }
+  .safety-grid { grid-template-columns: 1fr; }
+  .footer { padding: 32px 16px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .display-xxl { font-size: 36px; line-height: 44px; }
+  .display-xl { font-size: 28px; line-height: 36px; }
+  .display-md { font-size: 20px; line-height: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav Bar ── -->
+<nav class="nav-bar">
+  <div class="container">
+    <a href="#" class="nav-logo">Uber</a>
+    <div class="nav-links">
+      <a href="#" class="nav-link">Ride</a>
+      <a href="#" class="nav-link">Drive</a>
+      <a href="#" class="nav-link">Business</a>
+      <a href="#" class="nav-link">Uber Eats</a>
+      <a href="#" class="nav-link">About</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="nav-link">Help</a>
+      <button class="btn-secondary">Log in</button>
+      <button class="btn-primary">Sign up</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero Band ── -->
+<header class="hero-band">
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <h1 class="display-xxl">Go anywhere<br>with Uber</h1>
+      <p class="body-lg">Request a ride, hop in, and go. Get where you need to be with the tap of a button.</p>
+      <div class="hero-cta-group">
+        <button class="btn-large-rounded" style="width:auto;padding:16px 24px;">Get started</button>
+        <button class="btn-secondary" style="padding: 12px 24px;">Learn more</button>
+      </div>
+    </div>
+    <div class="request-form-card">
+      <h3>Get a ride</h3>
+      <div class="tab-toggle-group">
+        <button class="tab-toggle active">Ride</button>
+        <button class="tab-toggle">Drive</button>
+      </div>
+      <div class="request-form-input-row">
+        <svg class="input-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" fill="#000000"/></svg>
+        <div class="input-content">
+          <span class="input-label">Pickup location</span>
+          <span class="input-value">Current location</span>
+        </div>
+      </div>
+      <div class="request-form-input-row">
+        <svg class="input-icon" viewBox="0 0 20 20" fill="none"><rect x="8" y="2" width="4" height="16" rx="2" fill="#000000"/></svg>
+        <div class="input-content">
+          <span class="input-label">Enter destination</span>
+          <span class="input-value" style="color:#afafaf">Where to?</span>
+        </div>
+      </div>
+      <div class="request-form-input-row" style="cursor:pointer">
+        <svg class="input-icon" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="13" rx="2" fill="none" stroke="#000000" stroke-width="1.5"/><line x1="3" y1="8" x2="17" y2="8" stroke="#000000" stroke-width="1.5"/><line x1="9" y1="8" x2="9" y2="4" stroke="#000000" stroke-width="1.5"/></svg>
+        <div class="input-content">
+          <span class="input-label">When</span>
+          <span class="input-value" style="color:#afafaf">Now</span>
+        </div>
+      </div>
+      <button class="btn-large-rounded">See prices</button>
+    </div>
+  </div>
+</header>
+
+<!-- ── Category Row ── -->
+<section class="category-section">
+  <div class="container">
+    <div class="category-scroll">
+      <button class="category-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="9" rx="2" stroke="#000000" stroke-width="1.5" fill="none"/><line x1="6" y1="3" x2="6" y2="12" stroke="#000000" stroke-width="1.5"/><line x1="10" y1="3" x2="10" y2="12" stroke="#000000" stroke-width="1.5"/></svg>
+        Ride
+      </button>
+      <button class="category-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="#000000" stroke-width="1.5" fill="none"/><path d="M8 3v2M8 11v2M3 8h2M11 8h2" stroke="#000000" stroke-width="1.5"/></svg>
+        Reserve
+      </button>
+      <button class="category-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="4" width="10" height="10" rx="2" stroke="#000000" stroke-width="1.5" fill="none"/><line x1="5" y1="7" x2="11" y2="7" stroke="#000000" stroke-width="1.5"/><line x1="5" y1="10" x2="11" y2="10" stroke="#000000" stroke-width="1.5"/></svg>
+        Rentals
+      </button>
+      <button class="category-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12a2 2 0 100-4 2 2 0 000 4zM12 12a2 2 0 100-4 2 2 0 000 4z" stroke="#000000" stroke-width="1.5" fill="none"/><path d="M6 10h4" stroke="#000000" stroke-width="1.5"/></svg>
+        Teens
+      </button>
+      <button class="category-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5" cy="5" r="3" stroke="#000000" stroke-width="1.5" fill="none"/><circle cx="11" cy="5" r="3" stroke="#000000" stroke-width="1.5" fill="none"/><circle cx="8" cy="11" r="3" stroke="#000000" stroke-width="1.5" fill="none"/></svg>
+        Group rides
+      </button>
+      <button class="category-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="2" width="10" height="12" rx="2" stroke="#000000" stroke-width="1.5" fill="none"/><circle cx="8" cy="7" r="2" stroke="#000000" stroke-width="1.5" fill="none"/><path d="M5 11c0-2 1.5-3 3-3s3 1 3 3" stroke="#000000" stroke-width="1.5"/></svg>
+        Intercity
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── Promo Cards Section ── -->
+<section class="promo-section" id="features">
+  <div class="container">
+
+    <!-- White promo card -->
+    <div class="promo-card card-elevated">
+      <div class="card-illustration">
+        <div class="illust-city"></div>
+      </div>
+      <div class="card-content-inner">
+        <h2 class="display-md">Plan for later</h2>
+        <p class="body-md card-body-text">Reserve your ride in advance so you can relax on the day of your trip. No surge, no stress — just a scheduled pickup when you need it.</p>
+        <div class="card-cta-group">
+          <button class="btn-primary" style="padding:12px 24px;">Reserve a ride</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark promo card (polarity flip) -->
+    <div class="promo-card card-dark">
+      <div class="card-content-inner">
+        <h2 class="display-md" style="color:#ffffff;">Drive when you<br>want, earn what<br>you need</h2>
+        <p class="body-md" style="color:#ffffff;">Make money on your schedule. No boss, no office — just you and the road. Sign up to drive and start earning in days.</p>
+        <div class="card-cta-group">
+          <button class="btn-secondary" style="padding:12px 24px;background:#ffffff;color:#000000;">Get started</button>
+          <button class="btn-subtle" style="background:#282828;color:#ffffff;">Learn more</button>
+        </div>
+      </div>
+      <div class="card-illustration">
+        <div class="illust-ride"></div>
+      </div>
+    </div>
+
+    <!-- White promo card -->
+    <div class="promo-card card-soft">
+      <div class="card-illustration">
+        <div class="illust-map"></div>
+      </div>
+      <div class="card-content-inner">
+        <h2 class="display-md">Safety, simplified</h2>
+        <p class="body-md card-body-text">Every ride includes real-time trip sharing, driver screening, and 24/7 support. Your safety is built into every trip we power — it's not an add-on.</p>
+        <div class="card-cta-group">
+          <button class="btn-primary" style="padding:12px 24px;">Learn about safety</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark promo card (polarity flip) -->
+    <div class="promo-card card-dark">
+      <div class="card-content-inner">
+        <h2 class="display-md" style="color:#ffffff;">Order food,<br>groceries, and<br>more with Uber Eats</h2>
+        <p class="body-md" style="color:#ffffff;">From your favourite restaurants to the weekly shop, get it delivered to your door. One app, everything you need.</p>
+        <div class="card-cta-group">
+          <button class="btn-secondary" style="padding:12px 24px;background:#ffffff;color:#000000;">Order now</button>
+        </div>
+      </div>
+      <div class="card-illustration">
+        <div class="illust-food">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#000000" stroke-width="2"/><path d="M8 12h8M12 8v8" stroke="#000000" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="14" rx="2" stroke="#000000" stroke-width="2"/></svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Safety Feature Cards ── -->
+<section class="safety-section" id="safety">
+  <div class="container">
+    <h2 class="display-xl">Focused on safety,<br>wherever you go</h2>
+    <div class="safety-grid">
+      <div class="safety-card card-elevated">
+        <div class="safety-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v5c0 5-3.5 9.7-8 11-4.5-1.3-8-6-8-11V6l8-4z" stroke="#000000" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <h3 class="display-sm">Driver screening</h3>
+        <p class="body-sm">Every driver undergoes a multi-step background check before their first trip.</p>
+      </div>
+      <div class="safety-card card-elevated">
+        <div class="safety-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#000000" stroke-width="1.5" fill="none"/><path d="M8 12h8M12 8v8" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="display-sm">Real-time ID check</h3>
+        <p class="body-sm">Drivers verify their identity with a selfie before going online, every time.</p>
+      </div>
+      <div class="safety-card card-elevated">
+        <div class="safety-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M4 20L20 4" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#000000" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <h3 class="display-sm">Share your trip</h3>
+        <p class="body-sm">Let friends and family follow your route in real time with a single tap.</p>
+      </div>
+      <div class="safety-card card-elevated">
+        <div class="safety-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="2" width="14" height="20" rx="2" stroke="#000000" stroke-width="1.5" fill="none"/><line x1="12" y1="18" x2="12" y2="18" stroke="#000000" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="display-sm">24/7 support</h3>
+        <p class="body-sm">Contact Uber's safety team anytime, directly from the app, day or night.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Download Section ── -->
+<section class="download-section" id="cta">
+  <div class="container">
+    <h2 class="display-xl">It's easier in the apps</h2>
+    <div class="download-pills">
+      <button class="app-download-pill">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="margin-right:8px;"><path d="M7 4v16M17 4v16M4 8h16M4 16h16" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Download the Rider app
+      </button>
+      <button class="app-download-pill">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="margin-right:8px;"><circle cx="12" cy="12" r="9" stroke="#ffffff" stroke-width="1.5" fill="none"/><polygon points="10,8 10,16 16,12" fill="#ffffff"/></svg>
+        Download the Driver app
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About us</a>
+        <a href="#">Our offerings</a>
+        <a href="#">Newsroom</a>
+        <a href="#">Investors</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#">Ride</a>
+        <a href="#">Drive</a>
+        <a href="#">Deliver</a>
+        <a href="#">Eat</a>
+        <a href="#">Uber for Business</a>
+        <a href="#">Uber Freight</a>
+      </div>
+      <div class="footer-col">
+        <h4>Global citizenship</h4>
+        <a href="#">Safety</a>
+        <a href="#">Diversity</a>
+        <a href="#">Sustainability</a>
+        <a href="#">Transparency</a>
+      </div>
+      <div class="footer-col">
+        <h4>Travel</h4>
+        <a href="#">Airports</a>
+        <a href="#">Cities</a>
+        <a href="#">Reserve</a>
+        <a href="#">Rentals</a>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <p>&copy; 2024 Uber Technologies Inc.</p>
+        <a href="#" class="caption" style="color:#0000ee;">Privacy</a>
+        <a href="#" class="caption" style="color:#0000ee;">Accessibility</a>
+        <a href="#" class="caption" style="color:#0000ee;">Terms</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#000000"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z"/></svg>
+        </a>
+        <a href="#" aria-label="Twitter">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#000000"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#000000"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#000000" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="5" stroke="#000000" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.5" fill="#000000"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

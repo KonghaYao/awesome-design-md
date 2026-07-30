@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vercel — Build and deploy on the AI Cloud.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  background-color: #fafafa;
+  color: #171717;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img, svg { display: block; max-width: 100%; }
+
+/* ─── Container ─── */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── Nav ─── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 64px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+}
+.nav-inner {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #171717;
+  letter-spacing: -0.28px;
+}
+.nav-logo svg { width: 24px; height: 24px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-link {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  color: #4d4d4d;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.nav-link:hover { color: #171717; background-color: #f5f5f5; }
+.nav-ctas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-cta-ask-ai {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #ebebeb;
+  background: #ffffff;
+  color: #171717;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: border-color 0.15s ease;
+}
+.nav-cta-ask-ai:hover { border-color: #a1a1a1; }
+.nav-cta-login {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: none;
+  background: #ffffff;
+  color: #171717;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.15s ease;
+}
+.nav-cta-login:hover { background-color: #f5f5f5; }
+.nav-cta-signup {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: none;
+  background: #171717;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.15s ease;
+}
+.nav-cta-signup:hover { background-color: #333; }
+
+/* ─── Hero ─── */
+.hero {
+  position: relative;
+  background-color: #ffffff;
+  padding: 64px 24px;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-gradient {
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 800px;
+  background:
+    radial-gradient(ellipse 60% 60% at 20% 50%, #007cf033 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 40%, #7928ca22 0%, transparent 50%),
+    radial-gradient(ellipse 55% 55% at 80% 50%, #ff008022 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 40% 60%, #00dfd825 0%, transparent 50%),
+    radial-gradient(ellipse 35% 35% at 60% 55%, #ff4d4d18 0%, transparent 50%),
+    radial-gradient(ellipse 30% 30% at 50% 50%, #f9cb2818 0%, transparent 50%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fafafa;
+  color: #4d4d4d;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  padding: 8px 12px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  transition: background-color 0.15s ease;
+}
+.hero-badge:hover { background-color: #f5f5f5; }
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #0070f3;
+}
+.hero-badge-label {
+  font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -2.4px;
+  color: #171717;
+  margin-bottom: 16px;
+}
+.hero-lead {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #4d4d4d;
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  background-color: #171717;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+.btn-primary:hover { background-color: #333; }
+.btn-primary:active { transform: scale(0.98); }
+.btn-secondary {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  background-color: #ffffff;
+  color: #171717;
+  border: 1px solid #ebebeb;
+  border-radius: 100px;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.btn-secondary:hover { border-color: #a1a1a1; background-color: #fafafa; }
+.btn-primary-sm {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  background-color: #171717;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.15s ease;
+}
+.btn-primary-sm:hover { background-color: #333; }
+.btn-secondary-sm {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  background-color: #ffffff;
+  color: #171717;
+  border: 1px solid #ebebeb;
+  border-radius: 100px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.btn-secondary-sm:hover { border-color: #a1a1a1; }
+
+/* ─── Logo Strip ─── */
+.logo-strip {
+  background-color: #ffffff;
+  color: #4d4d4d;
+  padding: 24px 32px;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+}
+.logo-strip-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.logo-strip-label {
+  font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+.logo-strip-item {
+  height: 24px;
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+}
+.logo-strip-item:hover { opacity: 0.6; }
+.logo-strip-item svg { height: 24px; width: auto; }
+
+/* ─── Features ─── */
+.features {
+  background-color: #ffffff;
+  padding: 96px 24px;
+}
+.features-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 64px;
+}
+.features-eyebrow {
+  font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+.features h2 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -1.28px;
+  color: #171717;
+  margin-bottom: 12px;
+}
+.features-lead {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #4d4d4d;
+}
+.features-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.feature-card {
+  background-color: #ffffff;
+  color: #171717;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  box-shadow:
+    0px 2px 2px #0000000a,
+    0px 8px 8px -8px #0000000a,
+    inset 0 0 0 1px #00000014;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0px 2px 2px #0000000a,
+    0px 8px 16px -4px #0000000a,
+    inset 0 0 0 1px #00000014;
+}
+.feature-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  border: 1px solid #ebebeb;
+}
+.feature-card-icon svg { width: 20px; height: 20px; }
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.6px;
+  color: #171717;
+  margin-bottom: 8px;
+}
+.feature-card p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #4d4d4d;
+}
+.feature-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  color: #4d4d4d;
+  transition: color 0.15s ease;
+}
+.feature-card-link:hover { color: #171717; }
+.feature-card-link svg { width: 14px; height: 14px; }
+
+/* ─── Showcase Dark Band ─── */
+.showcase-dark {
+  background-color: #171717;
+  color: #ffffff;
+  padding: 96px 24px;
+}
+.showcase-dark-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.showcase-dark-text h2 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -1.28px;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+.showcase-dark-text p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #a1a1a1;
+  margin-bottom: 24px;
+}
+.code-mockup {
+  background-color: #0a0a0a;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #ffffff;
+  overflow: hidden;
+}
+.code-mockup-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+}
+.code-dot { width: 10px; height: 10px; border-radius: 50%; }
+.code-dot.red { background-color: #ff5f56; }
+.code-dot.amber { background-color: #ffbd2e; }
+.code-dot.green { background-color: #27c93f; }
+.code-line {
+  display: block;
+  white-space: pre;
+}
+.code-line .comment { color: #888888; }
+.code-line .keyword { color: #50e3c2; }
+.code-line .string { color: #f9cb28; }
+.code-line .fn { color: #0070f3; }
+
+/* ─── Showcase Light Band ─── */
+.showcase-light {
+  background-color: #fafafa;
+  color: #171717;
+  padding: 96px 24px;
+}
+.showcase-light-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.showcase-light-text h2 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -1.28px;
+  color: #171717;
+  margin-bottom: 16px;
+}
+.showcase-light-text p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #4d4d4d;
+  margin-bottom: 24px;
+}
+.showcase-light-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+.stat-card {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #ebebeb;
+}
+.stat-number {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -1.28px;
+  color: #171717;
+}
+.stat-label {
+  font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+  margin-top: 4px;
+}
+.showcase-light-visual {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow:
+    0px 2px 2px #0000000a,
+    0px 8px 16px -4px #0000000a,
+    inset 0 0 0 1px #00000014;
+}
+.showcase-light-visual h3 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.6px;
+  color: #171717;
+  margin-bottom: 16px;
+}
+.showcase-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  height: 120px;
+}
+.bar {
+  flex: 1;
+  border-radius: 4px;
+  transition: height 0.3s ease;
+}
+.bar:nth-child(1) { background: #007cf0; height: 45%; }
+.bar:nth-child(2) { background: #00dfd8; height: 65%; }
+.bar:nth-child(3) { background: #7928ca; height: 85%; }
+.bar:nth-child(4) { background: #ff0080; height: 55%; }
+.bar:nth-child(5) { background: #ff4d4d; height: 75%; }
+.bar:nth-child(6) { background: #f9cb28; height: 95%; }
+.bar:nth-child(7) { background: #50e3c2; height: 50%; }
+
+/* ─── Templates ─── */
+.templates {
+  background-color: #ffffff;
+  padding: 96px 24px;
+  border-top: 1px solid #ebebeb;
+}
+.templates-inner { max-width: 1400px; margin: 0 auto; }
+.templates-eyebrow {
+  font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+.templates h2 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -1.28px;
+  color: #171717;
+  margin-bottom: 12px;
+}
+.templates-lead {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #4d4d4d;
+  margin-bottom: 40px;
+  max-width: 640px;
+}
+.template-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.tab-ghost {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  background-color: #ffffff;
+  color: #171717;
+  border: 1px solid #ebebeb;
+  border-radius: 64px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.tab-ghost:hover { border-color: #a1a1a1; }
+.tab-ghost.active {
+  background-color: #171717;
+  color: #ffffff;
+  border-color: #171717;
+}
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.template-card {
+  background-color: #ffffff;
+  color: #171717;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #ebebeb;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+.template-card:hover {
+  border-color: #a1a1a1;
+  box-shadow:
+    0px 1px 1px #00000005,
+    0px 2px 2px #0000000a,
+    inset 0 0 0 1px #00000014;
+}
+.template-thumb {
+  aspect-ratio: 16/9;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.template-thumb svg { width: 48px; height: 48px; }
+.template-card h4 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  color: #171717;
+  margin-bottom: 4px;
+}
+.template-card p {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+}
+
+/* ─── Pricing ─── */
+.pricing {
+  background-color: #fafafa;
+  padding: 96px 24px;
+}
+.pricing-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 64px;
+}
+.pricing-eyebrow {
+  font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+.pricing h2 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -1.28px;
+  color: #171717;
+  margin-bottom: 12px;
+}
+.pricing-lead {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #4d4d4d;
+}
+.pricing-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  align-items: start;
+}
+.pricing-card {
+  background-color: #fafafa;
+  color: #171717;
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid #ebebeb;
+  position: relative;
+  z-index: 1;
+}
+.pricing-card-featured {
+  background-color: #171717;
+  color: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  box-shadow:
+    0px 2px 2px #0000000a,
+    0px 8px 16px -4px #00000014,
+    inset 0 0 0 1px #ffffff14;
+}
+.pricing-card h3,
+.pricing-card-featured h3 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.96px;
+  margin-bottom: 4px;
+}
+.pricing-card-featured h3 { color: #ffffff; }
+.pricing-card-desc {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  color: #4d4d4d;
+  margin-bottom: 24px;
+}
+.pricing-card-featured .pricing-card-desc { color: #a1a1a1; }
+.pricing-price {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -2.4px;
+  margin-bottom: 8px;
+}
+.pricing-card-featured .pricing-price { color: #ffffff; }
+.pricing-period {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  color: #888888;
+  margin-bottom: 24px;
+}
+.pricing-card-featured .pricing-period { color: #888888; }
+.pricing-features {
+  list-style: none;
+  margin-bottom: 32px;
+}
+.pricing-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #4d4d4d;
+  padding: 6px 0;
+}
+.pricing-card-featured .pricing-features li { color: #e5e5e5; }
+.pricing-features li svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.pricing-cta {
+  display: block;
+  width: 100%;
+}
+.pricing-card-featured .btn-secondary-sm {
+  background-color: #ffffff;
+  color: #171717;
+}
+
+/* ─── CTA Banner ─── */
+.cta-banner {
+  background-color: #ffffff;
+  padding: 96px 24px;
+  text-align: center;
+}
+.cta-banner-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.cta-banner h2 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -1.28px;
+  color: #171717;
+  margin-bottom: 16px;
+}
+.cta-banner p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #4d4d4d;
+  margin-bottom: 32px;
+}
+.cta-form {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.form-input-hero {
+  font-family: 'Inter', 'Geist', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  background-color: #ffffff;
+  color: #171717;
+  border: 1px solid #ebebeb;
+  border-radius: 6px;
+  padding: 0 12px;
+  height: 48px;
+  min-width: 320px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.form-input-hero:focus {
+  border-color: #a1a1a1;
+  box-shadow: 0 0 0 2px #1717170d;
+}
+.form-input-hero::placeholder { color: #888888; }
+
+/* ─── Footer ─── */
+.footer {
+  background-color: #ffffff;
+  color: #4d4d4d;
+  padding: 64px 24px;
+  border-top: 1px solid #ebebeb;
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+.footer-brand p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  color: #888888;
+  margin-top: 12px;
+  max-width: 280px;
+}
+.footer-col-label {
+  font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+.footer-col a {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  color: #4d4d4d;
+  padding: 4px 0;
+  transition: color 0.15s ease;
+}
+.footer-col a:hover { color: #171717; }
+.footer-bottom {
+  max-width: 1400px;
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid #ebebeb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-bottom-copy {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+}
+.footer-bottom-links {
+  display: flex;
+  gap: 16px;
+}
+.footer-bottom-links a {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #888888;
+  transition: color 0.15s ease;
+}
+.footer-bottom-links a:hover { color: #171717; }
+
+/* ─── Responsive ─── */
+@media (max-width: 1199px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .template-grid { grid-template-columns: repeat(3, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; gap: 16px; max-width: 480px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 959px) {
+  .nav-links { display: none; }
+  .showcase-dark-inner,
+  .showcase-light-inner { grid-template-columns: 1fr; gap: 40px; }
+  .features-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .template-grid { grid-template-columns: repeat(2, 1fr); }
+  .showcase-light-stats { grid-template-columns: repeat(3, 1fr); }
+  .hero h1 { font-size: 36px; line-height: 40px; letter-spacing: -1.44px; }
+}
+@media (max-width: 599px) {
+  .nav-cta-ask-ai { display: none; }
+  .hero { padding: 48px 16px; }
+  .hero h1 { font-size: 32px; line-height: 36px; letter-spacing: -1.28px; }
+  .features, .showcase-dark, .showcase-light, .templates, .pricing, .cta-banner { padding: 64px 16px; }
+  .template-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .form-input-hero { min-width: 100%; }
+  .logo-strip-inner { gap: 24px; }
+  .hero-ctas { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 19.778h20L12 2z" fill="#171717"/></svg>
+      Vercel
+    </a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Products</a>
+      <a href="#templates" class="nav-link">Templates</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#" class="nav-link">Docs</a>
+      <a href="#" class="nav-link">Enterprise</a>
+    </div>
+    <div class="nav-ctas">
+      <button class="nav-cta-ask-ai">Ask AI</button>
+      <button class="nav-cta-login">Log In</button>
+      <button class="nav-cta-signup">Sign Up</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <a href="#" class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Introducing v0
+      <span class="hero-badge-label">NEW</span>
+    </a>
+    <h1>Build and deploy on the AI Cloud.</h1>
+    <p class="hero-lead">Vercel is the AI Cloud — a unified platform to build, deploy, and scale AI-powered applications with the tools you know and love.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary">Start Deploying <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="btn-secondary">Talk to Sales</button>
+    </div>
+  </div>
+</header>
+
+<!-- Logo Strip -->
+<section class="logo-strip">
+  <div class="logo-strip-inner">
+    <span class="logo-strip-label">Trusted by</span>
+    <!-- Placeholder logo SVGs -->
+    <span class="logo-strip-item"><svg width="80" height="24" viewBox="0 0 80 24"><rect x="0" y="4" width="80" height="16" rx="4" fill="#4d4d4d" opacity="0.3"/><text x="40" y="16" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="#4d4d4d">NVIDIA</text></svg></span>
+    <span class="logo-strip-item"><svg width="80" height="24" viewBox="0 0 80 24"><rect x="0" y="4" width="80" height="16" rx="4" fill="#4d4d4d" opacity="0.3"/><text x="40" y="16" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="#4d4d4d">META</text></svg></span>
+    <span class="logo-strip-item"><svg width="80" height="24" viewBox="0 0 80 24"><rect x="0" y="4" width="80" height="16" rx="4" fill="#4d4d4d" opacity="0.3"/><text x="40" y="16" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="#4d4d4d">STRIPE</text></svg></span>
+    <span class="logo-strip-item"><svg width="80" height="24" viewBox="0 0 80 24"><rect x="0" y="4" width="80" height="16" rx="4" fill="#4d4d4d" opacity="0.3"/><text x="40" y="16" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="#4d4d4d">SHOPIFY</text></svg></span>
+    <span class="logo-strip-item"><svg width="80" height="24" viewBox="0 0 80 24"><rect x="0" y="4" width="80" height="16" rx="4" fill="#4d4d4d" opacity="0.3"/><text x="40" y="16" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="#4d4d4d">UBER</text></svg></span>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features" id="features">
+  <div class="features-header">
+    <span class="features-eyebrow">Platform</span>
+    <h2>Your frontend, delivered.</h2>
+    <p class="features-lead">From localhost to production in seconds. Vercel gives you the tools and infrastructure to move fast without breaking things.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10l5 5 9-9" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Instant Deployments</h3>
+      <p>Push to Git and Vercel builds, deploys, and caches your application automatically — zero configuration required.</p>
+      <a href="#" class="feature-card-link">Learn more <svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="3" stroke="#171717" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="#171717" stroke-width="1.5"/></svg>
+      </div>
+      <h3>AI-Powered Analytics</h3>
+      <p>Understand your real user experience with Web Vitals monitoring, powered by AI to surface insights automatically.</p>
+      <a href="#" class="feature-card-link">Learn more <svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v4M10 14v4M2 10h4M14 10h4M4.93 4.93l2.83 2.83M12.24 12.24l2.83 2.83M4.93 15.07l2.83-2.83M12.24 7.76l2.83-2.83" stroke="#171717" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Edge Network</h3>
+      <p>Your pages served from over 100 data centers worldwide with automatic ISR — always fast, always fresh.</p>
+      <a href="#" class="feature-card-link">Learn more <svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- Showcase Dark Band -->
+<section class="showcase-dark" id="showcase">
+  <div class="showcase-dark-inner">
+    <div class="showcase-dark-text">
+      <h2>A compute model for all workloads.</h2>
+      <p>From serverless functions to long-running GPU inference — one platform that scales from zero to millions of requests. No infrastructure to manage, no cold starts.</p>
+      <button class="btn-primary">Explore Compute <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <div class="code-mockup">
+      <div class="code-mockup-header">
+        <span class="code-dot red"></span>
+        <span class="code-dot amber"></span>
+        <span class="code-dot green"></span>
+      </div>
+      <span class="code-line"><span class="comment">// Deploy your first app</span></span>
+      <span class="code-line"><span class="keyword">import</span> { <span class="fn">vercel</span> } <span class="keyword">from</span> <span class="string">'@vercel/sdk'</span></span>
+      <span class="code-line"></span>
+      <span class="code-line"><span class="keyword">const</span> app = <span class="fn">vercel</span>.<span class="fn">createApp</span>({</span>
+      <span class="code-line">  name: <span class="string">'my-ai-app'</span>,</span>
+      <span class="code-line">  runtime: <span class="string">'node.js'</span>,</span>
+      <span class="code-line">  regions: [<span class="string">'iad1'</span>, <span class="string">'sfo1'</span>, <span class="string">'fra1'</span>]</span>
+      <span class="code-line">})</span>
+      <span class="code-line"></span>
+      <span class="code-line"><span class="keyword">await</span> app.<span class="fn">deploy</span>()</span>
+      <span class="code-line"><span class="comment">// ✓ Deployed in 3.2s</span></span>
+      <span class="code-line"><span class="comment">// ✓ URL: https://my-ai-app.vercel.app</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- Showcase Light Band -->
+<section class="showcase-light">
+  <div class="showcase-light-inner">
+    <div class="showcase-light-visual">
+      <h3>Deployment Analytics</h3>
+      <div class="showcase-bars">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+    <div class="showcase-light-text">
+      <h2>Move fast without breaking things.</h2>
+      <p>Every Git push gets its own Preview URL. Test features in isolation, collaborate with your team, and ship with confidence — all before merging to production.</p>
+      <div class="showcase-light-stats">
+        <div class="stat-card">
+          <div class="stat-number">50M+</div>
+          <div class="stat-label">DEPLOYS/WEEK</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">99.99%</div>
+          <div class="stat-label">UPTIME SLA</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">&lt;100ms</div>
+          <div class="stat-label">BUILD START</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Templates -->
+<section class="templates" id="templates">
+  <div class="templates-inner">
+    <span class="templates-eyebrow">Templates</span>
+    <h2>Deploy your first app in seconds.</h2>
+    <p class="templates-lead">Start with a template and customize it for your needs. One-click deploy for any framework.</p>
+    <div class="template-tabs">
+      <button class="tab-ghost active">AI Apps</button>
+      <button class="tab-ghost">Web Apps</button>
+      <button class="tab-ghost">Ecommerce</button>
+      <button class="tab-ghost">Marketing</button>
+      <button class="tab-ghost">Platforms</button>
+    </div>
+    <div class="template-grid">
+      <div class="template-card">
+        <div class="template-thumb" style="background: linear-gradient(135deg, #007cf0, #00dfd8);">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="8" fill="#ffffff15"/><text x="24" y="30" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="white">AI</text></svg>
+        </div>
+        <h4>AI Chatbot</h4>
+        <p>Streaming chat with OpenAI SDK</p>
+      </div>
+      <div class="template-card">
+        <div class="template-thumb" style="background: linear-gradient(135deg, #7928ca, #ff0080);">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="8" fill="#ffffff15"/><text x="24" y="30" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="white">IMG</text></svg>
+        </div>
+        <h4>Image Generator</h4>
+        <p>Stable Diffusion + Replicate</p>
+      </div>
+      <div class="template-card">
+        <div class="template-thumb" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="8" fill="#ffffff15"/><text x="24" y="30" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="white">NX</text></svg>
+        </div>
+        <h4>Next.js Boilerplate</h4>
+        <p>App Router + Tailwind</p>
+      </div>
+      <div class="template-card">
+        <div class="template-thumb" style="background: linear-gradient(135deg, #0f172a, #1e293b);">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="8" fill="#ffffff15"/><text x="24" y="30" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="white">PY</text></svg>
+        </div>
+        <h4>Python API</h4>
+        <p>FastAPI + Serverless</p>
+      </div>
+      <div class="template-card">
+        <div class="template-thumb" style="background: linear-gradient(135deg, #ff4d4d, #f9cb28);">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="8" fill="#ffffff15"/><text x="24" y="30" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="white">EC</text></svg>
+        </div>
+        <h4>Ecommerce Store</h4>
+        <p>Headless Shopify + ISR</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+  <div class="pricing-header">
+    <span class="pricing-eyebrow">Pricing</span>
+    <h2>Start free. Scale as you grow.</h2>
+    <p class="pricing-lead">Simple, predictable pricing with no hidden fees. Upgrade when you need more.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <h3>Hobby</h3>
+      <p class="pricing-card-desc">For personal projects and experiments.</p>
+      <div class="pricing-price">$0</div>
+      <p class="pricing-period">per month</p>
+      <ul class="pricing-features">
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Unlimited personal projects</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 100 GB bandwidth / month</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Automatic HTTPS & Edge</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Community support</li>
+      </ul>
+      <button class="btn-secondary-sm pricing-cta">Start Building</button>
+    </div>
+    <div class="pricing-card-featured">
+      <h3>Pro</h3>
+      <p class="pricing-card-desc">For professionals and growing teams.</p>
+      <div class="pricing-price">$20</div>
+      <p class="pricing-period">per member / month</p>
+      <ul class="pricing-features">
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Everything in Hobby</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 1 TB bandwidth / month</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Advanced Analytics</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Priority support</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Preview Deployments</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Password protection</li>
+      </ul>
+      <button class="btn-secondary-sm pricing-cta">Start Pro Trial</button>
+    </div>
+    <div class="pricing-card">
+      <h3>Enterprise</h3>
+      <p class="pricing-card-desc">For organizations with advanced needs.</p>
+      <div class="pricing-price">Custom</div>
+      <p class="pricing-period">tailored to your scale</p>
+      <ul class="pricing-features">
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Everything in Pro</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Dedicated infrastructure</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> SSO & SAML</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 99.99% SLA</li>
+        <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-8" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Custom contracts</li>
+      </ul>
+      <button class="btn-secondary-sm pricing-cta">Contact Sales</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Banner -->
+<section class="cta-banner" id="cta">
+  <div class="cta-banner-inner">
+    <h2>Ready to ship?</h2>
+    <p>Join millions of developers building on the AI Cloud. Deploy your first project in seconds, no credit card required.</p>
+    <form class="cta-form" onsubmit="event.preventDefault()">
+      <input type="email" class="form-input-hero" placeholder="Enter your email" />
+      <button type="submit" class="btn-primary">Start Deploying <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="margin-bottom:0;">
+        <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 2L2 19.778h20L12 2z" fill="#171717"/></svg>
+        Vercel
+      </a>
+      <p>The AI Cloud — build, deploy, and scale your applications globally.</p>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-label">Product</span>
+      <a href="#">AI Apps</a>
+      <a href="#">Analytics</a>
+      <a href="#">Edge Network</a>
+      <a href="#">Serverless</a>
+      <a href="#">Storage</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-label">Resources</span>
+      <a href="#">Documentation</a>
+      <a href="#">Templates</a>
+      <a href="#">Guides</a>
+      <a href="#">Changelog</a>
+      <a href="#">API Reference</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-label">Company</span>
+      <a href="#">About</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+      <a href="#">Partners</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-label">Legal</span>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Security</a>
+      <a href="#">DPA</a>
+      <a href="#">SLA</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-bottom-copy">&copy; 2026 Vercel Inc. All rights reserved.</span>
+    <div class="footer-bottom-links">
+      <a href="#">Status</a>
+      <a href="#">Twitter</a>
+      <a href="#">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

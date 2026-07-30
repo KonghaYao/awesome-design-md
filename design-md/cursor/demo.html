@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursor — The AI Code Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: #f7f7f4;
+  color: #5a5852;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img, svg { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ===== TOP NAVIGATION ===== */
+.top-nav {
+  background-color: #f7f7f4;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #e6e5e0;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #26251e;
+}
+.nav-brand svg { width: 24px; height: 24px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #26251e;
+  transition: color 0.15s ease;
+}
+.nav-links a:hover { color: #5a5852; }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f54e00;
+  color: #ffffff;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  height: 40px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.10s ease;
+}
+.btn-primary:hover { background-color: #d04200; }
+.btn-primary:active { background-color: #d04200; transform: scale(0.98); }
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #26251e;
+  color: #f7f7f4;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  height: 44px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.10s ease;
+}
+.btn-download:hover { background-color: #3d3c35; }
+.btn-download:active { transform: scale(0.98); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #26251e;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  border: 1px solid #cfcdc4;
+  border-radius: 8px;
+  padding: 9px 17px;
+  height: 40px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.btn-secondary:hover {
+  border-color: #a09c92;
+  background-color: #fafaf7;
+}
+
+.btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: #26251e;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.btn-tertiary:hover { color: #5a5852; }
+
+/* ===== HERO ===== */
+.hero-band {
+  background-color: #f7f7f4;
+  padding: 80px 0;
+  text-align: center;
+}
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.hero-badge {
+  display: inline-block;
+  background-color: #e6e5e0;
+  color: #26251e;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  margin-bottom: 24px;
+}
+.hero-headline {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 72px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -2.16px;
+  color: #26251e;
+  margin-bottom: 20px;
+}
+.hero-headline mark {
+  background: none;
+  color: #f54e00;
+}
+.hero-subhead {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  max-width: 540px;
+  margin: 0 auto 32px;
+}
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+.hero-ctas .btn-download svg { width: 18px; height: 18px; }
+
+/* IDE Mockup */
+.ide-mockup-card {
+  background-color: #ffffff;
+  border: 1px solid #e6e5e0;
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  max-width: 960px;
+  margin: 0 auto;
+  box-shadow: 0 2px 16px rgba(38,37,30,0.06);
+}
+.ide-mockup-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #efeee8;
+  gap: 8px;
+}
+.ide-dot { width: 12px; height: 12px; border-radius: 50%; }
+.ide-dot:nth-child(1) { background: #cf2d56; }
+.ide-dot:nth-child(2) { background: #c08532; }
+.ide-dot:nth-child(3) { background: #1f8a65; }
+.ide-mockup-tab {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #807d72;
+  margin-left: 16px;
+  padding: 4px 12px;
+  background: #efeee8;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid #e6e5e0;
+  border-bottom: none;
+}
+.ide-mockup-body {
+  display: grid;
+  grid-template-columns: 200px 1fr 280px;
+  min-height: 420px;
+}
+.ide-pane {
+  background-color: #fafaf7;
+  padding: 16px;
+  border-right: 1px solid #efeee8;
+  overflow: hidden;
+}
+.ide-pane:last-child { border-right: none; }
+.ide-pane-label {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: #a09c92;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.ide-file {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  transition: background 0.10s;
+  cursor: default;
+}
+.ide-file.active {
+  background: #e6e5e0;
+  color: #26251e;
+}
+.ide-file:hover:not(.active) { background: #efeee8; }
+.ide-code-line {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  padding: 1px 0;
+}
+.ide-code-line .kw { color: #cf2d56; }
+.ide-code-line .fn { color: #1f8a65; }
+.ide-code-line .str { color: #f54e00; }
+.ide-code-line .cm { color: #a09c92; }
+.ide-code-line .var { color: #26251e; }
+.ide-code-line .num { color: #c08532; }
+
+/* AI Chat Pane */
+.chat-message {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.chat-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.chat-avatar.ai { background: #f54e00; color: #ffffff; }
+.chat-avatar.user { background: #e6e5e0; color: #26251e; }
+.chat-bubble {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #26251e;
+  background: #ffffff;
+  border: 1px solid #e6e5e0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  flex: 1;
+}
+.chat-bubble strong { color: #f54e00; font-weight: 600; }
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+.chat-input {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #e6e5e0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  color: #26251e;
+  outline: none;
+}
+.chat-input::placeholder { color: #a09c92; }
+.chat-input:focus { border-color: #cfcdc4; }
+
+/* ===== SECTIONS ===== */
+.section { padding: 80px 0; }
+.section-label {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  color: #807d72;
+  margin-bottom: 12px;
+}
+.section-headline {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.72px;
+  color: #26251e;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+.section-header { text-align: center; }
+.section-header .section-sub { margin-left: auto; margin-right: auto; }
+
+/* ===== FEATURE CARDS ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.feature-card {
+  background-color: #ffffff;
+  border: 1px solid #e6e5e0;
+  border-radius: 12px;
+  padding: 24px;
+  transition: border-color 0.15s ease;
+}
+.feature-card:hover { border-color: #cfcdc4; }
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  background: #efeee8;
+  color: #26251e;
+}
+.feature-icon svg { width: 20px; height: 20px; }
+.feature-card-title {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #26251e;
+  margin-bottom: 8px;
+}
+.feature-card-desc {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+}
+
+/* ===== AI TIMELINE SHOWCASE ===== */
+.timeline-showcase {
+  background-color: #f7f7f4;
+}
+.timeline-demo {
+  background: #ffffff;
+  border: 1px solid #e6e5e0;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.timeline-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #efeee8;
+}
+.timeline-step:last-child { border-bottom: none; }
+.timeline-pill {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.timeline-pill.thinking { background-color: #dfa88f; color: #26251e; }
+.timeline-pill.grep { background-color: #9fc9a2; color: #26251e; }
+.timeline-pill.read { background-color: #9fbbe0; color: #26251e; }
+.timeline-pill.edit { background-color: #c0a8dd; color: #26251e; }
+.timeline-pill.done { background-color: #c08532; color: #ffffff; }
+.timeline-desc {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  color: #5a5852;
+}
+
+/* ===== PRICING ===== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+  align-items: start;
+}
+.pricing-card {
+  background-color: #ffffff;
+  border: 1px solid #e6e5e0;
+  border-radius: 12px;
+  padding: 32px;
+  transition: border-color 0.15s ease;
+}
+.pricing-card:hover { border-color: #cfcdc4; }
+.pricing-card.featured {
+  background-color: #26251e;
+  border-color: #26251e;
+  color: #f7f7f4;
+}
+.pricing-tier-name {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+.pricing-card.featured .pricing-tier-name { color: #f7f7f4; }
+.pricing-card:not(.featured) .pricing-tier-name { color: #26251e; }
+.pricing-tier-desc {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+.pricing-card.featured .pricing-tier-desc { color: #a09c92; }
+.pricing-card:not(.featured) .pricing-tier-desc { color: #807d72; }
+.pricing-amount {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.72px;
+  margin-bottom: 24px;
+}
+.pricing-card.featured .pricing-amount { color: #f7f7f4; }
+.pricing-card:not(.featured) .pricing-amount { color: #26251e; }
+.pricing-amount span {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.pricing-features {
+  list-style: none;
+  margin-bottom: 32px;
+}
+.pricing-features li {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pricing-card.featured .pricing-features li { color: #e6e5e0; }
+.pricing-card:not(.featured) .pricing-features li { color: #5a5852; }
+.pricing-features li::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6 11L3 8l1.5-1.5L6 8l5-5 1.5 1.5z' fill='%231f8a65'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+  flex-shrink: 0;
+}
+.pricing-card.featured .pricing-features li::before {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6 11L3 8l1.5-1.5L6 8l5-5 1.5 1.5z' fill='%231f8a65'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+.pricing-card.featured .btn-primary {
+  width: 100%;
+  background-color: #f54e00;
+}
+.pricing-card:not(.featured) .btn-secondary {
+  width: 100%;
+}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.testimonial-card {
+  background-color: #ffffff;
+  border: 1px solid #e6e5e0;
+  border-radius: 12px;
+  padding: 24px;
+}
+.testimonial-quote {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.testimonial-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e6e5e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #26251e;
+}
+.testimonial-name {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #26251e;
+}
+.testimonial-role {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  color: #807d72;
+}
+
+/* ===== COMPARISON ===== */
+.comparison-card {
+  background-color: #ffffff;
+  border: 1px solid #e6e5e0;
+  border-radius: 12px;
+  padding: 24px;
+  overflow: hidden;
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.comparison-table th {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  color: #807d72;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e6e5e0;
+}
+.comparison-table td {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  padding: 14px 16px;
+  border-bottom: 1px solid #efeee8;
+}
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table .check { color: #1f8a65; font-weight: 600; }
+.comparison-table .dash { color: #a09c92; }
+
+/* ===== CTA BAND ===== */
+.cta-band {
+  background-color: #f7f7f4;
+  padding: 96px 0;
+  text-align: center;
+  border-top: 1px solid #e6e5e0;
+}
+.cta-headline {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.72px;
+  color: #26251e;
+  margin-bottom: 16px;
+}
+.cta-sub {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  margin-bottom: 32px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background-color: #f7f7f4;
+  padding: 64px 48px;
+  border-top: 1px solid #e6e5e0;
+}
+.footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+.footer-brand-desc {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  margin-top: 12px;
+}
+.footer-col-title {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #26251e;
+  margin-bottom: 16px;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.footer-links a {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5a5852;
+  transition: color 0.15s ease;
+}
+.footer-links a:hover { color: #26251e; }
+.footer-bottom {
+  max-width: 1200px;
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid #efeee8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copyright {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #a09c92;
+}
+.footer-social {
+  display: flex;
+  gap: 16px;
+}
+.footer-social a {
+  color: #807d72;
+  transition: color 0.15s ease;
+}
+.footer-social a:hover { color: #26251e; }
+.footer-social svg { width: 18px; height: 18px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .hero-headline { font-size: 56px; letter-spacing: -1.68px; }
+  .ide-mockup-body { grid-template-columns: 160px 1fr 240px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr; row-gap: 32px; }
+  .nav-links { display: none; }
+}
+@media (max-width: 640px) {
+  .hero-headline { font-size: 32px; letter-spacing: -0.96px; }
+  .hero-band { padding: 48px 0; }
+  .hero-ctas { flex-direction: column; }
+  .ide-mockup-body { grid-template-columns: 1fr; }
+  .ide-pane:nth-child(1), .ide-pane:nth-child(3) { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .section { padding: 48px 0; }
+  .cta-band { padding: 64px 0; }
+  .footer { padding: 48px 24px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 16px; }
+  .section-headline { font-size: 26px; letter-spacing: -0.325px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAVIGATION ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#26251e"/><path d="M7 8h10M7 12h10M7 16h6" stroke="#f7f7f4" stroke-width="2" stroke-linecap="round"/></svg>
+      Cursor
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#">Enterprise</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Forum</a></li>
+      <li><a href="#">Careers</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn-tertiary">Sign In</a>
+      <a href="#" class="btn-primary">Download</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero-band">
+  <div class="hero-content">
+    <div class="hero-badge">Now with Agent mode</div>
+    <h1 class="hero-headline">The AI Code Editor<br>that <mark>thinks</mark> ahead</h1>
+    <p class="hero-subhead">Cursor is an AI-first code editor that understands your codebase. Pair-program with an agent that reads, edits, and builds alongside you — right in your editor.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-download">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M14 6l-2-2-1.5 1.5L12 7H9v2h3l-1.5 1.5L12 12l4-4-4-4-1.5 1.5L12 7H9v2h3zM4 14h10" stroke="#f7f7f4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download for macOS
+      </a>
+      <a href="#" class="btn-tertiary">See how it works →</a>
+    </div>
+
+    <!-- IDE Mockup Card -->
+    <div class="ide-mockup-card">
+      <div class="ide-mockup-header">
+        <div class="ide-dot"></div>
+        <div class="ide-dot"></div>
+        <div class="ide-dot"></div>
+        <div class="ide-mockup-tab">main.ts</div>
+      </div>
+      <div class="ide-mockup-body">
+        <!-- File Tree Pane -->
+        <div class="ide-pane">
+          <div class="ide-pane-label">Explorer</div>
+          <div class="ide-file active">▶ src</div>
+          <div class="ide-file" style="padding-left:24px">📄 main.ts</div>
+          <div class="ide-file" style="padding-left:24px">📄 app.tsx</div>
+          <div class="ide-file" style="padding-left:24px">📄 utils.ts</div>
+          <div class="ide-file">▶ components</div>
+          <div class="ide-file">▶ styles</div>
+          <div class="ide-file">📄 package.json</div>
+          <div class="ide-file">📄 tsconfig.json</div>
+        </div>
+        <!-- Code Editor Pane -->
+        <div class="ide-pane">
+          <div class="ide-pane-label">main.ts</div>
+          <div class="ide-code-line"><span class="cm">// AI-generated: API route handler</span></div>
+          <div class="ide-code-line"><span class="kw">import</span> { <span class="var">Router</span> } <span class="kw">from</span> <span class="str">'express'</span>;</div>
+          <div class="ide-code-line">&nbsp;</div>
+          <div class="ide-code-line"><span class="kw">const</span> <span class="var">router</span> = <span class="fn">Router</span>();</div>
+          <div class="ide-code-line">&nbsp;</div>
+          <div class="ide-code-line"><span class="var">router</span>.<span class="fn">get</span>(<span class="str">'/api/users'</span>, <span class="kw">async</span> (<span class="var">req</span>, <span class="var">res</span>) => {</div>
+          <div class="ide-code-line" style="padding-left:16px"><span class="kw">const</span> <span class="var">users</span> = <span class="kw">await</span> <span class="var">db</span>.<span class="var">users</span>.<span class="fn">findMany</span>();</div>
+          <div class="ide-code-line" style="padding-left:16px"><span class="var">res</span>.<span class="fn">json</span>(<span class="var">users</span>);</div>
+          <div class="ide-code-line">});</div>
+          <div class="ide-code-line">&nbsp;</div>
+          <div class="ide-code-line"><span class="kw">export</span> <span class="kw">default</span> <span class="var">router</span>;</div>
+        </div>
+        <!-- AI Chat Pane -->
+        <div class="ide-pane" style="display:flex;flex-direction:column">
+          <div class="ide-pane-label">AI Chat</div>
+          <div class="chat-message">
+            <div class="chat-avatar ai">AI</div>
+            <div class="chat-bubble">I'll add a <strong>pagination</strong> middleware to your API route. Using cursor-based pagination for best performance.</div>
+          </div>
+          <div class="chat-message">
+            <div class="chat-avatar user">U</div>
+            <div class="chat-bubble">Add pagination to the users endpoint</div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" class="chat-input" placeholder="Ask Cursor to edit…" value="Add rate limiting too">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== FEATURES ===== -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Features</div>
+      <h2 class="section-headline">Built for developers who ship</h2>
+      <p class="section-sub">Every feature is designed to keep you in flow — from intelligent autocomplete to multi-file agentic edits.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="#26251e" stroke-width="1.5"/><path d="M7 8l2 2-2 2M13 12l-2-2 2-2" stroke="#26251e" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feature-card-title">Tab Autocomplete</h3>
+        <p class="feature-card-desc">Next-edit prediction that anticipates your next change — not just the next token. Multi-line edits in a single tab.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#26251e" stroke-width="1.5"/><path d="M10 6v5l3 2" stroke="#26251e" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feature-card-title">Agent Mode</h3>
+        <p class="feature-card-desc">Give Cursor a task and it will read your codebase, plan the change, edit multiple files, and run terminal commands — autonomously.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M5 4h4l2 3h5a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z" stroke="#26251e" stroke-width="1.5"/><path d="M5 4v10a1 1 0 001 1h10" stroke="#26251e" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="feature-card-title">Codebase Understanding</h3>
+        <p class="feature-card-desc">Indexes your entire project. Mention any file, function, or type in chat — Cursor knows exactly what you're talking about.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="12" rx="2" stroke="#26251e" stroke-width="1.5"/><path d="M6 18h8" stroke="#26251e" stroke-width="1.5" stroke-linecap="round"/><rect x="8" y="15" width="4" height="3" stroke="#26251e" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="feature-card-title">Terminal Integration</h3>
+        <p class="feature-card-desc">AI can run commands, read output, and iterate. Debug errors in your terminal without leaving the editor.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="8" cy="8" r="6" stroke="#26251e" stroke-width="1.5"/><circle cx="13" cy="13" r="3" stroke="#26251e" stroke-width="1.5"/><line x1="11" y1="11" x2="10" y2="10" stroke="#26251e" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="feature-card-title">Context-Aware Chat</h3>
+        <p class="feature-card-desc">Reference images, docs, web pages, or specific lines of code. Cursor stitches everything together for precise answers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h10M3 15h6" stroke="#26251e" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="5" r="2" stroke="#f54e00" stroke-width="1.5"/><circle cx="14" cy="10" r="2" stroke="#f54e00" stroke-width="1.5"/><circle cx="10" cy="15" r="2" stroke="#f54e00" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="feature-card-title">Any Model, Your Way</h3>
+        <p class="feature-card-desc">Bring your own API keys for GPT-4, Claude, Gemini, or local models. No vendor lock-in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AI TIMELINE SHOWCASE ===== -->
+<section class="section timeline-showcase">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Agent Pipeline</div>
+      <h2 class="section-headline">See what Cursor does for every task</h2>
+      <p class="section-sub">When you invoke the agent, it follows a structured pipeline — each stage marked by a signature pastel pill.</p>
+    </div>
+    <div class="timeline-demo">
+      <div class="timeline-step">
+        <span class="timeline-pill thinking">Thinking</span>
+        <span class="timeline-desc">Analyzing request: "Add pagination middleware"</span>
+      </div>
+      <div class="timeline-step">
+        <span class="timeline-pill grep">Grepping</span>
+        <span class="timeline-desc">Searching codebase for existing route handlers…</span>
+      </div>
+      <div class="timeline-step">
+        <span class="timeline-pill read">Reading</span>
+        <span class="timeline-desc">Reading src/routes/users.ts (42 lines)</span>
+      </div>
+      <div class="timeline-step">
+        <span class="timeline-pill edit">Editing</span>
+        <span class="timeline-desc">Modified src/middleware/pagination.ts (+28 lines)</span>
+      </div>
+      <div class="timeline-step">
+        <span class="timeline-pill done">Done</span>
+        <span class="timeline-desc">Task complete. 2 files changed, 0 errors.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMPARISON ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Why Cursor</div>
+      <h2 class="section-headline">Not just another copilot</h2>
+      <p class="section-sub">Cursor is purpose-built for AI pair programming — not a plugin bolted onto an editor.</p>
+    </div>
+    <div class="comparison-card" style="max-width:720px;margin:0 auto">
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Capability</th><th>Cursor</th><th>Copilot</th><th>Cody</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Full codebase indexing</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td></tr>
+          <tr><td>Multi-file agentic edits</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td></tr>
+          <tr><td>Terminal command execution</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td></tr>
+          <tr><td>Bring your own API key</td><td class="check">✓</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Built-in code review</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td></tr>
+          <tr><td>Image & web context</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section" id="pricing" style="background:#fafaf7">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-headline">Start free, scale as you grow</h2>
+      <p class="section-sub">All plans include the full Cursor editor. Pick the one that matches your workflow.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier-name">Hobby</div>
+        <div class="pricing-tier-desc">For exploring and side projects</div>
+        <div class="pricing-amount">Free</div>
+        <ul class="pricing-features">
+          <li>2,000 completions/month</li>
+          <li>50 slow premium requests</li>
+          <li>Community models</li>
+          <li>Codebase indexing</li>
+        </ul>
+        <a href="#" class="btn-secondary">Get Started</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-tier-name">Pro</div>
+        <div class="pricing-tier-desc">For professional developers</div>
+        <div class="pricing-amount">$20<span>/month</span></div>
+        <ul class="pricing-features">
+          <li>Unlimited completions</li>
+          <li>500 fast premium requests</li>
+          <li>All premium models</li>
+          <li>Bring your own API key</li>
+          <li>Agent mode</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#" class="btn-primary">Start Free Trial</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier-name">Business</div>
+        <div class="pricing-tier-desc">For teams and organizations</div>
+        <div class="pricing-amount">$40<span>/user/month</span></div>
+        <ul class="pricing-features">
+          <li>Everything in Pro</li>
+          <li>Centralized billing</li>
+          <li>Admin dashboard</li>
+          <li>SAML / SSO</li>
+          <li>Usage analytics</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#" class="btn-secondary">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-headline">Loved by developers worldwide</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"Cursor has completely changed how I write code. The agent mode is like having a senior engineer pair-programming with me all day."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SK</div>
+          <div>
+            <div class="testimonial-name">Sarah Kim</div>
+            <div class="testimonial-role">Staff Engineer at Vercel</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"I switched from VS Code with Copilot and haven't looked back. The tab-to-edit predictions feel like magic — it knows what I'm about to type."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JD</div>
+          <div>
+            <div class="testimonial-name">James Dalton</div>
+            <div class="testimonial-role">Indie Developer</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"Our team's velocity has doubled since adopting Cursor. Multi-file edits that used to take an hour now happen in one prompt."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MR</div>
+          <div>
+            <div class="testimonial-name">Maya Rodriguez</div>
+            <div class="testimonial-role">CTO at Patchwork</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BAND ===== -->
+<section class="cta-band">
+  <h2 class="cta-headline">Ready to code at the speed of thought?</h2>
+  <p class="cta-sub">Download Cursor and start building with an AI that understands your entire project.</p>
+  <a href="#" class="btn-download">
+    <svg viewBox="0 0 18 18" fill="none"><path d="M14 6l-2-2-1.5 1.5L12 7H9v2h3l-1.5 1.5L12 12l4-4-4-4-1.5 1.5L12 7H9v2h3zM4 14h10" stroke="#f7f7f4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Download for macOS
+  </a>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <a href="#" class="nav-brand">
+        <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#26251e"/><path d="M7 8h10M7 12h10M7 16h6" stroke="#f7f7f4" stroke-width="2" stroke-linecap="round"/></svg>
+        Cursor
+      </a>
+      <p class="footer-brand-desc">The AI-first code editor.<br>Built for developers who ship.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Product</div>
+      <ul class="footer-links">
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Download</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Resources</div>
+      <ul class="footer-links">
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Forum</a></li>
+        <li><a href="#">API</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copyright">&copy; 2025 Anysphere, Inc.</span>
+    <div class="footer-social">
+      <a href="#" aria-label="Twitter"><svg viewBox="0 0 18 18" fill="currentColor"><path d="M14.2 2h2.8l-6 6.9L18 18h-5.6L8 12.4 2.8 18H0l6.5-7.4L0 2h5.7l4 5.2L14.2 2zm-1 14.4h1.5L4.9 3.5H3.2l10 12.9z"/></svg></a>
+      <a href="#" aria-label="GitHub"><svg viewBox="0 0 18 18" fill="currentColor"><path d="M9 0C4 0 0 4 0 9c0 4 2.6 7.4 6.2 8.6.4.1.6-.2.6-.4v-1.5c-2.5.5-3-1.2-3-1.2-.4-1-1-1.3-1-1.3-.8-.6.1-.6.1-.6.9.1 1.4 1 1.4 1 .8 1.4 2.1 1 2.6.8.1-.6.3-1 .6-1.2-2-.2-4.1-1-4.1-4.5 0-1 .3-1.8.9-2.4-.1-.2-.4-1.1.1-2.4 0 0 .7-.2 2.4.9A8.4 8.4 0 019 4.3c.8 0 1.6.1 2.4.3 1.7-1.1 2.4-.9 2.4-.9.5 1.3.2 2.2.1 2.4.6.6.9 1.4.9 2.4 0 3.5-2.1 4.3-4.1 4.5.3.3.6.8.6 1.7v2.5c0 .2.1.5.6.4C15.4 16.4 18 13 18 9c0-5-4-9-9-9z"/></svg></a>
+      <a href="#" aria-label="Discord"><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15.2 3.5c-1-.5-2-.8-3.1-1l-.1.4c-.8-.1-1.6-.2-2.5-.2-.8 0-1.7.1-2.5.2l-.2-.4c-1.1.2-2.1.5-3.1 1C1.9 6.3 1 10.3 1.5 14.3c1.1.8 2.2 1.3 3.3 1.6l.6-.8c-.7-.3-1.4-.6-2-.9l.4-.3c2.5 1.2 5.3 1.2 7.8 0l.4.3c-.6.3-1.3.6-2 .9l.6.8c1.1-.3 2.2-.8 3.3-1.6.6-4.6-.3-8.6-2.7-10.8zM6 12.3c-1 0-1.8-1-1.8-2.2s.8-2.2 1.8-2.2 1.8 1 1.8 2.2-.8 2.2-1.8 2.2zm6 0c-1 0-1.8-1-1.8-2.2s.8-2.2 1.8-2.2 1.8 1 1.8 2.2-.8 2.2-1.8 2.2z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

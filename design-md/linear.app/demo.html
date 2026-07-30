@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear – A better way to build software</title>
+<style>
+/* ===== CSS Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+img, svg { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; }
+
+/* ===== Design Tokens ===== */
+:root {
+  --primary: #5e6ad2;
+  --on-primary: #ffffff;
+  --primary-hover: #828fff;
+  --primary-focus: #5e69d1;
+
+  --ink: #f7f8f8;
+  --ink-muted: #d0d6e0;
+  --ink-subtle: #8a8f98;
+  --ink-tertiary: #62666d;
+
+  --canvas: #010102;
+  --surface-1: #0f1011;
+  --surface-2: #141516;
+  --surface-3: #18191a;
+  --surface-4: #191a1b;
+
+  --hairline: #23252a;
+  --hairline-strong: #34343a;
+  --hairline-tertiary: #3e3e44;
+
+  --inverse-canvas: #ffffff;
+  --inverse-surface-1: #f5f6f6;
+  --inverse-surface-2: #f6f7f7;
+  --inverse-ink: #000000;
+
+  --brand-secure: #7a7fad;
+  --semantic-success: #27a644;
+
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 24px;
+  --rounded-pill: 9999px;
+  --rounded-full: 9999px;
+
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 96px;
+
+  --container-max: 1280px;
+  --nav-height: 56px;
+
+  --font-display: 'SF Pro Display', 'Inter', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-text: 'SF Pro Display', 'Inter', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* ===== Base ===== */
+body {
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.05px;
+}
+
+/* ===== Top Navigation ===== */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-height);
+  background-color: var(--canvas);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--hairline);
+}
+.nav-inner {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.nav-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--rounded-sm);
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-logo svg {
+  width: 14px;
+  height: 14px;
+}
+.nav-wordmark {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: var(--ink-subtle);
+  transition: color 0.15s ease;
+}
+.nav-links a:hover {
+  color: var(--ink);
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: 0;
+  padding: 8px 14px;
+  border-radius: var(--rounded-md);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+.btn-primary:active {
+  background-color: var(--primary-focus);
+}
+.btn-secondary {
+  background-color: var(--surface-1);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+}
+.btn-secondary:hover {
+  background-color: var(--surface-2);
+  border-color: var(--hairline-strong);
+}
+.btn-tertiary {
+  background-color: transparent;
+  color: var(--ink);
+}
+.btn-tertiary:hover {
+  background-color: var(--surface-1);
+}
+.btn-inverse {
+  background-color: var(--inverse-canvas);
+  color: var(--inverse-ink);
+}
+.btn-inverse:hover {
+  opacity: 0.9;
+}
+.btn-lg {
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  padding: var(--spacing-section) 0 var(--spacing-xxl);
+  text-align: center;
+}
+.hero-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-eyebrow {
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.30;
+  letter-spacing: 0.4px;
+  color: var(--ink-subtle);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--surface-2);
+  color: var(--ink-muted);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+}
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--rounded-full);
+  background-color: var(--semantic-success);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -3.0px;
+  color: var(--ink);
+  max-width: 900px;
+  margin-bottom: var(--spacing-lg);
+}
+.hero-subtitle {
+  font-family: var(--font-text);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.1px;
+  color: var(--ink-muted);
+  max-width: 560px;
+  margin-bottom: var(--spacing-xl);
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xxl);
+}
+.hero-screenshot {
+  width: 100%;
+  max-width: 1040px;
+  background-color: var(--surface-1);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+}
+.hero-screenshot-inner {
+  background-color: var(--surface-2);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl) var(--spacing-xxl) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.sc-mock-sidebar {
+  display: flex;
+  gap: var(--spacing-md);
+}
+.sc-mock-sidebar-left {
+  width: 180px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.sc-mock-nav-item {
+  height: 28px;
+  border-radius: var(--rounded-sm);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-sm);
+  gap: var(--spacing-xs);
+}
+.sc-mock-nav-item.active {
+  background-color: var(--surface-3);
+}
+.sc-mock-nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--rounded-full);
+  background-color: var(--ink-subtle);
+  flex-shrink: 0;
+}
+.sc-mock-nav-item.active .sc-mock-nav-dot {
+  background-color: var(--primary);
+}
+.sc-mock-nav-label {
+  height: 6px;
+  border-radius: var(--rounded-xs);
+  background-color: var(--ink-tertiary);
+}
+.sc-mock-nav-item.active .sc-mock-nav-label {
+  background-color: var(--ink-muted);
+}
+.sc-mock-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.sc-mock-content-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
+}
+.sc-mock-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  color: var(--ink);
+}
+.sc-mock-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+  background-color: var(--surface-3);
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-muted);
+}
+.sc-mock-issue-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  height: 36px;
+  border-bottom: 1px solid var(--hairline);
+  padding: 0 var(--spacing-xs);
+}
+.sc-mock-issue-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--rounded-xs);
+  flex-shrink: 0;
+}
+.sc-mock-issue-icon.priority-urgent { background-color: #f2a94d; }
+.sc-mock-issue-icon.priority-high { background-color: var(--primary); }
+.sc-mock-issue-icon.priority-medium { background-color: var(--hairline-strong); }
+.sc-mock-issue-icon.priority-low { background-color: var(--hairline); }
+.sc-mock-issue-line {
+  height: 6px;
+  border-radius: var(--rounded-xs);
+  background-color: var(--ink-tertiary);
+  flex: 1;
+}
+.sc-mock-issue-id {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: var(--ink-tertiary);
+  flex-shrink: 0;
+}
+.sc-mock-issue-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--rounded-full);
+  background-color: var(--hairline-strong);
+  flex-shrink: 0;
+}
+
+/* ===== Customer Marquee ===== */
+.customer-marquee {
+  padding: var(--spacing-xxl) 0;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+.marquee-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xxl);
+  flex-wrap: wrap;
+}
+.marquee-label {
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.30;
+  letter-spacing: 0.4px;
+  color: var(--ink-subtle);
+  text-transform: uppercase;
+}
+.marquee-logos {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.marquee-logo {
+  padding: var(--spacing-md);
+  background-color: var(--canvas);
+  border-radius: var(--rounded-xs);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-subtle);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.marquee-logo-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--rounded-full);
+  background-color: var(--surface-3);
+}
+
+/* ===== Section Common ===== */
+.section {
+  padding: var(--spacing-section) 0;
+}
+.section-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+.section-eyebrow {
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.30;
+  letter-spacing: 0.4px;
+  color: var(--ink-subtle);
+  margin-bottom: var(--spacing-md);
+}
+.section-heading {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -1.8px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+  max-width: 720px;
+}
+.section-subhead {
+  font-family: var(--font-text);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: -0.2px;
+  color: var(--ink-muted);
+  max-width: 560px;
+}
+
+/* ===== Features Section ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xxl);
+}
+.feature-card {
+  background-color: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.feature-card:hover {
+  border-color: var(--hairline-strong);
+  background-color: var(--surface-2);
+}
+.feature-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--rounded-md);
+  background-color: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+.feature-card-icon-inner {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--rounded-xs);
+  background-color: var(--primary);
+  opacity: 0.7;
+}
+.feature-card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-xs);
+}
+.feature-card-desc {
+  font-family: var(--font-text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.05px;
+  color: var(--ink-subtle);
+}
+
+/* ===== Product Screenshot Panel ===== */
+.product-panel {
+  width: 100%;
+  background-color: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-xxl);
+  overflow: hidden;
+}
+.product-panel-inner {
+  background-color: var(--surface-2);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl) var(--spacing-xxl) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+.panel-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+.panel-toolbar-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--rounded-full);
+  background-color: var(--hairline-strong);
+}
+.panel-toolbar-btn:first-child { background-color: #ff5f56; }
+.panel-toolbar-btn:nth-child(2) { background-color: #ffbd2e; }
+.panel-toolbar-btn:nth-child(3) { background-color: #27c93f; }
+.panel-header-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+}
+.panel-header-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  color: var(--ink);
+}
+.panel-header-tabs {
+  display: flex;
+  gap: var(--spacing-xxs);
+}
+.panel-tab {
+  padding: 4px 12px;
+  border-radius: var(--rounded-pill);
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.30;
+  letter-spacing: 0.4px;
+  color: var(--ink-subtle);
+  background-color: transparent;
+}
+.panel-tab.active {
+  background-color: var(--surface-3);
+  color: var(--ink);
+}
+.panel-columns {
+  display: flex;
+  gap: var(--spacing-md);
+}
+.panel-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.panel-col-header {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-subtle);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-xs);
+}
+.panel-card {
+  background-color: var(--surface-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-md);
+  padding: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.panel-card-line {
+  height: 6px;
+  border-radius: var(--rounded-xs);
+  background-color: var(--ink-tertiary);
+}
+.panel-card-line.short { width: 60%; }
+.panel-card-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+  background-color: var(--surface-4);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  width: fit-content;
+}
+
+/* ===== Pricing Section ===== */
+.pricing-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+}
+.pricing-tabs {
+  display: inline-flex;
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-pill);
+  padding: 3px;
+  margin-bottom: var(--spacing-xxl);
+}
+.pricing-tab {
+  padding: 6px 14px;
+  border-radius: var(--rounded-pill);
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: 0;
+  color: var(--ink-subtle);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.pricing-tab.active {
+  background-color: var(--surface-2);
+  color: var(--ink);
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+}
+.pricing-card {
+  background-color: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+}
+.pricing-card.featured {
+  background-color: var(--surface-2);
+  border-color: var(--hairline-strong);
+}
+.pricing-card-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  width: fit-content;
+  margin-bottom: var(--spacing-md);
+}
+.pricing-card-name {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -0.6px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-xs);
+}
+.pricing-card-desc {
+  font-family: var(--font-text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.05px;
+  color: var(--ink-subtle);
+  margin-bottom: var(--spacing-lg);
+}
+.pricing-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xxs);
+  margin-bottom: var(--spacing-lg);
+}
+.pricing-card-amount {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -1.0px;
+  color: var(--ink);
+}
+.pricing-card-period {
+  font-family: var(--font-text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.05px;
+  color: var(--ink-subtle);
+}
+.pricing-card-cta {
+  width: 100%;
+  margin-bottom: var(--spacing-lg);
+}
+.pricing-card-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--hairline);
+  padding-top: var(--spacing-lg);
+  flex: 1;
+}
+.pricing-card-feature {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: var(--ink-muted);
+}
+.pricing-card-check {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--rounded-full);
+  background-color: var(--semantic-success);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== Testimonials ===== */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xxl);
+}
+.testimonial-card {
+  background-color: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+}
+.testimonial-card-quote {
+  font-family: var(--font-text);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.1px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+  flex: 1;
+}
+.testimonial-card-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--hairline);
+  padding-top: var(--spacing-md);
+}
+.testimonial-card-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  background-color: var(--surface-3);
+  flex-shrink: 0;
+}
+.testimonial-card-name {
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+.testimonial-card-role {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-subtle);
+}
+
+/* ===== CTA Banner ===== */
+.cta-banner {
+  background-color: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cta-banner-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -0.6px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-md);
+  max-width: 500px;
+}
+.cta-banner-sub {
+  font-family: var(--font-text);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.1px;
+  color: var(--ink-muted);
+  margin-bottom: var(--spacing-lg);
+  max-width: 440px;
+}
+.cta-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* ===== Footer ===== */
+.footer {
+  padding: 64px var(--spacing-xl);
+  background-color: var(--canvas);
+  border-top: 1px solid var(--hairline);
+}
+.footer-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--spacing-xl);
+}
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.footer-logo-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--rounded-sm);
+  background-color: var(--primary);
+}
+.footer-brand-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+}
+.footer-brand-desc {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-subtle);
+}
+.footer-col-title {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin-bottom: var(--spacing-md);
+}
+.footer-col-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.footer-col-links a {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-subtle);
+  transition: color 0.15s ease;
+}
+.footer-col-links a:hover {
+  color: var(--ink);
+}
+.footer-bottom {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--spacing-lg) 0 0;
+  margin-top: var(--spacing-xxl);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-copyright {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-tertiary);
+}
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+.footer-social-link {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--rounded-xs);
+  background-color: var(--hairline-strong);
+  transition: background-color 0.15s ease;
+}
+.footer-social-link:hover {
+  background-color: var(--ink-subtle);
+}
+
+/* ===== Changelog Preview ===== */
+.changelog-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--spacing-xxl);
+}
+.changelog-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.changelog-row:first-child {
+  border-top: 1px solid var(--hairline);
+}
+.changelog-date {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: var(--ink-tertiary);
+  flex-shrink: 0;
+  width: 100px;
+}
+.changelog-version {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+  background-color: var(--surface-2);
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+.changelog-content {
+  flex: 1;
+}
+.changelog-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.50;
+  letter-spacing: -0.05px;
+  color: var(--ink);
+  margin-bottom: var(--spacing-xxs);
+}
+.changelog-desc {
+  font-family: var(--font-text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.05px;
+  color: var(--ink-subtle);
+}
+
+/* ===== Status Badge Demo ===== */
+.status-badge-demo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-lg);
+}
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+  background-color: var(--surface-2);
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-muted);
+}
+.status-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--rounded-full);
+  background-color: var(--semantic-success);
+}
+
+/* ===== Utility ===== */
+.text-center { text-align: center; }
+.flex-center { display: flex; flex-direction: column; align-items: center; }
+
+/* ===== Responsive: Tablet ===== */
+@media (max-width: 1024px) {
+  .nav-links { display: none; }
+  .features-grid,
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hero-title {
+    font-size: 56px;
+    letter-spacing: -1.8px;
+  }
+}
+
+/* ===== Responsive: Mobile ===== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-actions .btn-secondary { display: none; }
+  .hero-title {
+    font-size: 40px;
+    letter-spacing: -1.0px;
+  }
+  .section-heading {
+    font-size: 40px;
+    letter-spacing: -1.0px;
+  }
+  .features-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+  .hero-screenshot-inner {
+    padding: var(--spacing-md);
+  }
+  .sc-mock-sidebar {
+    flex-direction: column;
+  }
+  .sc-mock-sidebar-left {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .marquee-logos {
+    gap: var(--spacing-md);
+  }
+  .cta-banner {
+    padding: var(--spacing-xl);
+  }
+}
+
+/* ===== Responsive: Small Mobile ===== */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 36px;
+    letter-spacing: -0.6px;
+  }
+  .section-heading {
+    font-size: 28px;
+    letter-spacing: -0.6px;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    width: 100%;
+  }
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    text-align: center;
+  }
+  .panel-columns {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAVIGATION ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <div class="nav-logo">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M7 0L14 7L7 14L0 7L7 0Z" fill="white"/></svg>
+      </div>
+      <span class="nav-wordmark">Linear</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#method">Method</a>
+      <a href="#customers">Customers</a>
+      <a href="#changelog">Changelog</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#company">Company</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-secondary">Sign in</a>
+      <a href="#" class="btn btn-primary">Get started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Linear is SOC 2 compliant
+      </span>
+    </div>
+    <h1 class="hero-title">Linear is a better way<br>to build software</h1>
+    <p class="hero-subtitle">
+      Meet the system for modern software development. Streamline issues, projects, and product roadmaps.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary btn-lg">Get started</a>
+      <a href="#" class="btn btn-secondary btn-lg">Read changelog</a>
+    </div>
+    <div class="hero-screenshot">
+      <div class="hero-screenshot-inner">
+        <div class="sc-mock-sidebar">
+          <div class="sc-mock-sidebar-left">
+            <div class="sc-mock-nav-item active">
+              <span class="sc-mock-nav-dot"></span>
+              <span class="sc-mock-nav-label" style="width:100px"></span>
+            </div>
+            <div class="sc-mock-nav-item">
+              <span class="sc-mock-nav-dot"></span>
+              <span class="sc-mock-nav-label" style="width:80px"></span>
+            </div>
+            <div class="sc-mock-nav-item">
+              <span class="sc-mock-nav-dot"></span>
+              <span class="sc-mock-nav-label" style="width:90px"></span>
+            </div>
+            <div class="sc-mock-nav-item">
+              <span class="sc-mock-nav-dot"></span>
+              <span class="sc-mock-nav-label" style="width:70px"></span>
+            </div>
+            <div class="sc-mock-nav-item">
+              <span class="sc-mock-nav-dot"></span>
+              <span class="sc-mock-nav-label" style="width:85px"></span>
+            </div>
+            <div class="sc-mock-nav-item">
+              <span class="sc-mock-nav-dot"></span>
+              <span class="sc-mock-nav-label" style="width:65px"></span>
+            </div>
+          </div>
+          <div class="sc-mock-content">
+            <div class="sc-mock-content-header">
+              <span class="sc-mock-title">Backlog</span>
+              <span class="sc-mock-tag">12 issues</span>
+            </div>
+            <div class="sc-mock-issue-row">
+              <span class="sc-mock-issue-icon priority-urgent"></span>
+              <span class="sc-mock-issue-line" style="flex:3"></span>
+              <span class="sc-mock-issue-id">LIN-421</span>
+              <span class="sc-mock-issue-avatar"></span>
+            </div>
+            <div class="sc-mock-issue-row">
+              <span class="sc-mock-issue-icon priority-high"></span>
+              <span class="sc-mock-issue-line" style="flex:4"></span>
+              <span class="sc-mock-issue-id">LIN-418</span>
+              <span class="sc-mock-issue-avatar"></span>
+            </div>
+            <div class="sc-mock-issue-row">
+              <span class="sc-mock-issue-icon priority-medium"></span>
+              <span class="sc-mock-issue-line" style="flex:2.5"></span>
+              <span class="sc-mock-issue-id">LIN-415</span>
+              <span class="sc-mock-issue-avatar"></span>
+            </div>
+            <div class="sc-mock-issue-row">
+              <span class="sc-mock-issue-icon priority-high"></span>
+              <span class="sc-mock-issue-line" style="flex:3.5"></span>
+              <span class="sc-mock-issue-id">LIN-410</span>
+              <span class="sc-mock-issue-avatar"></span>
+            </div>
+            <div class="sc-mock-issue-row">
+              <span class="sc-mock-issue-icon priority-low"></span>
+              <span class="sc-mock-issue-line" style="flex:2"></span>
+              <span class="sc-mock-issue-id">LIN-407</span>
+              <span class="sc-mock-issue-avatar"></span>
+            </div>
+            <div class="sc-mock-issue-row">
+              <span class="sc-mock-issue-icon priority-medium"></span>
+              <span class="sc-mock-issue-line" style="flex:3"></span>
+              <span class="sc-mock-issue-id">LIN-405</span>
+              <span class="sc-mock-issue-avatar"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== CUSTOMER MARQUEE ===== -->
+<div class="customer-marquee">
+  <div class="marquee-inner">
+    <span class="marquee-label">Trusted by</span>
+    <div class="marquee-logos">
+      <span class="marquee-logo"><span class="marquee-logo-dot"></span>Vercel</span>
+      <span class="marquee-logo"><span class="marquee-logo-dot"></span>Retool</span>
+      <span class="marquee-logo"><span class="marquee-logo-dot"></span>Plaid</span>
+      <span class="marquee-logo"><span class="marquee-logo-dot"></span>Ramp</span>
+      <span class="marquee-logo"><span class="marquee-logo-dot"></span>Cash App</span>
+      <span class="marquee-logo"><span class="marquee-logo-dot"></span>Figma</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-eyebrow">Powerful workflows</div>
+    <h2 class="section-heading">Move fast and stay organized</h2>
+    <p class="section-subhead">
+      Everything you need to plan, build, and track work in one system designed for speed.
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <div class="feature-card-icon-inner" style="border-radius: var(--rounded-full)"></div>
+        </div>
+        <h3 class="feature-card-title">Issues & Tracks</h3>
+        <p class="feature-card-desc">
+          Create issues in milliseconds with keyboard-first design. Organize with projects, cycles, and custom views.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <div class="feature-card-icon-inner"></div>
+        </div>
+        <h3 class="feature-card-title">Cycles</h3>
+        <p class="feature-card-desc">
+          Run healthy sprints with automatic scope management. Know exactly what your team is shipping each cycle.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <div class="feature-card-icon-inner" style="width:10px;border-radius:0 8px 0 8px"></div>
+        </div>
+        <h3 class="feature-card-title">Roadmaps</h3>
+        <p class="feature-card-desc">
+          Build visual product roadmaps connected to real work. Share progress with stakeholders in one click.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <div class="feature-card-icon-inner" style="border-radius:2px;transform:rotate(45deg)"></div>
+        </div>
+        <h3 class="feature-card-title">Integrations</h3>
+        <p class="feature-card-desc">
+          Connect GitHub, GitLab, Slack, Figma, Sentry, and 100+ tools. Keep your team's workflow seamless.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <div class="feature-card-icon-inner" style="width:8px;border-radius:0 8px 0 0"></div>
+        </div>
+        <h3 class="feature-card-title">Insights</h3>
+        <p class="feature-card-desc">
+          Real-time analytics and reporting. Track velocity, throughput, and team health with beautiful charts.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <div class="feature-card-icon-inner" style="border-radius:2px"></div>
+        </div>
+        <h3 class="feature-card-title">Security</h3>
+        <p class="feature-card-desc">
+          SOC 2 compliant, SAML SSO, and enterprise-grade security. Your data is encrypted and always under your control.
+        </p>
+      </div>
+    </div>
+
+    <!-- Product Screenshot Panel -->
+    <div class="product-panel">
+      <div class="product-panel-inner">
+        <div class="panel-toolbar">
+          <span class="panel-toolbar-btn"></span>
+          <span class="panel-toolbar-btn"></span>
+          <span class="panel-toolbar-btn"></span>
+        </div>
+        <div class="panel-header-row">
+          <span class="panel-header-title">Project View</span>
+          <div class="panel-header-tabs">
+            <span class="panel-tab active">Board</span>
+            <span class="panel-tab">Timeline</span>
+            <span class="panel-tab">List</span>
+          </div>
+        </div>
+        <div class="panel-columns">
+          <div class="panel-col">
+            <span class="panel-col-header">Todo</span>
+            <div class="panel-card">
+              <span class="panel-card-line" style="width:80%"></span>
+              <span class="panel-card-line short"></span>
+              <span class="panel-card-tag">Feature</span>
+            </div>
+            <div class="panel-card">
+              <span class="panel-card-line" style="width:90%"></span>
+              <span class="panel-card-line" style="width:45%"></span>
+            </div>
+          </div>
+          <div class="panel-col">
+            <span class="panel-col-header">In Progress</span>
+            <div class="panel-card">
+              <span class="panel-card-line" style="width:70%"></span>
+              <span class="panel-card-line short"></span>
+              <span class="panel-card-tag">Bug</span>
+            </div>
+            <div class="panel-card">
+              <span class="panel-card-line" style="width:85%"></span>
+              <span class="panel-card-line" style="width:40%"></span>
+              <span class="panel-card-tag">Improvement</span>
+            </div>
+          </div>
+          <div class="panel-col">
+            <span class="panel-col-header">Done</span>
+            <div class="panel-card">
+              <span class="panel-card-line" style="width:75%"></span>
+              <span class="panel-card-line" style="width:50%"></span>
+            </div>
+            <div class="panel-card">
+              <span class="panel-card-line" style="width:65%"></span>
+              <span class="panel-card-line short"></span>
+            </div>
+            <div class="panel-card">
+              <span class="panel-card-line" style="width:80%"></span>
+              <span class="panel-card-tag">Feature</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHANGELOG / METHOD ===== -->
+<section class="section" id="changelog">
+  <div class="section-inner">
+    <div class="section-eyebrow">What's new</div>
+    <h2 class="section-heading" style="font-size:40px;letter-spacing:-1.0px">Changelog</h2>
+    <p class="section-subhead">
+      We ship improvements every week. Here's what's new.
+    </p>
+    <div class="changelog-list">
+      <div class="changelog-row">
+        <span class="changelog-date">Jul 15, 2025</span>
+        <span class="changelog-version">v2025.28</span>
+        <div class="changelog-content">
+          <div class="changelog-title">New project timeline views</div>
+          <div class="changelog-desc">Visualize your project plans with Gantt-style timelines. Drag to reschedule, resize to adjust scope.</div>
+        </div>
+      </div>
+      <div class="changelog-row">
+        <span class="changelog-date">Jul 08, 2025</span>
+        <span class="changelog-version">v2025.27</span>
+        <div class="changelog-content">
+          <div class="changelog-title">AI triage for incoming issues</div>
+          <div class="changelog-desc">Linear AI automatically categorizes, prioritizes, and assigns new issues based on your team's patterns.</div>
+        </div>
+      </div>
+      <div class="changelog-row">
+        <span class="changelog-date">Jul 01, 2025</span>
+        <span class="changelog-version">v2025.26</span>
+        <div class="changelog-content">
+          <div class="changelog-title">Initiative-level reporting</div>
+          <div class="changelog-desc">Track progress across multiple projects with initiative dashboards. See health, status, and blockers at a glance.</div>
+        </div>
+      </div>
+      <div class="changelog-row">
+        <span class="changelog-date">Jun 24, 2025</span>
+        <span class="changelog-version">v2025.25</span>
+        <div class="changelog-content">
+          <div class="changelog-title">Figma plugin 2.0</div>
+          <div class="changelog-desc">Link design files directly to Linear issues. See design status, leave comments, and preview frames in context.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section" id="pricing">
+  <div class="section-inner">
+    <div class="pricing-header flex-center">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-heading text-center" style="max-width:none">Plans for teams of all sizes</h2>
+      <p class="section-subhead text-center">
+        Start free, upgrade when you're ready. No hidden fees.
+      </p>
+    </div>
+    <div class="flex-center">
+      <div class="pricing-tabs">
+        <button class="pricing-tab active">Monthly</button>
+        <button class="pricing-tab">Yearly — save 20%</button>
+      </div>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3 class="pricing-card-name">Free</h3>
+        <p class="pricing-card-desc">For individuals and small teams getting started.</p>
+        <div class="pricing-card-price">
+          <span class="pricing-card-amount">$0</span>
+          <span class="pricing-card-period">/month</span>
+        </div>
+        <a href="#" class="btn btn-secondary pricing-card-cta">Get started</a>
+        <div class="pricing-card-features">
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Up to 250 issues
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Unlimited members
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Basic workflows
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>GitHub & GitLab sync
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-card featured">
+        <span class="pricing-card-badge">Most popular</span>
+        <h3 class="pricing-card-name">Business</h3>
+        <p class="pricing-card-desc">For growing teams that need more power.</p>
+        <div class="pricing-card-price">
+          <span class="pricing-card-amount">$14</span>
+          <span class="pricing-card-period">/member/month</span>
+        </div>
+        <a href="#" class="btn btn-primary pricing-card-cta">Start free trial</a>
+        <div class="pricing-card-features">
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Unlimited issues
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Cycles & roadmaps
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Custom views & filters
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>100+ integrations
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Priority support
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-card">
+        <h3 class="pricing-card-name">Enterprise</h3>
+        <p class="pricing-card-desc">For large organizations with advanced needs.</p>
+        <div class="pricing-card-price">
+          <span class="pricing-card-amount">Custom</span>
+        </div>
+        <a href="#" class="btn btn-secondary pricing-card-cta">Contact sales</a>
+        <div class="pricing-card-features">
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Everything in Business
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>SAML SSO
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Audit logs
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Custom SLA
+          </div>
+          <div class="pricing-card-feature">
+            <span class="pricing-card-check"></span>Dedicated support
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section" id="customers">
+  <div class="section-inner">
+    <div class="section-eyebrow">Testimonials</div>
+    <h2 class="section-heading">Loved by builders</h2>
+    <p class="section-subhead">
+      Thousands of teams ship faster with Linear every day.
+    </p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-card-quote">
+          "Linear is the first project management tool I actually enjoy using. It's so fast it feels like a local app."
+        </p>
+        <div class="testimonial-card-author">
+          <div class="testimonial-card-avatar"></div>
+          <div>
+            <div class="testimonial-card-name">Sarah Chen</div>
+            <div class="testimonial-card-role">Engineering Lead, Vercel</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-card-quote">
+          "We moved from Jira to Linear in a week. The migration was smooth and our team velocity improved immediately."
+        </p>
+        <div class="testimonial-card-author">
+          <div class="testimonial-card-avatar"></div>
+          <div>
+            <div class="testimonial-card-name">Marcus Rivera</div>
+            <div class="testimonial-card-role">CTO, Ramp</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-card-quote">
+          "The keyboard shortcuts alone save me hours every week. Linear understands how developers actually work."
+        </p>
+        <div class="testimonial-card-author">
+          <div class="testimonial-card-avatar"></div>
+          <div>
+            <div class="testimonial-card-name">Alex Park</div>
+            <div class="testimonial-card-role">Staff Engineer, Plaid</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BANNER ===== -->
+<section class="section" id="cta">
+  <div class="section-inner">
+    <div class="cta-banner">
+      <h2 class="cta-banner-title">Build better products with Linear</h2>
+      <p class="cta-banner-sub">
+        Join thousands of teams that plan, build, and track work in the system designed for speed.
+      </p>
+      <div class="cta-banner-actions">
+        <a href="#" class="btn btn-inverse btn-lg">Get started free</a>
+        <a href="#" class="btn btn-secondary btn-lg">Talk to sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="footer-logo-icon"></div>
+        <span class="footer-brand-name">Linear</span>
+      </div>
+      <p class="footer-brand-desc">
+        The system for modern<br>software development.
+      </p>
+    </div>
+    <div>
+      <div class="footer-col-title">Product</div>
+      <div class="footer-col-links">
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Changelog</a>
+        <a href="#">Method</a>
+        <a href="#">Downloads</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <div class="footer-col-links">
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+        <a href="#">Customers</a>
+        <a href="#">Brand</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Resources</div>
+      <div class="footer-col-links">
+        <a href="#">Community</a>
+        <a href="#">Contact</a>
+        <a href="#">API</a>
+        <a href="#">Status</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <div class="footer-col-links">
+        <a href="#">Twitter</a>
+        <a href="#">GitHub</a>
+        <a href="#">Discord</a>
+        <a href="#">YouTube</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copyright">&copy; 2025 Linear Orbit, Inc.</span>
+    <div class="footer-social">
+      <span class="footer-social-link"></span>
+      <span class="footer-social-link"></span>
+      <span class="footer-social-link"></span>
+      <span class="footer-social-link"></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

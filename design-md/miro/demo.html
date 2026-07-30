@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miro — The Visual Workspace for Innovation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS — sourced EXCLUSIVELY from DESIGN.md
+   ============================================================ */
+
+:root {
+  /* Brand & Accent */
+  --primary: #1c1c1e;
+  --on-primary: #ffffff;
+  --brand-yellow: #ffd02f;
+  --brand-yellow-deep: #fcb900;
+  --yellow-light: #fff4c4;
+  --yellow-dark: #746019;
+  --brand-blue: #4262ff;
+  --blue-450: #5b76fe;
+  --blue-pressed: #2a41b6;
+  --brand-coral: #ff9999;
+  --coral-light: #ffc6c6;
+  --coral-dark: #600000;
+  --brand-rose: #ffd8f4;
+  --rose-light: #fde0f0;
+  --brand-pink: #fde0f0;
+  --brand-teal: #0fbcb0;
+  --teal-light: #c3faf5;
+  --moss-dark: #187574;
+  --brand-orange-light: #ffe6cd;
+  --brand-red: #fbd4d4;
+  --brand-red-dark: #e3c5c5;
+  --success-accent: #00b473;
+
+  /* Surface */
+  --canvas: #ffffff;
+  --surface: #f7f8fa;
+  --surface-soft: #fafbfc;
+  --surface-yellow: #fff8e0;
+  --surface-pricing-featured: #f5f3ff;
+  --hairline: #e0e2e8;
+  --hairline-soft: #eef0f3;
+  --hairline-strong: #c7cad5;
+
+  /* Text */
+  --ink-deep: #050038;
+  --ink: #1c1c1e;
+  --charcoal: #2c2c34;
+  --slate: #555a6a;
+  --steel: #6b6f7e;
+  --stone: #8e91a0;
+  --muted: #a5a8b5;
+  --on-dark: #ffffff;
+  --on-dark-muted: #a5a8b5;
+  --footer-bg: #1c1c1e;
+
+  /* Spacing */
+  --sp-xxs: 4px;
+  --sp-xs: 8px;
+  --sp-sm: 12px;
+  --sp-md: 16px;
+  --sp-lg: 20px;
+  --sp-xl: 24px;
+  --sp-xxl: 32px;
+  --sp-xxxl: 40px;
+  --sp-section-sm: 48px;
+  --sp-section: 64px;
+  --sp-section-lg: 96px;
+  --sp-hero: 120px;
+
+  /* Rounded */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-xxl: 20px;
+  --r-xxxl: 28px;
+  --r-feature: 32px;
+  --r-full: 9999px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--ink);
+  background-color: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xxl);
+}
+
+/* ============================================================
+   TYPOGRAPHY TOKENS
+   ============================================================ */
+.hero-display {
+  font-size: 80px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
+
+.display-lg {
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 1.10;
+  letter-spacing: -1.5px;
+}
+
+.heading-1 {
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.heading-2 {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+}
+
+.heading-3 {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.heading-4 {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.30;
+}
+
+.heading-5 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.40;
+}
+
+.subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.body-md {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.body-md-medium {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.50;
+}
+
+.body-sm {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.body-sm-medium {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+}
+
+.caption {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.caption-bold {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+}
+
+.micro {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.40;
+}
+
+.micro-uppercase {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.40;
+  letter-spacing: 0.5px;
+}
+
+.button-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+}
+
+.stat-display {
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 1.10;
+  letter-spacing: -1.5px;
+}
+
+/* ============================================================
+   BUTTONS — exact tokens from DESIGN.md
+   ============================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--r-full);
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 180ms ease, transform 180ms ease;
+  white-space: nowrap;
+}
+.btn-primary:active {
+  background-color: var(--charcoal);
+  transform: scale(0.98);
+}
+
+.btn-yellow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--brand-yellow);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--r-full);
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+.btn-yellow:hover {
+  background-color: var(--brand-yellow-deep);
+}
+.btn-yellow:active {
+  transform: scale(0.98);
+}
+
+.btn-blue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--brand-blue);
+  color: var(--on-primary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--r-full);
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+.btn-blue:active {
+  background-color: var(--blue-pressed);
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--r-full);
+  padding: 12px 24px;
+  border: 1px solid var(--hairline-strong);
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+.btn-secondary:hover {
+  border-color: var(--slate);
+  background-color: var(--surface-soft);
+}
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.btn-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--on-dark);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  border-radius: var(--r-full);
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+.btn-on-dark:hover {
+  opacity: 0.9;
+}
+.btn-on-dark:active {
+  transform: scale(0.98);
+}
+
+.btn-link {
+  display: inline;
+  background: transparent;
+  color: var(--brand-blue);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge-promo {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--brand-yellow);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--r-full);
+  padding: 4px 10px;
+}
+
+.badge-tag-yellow {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface-yellow);
+  color: var(--yellow-dark);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--r-full);
+  padding: 4px 10px;
+}
+
+.badge-tag-purple {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface-pricing-featured);
+  color: var(--brand-blue);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--r-full);
+  padding: 4px 10px;
+}
+
+.badge-tag-coral {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--coral-light);
+  color: var(--coral-dark);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--r-full);
+  padding: 4px 10px;
+}
+
+.badge-success {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--success-accent);
+  color: var(--on-primary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--r-full);
+  padding: 4px 10px;
+}
+
+.badge-discount {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--brand-yellow);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--r-sm);
+  padding: 2px 6px;
+}
+
+/* ============================================================
+   PROMO BANNER
+   ============================================================ */
+.promo-banner {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  padding: var(--sp-sm) var(--sp-md);
+  text-align: center;
+  position: relative;
+  z-index: 100;
+}
+.promo-banner-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  background-color: var(--canvas);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xxl);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xxl);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xxs);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--brand-yellow);
+  letter-spacing: -0.5px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xl);
+  list-style: none;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--ink);
+  transition: color 180ms ease;
+}
+.nav-links a:hover {
+  color: var(--slate);
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+.nav-right .nav-text-link {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--ink);
+  transition: color 180ms ease;
+}
+.nav-right .nav-text-link:hover {
+  color: var(--slate);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  background-color: var(--canvas);
+  color: var(--ink);
+  padding: var(--sp-hero) var(--sp-xxl) var(--sp-section-lg);
+  text-align: center;
+}
+.hero-badge-row {
+  margin-bottom: var(--sp-xl);
+}
+.hero-headline {
+  font-size: 80px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--ink-deep);
+  margin: 0 auto var(--sp-lg);
+  max-width: 900px;
+}
+.hero-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+  max-width: 620px;
+  margin: 0 auto var(--sp-xxl);
+}
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-section);
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   WHITEBOARD MOCKUP
+   ============================================================ */
+.whiteboard-mockup {
+  background-color: var(--canvas);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--hairline-soft);
+  box-shadow: rgba(5, 0, 56, 0.08) 0px 12px 32px -4px;
+  position: relative;
+  overflow: hidden;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.whiteboard-inner {
+  padding: var(--sp-xxl);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: var(--sp-md);
+  min-height: 340px;
+}
+.sticky-note {
+  border-radius: var(--r-md);
+  padding: var(--sp-md);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.40;
+  color: var(--ink);
+  position: relative;
+}
+.sticky-yellow { background-color: var(--brand-yellow); }
+.sticky-coral { background-color: var(--coral-light); }
+.sticky-teal { background-color: var(--teal-light); }
+.sticky-rose { background-color: var(--rose-light); }
+.sticky-blue { background-color: var(--brand-pink); }
+.large-cell {
+  grid-column: span 2;
+  grid-row: span 2;
+  background-color: var(--surface);
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   STATS BAR
+   ============================================================ */
+.stats-section {
+  padding: var(--sp-section) 0;
+  background-color: var(--canvas);
+}
+.stats-grid {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-xxxl);
+  flex-wrap: wrap;
+}
+.stat-item {
+  text-align: center;
+  padding: var(--sp-lg);
+}
+.stat-number {
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 1.10;
+  letter-spacing: -1.5px;
+  color: var(--ink-deep);
+}
+.stat-label {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+  margin-top: var(--sp-xs);
+}
+
+/* ============================================================
+   LOGO WALL
+   ============================================================ */
+.logo-wall {
+  padding: var(--sp-section-lg) 0;
+  background-color: var(--surface-soft);
+}
+.logo-wall-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--sp-xxxl);
+  flex-wrap: wrap;
+}
+.logo-wall-item {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--steel);
+  padding: var(--sp-lg);
+  opacity: 0.7;
+  transition: opacity 180ms ease;
+}
+.logo-wall-item:hover {
+  opacity: 1;
+}
+
+/* ============================================================
+   FEATURES SECTION
+   ============================================================ */
+.features-section {
+  padding: var(--sp-section-lg) 0;
+  background-color: var(--canvas);
+}
+.section-label {
+  text-align: center;
+  margin-bottom: var(--sp-md);
+}
+.section-heading {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+  color: var(--ink-deep);
+  margin-bottom: var(--sp-md);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-subheading {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+  margin-bottom: var(--sp-section);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-xl);
+}
+.feature-row-secondary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-xl);
+  margin-top: var(--sp-xl);
+}
+
+/* Pastel Feature Cards */
+.card-feature-yellow {
+  background-color: var(--brand-yellow);
+  color: var(--primary);
+  border-radius: var(--r-xxxl);
+  padding: var(--sp-xxl);
+  transition: transform 180ms ease;
+}
+.card-feature-yellow .card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-md);
+}
+.card-feature-yellow .card-title {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.30;
+  color: var(--primary);
+  margin-bottom: var(--sp-sm);
+}
+.card-feature-yellow .card-desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--charcoal);
+}
+
+.card-feature-coral {
+  background-color: var(--coral-light);
+  color: var(--primary);
+  border-radius: var(--r-xxxl);
+  padding: var(--sp-xxl);
+  transition: transform 180ms ease;
+}
+.card-feature-coral .card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  background-color: var(--brand-coral);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-md);
+}
+.card-feature-coral .card-title {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.30;
+  color: var(--ink-deep);
+  margin-bottom: var(--sp-sm);
+}
+.card-feature-coral .card-desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--charcoal);
+}
+
+.card-feature-teal {
+  background-color: var(--teal-light);
+  color: var(--primary);
+  border-radius: var(--r-xxxl);
+  padding: var(--sp-xxl);
+  transition: transform 180ms ease;
+}
+.card-feature-teal .card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  background-color: var(--brand-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-md);
+}
+.card-feature-teal .card-title {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.30;
+  color: var(--ink-deep);
+  margin-bottom: var(--sp-sm);
+}
+.card-feature-teal .card-desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--charcoal);
+}
+
+.card-feature {
+  background-color: var(--canvas);
+  border-radius: var(--r-xxxl);
+  padding: var(--sp-xxl);
+  border: 1px solid var(--hairline-soft);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.card-feature .card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  background-color: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-md);
+}
+.card-feature .card-title {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.30;
+  color: var(--ink-deep);
+  margin-bottom: var(--sp-sm);
+}
+.card-feature .card-desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+}
+
+.card-feature-yellow:hover,
+.card-feature-coral:hover,
+.card-feature-teal:hover,
+.card-feature-rose:hover {
+  transform: translateY(-2px);
+}
+.card-feature:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(5, 0, 56, 0.06) 0px 4px 12px 0px;
+}
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.pricing-section {
+  padding: var(--sp-section-lg) 0;
+  background-color: var(--surface-soft);
+}
+.pricing-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--sp-section);
+}
+.toggle-monthly-yearly {
+  background-color: var(--surface);
+  border-radius: var(--r-full);
+  padding: 4px;
+  display: inline-flex;
+}
+.toggle-option {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  padding: var(--sp-xs) var(--sp-md);
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease;
+  border: none;
+  background: transparent;
+  color: var(--steel);
+  white-space: nowrap;
+}
+.toggle-option.active {
+  background-color: var(--canvas);
+  color: var(--ink);
+  box-shadow: rgba(5, 0, 56, 0.04) 0px 1px 2px 0px;
+}
+.toggle-option:hover:not(.active) {
+  color: var(--ink);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-xl);
+}
+
+.pricing-card {
+  background-color: var(--canvas);
+  border-radius: var(--r-xl);
+  padding: var(--sp-xxl);
+  border: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.pricing-card:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(5, 0, 56, 0.06) 0px 4px 12px 0px;
+}
+
+.pricing-card-featured {
+  background-color: var(--surface-pricing-featured);
+  border-radius: var(--r-xl);
+  padding: var(--sp-xxl);
+  border: 2px solid var(--brand-blue);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 180ms ease;
+}
+.pricing-card-featured:hover {
+  transform: translateY(-2px);
+}
+
+.pricing-card-enterprise {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--r-xl);
+  padding: var(--sp-xxl);
+  display: flex;
+  flex-direction: column;
+  transition: transform 180ms ease;
+}
+.pricing-card-enterprise:hover {
+  transform: translateY(-2px);
+}
+
+.pricing-tier-name {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.40;
+  margin-bottom: var(--sp-xs);
+}
+.pricing-card-enterprise .pricing-tier-name {
+  color: var(--on-primary);
+}
+.pricing-tier-desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+  margin-bottom: var(--sp-lg);
+}
+.pricing-card-enterprise .pricing-tier-desc {
+  color: var(--on-dark-muted);
+}
+.pricing-price-row {
+  margin-bottom: var(--sp-lg);
+}
+.pricing-price {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+}
+.pricing-card-enterprise .pricing-price {
+  color: var(--on-primary);
+}
+.pricing-period {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+}
+.pricing-card-enterprise .pricing-period {
+  color: var(--on-dark-muted);
+}
+.pricing-features {
+  list-style: none;
+  margin-bottom: var(--sp-xxl);
+  flex: 1;
+}
+.pricing-features li {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--sp-xs) 0;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+}
+.pricing-card-enterprise .pricing-features li {
+  color: var(--on-dark);
+}
+.pricing-check {
+  color: var(--success-accent);
+  font-weight: 600;
+}
+
+.pricing-card-enterprise .btn-on-dark {
+  margin-top: auto;
+}
+.pricing-card .btn-primary,
+.pricing-card-featured .btn-primary {
+  margin-top: auto;
+}
+
+.pricing-featured-badge {
+  position: absolute;
+  top: var(--sp-sm);
+  right: var(--sp-sm);
+}
+
+/* ============================================================
+   CTA BANNER (dark)
+   ============================================================ */
+.cta-banner-dark {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--r-feature);
+  padding: var(--sp-section);
+  text-align: center;
+  margin: var(--sp-section-lg) var(--sp-xxl);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-banner-dark .cta-heading {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+  color: var(--on-primary);
+  margin-bottom: var(--sp-md);
+}
+.cta-banner-dark .cta-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--on-dark-muted);
+  margin-bottom: var(--sp-xxl);
+}
+.cta-banner-dark .cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-sm);
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background-color: var(--footer-bg);
+  color: var(--on-dark);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--sp-section) var(--sp-xxl);
+}
+.footer-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-xl);
+}
+.footer-column-heading {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--on-dark);
+  margin-bottom: var(--sp-md);
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xxs);
+}
+.footer-links a {
+  color: var(--on-dark-muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--sp-xxs) 0;
+  transition: color 180ms ease;
+}
+.footer-links a:hover {
+  color: var(--on-dark);
+}
+.footer-bottom {
+  max-width: 1280px;
+  margin: var(--sp-section) auto 0;
+  padding-top: var(--sp-xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-md);
+}
+.footer-bottom-left {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xl);
+}
+.footer-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  list-style: none;
+}
+.footer-bottom-links a {
+  color: var(--on-dark-muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  transition: color 180ms ease;
+}
+.footer-bottom-links a:hover {
+  color: var(--on-dark);
+}
+.footer-bottom-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+.app-store-badge {
+  background-color: var(--canvas);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--r-md);
+  padding: var(--sp-sm) var(--sp-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 180ms ease;
+}
+.app-store-badge:hover {
+  opacity: 0.9;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1023px) {
+  .hero-headline { font-size: 60px; line-height: 1.10; letter-spacing: -1.5px; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .whiteboard-inner { grid-template-columns: 1fr 1fr; }
+  .large-cell { grid-column: span 1; }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --sp-hero: 80px;
+    --sp-section-lg: 64px;
+    --sp-section: 48px;
+  }
+  .hero-headline { font-size: 48px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-row-secondary { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { gap: var(--sp-xl); }
+  .stat-number { font-size: 48px; }
+  .whiteboard-inner { grid-template-columns: 1fr 1fr; }
+  .nav-right .nav-text-link { display: none; }
+}
+
+@media (max-width: 479px) {
+  .hero-headline { font-size: 36px; letter-spacing: -0.5px; }
+  .hero-subtitle { font-size: 16px; }
+  .stat-number { font-size: 36px; }
+  .whiteboard-inner { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PROMO BANNER — promo-banner component
+     ============================================================ -->
+<div class="promo-banner">
+  <div class="promo-banner-content">
+    <span class="badge-promo">GET YOUR SPOT</span>
+    <span>Join us at Miro Next on Oct 8 — the future of innovation awaits.</span>
+    <button class="btn-link" style="color: var(--on-dark); text-decoration: underline; font-size: 14px;">Register now →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOP NAVIGATION
+     ============================================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="#" class="nav-logo" aria-label="Miro">miro</a>
+      <ul class="nav-links">
+        <li><a href="#">Product</a></li>
+        <li><a href="#">Solutions</a></li>
+        <li><a href="#">Resources</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="nav-text-link">Login</a>
+      <a href="#" class="nav-text-link">Contact sales</a>
+      <button class="btn-primary">Get started free</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO — hero-band-marketing component
+     ============================================================ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge-row">
+      <span class="badge-tag-purple">AI agent</span>
+    </div>
+    <h1 class="hero-headline">
+      See how teams get great done with Miro
+    </h1>
+    <p class="hero-subtitle">
+      The AI-powered visual workspace that helps teams build the next big thing — from idea to outcome, all in one infinite canvas.
+    </p>
+    <div class="hero-buttons">
+      <button class="btn-primary">Get started free</button>
+      <button class="btn-secondary">Book a demo</button>
+    </div>
+
+    <!-- Whiteboard Mockup with sticky notes -->
+    <div class="whiteboard-mockup">
+      <div class="whiteboard-inner">
+        <div class="sticky-note sticky-yellow">
+          <strong>Q3 Goals</strong><br>
+          Launch new onboarding<br>
+          Improve retention by 15%<br>
+          Ship AI features
+        </div>
+        <div class="sticky-note sticky-coral">
+          <strong>Research 🔍</strong><br>
+          User interviews this week<br>
+          12 participants scheduled
+        </div>
+        <div class="sticky-note sticky-teal">
+          <strong>Ideas 💡</strong><br>
+          Dark mode toggle<br>
+          Collaborative cursors<br>
+          Template marketplace
+        </div>
+        <div class="sticky-note sticky-rose">
+          <strong>Blockers ⚠</strong><br>
+          API rate limiting<br>
+          Needs eng review
+        </div>
+        <div class="sticky-note sticky-yellow">
+          <strong>In Review ✅</strong><br>
+          Sign-up flow v2<br>
+          Email templates update
+        </div>
+        <div class="large-cell">
+          <svg width="100%" height="100%" viewBox="0 0 400 200" style="opacity: 0.3;">
+            <line x1="40" y1="30" x2="360" y2="30" stroke="#c7cad5" stroke-width="1"/>
+            <line x1="40" y1="60" x2="200" y2="60" stroke="#c7cad5" stroke-width="1"/>
+            <line x1="40" y1="90" x2="280" y2="90" stroke="#c7cad5" stroke-width="1"/>
+            <line x1="40" y1="120" x2="160" y2="120" stroke="#c7cad5" stroke-width="1"/>
+            <rect x="40" y="150" rx="4" width="80" height="8" fill="#e0e2e8"/>
+            <rect x="130" y="150" rx="4" width="80" height="8" fill="#eef0f3"/>
+            <rect x="220" y="150" rx="4" width="80" height="8" fill="#e0e2e8"/>
+            <rect x="40" y="170" rx="4" width="120" height="8" fill="#e0e2e8"/>
+            <rect x="170" y="170" rx="4" width="60" height="8" fill="#eef0f3"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STATS
+     ============================================================ -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">80M+</div>
+        <div class="stat-label">users worldwide</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">250K+</div>
+        <div class="stat-label">organizations</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">99%</div>
+        <div class="stat-label">of the Fortune 100</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LOGO WALL
+     ============================================================ -->
+<section class="logo-wall">
+  <div class="container">
+    <div class="logo-wall-grid">
+      <span class="logo-wall-item">N I K E</span>
+      <span class="logo-wall-item">SONY</span>
+      <span class="logo-wall-item">NETFLIX</span>
+      <span class="logo-wall-item">Spotify</span>
+      <span class="logo-wall-item">Slack</span>
+      <span class="logo-wall-item">Figma</span>
+      <span class="logo-wall-item">Stripe</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES
+     ============================================================ -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div class="section-label">
+      <span class="badge-tag-yellow">Yellow</span>
+    </div>
+    <h2 class="section-heading">
+      Everything your team needs, on one infinite canvas
+    </h2>
+    <p class="section-subheading">
+      From brainstorming to execution — Miro gives teams the tools to think, plan, and build together.
+    </p>
+
+    <!-- Feature Row 1: 3 pastel cards -->
+    <div class="features-grid">
+      <div class="card-feature-yellow">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="6" r="2" fill="white"/><path d="M12 10v8M8 14l4 4 4-4" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="card-title">Visual ideation</div>
+        <div class="card-desc">Brainstorm, draw, and map ideas freely. Use sticky notes, mind maps, and diagrams to turn abstract thinking into visual clarity.</div>
+      </div>
+      <div class="card-feature-teal">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="8" rx="1" fill="white"/><rect x="3" y="13" width="8" height="8" rx="1" fill="white"/><rect x="13" y="13" width="8" height="8" rx="1" fill="white"/></svg>
+        </div>
+        <div class="card-title">Workshop facilitation</div>
+        <div class="card-desc">Run engaging remote workshops with timers, voting, and facilitation tools. Keep everyone engaged and aligned in real-time.</div>
+      </div>
+      <div class="card-feature-coral">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="white" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="card-title">Real-time collaboration</div>
+        <div class="card-desc">Co-create with distributed teams. See cursors, comments, and changes live — as if you're in the same room.</div>
+      </div>
+    </div>
+
+    <!-- Feature Row 2: 2 white feature cards -->
+    <div class="feature-row-secondary">
+      <div class="card-feature">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="var(--slate)" stroke-width="2" stroke-linecap="round"/><path d="M2 17l10 5 10-5" stroke="var(--slate)" stroke-width="2" stroke-linecap="round"/><path d="M2 12l10 5 10-5" stroke="var(--slate)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="card-title">AI-powered workflows</div>
+        <div class="card-desc">Let AI accelerate your workflow — auto-generate diagrams, summarize sticky notes, and cluster ideas intelligently.</div>
+      </div>
+      <div class="card-feature">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="var(--slate)" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="var(--slate)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="card-title">Integrations & apps</div>
+        <div class="card-desc">Connect Miro with 130+ tools — Jira, Asana, Slack, Microsoft Teams, Zoom, and more. Embed live boards anywhere.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING
+     ============================================================ -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="section-label">
+      <span class="badge-tag-purple">Plans</span>
+    </div>
+    <h2 class="section-heading">Choose the right plan for your team</h2>
+    <p class="section-subheading">Start free, scale as you grow. No credit card required.</p>
+
+    <div class="pricing-toggle">
+      <div class="toggle-monthly-yearly">
+        <button class="toggle-option active" onclick="togglePricing(this, 'monthly')">Monthly</button>
+        <button class="toggle-option" onclick="togglePricing(this, 'yearly')">Annual &nbsp;<span class="badge-discount">Save 15%</span></button>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="pricing-card">
+        <div class="pricing-tier-name">Free</div>
+        <div class="pricing-tier-desc">For individuals getting started</div>
+        <div class="pricing-price-row">
+          <span class="pricing-price">$0</span>
+          <span class="pricing-period">/month</span>
+        </div>
+        <ul class="pricing-features">
+          <li><span class="pricing-check">✓</span> 3 editable boards</li>
+          <li><span class="pricing-check">✓</span> 1 workspace</li>
+          <li><span class="pricing-check">✓</span> Basic integrations</li>
+          <li><span class="pricing-check">✓</span> 5 Talktrack recordings</li>
+        </ul>
+        <button class="btn-secondary" style="width:100%;justify-content:center;">Get started</button>
+      </div>
+
+      <!-- Starter -->
+      <div class="pricing-card">
+        <div class="pricing-tier-name">Starter</div>
+        <div class="pricing-tier-desc">For growing teams</div>
+        <div class="pricing-price-row">
+          <span class="pricing-price" data-monthly="8" data-yearly="6.80">$8</span>
+          <span class="pricing-period">/member/month</span>
+        </div>
+        <ul class="pricing-features">
+          <li><span class="pricing-check">✓</span> Unlimited boards</li>
+          <li><span class="pricing-check">✓</span> Unlimited visitors</li>
+          <li><span class="pricing-check">✓</span> Full integrations suite</li>
+          <li><span class="pricing-check">✓</span> Custom templates</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;justify-content:center;">Get started</button>
+      </div>
+
+      <!-- Business (featured) -->
+      <div class="pricing-card-featured">
+        <div class="pricing-featured-badge">
+          <span class="badge-tag-purple">Most popular</span>
+        </div>
+        <div class="pricing-tier-name">Business</div>
+        <div class="pricing-tier-desc">For teams that need advanced features</div>
+        <div class="pricing-price-row">
+          <span class="pricing-price" data-monthly="16" data-yearly="13.60">$16</span>
+          <span class="pricing-period">/member/month</span>
+        </div>
+        <ul class="pricing-features">
+          <li><span class="pricing-check">✓</span> Everything in Starter</li>
+          <li><span class="pricing-check">✓</span> SSO & admin controls</li>
+          <li><span class="pricing-check">✓</span> Advanced security</li>
+          <li><span class="pricing-check">✓</span> Miro AI for all members</li>
+          <li><span class="pricing-check">✓</span> Unlimited guests</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;justify-content:center;">Get started</button>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card-enterprise">
+        <div class="pricing-tier-name" style="color:var(--on-primary);">Enterprise</div>
+        <div class="pricing-tier-desc" style="color:var(--on-dark-muted);">For organizations that need customization</div>
+        <div class="pricing-price-row">
+          <span class="pricing-price" style="color:var(--on-primary);">Custom</span>
+          <span class="pricing-period" style="color:var(--on-dark-muted);">pricing</span>
+        </div>
+        <ul class="pricing-features">
+          <li style="color:var(--on-dark);"><span class="pricing-check">✓</span> Everything in Business</li>
+          <li style="color:var(--on-dark);"><span class="pricing-check">✓</span> Enterprise API access</li>
+          <li style="color:var(--on-dark);"><span class="pricing-check">✓</span> DPA & custom SLAs</li>
+          <li style="color:var(--on-dark);"><span class="pricing-check">✓</span> Dedicated CSM</li>
+          <li style="color:var(--on-dark);"><span class="pricing-check">✓</span> Unlimited workspaces</li>
+        </ul>
+        <button class="btn-on-dark" style="width:100%;justify-content:center;">Contact sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BANNER — cta-banner-dark component
+     ============================================================ -->
+<section class="cta-banner-dark" id="cta">
+  <div class="cta-heading">Ready to see what Miro can do for your team?</div>
+  <div class="cta-subtitle">Join 80M+ users who already build the future on Miro's infinite canvas. Start for free today — no credit card required.</div>
+  <div class="cta-buttons">
+    <button class="btn-on-dark">Get started free</button>
+    <button class="btn-on-dark" style="background:transparent; border:1px solid var(--on-dark-muted); color:var(--on-dark);">Talk to sales</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER — footer-region component
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-column-heading">Product</div>
+      <ul class="footer-links">
+        <li><a href="#">Online whiteboard</a></li>
+        <li><a href="#">Miro AI</a></li>
+        <li><a href="#">Integrations</a></li>
+        <li><a href="#">Templates</a></li>
+        <li><a href="#">Developer platform</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-column-heading">Solutions</div>
+      <ul class="footer-links">
+        <li><a href="#">Agile workflows</a></li>
+        <li><a href="#">Diagramming</a></li>
+        <li><a href="#">Meetings & workshops</a></li>
+        <li><a href="#">Strategy & planning</a></li>
+        <li><a href="#">Technical diagramming</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-column-heading">Tools</div>
+      <ul class="footer-links">
+        <li><a href="#">Mind map maker</a></li>
+        <li><a href="#">Flowchart maker</a></li>
+        <li><a href="#">Org chart maker</a></li>
+        <li><a href="#">Wireframe tool</a></li>
+        <li><a href="#">User story mapping</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-column-heading">Resources</div>
+      <ul class="footer-links">
+        <li><a href="#">Help center</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Webinars</a></li>
+        <li><a href="#">Miro Academy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-column-heading">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Investor relations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-column-heading">Plans &amp; Pricing</div>
+      <ul class="footer-links">
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Business</a></li>
+        <li><a href="#">Enterprise</a></li>
+        <li><a href="#">Education</a></li>
+        <li><a href="#">Startups</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-bottom-left">
+      <span class="nav-logo" style="font-size:20px;color:var(--brand-yellow);">miro</span>
+      <ul class="footer-bottom-links">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Cookies Settings</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom-right">
+      <span class="app-store-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        App Store
+      </span>
+      <span class="app-store-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.994l-2.301 2.302-8.636-8.638z"/></svg>
+        Google Play
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function togglePricing(btn, mode) {
+  const container = btn.closest('.toggle-monthly-yearly');
+  container.querySelectorAll('.toggle-option').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.pricing-price[data-monthly]').forEach(el => {
+    const monthly = el.getAttribute('data-monthly');
+    const yearly = el.getAttribute('data-yearly');
+    el.textContent = mode === 'yearly' ? '$' + yearly : '$' + monthly;
+  });
+}
+</script>
+
+</body>
+</html>

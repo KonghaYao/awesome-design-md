@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude — Meet your thinking partner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { background-color: #faf9f5; color: #3d3d3a; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; font-weight: 400; line-height: 1.55; letter-spacing: 0; }
+
+/* ===== DESIGN TOKEN VARIABLES ===== */
+:root {
+  --color-primary: #cc785c;
+  --color-primary-active: #a9583e;
+  --color-primary-disabled: #e6dfd8;
+  --color-ink: #141413;
+  --color-body: #3d3d3a;
+  --color-body-strong: #252523;
+  --color-muted: #6c6a64;
+  --color-muted-soft: #8e8b82;
+  --color-hairline: #e6dfd8;
+  --color-hairline-soft: #ebe6df;
+  --color-canvas: #faf9f5;
+  --color-surface-soft: #f5f0e8;
+  --color-surface-card: #efe9de;
+  --color-surface-cream-strong: #e8e0d2;
+  --color-surface-dark: #181715;
+  --color-surface-dark-elevated: #252320;
+  --color-surface-dark-soft: #1f1e1b;
+  --color-on-primary: #ffffff;
+  --color-on-dark: #faf9f5;
+  --color-on-dark-soft: #a09d96;
+  --color-accent-teal: #5db8a6;
+  --color-accent-amber: #e8a55a;
+  --color-success: #5db872;
+
+  --font-display: 'Cormorant Garamond', 'Tiempos Headline', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --font-body: 'Inter', 'StyreneB', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-pill: 9999px;
+
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 96px;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.display-xl { font-family: var(--font-display); font-size: 64px; font-weight: 400; line-height: 1.05; letter-spacing: -1.5px; color: var(--color-ink); }
+.display-lg { font-family: var(--font-display); font-size: 48px; font-weight: 400; line-height: 1.1; letter-spacing: -1px; color: var(--color-ink); }
+.display-md { font-family: var(--font-display); font-size: 36px; font-weight: 400; line-height: 1.15; letter-spacing: -0.5px; color: var(--color-ink); }
+.display-sm { font-family: var(--font-display); font-size: 28px; font-weight: 400; line-height: 1.2; letter-spacing: -0.3px; color: var(--color-ink); }
+.title-lg { font-family: var(--font-body); font-size: 22px; font-weight: 500; line-height: 1.3; letter-spacing: 0; }
+.title-md { font-family: var(--font-body); font-size: 18px; font-weight: 500; line-height: 1.4; letter-spacing: 0; }
+.title-sm { font-family: var(--font-body); font-size: 16px; font-weight: 500; line-height: 1.4; letter-spacing: 0; }
+.body-md { font-family: var(--font-body); font-size: 16px; font-weight: 400; line-height: 1.55; letter-spacing: 0; color: var(--color-body); }
+.body-sm { font-family: var(--font-body); font-size: 14px; font-weight: 400; line-height: 1.55; letter-spacing: 0; }
+.caption { font-family: var(--font-body); font-size: 13px; font-weight: 500; line-height: 1.4; letter-spacing: 0; }
+.caption-uppercase { font-family: var(--font-body); font-size: 12px; font-weight: 500; line-height: 1.4; letter-spacing: 1.5px; text-transform: uppercase; }
+.code { font-family: var(--font-code); font-size: 14px; font-weight: 400; line-height: 1.6; letter-spacing: 0; }
+
+/* ===== CONTAINER ===== */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--spacing-xl); }
+
+/* ===== NAVIGATION ===== */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background-color: var(--color-canvas);
+  height: 64px;
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  height: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-left { display: flex; align-items: center; gap: var(--spacing-lg); }
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--color-ink);
+}
+.nav-spike {
+  width: 20px; height: 20px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-spike svg { width: 20px; height: 20px; }
+.nav-wordmark {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 500; line-height: 1;
+  color: var(--color-ink);
+}
+.nav-wordmark span { color: var(--color-primary); }
+.nav-links {
+  display: flex; align-items: center; gap: var(--spacing-xs);
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  line-height: 1.4; letter-spacing: 0;
+  color: var(--color-ink);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: var(--rounded-md);
+  transition: background-color 0.15s ease;
+}
+.nav-links a:hover { background-color: var(--color-surface-card); }
+.nav-right {
+  display: flex; align-items: center; gap: var(--spacing-sm);
+}
+.nav-signin {
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  line-height: 1; letter-spacing: 0;
+  color: var(--color-ink);
+  text-decoration: none;
+  padding: 12px 20px;
+  height: 40px;
+  display: inline-flex; align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.nav-signin:hover { color: var(--color-primary); }
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  line-height: 1; letter-spacing: 0;
+  color: var(--color-on-primary);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--rounded-md);
+  padding: 12px 20px;
+  height: 40px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover { background-color: var(--color-primary-active); }
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  line-height: 1; letter-spacing: 0;
+  color: var(--color-ink);
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-md);
+  padding: 12px 20px;
+  height: 40px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.15s ease;
+}
+.btn-secondary:hover { border-color: var(--color-muted); background-color: var(--color-surface-soft); }
+
+.btn-secondary-dark {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  line-height: 1; letter-spacing: 0;
+  color: var(--color-on-dark);
+  background-color: var(--color-surface-dark-elevated);
+  border: none;
+  border-radius: var(--rounded-md);
+  padding: 12px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.btn-secondary-dark:hover { background-color: #302c28; }
+
+.btn-cream-on-coral {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  line-height: 1; letter-spacing: 0;
+  color: var(--color-primary);
+  background-color: var(--color-on-primary);
+  border: none;
+  border-radius: var(--rounded-md);
+  padding: 12px 20px;
+  height: 40px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-cream-on-coral:hover { background-color: var(--color-surface-soft); }
+.btn-cream-on-coral:active { transform: scale(0.98); }
+
+.text-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-family: var(--font-body); font-size: 16px; font-weight: 400;
+  line-height: 1.55; letter-spacing: 0;
+  transition: opacity 0.15s ease;
+}
+.text-link:hover { opacity: 0.8; }
+
+.text-link-dark {
+  color: var(--color-on-dark);
+  text-decoration: none;
+  font-family: var(--font-body); font-size: 16px; font-weight: 400;
+  line-height: 1.55; letter-spacing: 0;
+  transition: opacity 0.15s ease;
+}
+.text-link-dark:hover { opacity: 0.8; }
+
+/* ===== BADGES ===== */
+.badge-pill {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-body); font-size: 13px; font-weight: 500;
+  line-height: 1.4; letter-spacing: 0;
+  color: var(--color-ink);
+  background-color: var(--color-surface-card);
+  border-radius: var(--rounded-pill);
+  padding: 4px 12px;
+}
+.badge-coral {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-body); font-size: 12px; font-weight: 500;
+  line-height: 1.4; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-on-primary);
+  background-color: var(--color-primary);
+  border-radius: var(--rounded-pill);
+  padding: 4px 12px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  background-color: var(--color-canvas);
+  padding: var(--spacing-section) 0;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxl);
+  align-items: center;
+}
+.hero-text { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+.hero-badge-row { display: flex; align-items: center; gap: var(--spacing-sm); }
+.hero-badge-label { font-family: var(--font-body); font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--color-muted); }
+.hero-subheadline { font-size: 18px; line-height: 1.55; color: var(--color-body); max-width: 480px; }
+.hero-buttons { display: flex; align-items: center; gap: var(--spacing-sm); flex-wrap: wrap; margin-top: var(--spacing-xs); }
+
+.hero-mockup {
+  background-color: var(--color-surface-dark);
+  border-radius: var(--rounded-xl);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.mockup-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 18px;
+  background-color: var(--color-surface-dark-soft);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mockup-dot:nth-child(1) { background: #c64545; }
+.mockup-dot:nth-child(2) { background: #d4a017; }
+.mockup-dot:nth-child(3) { background: #5db872; }
+.mockup-title {
+  font-family: var(--font-body); font-size: 12px; font-weight: 500;
+  color: var(--color-on-dark-soft);
+  margin-left: 6px;
+}
+.mockup-body { padding: var(--spacing-xl); }
+.code-line {
+  font-family: var(--font-code); font-size: 14px; font-weight: 400;
+  line-height: 1.6; letter-spacing: 0;
+}
+.code-comment { color: #8e8b82; }
+.code-keyword { color: #5db8a6; }
+.code-string { color: #e8a55a; }
+.code-func { color: #cc785c; }
+.code-var { color: #a09d96; }
+.code-line-num {
+  display: inline-block; width: 28px;
+  color: var(--color-muted-soft); text-align: right;
+  margin-right: 18px; user-select: none;
+}
+.mockup-statusbar {
+  padding: 8px 18px;
+  background-color: var(--color-surface-dark-elevated);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex; align-items: center; gap: var(--spacing-sm);
+  font-family: var(--font-body); font-size: 12px; font-weight: 500;
+  color: var(--color-on-dark-soft);
+}
+.mockup-statusbar .dot-active {
+  width: 7px; height: 7px; border-radius: 50%;
+  background-color: var(--color-accent-teal);
+}
+
+/* ===== SECTIONS ===== */
+.section { padding: var(--spacing-section) 0; }
+.section-cream-card { background-color: var(--color-surface-card); }
+.section-dark { background-color: var(--color-surface-dark); }
+.section-header {
+  text-align: center; margin-bottom: var(--spacing-xxl);
+  display: flex; flex-direction: column; align-items: center; gap: var(--spacing-md);
+}
+.section-header .badge-coral { margin-bottom: var(--spacing-xs); }
+.section-subhead { color: var(--color-muted); max-width: 560px; }
+
+.section-dark .display-lg,
+.section-dark .display-md,
+.section-dark .display-sm { color: var(--color-on-dark); }
+.section-dark .section-subhead { color: var(--color-on-dark-soft); }
+
+/* ===== FEATURE CARDS ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+.feature-card {
+  background-color: var(--color-surface-card);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xl);
+  display: flex; flex-direction: column; gap: var(--spacing-md);
+  transition: transform 0.2s ease;
+}
+.feature-card:hover { transform: translateY(-2px); }
+.feature-card-icon {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* ===== PRODUCT MOCKUP CARDS (DARK) ===== */
+.mockups-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+.product-mockup-card {
+  background-color: var(--color-surface-dark);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xl);
+  display: flex; flex-direction: column; gap: var(--spacing-md);
+  transition: transform 0.2s ease;
+}
+.product-mockup-card:hover { transform: translateY(-2px); }
+.product-mockup-card .title-md { color: var(--color-on-dark); margin-bottom: var(--spacing-xs); }
+.product-mockup-card .body-md { color: var(--color-on-dark-soft); }
+
+/* ===== PRICING ===== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+.pricing-card {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xl);
+  display: flex; flex-direction: column; gap: var(--spacing-md);
+  transition: transform 0.2s ease;
+}
+.pricing-card:hover { transform: translateY(-2px); }
+.pricing-card .plan-name { color: var(--color-ink); }
+.pricing-card .plan-price {
+  display: flex; align-items: baseline; gap: 4px;
+}
+.pricing-card .plan-price .dollar { color: var(--color-muted-soft); font-size: 18px; font-weight: 500; }
+.pricing-card .plan-desc { color: var(--color-muted); }
+.pricing-card .feature-list {
+  list-style: none; display: flex; flex-direction: column; gap: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-hairline-soft);
+}
+.pricing-card .feature-list li {
+  display: flex; align-items: center; gap: var(--spacing-sm);
+  color: var(--color-body);
+}
+.pricing-card .feature-list li::before {
+  content: '';
+  display: block; width: 6px; height: 6px;
+  background-color: var(--color-success);
+  border-radius: 50%; flex-shrink: 0;
+}
+.pricing-card .btn-primary { margin-top: var(--spacing-sm); align-self: flex-start; }
+
+.pricing-card.featured {
+  background-color: var(--color-surface-dark);
+  border-color: var(--color-surface-dark);
+}
+.pricing-card.featured .plan-name { color: var(--color-on-dark); }
+.pricing-card.featured .plan-price .display-sm { color: var(--color-on-dark); }
+.pricing-card.featured .plan-price .dollar { color: var(--color-on-dark-soft); }
+.pricing-card.featured .plan-desc { color: var(--color-on-dark-soft); }
+.pricing-card.featured .feature-list { border-top-color: rgba(255,255,255,0.08); }
+.pricing-card.featured .feature-list li { color: var(--color-on-dark-soft); }
+.pricing-card.featured .feature-list li::before { background-color: var(--color-accent-teal); }
+.pricing-card.featured .badge-coral { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); }
+.pricing-card.featured { position: relative; }
+
+/* ===== CTA BAND ===== */
+.cta-band {
+  background-color: var(--color-primary);
+  border-radius: var(--rounded-lg);
+  padding: 64px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: var(--spacing-lg);
+}
+.cta-band .display-sm { color: var(--color-on-primary); }
+.cta-band p { color: rgba(255,255,255,0.85); max-width: 500px; }
+.cta-band .btn-row { display: flex; gap: var(--spacing-sm); flex-wrap: wrap; justify-content: center; }
+
+/* ===== CODE WINDOW CARD ===== */
+.code-window-card {
+  background-color: var(--color-surface-dark);
+  border-radius: var(--rounded-lg);
+  overflow: hidden;
+}
+.code-window-card .code-header {
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 8px;
+  background-color: var(--color-surface-dark-soft);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.code-window-card .code-body {
+  padding: var(--spacing-lg);
+  background-color: var(--color-surface-dark);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background-color: var(--color-surface-dark);
+  padding: 64px 0;
+}
+.footer-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding-bottom: var(--spacing-xxl);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: var(--spacing-xxl);
+}
+.footer-brand {
+  display: flex; flex-direction: column; gap: var(--spacing-md);
+}
+.footer-brand-name {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-size: 20px; font-weight: 500;
+  color: var(--color-on-dark);
+}
+.footer-brand-desc {
+  color: var(--color-on-dark-soft);
+  max-width: 240px;
+}
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-xxl);
+}
+.footer-col { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.footer-col-heading {
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  line-height: 1.4; letter-spacing: 0;
+  color: var(--color-on-dark);
+  margin-bottom: var(--spacing-xs);
+}
+.footer-col a {
+  font-family: var(--font-body); font-size: 14px; font-weight: 400;
+  line-height: 1.55; letter-spacing: 0;
+  color: var(--color-on-dark-soft);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.footer-col a:hover { color: var(--color-on-dark); }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  color: var(--color-on-dark-soft);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; gap: var(--spacing-xl); }
+  .hero-text { text-align: center; align-items: center; }
+  .hero-subheadline { margin: 0 auto; }
+  .hero-buttons { justify-content: center; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .mockups-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .footer-links-grid { grid-template-columns: repeat(2, 1fr); gap: var(--spacing-xl); }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 768px) {
+  .display-xl { font-size: 36px; letter-spacing: -0.5px; }
+  .display-lg { font-size: 32px; letter-spacing: -0.5px; }
+  .display-md { font-size: 26px; letter-spacing: -0.3px; }
+  .display-sm { font-size: 22px; letter-spacing: -0.2px; }
+  .hero { padding: var(--spacing-xxl) 0; }
+  .section { padding: var(--spacing-xxl) 0; }
+  .features-grid { grid-template-columns: 1fr; }
+  .cta-band { padding: var(--spacing-xl); border-radius: var(--rounded-md); }
+  .footer-top { flex-direction: column; gap: var(--spacing-xl); }
+  .footer-links-grid { grid-template-columns: 1fr; gap: var(--spacing-lg); }
+  .footer-bottom { flex-direction: column; gap: var(--spacing-sm); text-align: center; }
+  .mockup-body { padding: var(--spacing-md); }
+}
+
+/* ===== TRANSITIONS ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAVIGATION ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="#" class="nav-brand">
+        <span class="nav-spike">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="0.5" width="4" height="19" rx="0.5" fill="#141413"/>
+            <rect x="0.5" y="8" width="19" height="4" rx="0.5" fill="#141413"/>
+            <rect x="11" y="2.5" width="1.5" height="2" fill="#141413" transform="rotate(45 11 2.5)"/>
+            <rect x="6.5" y="2.5" width="1.5" height="2" fill="#141413" transform="rotate(-45 6.5 2.5)"/>
+            <rect x="11" y="15.5" width="1.5" height="2" fill="#141413" transform="rotate(-45 11 15.5)"/>
+            <rect x="6.5" y="15.5" width="1.5" height="2" fill="#141413" transform="rotate(45 6.5 15.5)"/>
+          </svg>
+        </span>
+        <span class="nav-wordmark">Claud<span>e</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Product</a></li>
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Company</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="nav-signin">Sign in</a>
+      <a href="#" class="btn-primary">Try Claude</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <div class="hero-badge-row">
+        <span class="badge-pill">New</span>
+        <span class="hero-badge-label">Claude 4.5 Sonnet now available</span>
+      </div>
+      <h1 class="display-xl">Meet your thinking partner</h1>
+      <p class="hero-subheadline body-md">Claude is an AI assistant that helps you think deeply, reason through complex problems, and produce thoughtful work — whether you're writing code, analyzing data, or drafting creative prose.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary">Try Claude</a>
+        <a href="#" class="btn-secondary">Explore the API</a>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <div class="mockup-header">
+        <span class="mockup-dot"></span>
+        <span class="mockup-dot"></span>
+        <span class="mockup-dot"></span>
+        <span class="mockup-title">Claude Code</span>
+      </div>
+      <div class="mockup-body">
+        <div class="code-line"><span class="code-line-num">1</span><span class="code-keyword">import</span> <span class="code-var">anthropic</span></div>
+        <div class="code-line"><span class="code-line-num">2</span></div>
+        <div class="code-line"><span class="code-line-num">3</span><span class="code-comment">// Claude analyzes complex codebases</span></div>
+        <div class="code-line"><span class="code-line-num">4</span><span class="code-keyword">const</span> <span class="code-var">client</span> = <span class="code-keyword">new</span> <span class="code-func">claude</span>.Client()</div>
+        <div class="code-line"><span class="code-line-num">5</span></div>
+        <div class="code-line"><span class="code-line-num">6</span><span class="code-keyword">const</span> <span class="code-var">response</span> = <span class="code-keyword">await</span> <span class="code-var">client</span>.messages.create(</div>
+        <div class="code-line"><span class="code-line-num">7</span>  <span class="code-var">model</span>: <span class="code-string">"claude-sonnet-4-20250514"</span>,</div>
+        <div class="code-line"><span class="code-line-num">8</span>  <span class="code-var">max_tokens</span>: <span class="code-func">4096</span>,</div>
+        <div class="code-line"><span class="code-line-num">9</span>  <span class="code-var">messages</span>: [{ <span class="code-var">role</span>: <span class="code-string">"user"</span>,</div>
+        <div class="code-line"><span class="code-line-num">10</span>    <span class="code-var">content</span>: <span class="code-string">"Refactor this'service."</span></div>
+        <div class="code-line"><span class="code-line-num">11</span>  }]</div>
+        <div class="code-line"><span class="code-line-num">12</span>)</div>
+      </div>
+      <div class="mockup-statusbar">
+        <span class="dot-active"></span>
+        <span>Connected &middot; Claude Sonnet 4</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== FEATURES ===== -->
+<section id="features" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-coral">Features</span>
+      <h2 class="display-lg">Built for deep, thoughtful work</h2>
+      <p class="body-md section-subhead">Claude is designed from the ground up to be reliable, steerable, and safe — a genuine thinking partner for the most demanding tasks.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 10h12M6 16h20M6 22h16" stroke="#141413" stroke-width="2" stroke-linecap="round"/><path d="M22 6l6 4-6 4" stroke="#cc785c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="title-md">200K context window</h3>
+        <p class="body-md">Process entire books, codebases, and research papers in a single conversation. Claude retains every detail across hundreds of pages.</p>
+        <a href="#" class="text-link">Learn more</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="12" cy="14" r="3.5" stroke="#cc785c" stroke-width="2"/><circle cx="20" cy="10" r="3.5" stroke="#5db8a6" stroke-width="2"/><path d="M8 22c0-2 2-4 4-4s4 2 4 4M16 18c0-2 2-4 4-4s4 2 4 4" stroke="#141413" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="title-md">Multi-agent collaboration</h3>
+        <p class="body-md">Orchestrate teams of Claude agents that work together autonomously — delegating, reviewing, and integrating results seamlessly.</p>
+        <a href="#" class="text-link">Learn more</a>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="#141413" stroke-width="2"/><path d="M8 12l5 4-5 4" stroke="#cc785c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8.5" r="1" fill="#cc785c"/></svg>
+        </div>
+        <h3 class="title-md">Code with Claude Code</h3>
+        <p class="body-md">An agentic coding tool that lives in your terminal. Understands your entire codebase, runs tests, and ships features autonomously.</p>
+        <a href="#" class="text-link">Learn more</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOLUTIONS / PRODUCT SHOWCASE ===== -->
+<section id="solutions" class="section section-dark">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-coral">Solutions</span>
+      <h2 class="display-lg">Claude adapts to how you work</h2>
+      <p class="body-md section-subhead">From the web to the API to the terminal, Claude integrates where you already think and build.</p>
+    </div>
+    <div class="mockups-grid">
+      <div class="product-mockup-card">
+        <h3 class="title-md">Claude for Work</h3>
+        <p class="body-md">Secure enterprise AI with admin controls, SSO, and data governance. Your team's knowledge stays private while Claude helps everyone work smarter.</p>
+        <div class="code-window-card" style="margin-top: var(--spacing-md);">
+          <div class="code-header">
+            <span class="mockup-dot" style="background:#c64545; width:8px; height:8px;"></span>
+            <span class="mockup-dot" style="background:#d4a017; width:8px; height:8px;"></span>
+            <span class="mockup-dot" style="background:#5db872; width:8px; height:8px;"></span>
+            <span class="mockup-title">Enterprise Console</span>
+          </div>
+          <div class="code-body">
+            <div class="code-line"><span class="code-line-num">1</span><span class="code-comment"># Active team members</span></div>
+            <div class="code-line"><span class="code-line-num">2</span><span class="code-var">alice</span>@company.com &nbsp; <span style="color:#5db872;">● online</span></div>
+            <div class="code-line"><span class="code-line-num">3</span><span class="code-var">bob</span>@company.com &nbsp;&nbsp;&nbsp; <span style="color:#5db872;">● online</span></div>
+            <div class="code-line"><span class="code-line-num">4</span><span class="code-var">carol</span>@company.com &nbsp; <span style="color:#a09d96;">● idle</span></div>
+            <div class="code-line"><span class="code-line-num">5</span></div>
+            <div class="code-line"><span class="code-line-num">6</span><span class="code-comment"># Usage this month</span></div>
+            <div class="code-line"><span class="code-line-num">7</span><span class="code-func">12,847</span> <span class="code-var">messages</span></div>
+            <div class="code-line"><span class="code-line-num">8</span><span class="code-func">3.2M</span> <span class="code-var">tokens</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="product-mockup-card">
+        <h3 class="title-md">Anthropic API</h3>
+        <p class="body-md">Build with the same models that power Claude. Enterprise-grade reliability, sub-second streaming, and the industry's best safety guardrails.</p>
+        <div class="code-window-card" style="margin-top: var(--spacing-md);">
+          <div class="code-header">
+            <span class="mockup-dot" style="background:#c64545; width:8px; height:8px;"></span>
+            <span class="mockup-dot" style="background:#d4a017; width:8px; height:8px;"></span>
+            <span class="mockup-dot" style="background:#5db872; width:8px; height:8px;"></span>
+            <span class="mockup-title">API Response</span>
+          </div>
+          <div class="code-body">
+            <div class="code-line"><span class="code-line-num">1</span><span class="code-keyword">curl</span> <span class="code-var">https://api.anthropic.com</span></div>
+            <div class="code-line"><span class="code-line-num">2</span></div>
+            <div class="code-line"><span class="code-line-num">3</span><span class="code-func">200</span> <span class="code-keyword">OK</span></div>
+            <div class="code-line"><span class="code-line-num">4</span>{</div>
+            <div class="code-line"><span class="code-line-num">5</span>  <span class="code-string">"model"</span>: <span class="code-string">"claude-3-opus"</span>,</div>
+            <div class="code-line"><span class="code-line-num">6</span>  <span class="code-string">"latency"</span>: <span class="code-func">210ms</span>,</div>
+            <div class="code-line"><span class="code-line-num">7</span>  <span class="code-string">"safety"</span>: <span class="code-keyword">passed</span></div>
+            <div class="code-line"><span class="code-line-num">8</span>}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section id="pricing" class="section section-cream-card">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-coral">Pricing</span>
+      <h2 class="display-lg">Plans for every kind of thinking</h2>
+      <p class="body-md section-subhead">From individual exploration to enterprise deployment, find the right plan for your needs.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <span class="badge-pill" style="align-self: flex-start;">Free</span>
+        <div class="plan-price">
+          <span class="display-sm">$0</span><span class="dollar">/month</span>
+        </div>
+        <p class="body-md plan-desc">Get started with Claude on the web. Great for everyday questions and light creative work.</p>
+        <ul class="feature-list">
+          <li class="body-md">Claude 4.5 Sonnet access</li>
+          <li class="body-md">Web &amp; iOS apps</li>
+          <li class="body-md">File and image uploads</li>
+          <li class="body-md">1 project</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="margin-top: var(--spacing-sm);">Get started</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <span class="badge-coral">Popular</span>
+        <h3 class="title-lg plan-name">Pro</h3>
+        <div class="plan-price">
+          <span class="display-sm">$20</span><span class="dollar">/month</span>
+        </div>
+        <p class="body-md plan-desc">Everything in Free, plus more usage, priority access, and advanced features for power users.</p>
+        <ul class="feature-list">
+          <li class="body-md">5x more usage than Free</li>
+          <li class="body-md">Priority bandwidth</li>
+          <li class="body-md">Projects &amp; knowledge bases</li>
+          <li class="body-md">Early access to new features</li>
+          <li class="body-md">Advanced reasoning mode</li>
+        </ul>
+        <a href="#" class="btn-primary" style="margin-top: var(--spacing-sm);">Try Pro</a>
+      </div>
+
+      <div class="pricing-card">
+        <h3 class="title-lg plan-name">Team</h3>
+        <div class="plan-price">
+          <span class="display-sm">$30</span><span class="dollar">/user/month</span>
+        </div>
+        <p class="body-md plan-desc">For teams that need shared workspaces, admin controls, and higher usage limits.</p>
+        <ul class="feature-list">
+          <li class="body-md">Everything in Pro</li>
+          <li class="body-md">Unlimited projects</li>
+          <li class="body-md">Admin console &amp; SSO</li>
+          <li class="body-md">Shared team knowledge</li>
+          <li class="body-md">Usage analytics</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="margin-top: var(--spacing-sm);">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BAND ===== -->
+<section id="cta" class="section">
+  <div class="container">
+    <div class="cta-band">
+      <h2 class="display-sm">Ready to think deeper?</h2>
+      <p class="body-md">Start a conversation with Claude today. No setup, no commitment — just thoughtful AI that meets you where you are.</p>
+      <div class="btn-row">
+        <a href="#" class="btn-cream-on-coral">Try Claude free</a>
+        <a href="#" class="btn-secondary-dark" style="color: var(--color-on-primary); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);">Talk to sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-name">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="0.5" width="4" height="19" rx="0.5" fill="#faf9f5"/>
+            <rect x="0.5" y="8" width="19" height="4" rx="0.5" fill="#faf9f5"/>
+            <rect x="11" y="2.5" width="1.5" height="2" fill="#faf9f5" transform="rotate(45 11 2.5)"/>
+            <rect x="6.5" y="2.5" width="1.5" height="2" fill="#faf9f5" transform="rotate(-45 6.5 2.5)"/>
+            <rect x="11" y="15.5" width="1.5" height="2" fill="#faf9f5" transform="rotate(-45 11 15.5)"/>
+            <rect x="6.5" y="15.5" width="1.5" height="2" fill="#faf9f5" transform="rotate(45 6.5 15.5)"/>
+          </svg>
+          Anthropic
+        </div>
+        <p class="body-sm footer-brand-desc">Building reliable, interpretable, and steerable AI systems since 2021.</p>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <span class="footer-col-heading">Product</span>
+          <a href="#">Claude</a>
+          <a href="#">Claude Code</a>
+          <a href="#">API</a>
+          <a href="#">Pricing</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">Company</span>
+          <a href="#">About</a>
+          <a href="#">Research</a>
+          <a href="#">Careers</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">Resources</span>
+          <a href="#">Documentation</a>
+          <a href="#">Cookbook</a>
+          <a href="#">Status</a>
+          <a href="#">Support</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">Legal</span>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Responsible Disclosure</a>
+          <a href="#">Trust Center</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="body-sm">&copy; 2025 Anthropic PBC. All rights reserved.</span>
+      <span class="body-sm">San Francisco, California</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

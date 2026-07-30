@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferrari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  font-family: 'Inter', 'SF Pro Display', -apple-system, system-ui, sans-serif;
+  background-color: #181818;
+  color: #ffffff;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* === DESIGN TOKENS === */
+:root {
+  --primary: #da291c;
+  --primary-active: #b01e0a;
+  --primary-hover: #9d2211;
+  --ink: #ffffff;
+  --body: #969696;
+  --body-strong: #ffffff;
+  --body-on-light: #181818;
+  --muted: #666666;
+  --muted-soft: #8f8f8f;
+  --hairline: #303030;
+  --hairline-on-light: #d2d2d2;
+  --hairline-soft: #ebebeb;
+  --canvas: #181818;
+  --canvas-elevated: #303030;
+  --canvas-light: #ffffff;
+  --surface-card: #303030;
+  --surface-soft-light: #f7f7f7;
+  --surface-strong-light: #ebebeb;
+  --on-primary: #ffffff;
+  --on-dark: #ffffff;
+  --on-light: #181818;
+  --accent-yellow-hypersail: #fff200;
+  --accent-yellow: #f6e500;
+  --semantic-info: #4c98b9;
+  --semantic-success: #03904a;
+  --semantic-warning: #f13a2c;
+
+  --sp-xxxs: 4px;
+  --sp-xxs: 8px;
+  --sp-xs: 16px;
+  --sp-sm: 24px;
+  --sp-md: 32px;
+  --sp-lg: 48px;
+  --sp-xl: 64px;
+  --sp-xxl: 96px;
+  --sp-super: 128px;
+
+  --rounded-none: 0px;
+  --rounded-xs: 2px;
+  --rounded-sm: 4px;
+  --rounded-md: 6px;
+  --rounded-lg: 8px;
+  --rounded-xl: 12px;
+  --rounded-full: 9999px;
+
+  --display-mega-size: 80px;
+  --display-mega-weight: 500;
+  --display-mega-lh: 1.05;
+  --display-mega-ls: -1.6px;
+  --display-xl-size: 56px;
+  --display-xl-weight: 500;
+  --display-xl-lh: 1.1;
+  --display-xl-ls: -1.12px;
+  --display-lg-size: 36px;
+  --display-lg-weight: 500;
+  --display-lg-lh: 1.2;
+  --display-lg-ls: -0.36px;
+  --display-md-size: 26px;
+  --display-md-weight: 500;
+  --display-md-lh: 1.5;
+  --display-md-ls: 0.195px;
+  --title-md-size: 18px;
+  --title-md-weight: 700;
+  --title-md-lh: 1.2;
+  --title-md-ls: 0;
+  --title-sm-size: 16px;
+  --title-sm-weight: 500;
+  --title-sm-lh: 1.4;
+  --title-sm-ls: 0.08px;
+  --body-md-size: 14px;
+  --body-md-weight: 400;
+  --body-md-lh: 1.5;
+  --body-md-ls: 0;
+  --body-sm-size: 13px;
+  --body-sm-weight: 400;
+  --body-sm-lh: 1.5;
+  --body-sm-ls: 0;
+  --caption-size: 12px;
+  --caption-weight: 400;
+  --caption-lh: 1.4;
+  --caption-ls: 0;
+  --caption-up-size: 11px;
+  --caption-up-weight: 600;
+  --caption-up-lh: 1.4;
+  --caption-up-ls: 1.1px;
+  --button-size: 14px;
+  --button-weight: 700;
+  --button-lh: 1.0;
+  --button-ls: 1.4px;
+  --nav-link-size: 13px;
+  --nav-link-weight: 600;
+  --nav-link-lh: 1.4;
+  --nav-link-ls: 0.65px;
+  --number-display-size: 80px;
+  --number-display-weight: 700;
+  --number-display-lh: 1.0;
+  --number-display-ls: -1.6px;
+}
+
+/* === UTILITY CLASSES === */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xs);
+}
+
+/* === TOP NAVIGATION (top-nav-on-dark) === */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+  background-color: var(--canvas);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-sm);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s ease, background-color 0.4s ease;
+}
+.nav.scrolled {
+  border-bottom-color: var(--hairline);
+  background-color: rgba(24, 24, 24, 0.95);
+  backdrop-filter: blur(12px);
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xxs);
+  text-decoration: none;
+  color: var(--ink);
+}
+.nav-brand svg { width: 48px; height: 48px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  list-style: none;
+}
+.nav-links a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: var(--nav-link-size);
+  font-weight: var(--nav-link-weight);
+  line-height: var(--nav-link-lh);
+  letter-spacing: var(--nav-link-ls);
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-links a:hover::after { width: 100%; }
+.nav-util { display: flex; align-items: center; gap: var(--sp-xs); }
+.nav-lang {
+  color: var(--ink);
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.nav-lang:hover { opacity: 1; }
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: var(--sp-xxs);
+}
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background-color: var(--ink);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* === HERO BAND CINEMA === */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  background-color: var(--canvas);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-gradient-dark {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #3c3c3c 0%, #030303 64%);
+  z-index: 1;
+}
+.hero-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 25%, rgba(24,24,24,0.6) 60%, #181818 100%);
+  z-index: 2;
+}
+.hero-car-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-light-beam {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 900px;
+  background: radial-gradient(ellipse at center, rgba(218,41,28,0.15) 0%, transparent 65%);
+  z-index: 1;
+}
+.hero-car-silhouette {
+  position: relative;
+  z-index: 2;
+  opacity: 0.9;
+}
+.hero-reflection {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(180deg, transparent, rgba(218,41,28,0.06));
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xs) var(--sp-xxl);
+}
+.hero-badge {
+  display: inline-block;
+  padding: var(--sp-xxxs) 12px;
+  background-color: var(--canvas-elevated);
+  color: var(--ink);
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  text-transform: uppercase;
+  border-radius: var(--rounded-full);
+  margin-bottom: var(--sp-sm);
+}
+.hero h1 {
+  font-size: var(--display-mega-size);
+  font-weight: var(--display-mega-weight);
+  line-height: var(--display-mega-lh);
+  letter-spacing: var(--display-mega-ls);
+  color: var(--ink);
+  margin-bottom: var(--sp-xs);
+  max-width: 800px;
+}
+.hero-subhead {
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-lh);
+  letter-spacing: var(--body-md-ls);
+  color: var(--body);
+  max-width: 520px;
+  margin-bottom: var(--sp-md);
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  flex-wrap: wrap;
+}
+
+/* === BUTTONS === */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-xxs);
+  height: 48px;
+  padding: 14px 32px;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: inherit;
+  font-size: var(--button-size);
+  font-weight: var(--button-weight);
+  line-height: var(--button-lh);
+  letter-spacing: var(--button-ls);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--rounded-none);
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  white-space: nowrap;
+}
+.btn-primary:hover { background-color: var(--primary-hover); }
+.btn-primary:active { background-color: var(--primary-active); }
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-xxs);
+  height: 48px;
+  padding: 13px 31px;
+  background-color: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: var(--button-size);
+  font-weight: var(--button-weight);
+  line-height: var(--button-lh);
+  letter-spacing: var(--button-ls);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  border-radius: var(--rounded-none);
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  white-space: nowrap;
+}
+.btn-outline:hover { background-color: var(--ink); color: var(--canvas); }
+.btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xxs);
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: var(--button-size);
+  font-weight: var(--button-weight);
+  line-height: var(--button-lh);
+  letter-spacing: var(--button-ls);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+.btn-tertiary:hover { color: var(--primary); }
+.btn-tertiary svg { width: 14px; height: 14px; }
+
+/* === SECTION HEADERS === */
+.section-label {
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-xs);
+}
+.section-head {
+  font-size: var(--display-lg-size);
+  font-weight: var(--display-lg-weight);
+  line-height: var(--display-lg-lh);
+  letter-spacing: var(--display-lg-ls);
+  color: var(--ink);
+  margin-bottom: var(--sp-xs);
+}
+.section-sub {
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-lh);
+  letter-spacing: var(--body-md-ls);
+  color: var(--body);
+  max-width: 560px;
+}
+
+/* === MODELS SECTION === */
+.models {
+  padding: var(--sp-xxl) var(--sp-xs);
+}
+.models-header {
+  text-align: center;
+  margin-bottom: var(--sp-xl);
+}
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-sm);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.model-card {
+  position: relative;
+  background-color: var(--canvas);
+  color: var(--ink);
+  border-radius: var(--rounded-none);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+.model-card:hover { transform: translateY(-4px); }
+.model-card-image {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+}
+.model-card-image .car-bg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #222 0%, #151515 50%, #1a1a1a 100%);
+}
+.model-card-image svg {
+  width: 85%;
+  height: auto;
+  opacity: 0.85;
+  transition: transform 0.5s ease, opacity 0.4s ease;
+}
+.model-card:hover .model-card-image svg {
+  transform: scale(1.04);
+  opacity: 1;
+}
+.model-card-image .overlay-hover {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(218,41,28,0.08) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.model-card:hover .model-card-image .overlay-hover { opacity: 1; }
+.model-card-body {
+  padding: var(--sp-sm);
+  border-top: 1px solid var(--hairline);
+}
+.model-card-badge {
+  display: inline-block;
+  padding: var(--sp-xxxs) 12px;
+  background-color: var(--canvas-elevated);
+  color: var(--ink);
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  text-transform: uppercase;
+  border-radius: var(--rounded-full);
+  margin-bottom: var(--sp-xxs);
+}
+.model-card h3 {
+  font-size: var(--title-md-size);
+  font-weight: var(--title-md-weight);
+  line-height: var(--title-md-lh);
+  letter-spacing: var(--title-md-ls);
+  color: var(--ink);
+  margin-bottom: var(--sp-xxxs);
+}
+.model-card p {
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-lh);
+  letter-spacing: var(--body-md-ls);
+  color: var(--body);
+  margin-bottom: var(--sp-xs);
+}
+.model-card-specs {
+  display: flex;
+  gap: var(--sp-sm);
+  padding-top: var(--sp-xs);
+  border-top: 1px solid var(--hairline);
+}
+.model-spec {
+  display: flex;
+  flex-direction: column;
+}
+.model-spec-val {
+  font-size: var(--title-sm-size);
+  font-weight: var(--title-sm-weight);
+  line-height: var(--title-sm-lh);
+  letter-spacing: var(--title-sm-ls);
+  color: var(--ink);
+}
+.model-spec-label {
+  font-size: var(--caption-size);
+  font-weight: var(--caption-weight);
+  line-height: var(--caption-lh);
+  letter-spacing: var(--caption-ls);
+  color: var(--muted);
+}
+
+/* === LIVERY BAND === */
+.livery-band {
+  background-color: var(--primary);
+  color: var(--ink);
+  padding: var(--sp-xxl) var(--sp-xs);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.livery-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #a00c01, #da291c 64%);
+  z-index: 0;
+}
+.livery-band-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.livery-band .section-head {
+  color: var(--ink);
+  font-size: var(--display-lg-size);
+  font-weight: var(--display-lg-weight);
+  line-height: var(--display-lg-lh);
+  letter-spacing: var(--display-lg-ls);
+  margin-bottom: var(--sp-xs);
+}
+.livery-band .section-sub {
+  color: rgba(255,255,255,0.75);
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-lh);
+  letter-spacing: var(--body-md-ls);
+  max-width: 560px;
+  margin: 0 auto var(--sp-md);
+}
+.livery-band .btn-outline {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.livery-band .btn-outline:hover {
+  background-color: var(--ink);
+  color: var(--primary);
+}
+.livery-stripes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.06;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40px,
+    rgba(255,255,255,0.3) 40px,
+    rgba(255,255,255,0.3) 42px
+  );
+}
+
+/* === PERFORMANCE SPECS SECTION === */
+.specs {
+  padding: var(--sp-xxl) var(--sp-xs);
+  background-color: var(--canvas);
+}
+.specs-header {
+  text-align: center;
+  margin-bottom: var(--sp-xl);
+}
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  max-width: 1280px;
+  margin: 0 auto;
+  background-color: var(--hairline);
+}
+.spec-cell {
+  background-color: var(--canvas);
+  padding: var(--sp-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+.spec-cell:hover { background-color: #1f1f1f; }
+.spec-cell-num {
+  font-size: var(--number-display-size);
+  font-weight: var(--number-display-weight);
+  line-height: var(--number-display-lh);
+  letter-spacing: var(--number-display-ls);
+  color: var(--primary);
+  margin-bottom: var(--sp-xxs);
+}
+.spec-cell-unit {
+  font-size: var(--display-md-size);
+  font-weight: var(--display-md-weight);
+  line-height: var(--display-md-lh);
+  letter-spacing: var(--display-md-ls);
+  color: var(--ink);
+  margin-bottom: var(--sp-xxxs);
+}
+.spec-cell-label {
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* === DRIVER CARDS SECTION === */
+.drivers {
+  padding: var(--sp-xxl) var(--sp-xs);
+  background-color: var(--canvas);
+}
+.drivers-header {
+  text-align: center;
+  margin-bottom: var(--sp-xl);
+}
+.drivers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-sm);
+  max-width: 900px;
+  margin: 0 auto;
+}
+.driver-card {
+  background-color: var(--canvas-elevated);
+  color: var(--ink);
+  border-radius: var(--rounded-none);
+  padding: var(--sp-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+.driver-card:hover { background-color: #3a3a3a; }
+.driver-card::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--primary), var(--primary-hover));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.driver-card:hover::after { opacity: 1; }
+.driver-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--rounded-full);
+  background: linear-gradient(135deg, var(--canvas-elevated), #3c3c3c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--hairline);
+}
+.driver-avatar svg { width: 44px; height: 44px; opacity: 0.7; }
+.driver-info { flex: 1; }
+.driver-number {
+  font-size: var(--number-display-size);
+  font-weight: var(--number-display-weight);
+  line-height: var(--number-display-lh);
+  letter-spacing: var(--number-display-ls);
+  color: var(--primary);
+  opacity: 0.15;
+  position: absolute;
+  right: var(--sp-sm);
+  top: 50%;
+  transform: translateY(-50%);
+}
+.driver-name {
+  font-size: var(--title-md-size);
+  font-weight: var(--title-md-weight);
+  line-height: var(--title-md-lh);
+  letter-spacing: var(--title-md-ls);
+  color: var(--ink);
+  margin-bottom: var(--sp-xxxs);
+}
+.driver-role {
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-xxs);
+}
+.driver-stats {
+  display: flex;
+  gap: var(--sp-xs);
+}
+.driver-stat-val {
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  color: var(--ink);
+}
+.driver-stat-label {
+  font-size: var(--caption-size);
+  font-weight: var(--caption-weight);
+  line-height: var(--caption-lh);
+  letter-spacing: var(--caption-ls);
+  color: var(--muted);
+}
+
+/* === CTA BAND DARK === */
+.cta-band {
+  background-color: var(--canvas);
+  color: var(--ink);
+  padding: var(--sp-xxl) var(--sp-xs);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-band::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  opacity: 0.4;
+}
+.cta-band-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.cta-band h2 {
+  font-size: var(--display-lg-size);
+  font-weight: var(--display-lg-weight);
+  line-height: var(--display-lg-lh);
+  letter-spacing: var(--display-lg-ls);
+  color: var(--ink);
+  margin-bottom: var(--sp-xs);
+}
+.cta-band p {
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-lh);
+  letter-spacing: var(--body-md-ls);
+  color: var(--body);
+  margin-bottom: var(--sp-md);
+}
+
+/* === FOOTER === */
+.footer {
+  background-color: var(--canvas);
+  color: var(--body);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  line-height: var(--body-sm-lh);
+  letter-spacing: var(--body-sm-ls);
+  padding: var(--sp-xl) var(--sp-lg);
+  border-top: 1px solid var(--hairline);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--sp-md);
+  max-width: 1280px;
+  margin: 0 auto var(--sp-lg);
+}
+.footer-col h4 {
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: var(--sp-xs);
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: var(--sp-xxs); }
+.footer-col a {
+  color: var(--body);
+  text-decoration: none;
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  line-height: var(--body-sm-lh);
+  letter-spacing: var(--body-sm-ls);
+  transition: color 0.2s ease;
+}
+.footer-col a:hover { color: var(--ink); }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: var(--sp-md);
+  border-top: 1px solid var(--hairline);
+  flex-wrap: wrap;
+  gap: var(--sp-xs);
+}
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+}
+.footer-social a {
+  color: var(--body);
+  transition: color 0.2s ease;
+}
+.footer-social a:hover { color: var(--ink); }
+.footer-social svg { width: 18px; height: 18px; }
+.footer-copy {
+  font-size: var(--caption-size);
+  font-weight: var(--caption-weight);
+  line-height: var(--caption-lh);
+  letter-spacing: var(--caption-ls);
+  color: var(--muted);
+}
+
+/* === SCROLL INDICATOR === */
+.scroll-indicator {
+  position: absolute;
+  bottom: var(--sp-sm);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-xxs);
+  opacity: 0.5;
+  animation: floatDown 2s ease-in-out infinite;
+}
+.scroll-indicator span {
+  font-size: var(--caption-up-size);
+  font-weight: var(--caption-up-weight);
+  line-height: var(--caption-up-lh);
+  letter-spacing: var(--caption-up-ls);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, var(--ink), transparent);
+}
+@keyframes floatDown {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  :root {
+    --display-mega-size: 56px;
+    --display-xl-size: 44px;
+    --display-lg-size: 30px;
+    --display-md-size: 22px;
+    --number-display-size: 56px;
+  }
+  .models-grid { grid-template-columns: repeat(2, 1fr); }
+  .specs-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .nav-links { gap: var(--sp-sm); }
+}
+@media (max-width: 768px) {
+  :root {
+    --display-mega-size: 40px;
+    --display-xl-size: 34px;
+    --display-lg-size: 26px;
+    --display-md-size: 20px;
+    --number-display-size: 44px;
+    --display-mega-ls: -0.8px;
+  }
+  .models-grid { grid-template-columns: 1fr; }
+  .specs-grid { grid-template-columns: repeat(2, 1fr); }
+  .drivers-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background-color: var(--canvas);
+    padding: var(--sp-sm);
+    border-bottom: 1px solid var(--hairline);
+    gap: var(--sp-xs);
+  }
+  .hero h1 { max-width: 100%; }
+  .spec-cell-num { font-size: var(--number-display-size); }
+}
+@media (max-width: 640px) {
+  :root {
+    --display-mega-size: 32px;
+    --display-mega-ls: -0.4px;
+    --display-xl-size: 28px;
+    --display-lg-size: 22px;
+    --number-display-size: 36px;
+    --display-mega-lh: 1.15;
+  }
+  .hero { min-height: 90vh; }
+  .hero-content { padding-bottom: var(--sp-lg); }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  .hero-actions .btn-primary,
+  .hero-actions .btn-outline { width: 100%; }
+  .specs-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .model-card-image { height: 220px; }
+  .livery-band { padding: var(--sp-xl) var(--sp-xs); }
+  .specs { padding: var(--sp-xl) var(--sp-xs); }
+  .drivers { padding: var(--sp-xl) var(--sp-xs); }
+  .cta-band { padding: var(--sp-xl) var(--sp-xs); }
+  .footer { padding: var(--sp-lg) var(--sp-xs); }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAVIGATION (top-nav-on-dark) ===== -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-brand" aria-label="Ferrari Home">
+    <!-- Cavallino Prancing Horse Mark -->
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="9" y="4" width="2" height="28" fill="#ffffff" rx="0.5"/>
+      <rect x="12" y="4" width="2" height="28" fill="#ffffff" rx="0.5"/>
+      <path d="M7 5 L15 5 L11 32 L7 5Z" fill="#ffffff"/>
+      <path d="M7 5 Q6 12 10 18 Q12 20 15 16" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+      <path d="M14 10 Q18 8 20 4" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+      <path d="M12 14 Q16 12 18 8" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <path d="M12 38 Q16 37 18 32" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <rect x="8" y="38" width="1" height="20" fill="#ffffff"/>
+      <rect x="11" y="38" width="1" height="18" fill="#ffffff"/>
+      <path d="M6 56 L13 56 M7 52 L12 52" stroke="#ffffff" stroke-width="1.2"/>
+      <path d="M38 2 Q48 12 42 28 Q40 34 38 36" fill="none" stroke="#ffffff" stroke-width="2"/>
+      <path d="M38 4 Q42 8 44 18 Q42 26 40 30" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <path d="M46 18 Q54 12 56 4" fill="none" stroke="#ffffff" stroke-width="2"/>
+      <path d="M48 16 Q52 14 54 8" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <path d="M46 22 Q50 20 52 14" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+      <path d="M44 28 Q48 26 50 20" fill="none" stroke="#ffffff" stroke-width="1.3"/>
+      <path d="M42 34 Q48 32 50 24" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <path d="M42 38 Q48 36 50 28" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <path d="M40 42 Q46 40 48 34" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <path d="M38 46 Q44 44 46 38" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+      <path d="M36 40 Q28 42 22 38 Q18 36 16 30" fill="none" stroke="#ffffff" stroke-width="2"/>
+      <path d="M34 42 Q28 44 23 40 Q19 38 18 33" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+      <path d="M32 46 Q28 48 24 44 Q20 42 20 36" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <path d="M20 28 Q18 30 18 36" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+      <line x1="17" y1="30" x2="18" y2="36" stroke="#ffffff" stroke-width="1.5"/>
+      <path d="M24 26 Q28 24 34 24" fill="none" stroke="#ffffff" stroke-width="1"/>
+    </svg>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#models">Models</a></li>
+    <li><a href="#specs">Performance</a></li>
+    <li><a href="#drivers">Scuderia Ferrari</a></li>
+    <li><a href="#owners">Owners</a></li>
+    <li><a href="#preowned">Pre-Owned</a></li>
+  </ul>
+  <div class="nav-util">
+    <a href="#" class="nav-lang">EN</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== HERO BAND CINEMA ===== -->
+<header class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-gradient-dark"></div>
+    <div class="hero-light-beam"></div>
+    <div class="hero-car-scene">
+      <!-- Stylized Ferrari sports car silhouette -->
+      <svg class="hero-car-silhouette" viewBox="0 0 900 380" fill="none" xmlns="http://www.w3.org/2000/svg" width="900" height="380">
+        <!-- Car body -->
+        <defs>
+          <linearGradient id="bodyGlow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#505050" stop-opacity="0.9"/>
+            <stop offset="40%" stop-color="#3a3a3a" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#181818" stop-opacity="1"/>
+          </linearGradient>
+          <linearGradient id="windshield" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1a1a20" stop-opacity="0.98"/>
+            <stop offset="100%" stop-color="#0a0a10" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+        <!-- Road reflection -->
+        <ellipse cx="450" cy="370" rx="420" ry="12" fill="url(#bodyGlow)" opacity="0.3"/>
+        <!-- Main body lower -->
+        <path d="M60 300 Q70 310 100 315 L130 315 L140 308 L160 308 L170 315 L720 315 Q750 310 760 230 L780 210 L800 215 L810 220 Q820 225 835 220 L850 220 L855 160 L845 120 Q840 95 820 95 L800 95 Q790 95 785 105 L775 120 Q760 140 740 150 L720 155 L710 160 L690 165 L600 175 L350 175 L250 170 L200 155 L160 155 L140 158 L120 155 L100 145 Q80 135 75 115 L70 95 Q65 75 50 75 L40 75 Q20 75 15 95 L10 120 L8 145 Q5 170 5 200 Q5 250 15 275 Q25 295 60 300Z" fill="url(#bodyGlow)" stroke="#404040" stroke-width="0.8"/>
+        <!-- Cockpit / windshield -->
+        <path d="M520 170 L530 110 Q535 90 555 85 L590 80 Q620 78 650 82 Q675 86 690 105 L700 125 L710 160 L720 170 Z" fill="url(#windshield)" stroke="#404040" stroke-width="0.8"/>
+        <!-- Side window -->
+        <path d="M505 170 L515 110 Q520 95 540 90 L565 85 L570 170 Z" fill="#111118" stroke="#404040" stroke-width="0.6" opacity="0.9"/>
+        <!-- Front headlight -->
+        <path d="M830 195 L845 195 L850 210 L835 210 Z" fill="#cccccc" opacity="0.6"/>
+        <path d="M825 200 L830 200 L835 195 L830 210 Z" fill="#e8e8e8" opacity="0.5"/>
+        <!-- Rear lights -->
+        <path d="M15 210 L30 205 L35 220 L20 225 Z" fill="#da291c" opacity="0.6"/>
+        <path d="M18 215 L28 212 L30 218 L20 221 Z" fill="#ff4030" opacity="0.4"/>
+        <!-- Front wheel -->
+        <circle cx="750" cy="310" r="42" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="2"/>
+        <circle cx="750" cy="310" r="28" fill="#151515" stroke="#333" stroke-width="1.5"/>
+        <circle cx="750" cy="310" r="18" fill="#1a1a1a" stroke="#222" stroke-width="1"/>
+        <circle cx="750" cy="310" r="6" fill="#2a2a2a"/>
+        <!-- Rear wheel -->
+        <circle cx="130" cy="310" r="42" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="2"/>
+        <circle cx="130" cy="310" r="28" fill="#151515" stroke="#333" stroke-width="1.5"/>
+        <circle cx="130" cy="310" r="18" fill="#1a1a1a" stroke="#222" stroke-width="1"/>
+        <circle cx="130" cy="310" r="6" fill="#2a2a2a"/>
+        <!-- Body highlight line -->
+        <path d="M65 250 Q200 190 400 175 Q550 170 700 180 Q780 190 820 220" fill="none" stroke="#5a5a5a" stroke-width="0.7" opacity="0.5"/>
+        <!-- Side intake -->
+        <path d="M400 175 Q430 168 460 172 Q470 174 475 178 L470 200 L415 200 Z" fill="#111" stroke="#2a2a2a" stroke-width="0.8"/>
+        <!-- Front splitter -->
+        <path d="M780 310 Q810 305 850 310 L860 312 L860 316 Q830 322 790 318 Z" fill="#1a1a1a" stroke="#333" stroke-width="0.5"/>
+      </svg>
+    </div>
+    <div class="hero-gradient-overlay"></div>
+    <div class="hero-reflection"></div>
+  </div>
+  <div class="hero-content">
+    <span class="hero-badge">New Model</span>
+    <h1>Beyond the limits of imagination</h1>
+    <p class="hero-subhead">The new Ferrari 12Cilindri. A masterpiece of engineering that embodies the purest expression of the Prancing Horse spirit.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">
+        Discover More
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M8 2L13 7L8 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+      <a href="#" class="btn-outline">Configure</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<!-- ===== MODELS SECTION ===== -->
+<section class="models" id="models">
+  <div class="models-header">
+    <p class="section-label">The Range</p>
+    <h2 class="section-head">Iconic models. Singular vision.</h2>
+    <p class="section-sub" style="margin:0 auto;">Each Ferrari is born from the same relentless pursuit of excellence. Discover the models that define the Prancing Horse legacy.</p>
+  </div>
+  <div class="models-grid">
+    <!-- Card 1 -->
+    <article class="model-card">
+      <div class="model-card-image">
+        <div class="car-bg" style="background:linear-gradient(135deg, #1a1a20 0%, #151518 50%, #1a1a1e 100%);">
+          <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 120 Q30 128 50 130 L60 130 L65 126 L75 126 L80 130 L340 130 Q355 128 360 95 L368 85 L378 88 L382 90 Q384 92 390 90 L394 90 L396 65 L392 48 Q390 38 382 38 L374 38 Q370 38 368 42 L364 48 Q358 56 350 60 L342 62 L338 64 L330 66 L300 68 L170 68 L120 66 L96 62 L80 62 L68 64 L60 62 L50 58 Q42 54 40 46 L38 38 Q37 30 32 30 L28 30 Q22 30 20 38 L18 48 L17 58 Q16 68 16 80 Q16 100 20 110 Q25 118 20 120Z" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="0.5"/>
+            <path d="M248 66 L252 42 Q254 36 262 34 L278 32 Q292 30 306 32 Q316 34 322 42 L328 50 L332 64 L336 68 Z" fill="#111118" stroke="#4a4a4a" stroke-width="0.5"/>
+            <circle cx="340" cy="126" r="18" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="1.2"/>
+            <circle cx="340" cy="126" r="12" fill="#151515" stroke="#222" stroke-width="0.8"/>
+            <circle cx="340" cy="126" r="3" fill="#2a2a2a"/>
+            <circle cx="60" cy="126" r="18" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="1.2"/>
+            <circle cx="60" cy="126" r="12" fill="#151515" stroke="#222" stroke-width="0.8"/>
+            <circle cx="60" cy="126" r="3" fill="#2a2a2a"/>
+            <path d="M18 100 Q22 92 30 86" fill="none" stroke="#da291c" stroke-width="1.5" opacity="0.7"/>
+            <path d="M382 88 L388 80 L392 76" fill="none" stroke="#5a5a5a" stroke-width="0.5" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="overlay-hover"></div>
+      </div>
+      <div class="model-card-body">
+        <span class="model-card-badge">V12</span>
+        <h3>12Cilindri</h3>
+        <p>The purest expression of Ferrari's front-engined V12 Berlinetta tradition.</p>
+        <div class="model-card-specs">
+          <div class="model-spec">
+            <span class="model-spec-val">830 cv</span>
+            <span class="model-spec-label">Power</span>
+          </div>
+          <div class="model-spec">
+            <span class="model-spec-val">2.9 s</span>
+            <span class="model-spec-label">0–100 km/h</span>
+          </div>
+          <div class="model-spec">
+            <span class="model-spec-val">340+</span>
+            <span class="model-spec-label">Top Speed</span>
+          </div>
+        </div>
+      </div>
+    </article>
+    <!-- Card 2 -->
+    <article class="model-card">
+      <div class="model-card-image">
+        <div class="car-bg" style="background:linear-gradient(135deg, #181820 0%, #14141a 50%, #18181e 100%);">
+          <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 115 Q38 122 55 124 L65 124 L70 120 L78 120 L82 124 L335 124 Q348 122 354 92 L360 82 L368 85 L372 87 Q374 89 380 87 L384 87 L386 62 L382 46 Q380 36 372 36 L364 36 Q360 36 358 40 L354 46 Q348 54 340 58 L332 60 L328 62 L320 64 L290 66 L168 66 L118 64 L95 60 L80 60 L68 62 L60 60 L50 56 Q42 52 40 44 L38 36 Q37 28 32 28 L28 28 Q22 28 20 36 L18 46 L17 56 Q16 66 16 78 Q16 96 20 106 Q25 114 30 115Z" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="0.5"/>
+            <path d="M240 64 L244 40 Q246 34 254 32 L270 30 Q284 28 298 30 Q308 32 314 40 L320 48 L324 62 L328 66 Z" fill="#111118" stroke="#4a4a4a" stroke-width="0.5"/>
+            <circle cx="335" cy="120" r="18" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="1.2"/>
+            <circle cx="335" cy="120" r="12" fill="#151515" stroke="#222" stroke-width="0.8"/>
+            <circle cx="335" cy="120" r="3" fill="#2a2a2a"/>
+            <circle cx="65" cy="120" r="18" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="1.2"/>
+            <circle cx="65" cy="120" r="12" fill="#151515" stroke="#222" stroke-width="0.8"/>
+            <circle cx="65" cy="120" r="3" fill="#2a2a2a"/>
+          </svg>
+        </div>
+        <div class="overlay-hover"></div>
+      </div>
+      <div class="model-card-body">
+        <span class="model-card-badge">V8 Hybrid</span>
+        <h3>SF90 Stradale</h3>
+        <p>The first-ever Ferrari plug-in hybrid with a 1,000 cv powertrain.</p>
+        <div class="model-card-specs">
+          <div class="model-spec">
+            <span class="model-spec-val">1000 cv</span>
+            <span class="model-spec-label">Power</span>
+          </div>
+          <div class="model-spec">
+            <span class="model-spec-val">2.5 s</span>
+            <span class="model-spec-label">0–100 km/h</span>
+          </div>
+          <div class="model-spec">
+            <span class="model-spec-val">340+</span>
+            <span class="model-spec-label">Top Speed</span>
+          </div>
+        </div>
+      </div>
+    </article>
+    <!-- Card 3 -->
+    <article class="model-card">
+      <div class="model-card-image">
+        <div class="car-bg" style="background:linear-gradient(135deg, #1e1a18 0%, #1a1614 50%, #1c1816 100%);">
+          <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25 118 Q33 124 50 126 L60 126 L65 122 L74 122 L78 126 L338 126 Q350 124 356 94 L362 84 L370 87 L374 89 Q376 91 382 89 L386 89 L388 64 L384 48 Q382 38 374 38 L366 38 Q362 38 360 42 L356 48 Q350 56 342 60 L334 62 L330 64 L322 66 L292 68 L170 68 L120 66 L96 62 L82 62 L70 64 L62 62 L52 58 Q44 54 42 46 L40 38 Q39 30 34 30 L30 30 Q24 30 22 38 L20 48 L19 58 Q18 68 18 80 Q18 98 22 108 Q27 116 25 118Z" fill="#3a3a3a" stroke="#4a4a4a" stroke-width="0.5"/>
+            <path d="M235 66 L240 42 Q242 34 250 32 L266 30 Q280 28 294 30 Q304 32 310 40 L316 48 L320 62 L324 68 Z" fill="#111118" stroke="#4a4a4a" stroke-width="0.5"/>
+            <circle cx="338" cy="122" r="18" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="1.2"/>
+            <circle cx="338" cy="122" r="12" fill="#151515" stroke="#222" stroke-width="0.8"/>
+            <circle cx="338" cy="122" r="3" fill="#2a2a2a"/>
+            <circle cx="60" cy="122" r="18" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="1.2"/>
+            <circle cx="60" cy="122" r="12" fill="#151515" stroke="#222" stroke-width="0.8"/>
+            <circle cx="60" cy="122" r="3" fill="#2a2a2a"/>
+          </svg>
+        </div>
+        <div class="overlay-hover"></div>
+      </div>
+      <div class="model-card-body">
+        <span class="model-card-badge">V6 Hybrid</span>
+        <h3>296 GTB</h3>
+        <p>The evolution of Ferrari's mid-rear-engined two-seater Berlinetta concept.</p>
+        <div class="model-card-specs">
+          <div class="model-spec">
+            <span class="model-spec-val">830 cv</span>
+            <span class="model-spec-label">Power</span>
+          </div>
+          <div class="model-spec">
+            <span class="model-spec-val">2.9 s</span>
+            <span class="model-spec-label">0–100 km/h</span>
+          </div>
+          <div class="model-spec">
+            <span class="model-spec-val">330+</span>
+            <span class="model-spec-label">Top Speed</span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== LIVERY BAND ===== -->
+<section class="livery-band" id="livery">
+  <div class="livery-stripes"></div>
+  <div class="livery-band-content">
+    <h2 class="section-head">Scuderia Ferrari. Racing is in our DNA.</h2>
+    <p class="section-sub">For over 70 years, the Prancing Horse has defined motorsport. From Formula 1 to endurance racing, Ferrari's competitive spirit drives every car we build.</p>
+    <a href="#" class="btn-outline">Explore The Team</a>
+  </div>
+</section>
+
+<!-- ===== PERFORMANCE SPECS ===== -->
+<section class="specs" id="specs">
+  <div class="specs-header">
+    <p class="section-label">Performance</p>
+    <h2 class="section-head">Numbers that speak.</h2>
+    <p class="section-sub" style="margin:0 auto;">Technical excellence, translated into performance figures that define a generation.</p>
+  </div>
+  <div class="specs-grid">
+    <div class="spec-cell">
+      <span class="spec-cell-num">830</span>
+      <span class="spec-cell-unit">cv</span>
+      <span class="spec-cell-label">Maximum Power</span>
+    </div>
+    <div class="spec-cell">
+      <span class="spec-cell-num">2.9</span>
+      <span class="spec-cell-unit">s</span>
+      <span class="spec-cell-label">0–100 km/h</span>
+    </div>
+    <div class="spec-cell">
+      <span class="spec-cell-num">340</span>
+      <span class="spec-cell-unit">km/h</span>
+      <span class="spec-cell-label">Top Speed</span>
+    </div>
+    <div class="spec-cell">
+      <span class="spec-cell-num">6.5</span>
+      <span class="spec-cell-unit">L</span>
+      <span class="spec-cell-label">V12 Engine</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DRIVER CARDS (Scuderia Ferrari) ===== -->
+<section class="drivers" id="drivers">
+  <div class="drivers-header">
+    <p class="section-label">Scuderia Ferrari</p>
+    <h2 class="section-head">The drivers.</h2>
+    <p class="section-sub" style="margin:0 auto;">Two champions. One mission. Bringing the Prancing Horse back to the top of Formula 1.</p>
+  </div>
+  <div class="drivers-grid">
+    <!-- Driver 1 -->
+    <div class="driver-card">
+      <div class="driver-avatar">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="16" r="8" fill="#888" opacity="0.5"/>
+          <ellipse cx="24" cy="38" rx="14" ry="8" fill="#888" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="driver-info">
+        <div class="driver-name">Charles Leclerc</div>
+        <div class="driver-role">Scuderia Ferrari Driver</div>
+        <div class="driver-stats">
+          <div>
+            <span class="driver-stat-val">16</span>
+            <span class="driver-stat-label"> Wins</span>
+          </div>
+          <div>
+            <span class="driver-stat-val">26</span>
+            <span class="driver-stat-label"> Poles</span>
+          </div>
+        </div>
+      </div>
+      <div class="driver-number">16</div>
+    </div>
+    <!-- Driver 2 -->
+    <div class="driver-card">
+      <div class="driver-avatar">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="16" r="8" fill="#888" opacity="0.5"/>
+          <ellipse cx="24" cy="38" rx="14" ry="8" fill="#888" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="driver-info">
+        <div class="driver-name">Lewis Hamilton</div>
+        <div class="driver-role">Scuderia Ferrari Driver</div>
+        <div class="driver-stats">
+          <div>
+            <span class="driver-stat-val">105</span>
+            <span class="driver-stat-label"> Wins</span>
+          </div>
+          <div>
+            <span class="driver-stat-val">104</span>
+            <span class="driver-stat-label"> Poles</span>
+          </div>
+        </div>
+      </div>
+      <div class="driver-number">44</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BAND DARK ===== -->
+<section class="cta-band" id="cta">
+  <div class="cta-band-content">
+    <h2>Ready to experience the legend?</h2>
+    <p>Configure your Ferrari, book a test drive, or explore the pre-owned collection. The Prancing Horse awaits.</p>
+    <a href="#" class="btn-primary">
+      Configure Now
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M8 2L13 7L8 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Models</h4>
+      <ul>
+        <li><a href="#">Ferrari Range</a></li>
+        <li><a href="#">12Cilindri</a></li>
+        <li><a href="#">SF90 Stradale</a></li>
+        <li><a href="#">296 GTB</a></li>
+        <li><a href="#">Purosangue</a></li>
+        <li><a href="#">Roma Spider</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Racing</h4>
+      <ul>
+        <li><a href="#">Scuderia Ferrari</a></li>
+        <li><a href="#">F1 Calendar</a></li>
+        <li><a href="#">F1-75</a></li>
+        <li><a href="#">499P Hypercar</a></li>
+        <li><a href="#">Ferrari Challenge</a></li>
+        <li><a href="#">Corse Clienti</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Owners</h4>
+      <ul>
+        <li><a href="#">MyFerrari App</a></li>
+        <li><a href="#">Service &amp; Maintenance</a></li>
+        <li><a href="#">Genuine Parts</a></li>
+        <li><a href="#">Financial Services</a></li>
+        <li><a href="#">Ferrari Approved</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pre-Owned</h4>
+      <ul>
+        <li><a href="#">Search Inventory</a></li>
+        <li><a href="#">Certified Pre-Owned</a></li>
+        <li><a href="#">Value Your Car</a></li>
+        <li><a href="#">Sell Your Ferrari</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Ferrari</a></li>
+        <li><a href="#">News &amp; Events</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 4.86a5.14 5.14 0 100 10.28 5.14 5.14 0 000-10.28zm0 8.47a3.33 3.33 0 110-6.66 3.33 3.33 0 010 6.66zm5.33-8.67a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/><path fill-rule="evenodd" d="M5.8 0h8.4A5.8 5.8 0 0120 5.8v8.4a5.8 5.8 0 01-5.8 5.8H5.8A5.8 5.8 0 010 14.2V5.8A5.8 5.8 0 015.8 0zm-.08 1.81h8.55a3.92 3.92 0 013.92 3.92v8.55a3.92 3.92 0 01-3.92 3.91H5.73a3.92 3.92 0 01-3.92-3.91V5.73a3.92 3.92 0 013.92-3.92z" clip-rule="evenodd"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M19.8 5.6a2.5 2.5 0 00-1.76-1.76C16.49 3.42 10 3.42 10 3.42s-6.49 0-8.04.42A2.5 2.5 0 00.2 5.6C-.22 7.16.04 10 .04 10s-.26 2.84.16 4.4a2.5 2.5 0 001.76 1.76c1.55.42 8.04.42 8.04.42s6.49 0 8.04-.42a2.5 2.5 0 001.76-1.76c.42-1.56.2-4.4.2-4.4s.22-2.84-.2-4.4zM7.96 12.78V7.22l5.36 2.78-5.36 2.78z"/></svg>
+      </a>
+      <a href="#" aria-label="X (Twitter)">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M11.65 8.47L18.13 1h-1.54l-5.62 6.5L6.4 1H1.33l6.77 9.86L1.33 19h1.54l5.91-6.87L13.6 19h5.07l-7.02-10.53zm-2.09 2.43l-.68-.98-5.45-7.8h2.36l4.4 6.3.68.98 5.72 8.18h-2.36l-4.67-6.68z"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M4.47 2.43a1.82 1.82 0 100 3.64 1.82 1.82 0 000-3.64zM2.93 7.27h3.09v9.82H2.93V7.27zM7.36 7.27h2.96v1.34h.04a3.25 3.25 0 012.93-1.6c3.13 0 3.71 2.06 3.71 4.74v5.34h-3.09v-4.74c0-1.13-.03-2.58-1.57-2.58-1.58 0-1.82 1.23-1.82 2.5v4.82H7.36V7.27z"/></svg>
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2024 Ferrari S.p.A. All rights reserved. VAT no. 00159560366</p>
+  </div>
+</footer>
+
+<!-- ===== INTERACTIONS ===== -->
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Hamburger menu toggle
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+
+// Close mobile menu on link click
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+  });
+});
+
+// Smooth reveal on scroll
+const observerOptions = {
+  threshold: 0.15,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.model-card, .spec-cell, .driver-card, .livery-band-content, .cta-band-content').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

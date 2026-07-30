@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coinbase – Buy, Sell, and Manage Crypto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* ========================================
+   DESIGN TOKENS — from DESIGN.md
+   ======================================== */
+:root {
+  /* Colors */
+  --color-primary: #0052ff;
+  --color-primary-active: #003ecc;
+  --color-primary-disabled: #a8b8cc;
+  --color-ink: #0a0b0d;
+  --color-body: #5b616e;
+  --color-body-strong: #0a0b0d;
+  --color-muted: #7c828a;
+  --color-muted-soft: #a8acb3;
+  --color-hairline: #dee1e6;
+  --color-hairline-soft: #eef0f3;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #f7f7f7;
+  --color-surface-card: #ffffff;
+  --color-surface-strong: #eef0f3;
+  --color-surface-dark: #0a0b0d;
+  --color-surface-dark-elevated: #16181c;
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+  --color-on-dark-soft: #a8acb3;
+  --color-semantic-up: #05b169;
+  --color-semantic-down: #cf202f;
+  --color-accent-yellow: #f4b000;
+
+  /* Typography — font substitutes per DESIGN.md */
+  --font-display: 'Inter', -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: 'Inter', -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-base: 16px;
+  --spacing-md: 20px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 96px;
+
+  /* Rounded */
+  --rounded-none: 0px;
+  --rounded-xs: 4px;
+  --rounded-sm: 8px;
+  --rounded-md: 12px;
+  --rounded-lg: 16px;
+  --rounded-xl: 24px;
+  --rounded-pill: 100px;
+  --rounded-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* ========================================
+   RESET & BASE
+   ======================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+  background-color: var(--color-canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img, svg { display: block; max-width: 100%; }
+
+/* ========================================
+   CONTAINER
+   ======================================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* ========================================
+   TOP NAVIGATION — top-nav-light
+   height: 64px | bg: canvas | text: ink | typography: nav-link
+   ======================================== */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-canvas);
+  border-bottom: 1px solid var(--color-hairline-soft);
+  height: 64px;
+}
+
+.top-nav .container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: var(--spacing-base);
+}
+
+.nav-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-right: var(--spacing-xl);
+}
+
+.nav-wordmark svg { width: 24px; height: 24px; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex: 1;
+}
+
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  transition: color 0.15s ease;
+  white-space: nowrap;
+}
+
+.nav-links a:hover { color: var(--color-primary); }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-left: auto;
+}
+
+.nav-sign-in {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  padding: 8px var(--spacing-base);
+  border-radius: var(--rounded-pill);
+  transition: background-color 0.15s ease;
+}
+
+.nav-sign-in:hover { background-color: var(--color-surface-strong); }
+
+/* button-primary */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-pill);
+  padding: 12px 20px;
+  height: 44px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover { background-color: var(--color-primary-active); }
+.btn-primary:active { background-color: var(--color-primary-active); }
+.btn-primary:disabled {
+  background-color: var(--color-primary-disabled);
+  cursor: not-allowed;
+}
+
+/* button-pill-cta — larger hero CTA */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-pill);
+  padding: 16px 32px;
+  height: 56px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-cta:hover { background-color: var(--color-primary-active); }
+
+/* button-secondary-light */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-strong);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-pill);
+  padding: 12px 20px;
+  height: 44px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover { background-color: var(--color-hairline); }
+
+/* button-secondary-dark */
+.btn-secondary-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-dark-elevated);
+  color: var(--color-on-dark);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-pill);
+  padding: 12px 20px;
+  height: 44px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary-dark:hover { background-color: rgba(255,255,255,0.08); }
+
+/* button-outline-on-dark */
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--color-on-dark);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: var(--rounded-pill);
+  padding: 11px 19px;
+  height: 44px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-outline-dark:hover {
+  border-color: rgba(255,255,255,0.5);
+  background-color: rgba(255,255,255,0.04);
+}
+
+/* button-tertiary-text */
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.15s ease;
+}
+
+.btn-text:hover { opacity: 0.8; }
+
+/* ========================================
+   HERO BAND — hero-band-dark
+   bg: surface-dark | text: on-dark | padding: 96px
+   ======================================== */
+.hero-band-dark {
+  background-color: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  padding: var(--spacing-section) 0;
+  overflow: hidden;
+}
+
+.hero-band-dark .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxl);
+  align-items: center;
+}
+
+.hero-content {
+  max-width: 520px;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  background-color: var(--color-surface-strong);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0;
+  border-radius: var(--rounded-pill);
+  padding: 4px 12px;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* display-mega: 80px, 400, line-height 1.0, letter-spacing -2px */
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -2px;
+  color: var(--color-on-dark);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* body-md: 16px, 400, line-height 1.5 */
+.hero-subhead {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-on-dark-soft);
+  margin-bottom: var(--spacing-xl);
+  max-width: 440px;
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-base);
+  flex-wrap: wrap;
+}
+
+/* Floating product-UI mockup cards */
+.hero-mockups {
+  position: relative;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* product-ui-card-dark: bg surface-dark-elevated, rounded-xl, padding 32px */
+.mockup-card {
+  background-color: var(--color-surface-dark-elevated);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  position: absolute;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.mockup-card--main {
+  width: 380px;
+  height: 260px;
+  top: 60px;
+  left: 0;
+  z-index: 2;
+}
+
+.mockup-card--overlay {
+  width: 300px;
+  height: 200px;
+  top: 120px;
+  right: -10px;
+  z-index: 3;
+  transform: rotate(3deg);
+}
+
+.mockup-card--small {
+  width: 240px;
+  height: 160px;
+  top: 20px;
+  right: 50px;
+  z-index: 1;
+  transform: rotate(-2deg);
+  opacity: 0.7;
+}
+
+.mockup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.mockup-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mockup-logo-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-primary);
+}
+
+.mockup-logo-text {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-on-dark);
+}
+
+.mockup-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(5, 177, 105, 0.12);
+  color: var(--color-semantic-up);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+}
+
+.mockup-chart {
+  height: 80px;
+  background: linear-gradient(135deg, rgba(0,82,255,0.1), rgba(0,82,255,0.02));
+  border-radius: var(--rounded-sm);
+  margin-bottom: var(--spacing-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.mockup-chart-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 340 80'%3E%3Cpath d='M0,60 L40,55 L80,65 L120,30 L160,40 L200,20 L240,35 L280,10 L320,25 L340,15' fill='none' stroke='%230052ff' stroke-width='2'/%3E%3C/svg%3E") no-repeat bottom;
+  background-size: 100% 100%;
+}
+
+.mockup-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.mockup-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xs) 0;
+}
+
+.mockup-row-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.mockup-asset-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-surface-strong);
+}
+
+.mockup-asset-name {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-on-dark);
+}
+
+.mockup-asset-price {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-on-dark);
+}
+
+.mockup-asset-change {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: var(--spacing-sm);
+}
+
+.mockup-asset-change.up { color: var(--color-semantic-up); }
+.mockup-asset-change.down { color: var(--color-semantic-down); }
+
+.mockup-stat-row {
+  display: flex;
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-base);
+}
+
+.mockup-stat-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-muted-soft);
+  margin-bottom: 4px;
+}
+
+.mockup-stat-value {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-on-dark);
+}
+
+/* ========================================
+   SECTION HEADERS
+   ======================================== */
+.section-head {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+}
+
+/* display-lg: 52px, 400, line-height 1.0, letter-spacing -1.3px */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -1.3px;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-base);
+}
+
+.section-subtitle {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-body);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ========================================
+   FEATURES SECTION
+   bg: canvas | padding: section 96px
+   ======================================== */
+.section-features {
+  background-color: var(--color-canvas);
+  padding: var(--spacing-section) 0;
+}
+
+/* feature-card: bg canvas, rounded-xl, padding 32px */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.feature-card {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  /* Only text color is ink, not bg */
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-surface-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.feature-icon svg { width: 24px; height: 24px; }
+
+/* title-md: 18px, 600, line-height 1.33 */
+.feature-card h3 {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.33;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* body-md */
+.feature-card p {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+  margin-bottom: var(--spacing-base);
+}
+
+/* ========================================
+   ASSETS / TRADING SECTION
+   bg: surface-soft | padding: section 96px
+   ======================================== */
+.section-assets {
+  background-color: var(--color-surface-soft);
+  padding: var(--spacing-section) 0;
+}
+
+.assets-table {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-xl);
+  overflow: hidden;
+}
+
+.assets-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 120px;
+  padding: var(--spacing-base) var(--spacing-xl);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.assets-header span {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.assets-header span:last-child { text-align: right; }
+
+/* asset-row: bg transparent, padding 16px 0 */
+.asset-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 120px;
+  align-items: center;
+  padding: var(--spacing-base) var(--spacing-xl);
+  border-bottom: 1px solid var(--color-hairline-soft);
+  transition: background-color 0.15s ease;
+}
+
+.asset-row:last-child { border-bottom: none; }
+.asset-row:hover { background-color: var(--color-surface-soft); }
+
+.asset-row-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* asset-icon-circular: bg surface-strong, rounded-full, 32px */
+.asset-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-surface-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.asset-icon svg { width: 18px; height: 18px; }
+
+.asset-name {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.33;
+  color: var(--color-ink);
+}
+
+.asset-ticker {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-muted);
+  margin-left: var(--spacing-xs);
+}
+
+/* number-display: 18px, 500, line-height 1.4, CoinbaseMono */
+.asset-price {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+/* price-up-cell / price-down-cell */
+.asset-change {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.asset-change.up { color: var(--color-semantic-up); }
+.asset-change.down { color: var(--color-semantic-down); }
+
+.asset-sparkline {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.asset-sparkline svg { height: 32px; width: 90px; }
+
+/* ========================================
+   PRICING SECTION
+   bg: canvas | padding: section 96px
+   ======================================== */
+.section-pricing {
+  background-color: var(--color-canvas);
+  padding: var(--spacing-section) 0;
+}
+
+/* pricing-tier-card: bg canvas, rounded-xl, padding 32px */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.pricing-card {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.25s ease;
+}
+
+.pricing-card:hover { box-shadow: var(--shadow-card); }
+
+/* pricing-tier-featured: bg surface-dark, text on-dark */
+.pricing-card--featured {
+  background-color: var(--color-surface-dark);
+  border-color: var(--color-surface-dark);
+  color: var(--color-on-dark);
+}
+
+.pricing-card--featured:hover { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); }
+
+.pricing-tier {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pricing-card--featured .pricing-tier { color: var(--color-on-dark-soft); }
+
+.pricing-name {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.33;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-base);
+}
+
+.pricing-card--featured .pricing-name { color: var(--color-on-dark); }
+
+.pricing-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.pricing-price {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 1.09;
+  letter-spacing: -1px;
+  color: var(--color-ink);
+}
+
+.pricing-card--featured .pricing-price { color: var(--color-on-dark); }
+
+.pricing-period {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.pricing-card--featured .pricing-period { color: var(--color-on-dark-soft); }
+
+.pricing-desc {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-body);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.pricing-card--featured .pricing-desc {
+  color: var(--color-on-dark-soft);
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+.pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+  flex: 1;
+}
+
+.pricing-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-body);
+}
+
+.pricing-card--featured .pricing-feature { color: var(--color-on-dark-soft); }
+
+.pricing-check {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-semantic-up);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.pricing-card--featured .pricing-check { background-color: var(--color-semantic-up); }
+
+.pricing-check svg { width: 10px; height: 10px; }
+
+.pricing-card .btn-primary,
+.pricing-card .btn-secondary,
+.pricing-card .btn-secondary-dark {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* ========================================
+   CTA BAND — cta-band-dark
+   bg: surface-dark | text: on-dark | padding: 96px
+   ======================================== */
+.cta-band-dark {
+  background-color: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  padding: var(--spacing-section) 0;
+  text-align: center;
+}
+
+/* display-lg: 52px, 400, line-height 1.0, letter-spacing -1.3px */
+.cta-band-dark .section-title {
+  color: var(--color-on-dark);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-band-dark .section-subtitle {
+  color: var(--color-on-dark-soft);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--spacing-xl);
+}
+
+.cta-band-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-base);
+  flex-wrap: wrap;
+}
+
+.cta-band-dark .section-head { margin-bottom: 0; }
+
+/* ========================================
+   FOOTER — footer-light
+   bg: canvas | text: body | typography: body-sm | padding: 64px 48px
+   ======================================== */
+.footer {
+  background-color: var(--color-canvas);
+  border-top: 1px solid var(--color-hairline-soft);
+  padding: 64px 48px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-col h4 {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-base);
+}
+
+/* footer-link */
+.footer-col a {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-body);
+  margin-bottom: var(--spacing-sm);
+  transition: color 0.15s ease;
+}
+
+.footer-col a:hover { color: var(--color-primary); }
+
+/* legal-band: bg canvas, text muted, typography caption */
+.footer-legal {
+  max-width: 1200px;
+  margin: var(--spacing-xxl) auto 0;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-hairline-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-base);
+}
+
+.footer-legal-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.footer-legal-left span,
+.footer-legal-left a {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.footer-legal-left a:hover { color: var(--color-primary); }
+
+.footer-language {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1024px) {
+  .nav-links { display: none; }
+  .hero-band-dark .container { grid-template-columns: 1fr; }
+  .hero-content { max-width: 100%; text-align: center; }
+  .hero-subhead { max-width: 100%; }
+  .hero-ctas { justify-content: center; }
+  .hero-headline { font-size: 64px; letter-spacing: -1.6px; }
+
+  .hero-mockups { height: 300px; }
+  .mockup-card--main { width: 300px; height: 220px; top: 40px; left: 50%; transform: translateX(-60%); }
+  .mockup-card--overlay { width: 240px; height: 160px; top: 80px; right: 15%; }
+  .mockup-card--small { display: none; }
+
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .section-title { font-size: 44px; letter-spacing: -1px; }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .hero-headline { font-size: 40px; letter-spacing: -0.5px; }
+  .section-title { font-size: 36px; letter-spacing: -0.5px; }
+
+  .hero-mockups { height: 240px; }
+  .mockup-card--main { width: 260px; height: 180px; top: 20px; left: 50%; transform: translateX(-50%); }
+  .mockup-card--overlay { display: none; }
+
+  .features-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+
+  .assets-header,
+  .asset-row {
+    grid-template-columns: 2fr 1fr 60px;
+  }
+  .assets-header span:nth-child(3),
+  .asset-sparkline { display: none; }
+
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-legal { flex-direction: column; align-items: flex-start; }
+
+  :root {
+    --spacing-section: 64px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     TOP NAVIGATION — top-nav-light
+     ============================================ -->
+<nav class="top-nav">
+  <div class="container">
+    <a href="#" class="nav-wordmark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="none" stroke="#0052ff" stroke-width="3"/>
+        <path d="M8 12L11 15L16 9" stroke="#0052ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Coinbase
+    </a>
+    <div class="nav-links">
+      <a href="#">Cryptocurrencies</a>
+      <a href="#">Individuals</a>
+      <a href="#">Businesses</a>
+      <a href="#">Institutions</a>
+      <a href="#">Developers</a>
+      <a href="#">Company</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="nav-sign-in">Sign In</a>
+      <button class="btn-primary">Get started</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================
+     HERO BAND — hero-band-dark
+     ============================================ -->
+<header class="hero-band-dark">
+  <div class="container">
+    <div class="hero-content">
+      <span class="hero-eyebrow">The future of money is here</span>
+      <h1 class="hero-headline">Your crypto<br>journey starts<br>with Coinbase</h1>
+      <p class="hero-subhead">
+        The world's most trusted platform to buy, sell, and manage cryptocurrency.
+        Whether you're a beginner or advanced trader, we have the tools you need.
+      </p>
+      <div class="hero-ctas">
+        <button class="btn-cta">Get started</button>
+        <button class="btn-outline-dark">Explore crypto</button>
+      </div>
+    </div>
+    <div class="hero-mockups">
+      <div class="mockup-card mockup-card--main">
+        <div class="mockup-header">
+          <div class="mockup-logo">
+            <div class="mockup-logo-circle"></div>
+            <span class="mockup-logo-text">Portfolio</span>
+          </div>
+          <span class="mockup-badge">▲ 2.4%</span>
+        </div>
+        <div class="mockup-chart">
+          <div class="mockup-chart-line"></div>
+        </div>
+        <div class="mockup-stat-row">
+          <div>
+            <div class="mockup-stat-label">Balance</div>
+            <div class="mockup-stat-value">$12,450</div>
+          </div>
+          <div>
+            <div class="mockup-stat-label">Today</div>
+            <div class="mockup-stat-value" style="color:var(--color-semantic-up)">+$340</div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-card mockup-card--overlay">
+        <div class="mockup-header">
+          <div class="mockup-logo">
+            <div class="mockup-logo-circle" style="background-color:var(--color-accent-yellow)"></div>
+            <span class="mockup-logo-text">Assets</span>
+          </div>
+        </div>
+        <div class="mockup-rows">
+          <div class="mockup-row">
+            <div class="mockup-row-left">
+              <div class="mockup-asset-circle"></div>
+              <span class="mockup-asset-name">Bitcoin</span>
+            </div>
+            <div>
+              <span class="mockup-asset-price">$62,400</span>
+              <span class="mockup-asset-change up">+3.2%</span>
+            </div>
+          </div>
+          <div class="mockup-row">
+            <div class="mockup-row-left">
+              <div class="mockup-asset-circle"></div>
+              <span class="mockup-asset-name">Ethereum</span>
+            </div>
+            <div>
+              <span class="mockup-asset-price">$4,210</span>
+              <span class="mockup-asset-change up">+1.8%</span>
+            </div>
+          </div>
+          <div class="mockup-row">
+            <div class="mockup-row-left">
+              <div class="mockup-asset-circle"></div>
+              <span class="mockup-asset-name">Solana</span>
+            </div>
+            <div>
+              <span class="mockup-asset-price">$186</span>
+              <span class="mockup-asset-change down">-0.6%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-card mockup-card--small">
+        <div class="mockup-header">
+          <span class="mockup-logo-text">Activity</span>
+        </div>
+        <div class="mockup-rows">
+          <div class="mockup-row">
+            <span style="font-size:13px;color:var(--color-muted-soft)">BTC Purchase</span>
+            <span class="mockup-asset-price" style="font-size:13px">$1,200</span>
+          </div>
+          <div class="mockup-row">
+            <span style="font-size:13px;color:var(--color-muted-soft)">ETH Stake</span>
+            <span class="mockup-asset-price" style="font-size:13px">$500</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================
+     FEATURES SECTION
+     ============================================ -->
+<section id="features" class="section-features">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Designed for everyone</h2>
+      <p class="section-subtitle">
+        From first-time buyers to institutional investors, Coinbase provides secure, simple tools for managing crypto.
+      </p>
+    </div>
+    <div class="features-grid">
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0052ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <line x1="9" y1="9" x2="15" y2="9"/>
+            <line x1="9" y1="13" x2="15" y2="13"/>
+            <line x1="9" y1="17" x2="12" y2="17"/>
+          </svg>
+        </div>
+        <h3>Simple, transparent pricing</h3>
+        <p>Trade with confidence knowing exactly what you&rsquo;ll pay upfront. No hidden fees, no surprises.</p>
+        <a href="#" class="btn-text">Learn more →</a>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0052ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
+          </svg>
+        </div>
+        <h3>Industry-leading security</h3>
+        <p>Multi-layer cold storage, biometric authentication, and insurance coverage protect your assets.</p>
+        <a href="#" class="btn-text">Learn more →</a>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0052ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="8 12 11 15 16 9"/>
+          </svg>
+        </div>
+        <h3>Trusted by millions</h3>
+        <p>Over 100 million verified users across 100+ countries rely on Coinbase for their crypto needs.</p>
+        <a href="#" class="btn-text">Learn more →</a>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0052ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+        </div>
+        <h3>Earn rewards on your crypto</h3>
+        <p>Stake eligible assets and earn up to 5% APY. Put your crypto to work while you hold.</p>
+        <a href="#" class="btn-text">Learn more →</a>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0052ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21V13H7V21"/>
+            <path d="M7 13L12 8L17 13"/>
+            <path d="M12 8V3"/>
+          </svg>
+        </div>
+        <h3>Advanced trading tools</h3>
+        <p>Access real-time order books, charting, and trading APIs. Built for professional traders.</p>
+        <a href="#" class="btn-text">Learn more →</a>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0052ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <h3>Developer platform</h3>
+        <p>Integrate crypto payments, wallets, and onchain data into your application with our SDKs and APIs.</p>
+        <a href="#" class="btn-text">Learn more →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     ASSETS / TRADING SECTION
+     ============================================ -->
+<section id="showcase" class="section-assets">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Explore top assets</h2>
+      <p class="section-subtitle">
+        Track real-time prices for hundreds of cryptocurrencies. Buy, sell, and trade with confidence.
+      </p>
+    </div>
+    <div class="assets-table">
+      <div class="assets-header">
+        <span>Name</span>
+        <span>Price</span>
+        <span>24h Change</span>
+        <span></span>
+      </div>
+      <div class="asset-row">
+        <div class="asset-row-left">
+          <div class="asset-icon">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#f4b000"/><text x="12" y="16" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">₿</text></svg>
+          </div>
+          <span class="asset-name">Bitcoin</span>
+          <span class="asset-ticker">BTC</span>
+        </div>
+        <span class="asset-price">$62,847.32</span>
+        <span class="asset-change up">+3.21%</span>
+        <div class="asset-sparkline">
+          <svg viewBox="0 0 90 32" fill="none"><path d="M0,20 L15,18 L30,24 L40,12 L50,16 L65,10 L80,14 L90,8" stroke="#05b169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-row-left">
+          <div class="asset-icon">
+            <svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 22,20 2,20" fill="#627eea"/></svg>
+          </div>
+          <span class="asset-name">Ethereum</span>
+          <span class="asset-ticker">ETH</span>
+        </div>
+        <span class="asset-price">$4,218.60</span>
+        <span class="asset-change up">+1.87%</span>
+        <div class="asset-sparkline">
+          <svg viewBox="0 0 90 32" fill="none"><path d="M0,16 L15,12 L30,18 L40,10 L50,14 L65,8 L80,12 L90,6" stroke="#05b169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-row-left">
+          <div class="asset-icon">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#00ffa3"/></svg>
+          </div>
+          <span class="asset-name">Solana</span>
+          <span class="asset-ticker">SOL</span>
+        </div>
+        <span class="asset-price">$186.42</span>
+        <span class="asset-change down">-0.64%</span>
+        <div class="asset-sparkline">
+          <svg viewBox="0 0 90 32" fill="none"><path d="M0,10 L15,14 L30,8 L40,18 L50,14 L65,20 L80,16 L90,22" stroke="#cf202f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-row-left">
+          <div class="asset-icon">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" fill="#0052ff"/><text x="12" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">$</text></svg>
+          </div>
+          <span class="asset-name">USD Coin</span>
+          <span class="asset-ticker">USDC</span>
+        </div>
+        <span class="asset-price">$1.00</span>
+        <span class="asset-change up">+0.01%</span>
+        <div class="asset-sparkline">
+          <svg viewBox="0 0 90 32" fill="none"><path d="M0,16 L15,16 L30,15 L40,17 L50,16 L65,16 L80,15 L90,16" stroke="#05b169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-row-left">
+          <div class="asset-icon">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#8c8cee"/></svg>
+          </div>
+          <span class="asset-name">Cardano</span>
+          <span class="asset-ticker">ADA</span>
+        </div>
+        <span class="asset-price">$1.24</span>
+        <span class="asset-change up">+5.42%</span>
+        <div class="asset-sparkline">
+          <svg viewBox="0 0 90 32" fill="none"><path d="M0,22 L15,18 L30,24 L40,8 L50,14 L65,6 L80,10 L90,4" stroke="#05b169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     PRICING SECTION
+     ============================================ -->
+<section id="pricing" class="section-pricing">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Built for every stage</h2>
+      <p class="section-subtitle">
+        Whether you're buying your first Bitcoin or running an institutional desk, we have a plan that fits.
+      </p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <span class="pricing-tier">STARTER</span>
+        <h3 class="pricing-name">Simple</h3>
+        <div class="pricing-amount">
+          <span class="pricing-price">Free</span>
+        </div>
+        <p class="pricing-desc">Perfect for getting started with crypto. No minimum balance required.</p>
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Buy, sell & convert crypto
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Recurring buys
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Mobile app access
+          </div>
+        </div>
+        <button class="btn-secondary">Get started</button>
+      </div>
+
+      <div class="pricing-card pricing-card--featured">
+        <span class="pricing-tier">MOST POPULAR</span>
+        <h3 class="pricing-name">Advanced Trade</h3>
+        <div class="pricing-amount">
+          <span class="pricing-price">$29</span>
+          <span class="pricing-period">/mo</span>
+        </div>
+        <p class="pricing-desc">For traders who need advanced tools, real-time data, and lower fees.</p>
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Everything in Simple
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Advanced order types
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Real-time order books
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Lower trading fees
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Priority support
+          </div>
+        </div>
+        <button class="btn-secondary-dark">Start free trial</button>
+      </div>
+
+      <div class="pricing-card">
+        <span class="pricing-tier">INSTITUTIONAL</span>
+        <h3 class="pricing-name">Coinbase Prime</h3>
+        <div class="pricing-amount">
+          <span class="pricing-price">Custom</span>
+        </div>
+        <p class="pricing-desc">For institutions that need custody, staking, and execution at scale.</p>
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Qualified custody
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            On-chain staking
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Governance & voting
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Dedicated account manager
+          </div>
+          <div class="pricing-feature">
+            <div class="pricing-check">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            API & WebSocket access
+          </div>
+        </div>
+        <button class="btn-secondary">Contact sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CTA BAND — cta-band-dark
+     ============================================ -->
+<section id="cta" class="cta-band-dark">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Take control of your money</h2>
+      <p class="section-subtitle">
+        Join over 100 million people who trust Coinbase to buy, sell, and manage their crypto.
+      </p>
+    </div>
+    <div class="cta-band-actions">
+      <button class="btn-cta">Get started</button>
+      <button class="btn-outline-dark">View all assets</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER — footer-light
+     ============================================ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Products</h4>
+      <a href="#">Coinbase</a>
+      <a href="#">Advanced Trade</a>
+      <a href="#">Coinbase Wallet</a>
+      <a href="#">Coinbase Prime</a>
+      <a href="#">Coinbase Card</a>
+    </div>
+    <div class="footer-col">
+      <h4>Learn</h4>
+      <a href="#">Crypto basics</a>
+      <a href="#">Tips & tutorials</a>
+      <a href="#">Market updates</a>
+      <a href="#">Crypto glossary</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Developers</h4>
+      <a href="#">Cloud API</a>
+      <a href="#">Wallet SDK</a>
+      <a href="#">Base</a>
+      <a href="#">Documentation</a>
+      <a href="#">Status</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Investors</a>
+      <a href="#">Security</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Help center</a>
+      <a href="#">Contact us</a>
+      <a href="#">Create account</a>
+      <a href="#">ID verification</a>
+      <a href="#">Account access</a>
+    </div>
+    <div class="footer-col">
+      <h4>Social</h4>
+      <a href="#">Twitter</a>
+      <a href="#">Discord</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">YouTube</a>
+      <a href="#">Telegram</a>
+    </div>
+  </div>
+
+  <div class="footer-legal">
+    <div class="footer-legal-left">
+      <span>© 2024 Coinbase</span>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Preferences</a>
+      <a href="#">Disclosures</a>
+    </div>
+    <span class="footer-language">English (US) · USD</span>
+  </div>
+</footer>
+
+</body>
+</html>

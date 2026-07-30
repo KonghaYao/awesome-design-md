@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple</title>
+<style>
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+img, svg { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { border: none; background: none; cursor: pointer; font-family: inherit; }
+
+/* ── Design Tokens (from DESIGN.md) ── */
+:root {
+  --color-primary: #0066cc;
+  --color-primary-focus: #0071e3;
+  --color-primary-on-dark: #2997ff;
+  --color-ink: #1d1d1f;
+  --color-body: #1d1d1f;
+  --color-body-on-dark: #ffffff;
+  --color-body-muted: #cccccc;
+  --color-ink-muted-80: #333333;
+  --color-ink-muted-48: #7a7a7a;
+  --color-divider-soft: #f0f0f0;
+  --color-hairline: #e0e0e0;
+  --color-canvas: #ffffff;
+  --color-canvas-parchment: #f5f5f7;
+  --color-surface-pearl: #fafafc;
+  --color-surface-tile-1: #272729;
+  --color-surface-tile-2: #2a2a2c;
+  --color-surface-tile-3: #252527;
+  --color-surface-black: #000000;
+  --color-surface-chip-translucent: #d2d2d7;
+
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 17px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 80px;
+
+  --rounded-none: 0px;
+  --rounded-xs: 5px;
+  --rounded-sm: 8px;
+  --rounded-md: 11px;
+  --rounded-lg: 18px;
+  --rounded-pill: 9999px;
+  --rounded-full: 9999px;
+
+  --font-display: 'SF Pro Display', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-text: 'SF Pro Text', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Typography ── */
+.hero-display {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.28px;
+}
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: 0;
+}
+.display-md {
+  font-family: var(--font-text);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+}
+.lead {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: 0.196px;
+}
+.lead-airy {
+  font-family: var(--font-text);
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.tagline {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: 0.231px;
+}
+.body-strong {
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.374px;
+}
+.body {
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+}
+.caption {
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.224px;
+}
+.caption-strong {
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+}
+.fine-print {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+}
+.nav-link {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+}
+.dense-link {
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 2.41;
+  letter-spacing: 0;
+}
+
+/* ── Global Nav ── */
+.global-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface-black);
+  color: var(--color-body-on-dark);
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+  height: 44px;
+}
+.global-nav-inner {
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.global-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.global-nav-links a {
+  color: var(--color-body-on-dark);
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+.global-nav-links a:hover { opacity: 1; }
+.global-nav-logo svg { width: 18px; height: 18px; fill: var(--color-body-on-dark); opacity: 0.8; }
+.global-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.global-nav-actions svg { width: 16px; height: 16px; fill: var(--color-body-on-dark); opacity: 0.8; }
+
+/* ── Sub Nav ── */
+.sub-nav {
+  position: sticky;
+  top: 44px;
+  z-index: 99;
+  background: var(--color-canvas-parchment);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  height: 52px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.sub-nav-inner {
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sub-nav-title {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: 0.231px;
+  color: var(--color-ink);
+}
+.sub-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.sub-nav-links a {
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+  color: var(--color-ink);
+}
+.sub-nav-links a:hover { color: var(--color-primary); }
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  padding: 11px 22px;
+  border-radius: var(--rounded-pill);
+  transition: transform 0.15s ease, background 0.2s ease;
+  min-width: 44px;
+  min-height: 44px;
+}
+.btn-primary:hover { background: var(--color-primary-focus); }
+.btn-primary:active { transform: scale(0.95); }
+.btn-primary:focus-visible { outline: 2px solid var(--color-primary-focus); outline-offset: 2px; }
+
+.btn-secondary-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-primary);
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  padding: 11px 22px;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--rounded-pill);
+  transition: transform 0.15s ease, background 0.2s ease;
+  min-width: 44px;
+  min-height: 44px;
+}
+.btn-secondary-pill:hover { background: var(--color-primary); color: #ffffff; }
+.btn-secondary-pill:active { transform: scale(0.95); }
+
+.btn-store-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-family: var(--font-text);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 14px 28px;
+  border-radius: var(--rounded-pill);
+  transition: transform 0.15s ease, background 0.2s ease;
+  min-width: 44px;
+  min-height: 44px;
+}
+.btn-store-hero:hover { background: var(--color-primary-focus); }
+.btn-store-hero:active { transform: scale(0.95); }
+
+.btn-pearl-capsule {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-pearl);
+  color: var(--color-ink-muted-80);
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.224px;
+  padding: 8px 14px;
+  border: 3px solid var(--color-divider-soft);
+  border-radius: var(--rounded-md);
+  transition: transform 0.15s ease;
+}
+.btn-pearl-capsule:active { transform: scale(0.95); }
+
+.text-link {
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: var(--color-primary);
+}
+.text-link:hover { text-decoration: underline; }
+
+.text-link-on-dark {
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: var(--color-primary-on-dark);
+}
+.text-link-on-dark:hover { text-decoration: underline; }
+
+/* ── Product Tiles ── */
+.product-tile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-section) 22px;
+  border-radius: var(--rounded-none);
+}
+.product-tile-light {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+.product-tile-parchment {
+  background: var(--color-canvas-parchment);
+  color: var(--color-ink);
+}
+.product-tile-dark {
+  background: var(--color-surface-tile-1);
+  color: var(--color-body-on-dark);
+}
+.product-tile-dark-2 {
+  background: var(--color-surface-tile-2);
+  color: var(--color-body-on-dark);
+}
+.product-tile-dark-3 {
+  background: var(--color-surface-tile-3);
+  color: var(--color-body-on-dark);
+}
+.product-tile-headline {
+  margin-bottom: var(--spacing-xs);
+}
+.product-tile-subhead {
+  margin-bottom: var(--spacing-md);
+}
+.product-tile .lead {
+  margin-bottom: var(--spacing-md);
+}
+.product-tile-ctas {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xxl);
+}
+.product-visual {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.product-visual-svg {
+  width: 100%;
+  height: auto;
+}
+.product-shadow {
+  filter: drop-shadow(rgba(0,0,0,0.22) 3px 5px 30px);
+}
+
+/* ── Device SVGs ── */
+.device-iphone {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.device-macbook {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.device-ipad {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.device-watch {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* ── Store Utility Cards Grid ── */
+.utility-section {
+  background: var(--color-canvas-parchment);
+  padding: var(--spacing-section) 22px;
+}
+.utility-section-heading {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+  color: var(--color-ink);
+}
+.utility-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.store-utility-card {
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.store-utility-card:hover {
+  transform: translateY(-2px);
+}
+.store-utility-card-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--color-canvas-parchment);
+  border-radius: var(--rounded-sm);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.store-utility-card-image svg {
+  width: 60%;
+  height: 60%;
+}
+.store-utility-card-name {
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.374px;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-xxs);
+}
+.store-utility-card-price {
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-sm);
+}
+.store-utility-card-link {
+  margin-top: auto;
+}
+
+/* ── CTA Banner ── */
+.cta-banner {
+  background: var(--color-canvas-parchment);
+  padding: var(--spacing-section) 22px;
+  text-align: center;
+}
+.cta-banner-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  color: var(--color-ink);
+}
+.cta-banner-headline {
+  margin-bottom: var(--spacing-sm);
+}
+.cta-banner-body {
+  margin-bottom: var(--spacing-xl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Footer ── */
+.footer {
+  background: var(--color-canvas-parchment);
+  color: var(--color-ink-muted-80);
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+  padding: 64px 22px;
+}
+.footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.footer-note {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+  color: var(--color-ink-muted-48);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-hairline);
+}
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+.footer-col-heading {
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-sm);
+}
+.footer-col a {
+  display: block;
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 2.41;
+  letter-spacing: 0;
+  color: var(--color-ink-muted-80);
+  transition: color 0.2s ease;
+}
+.footer-col a:hover { color: var(--color-ink); }
+.footer-legal {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+  color: var(--color-ink-muted-48);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-hairline);
+}
+.footer-legal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+.footer-legal-links {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+.footer-legal-links a {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+  color: var(--color-ink-muted-80);
+}
+.footer-legal-links a:hover { text-decoration: underline; }
+
+/* ── Responsive ── */
+@media (max-width: 1068px) {
+  .hero-display { font-size: 40px; letter-spacing: 0; }
+  .utility-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-columns { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 833px) {
+  .global-nav-links { display: none; }
+  .sub-nav-links { display: none; }
+  .utility-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-columns { grid-template-columns: repeat(2, 1fr); }
+  .product-tile { padding: 48px 22px; }
+}
+@media (max-width: 640px) {
+  .hero-display { font-size: 34px; }
+  .display-lg { font-size: 32px; }
+  .lead { font-size: 21px; }
+  .utility-grid { grid-template-columns: 1fr; }
+  .footer-columns { grid-template-columns: 1fr; }
+  .product-tile { padding: 48px 16px; }
+  .product-tile-ctas { flex-direction: column; gap: var(--spacing-sm); }
+}
+@media (max-width: 419px) {
+  .hero-display { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Global Nav ── -->
+<nav class="global-nav">
+  <div class="global-nav-inner">
+    <a href="#" class="global-nav-logo" aria-label="Apple">
+      <svg viewBox="0 0 16 20" xmlns="http://www.w3.org/2000/svg"><path d="M11.913 3.037c-.407.504-.993 1.115-1.73 1.543-.73.422-1.466.63-2.183.63-.09 0-.18-.004-.27-.012.094-.392.293-.883.596-1.466.305-.583.68-1.1 1.125-1.54.445-.44.963-.786 1.554-1.04.01.392-.08.834-.27 1.334-.19.498-.46.965-.822 1.392v.006c.458-.07.914-.196 1.365-.375.446-.178.846-.4 1.2-.665l-.564.393zm2.558 6.27c-.117-.95-.406-1.822-.87-2.62-.58-1.01-1.296-1.82-2.144-2.43-.663-.48-1.29-.72-1.88-.72-.515 0-1.05.144-1.6.432-.317.17-.605.254-.864.254-.224 0-.486-.08-.782-.24-.367-.2-.69-.3-.98-.3-.53 0-1.09.25-1.68.746-.68.57-1.23 1.32-1.65 2.25-.5 1.09-.78 2.2-.84 3.33-.09 1.56.16 2.94.76 4.15.34.66.87 1.27 1.58 1.82.67.52 1.35.78 2.03.78.45 0 .91-.095 1.37-.287.465-.195.804-.29 1.02-.29.28-.002.644.093 1.08.285.385.17.75.255 1.095.255.66 0 1.34-.26 2.03-.78.59-.454 1.06-1.07 1.42-1.86-.708-.34-1.27-.87-1.68-1.59-.41-.73-.62-1.53-.62-2.39z"/></svg>
+    </a>
+    <div class="global-nav-links">
+      <a href="#">Store</a>
+      <a href="#">Mac</a>
+      <a href="#">iPad</a>
+      <a href="#">iPhone</a>
+      <a href="#">Watch</a>
+      <a href="#">Vision</a>
+      <a href="#">AirPods</a>
+      <a href="#">TV &amp; Home</a>
+      <a href="#">Entertainment</a>
+      <a href="#">Accessories</a>
+      <a href="#">Support</a>
+    </div>
+    <div class="global-nav-actions">
+      <a href="#" aria-label="Search"><svg viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9.7" y1="9.7" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></a>
+      <a href="#" aria-label="Bag"><svg viewBox="0 0 16 20"><path d="M11 6V4.5a3 3 0 00-6 0V6H0v14h16V6h-5zM6 4.5a2 2 0 014 0V6H6V4.5z" fill="currentColor"/></svg></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Sub Nav ── -->
+<div class="sub-nav">
+  <div class="sub-nav-inner">
+    <span class="sub-nav-title">Apple</span>
+    <div class="sub-nav-links">
+      <a href="#">Overview</a>
+      <a href="#">Why Apple</a>
+      <a href="#">Store</a>
+      <a href="#">Support</a>
+      <a href="#" class="btn-primary" style="font-size:12px;font-weight:400;padding:6px 16px;">Buy</a>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  HERO — iPhone 16 Pro (Light Tile)              -->
+<!-- ════════════════════════════════════════════════ -->
+<header class="product-tile product-tile-light">
+  <h1 class="hero-display product-tile-headline">iPhone 16 Pro</h1>
+  <p class="lead">Hello, Apple Intelligence.</p>
+  <div class="product-tile-ctas">
+    <a href="#" class="btn-primary">Learn more</a>
+    <a href="#" class="btn-secondary-pill">Buy</a>
+  </div>
+  <div class="product-visual">
+    <div class="device-iphone product-shadow">
+      <svg viewBox="0 0 340 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="iphone-body" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2a2a2c"/>
+            <stop offset="100%" stop-color="#1a1a1d"/>
+          </linearGradient>
+          <linearGradient id="iphone-screen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="50%" stop-color="#4a90d9"/>
+            <stop offset="100%" stop-color="#2d5aa0"/>
+          </linearGradient>
+        </defs>
+        <rect x="95" y="10" width="150" height="400" rx="32" fill="url(#iphone-body)"/>
+        <rect x="100" y="18" width="140" height="384" rx="26" fill="url(#iphone-screen)"/>
+        <!-- Camera lenses -->
+        <circle cx="160" cy="66" r="10" fill="#1a1a1d" stroke="#333" stroke-width="1"/>
+        <circle cx="175" cy="60" r="7" fill="#1a1a1d" stroke="#333" stroke-width="1"/>
+        <circle cx="145" cy="60" r="7" fill="#1a1a1d" stroke="#333" stroke-width="1"/>
+        <!-- App icon grid on screen -->
+        <rect x="115" y="100" width="28" height="28" rx="7" fill="#34c759"/>
+        <rect x="151" y="100" width="28" height="28" rx="7" fill="#007aff"/>
+        <rect x="187" y="100" width="28" height="28" rx="7" fill="#ff9500"/>
+        <rect x="223" y="100" width="28" height="28" rx="7" fill="#ff3b30"/>
+        <rect x="115" y="136" width="28" height="28" rx="7" fill="#5856d6"/>
+        <rect x="151" y="136" width="28" height="28" rx="7" fill="#ff2d55"/>
+        <rect x="187" y="136" width="28" height="28" rx="7" fill="#007aff"/>
+        <rect x="223" y="136" width="28" height="28" rx="7" fill="#af52de"/>
+        <rect x="115" y="172" width="28" height="28" rx="7" fill="#ffcc00"/>
+        <rect x="151" y="172" width="28" height="28" rx="7" fill="#34c759"/>
+        <rect x="187" y="172" width="28" height="28" rx="7" fill="#007aff"/>
+        <rect x="223" y="172" width="28" height="28" rx="7" fill="#ff9500"/>
+        <!-- Dynamic Island -->
+        <ellipse cx="170" cy="32" rx="28" ry="8" fill="#000"/>
+        <!-- Bottom dock -->
+        <rect x="115" y="355" width="110" height="4" rx="2" fill="rgba(255,255,255,0.3)"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  MacBook Air (Dark Tile 1)                       -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="product-tile product-tile-dark">
+  <h2 class="display-lg product-tile-headline">MacBook Air</h2>
+  <p class="lead" style="color: var(--color-body-on-dark);">Lean. Mean. M4 machine.</p>
+  <div class="product-tile-ctas">
+    <a href="#" class="btn-primary">Learn more</a>
+    <a href="#" class="btn-secondary-pill" style="color: var(--color-primary-on-dark); border-color: var(--color-primary-on-dark);">Buy</a>
+  </div>
+  <div class="product-visual">
+    <div class="device-macbook product-shadow" style="filter: drop-shadow(rgba(0,0,0,0.35) 3px 5px 40px);">
+      <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mba-lid" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a4a50"/>
+            <stop offset="100%" stop-color="#2a2a2c"/>
+          </linearGradient>
+          <linearGradient id="mba-screen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a6fc5"/>
+            <stop offset="100%" stop-color="#1a4278"/>
+          </linearGradient>
+          <linearGradient id="mba-base" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a3a40"/>
+            <stop offset="100%" stop-color="#2a2a2c"/>
+          </linearGradient>
+        </defs>
+        <!-- Base -->
+        <rect x="80" y="240" width="600" height="16" rx="4" fill="url(#mba-base)"/>
+        <rect x="120" y="256" width="520" height="6" rx="2" fill="#222225"/>
+        <!-- Lid -->
+        <rect x="60" y="10" width="640" height="230" rx="16" fill="url(#mba-lid)"/>
+        <!-- Screen -->
+        <rect x="78" y="22" width="604" height="206" rx="10" fill="url(#mba-screen)"/>
+        <!-- Screen content - desktop mockup -->
+        <rect x="98" y="36" width="564" height="24" rx="4" fill="rgba(255,255,255,0.15)"/>
+        <circle cx="112" cy="48" r="5" fill="#ff5f57"/>
+        <circle cx="126" cy="48" r="5" fill="#febc2e"/>
+        <circle cx="140" cy="48" r="5" fill="#28c840"/>
+        <rect x="98" y="72" width="280" height="120" rx="8" fill="rgba(255,255,255,0.08)"/>
+        <rect x="394" y="72" width="268" height="56" rx="8" fill="rgba(255,255,255,0.06)"/>
+        <rect x="394" y="136" width="268" height="56" rx="8" fill="rgba(255,255,255,0.06)"/>
+        <!-- Notch -->
+        <rect x="318" y="10" width="124" height="12" rx="6" fill="#1a1a1d"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  iPad Pro (Parchment Tile)                       -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="product-tile product-tile-parchment">
+  <h2 class="display-lg product-tile-headline">iPad Pro</h2>
+  <p class="lead">The ultimate iPad experience.</p>
+  <p class="tagline" style="margin-bottom:var(--spacing-md); color: var(--color-ink-muted-80);">Now with M4 and Apple Pencil Pro.</p>
+  <div class="product-tile-ctas">
+    <a href="#" class="btn-primary">Learn more</a>
+    <a href="#" class="btn-secondary-pill">Buy</a>
+  </div>
+  <div class="product-visual">
+    <div class="device-ipad product-shadow">
+      <svg viewBox="0 0 320 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="ipad-body" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#d0d0d6"/>
+            <stop offset="100%" stop-color="#a0a0a8"/>
+          </linearGradient>
+          <linearGradient id="ipad-screen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8bb5e8"/>
+            <stop offset="100%" stop-color="#4a80c0"/>
+          </linearGradient>
+        </defs>
+        <rect x="35" y="8" width="250" height="404" rx="16" fill="url(#ipad-body)"/>
+        <rect x="43" y="18" width="234" height="384" rx="10" fill="url(#ipad-screen)"/>
+        <!-- Screen content -->
+        <rect x="60" y="34" width="120" height="14" rx="3" fill="rgba(255,255,255,0.2)"/>
+        <rect x="60" y="56" width="200" height="8" rx="3" fill="rgba(255,255,255,0.12)"/>
+        <rect x="60" y="72" width="200" height="140" rx="10" fill="rgba(255,255,255,0.08)"/>
+        <rect x="60" y="224" width="200" height="8" rx="3" fill="rgba(255,255,255,0.12)"/>
+        <rect x="60" y="240" width="160" height="8" rx="3" fill="rgba(255,255,255,0.12)"/>
+        <!-- Camera dot -->
+        <circle cx="160" cy="14" r="2" fill="#333"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  Apple Watch (Dark Tile 2)                        -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="product-tile product-tile-dark-2">
+  <h2 class="display-lg product-tile-headline" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.16-12.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM12 11c-1.1 0-2 .9-2 2v3l-1.5 1.5 1.42 1.42L11.5 17.3V13h1v4.3l1.58 1.62L15.5 17.5 14 16v-3c0-1.1-.9-2-2-2z" fill="#2997ff"/></svg>
+    Apple Watch
+  </h2>
+  <p class="lead" style="color: var(--color-body-on-dark);">Series 10. Thinpossible.</p>
+  <div class="product-tile-ctas">
+    <a href="#" class="btn-primary">Learn more</a>
+    <a href="#" class="btn-secondary-pill" style="color: var(--color-primary-on-dark); border-color: var(--color-primary-on-dark);">Buy</a>
+  </div>
+  <div class="product-visual">
+    <div class="device-watch product-shadow">
+      <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="watch-body" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#4a4a50"/>
+            <stop offset="100%" stop-color="#1a1a1d"/>
+          </linearGradient>
+          <linearGradient id="watch-screen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a1a25"/>
+            <stop offset="100%" stop-color="#0d0d15"/>
+          </linearGradient>
+        </defs>
+        <!-- Band top -->
+        <path d="M125 0 L155 0 L150 40 L130 40 Z" fill="#e8c97a"/>
+        <!-- Watch body -->
+        <rect x="88" y="36" width="104" height="130" rx="36" fill="url(#watch-body)"/>
+        <!-- Watch screen -->
+        <rect x="96" y="46" width="88" height="110" rx="28" fill="url(#watch-screen)"/>
+        <!-- Screen time -->
+        <text x="140" y="90" text-anchor="middle" font-family="SF Pro Display, system-ui" font-size="28" font-weight="600" fill="#ffffff" letter-spacing="-1">10:09</text>
+        <text x="140" y="114" text-anchor="middle" font-family="SF Pro Text, system-ui" font-size="10" font-weight="400" fill="#7a7a7a" letter-spacing="0">Tue, Jul 29</text>
+        <!-- Digital crown -->
+        <rect x="192" y="56" width="6" height="28" rx="3" fill="#3a3a40"/>
+        <!-- Side button -->
+        <rect x="192" y="90" width="6" height="20" rx="3" fill="#3a3a40"/>
+        <!-- Band bottom -->
+        <path d="M130 166 L150 166 L155 320 L125 320 Z" fill="#e8c97a"/>
+        <!-- Band texture lines -->
+        <line x1="132" y1="190" x2="148" y2="190" stroke="#d4b56a" stroke-width="0.5"/>
+        <line x1="132" y1="200" x2="148" y2="200" stroke="#d4b56a" stroke-width="0.5"/>
+        <line x1="132" y1="210" x2="148" y2="210" stroke="#d4b56a" stroke-width="0.5"/>
+        <line x1="132" y1="220" x2="148" y2="220" stroke="#d4b56a" stroke-width="0.5"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  Accessories Utility Grid (Parchment)            -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="utility-section">
+  <h3 class="display-md utility-section-heading">Which Apple is right for you?</h3>
+  <div class="utility-grid">
+
+    <!-- Card 1: AirPods -->
+    <div class="store-utility-card">
+      <div class="store-utility-card-image">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(60,60)">
+            <rect x="-15" y="-50" width="12" height="30" rx="6" fill="#e8e8ed"/>
+            <circle cx="-9" cy="-18" r="10" fill="#e8e8ed"/>
+            <circle cx="-9" cy="-18" r="6" fill="#1d1d1f"/>
+            <rect x="3" y="-48" width="12" height="28" rx="6" fill="#e8e8ed"/>
+            <circle cx="9" cy="-18" r="10" fill="#e8e8ed"/>
+            <circle cx="9" cy="-18" r="6" fill="#1d1d1f"/>
+            <rect x="-22" y="-28" width="44" height="32" rx="10" fill="#f0f0f5" stroke="#e0e0e0" stroke-width="1"/>
+          </g>
+        </svg>
+      </div>
+      <p class="store-utility-card-name">AirPods Pro 2</p>
+      <p class="store-utility-card-price">$249.00</p>
+      <div class="store-utility-card-link">
+        <a href="#" class="text-link">Buy</a>
+      </div>
+    </div>
+
+    <!-- Card 2: Apple Pencil -->
+    <div class="store-utility-card">
+      <div class="store-utility-card-image">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="30" width="64" height="4" rx="2" fill="#d0d0d6"/>
+          <rect x="30" y="20" width="4" height="18" rx="2" fill="#d0d0d6"/>
+          <rect x="50" y="36" width="20" height="46" rx="4" fill="#f0f0f5" stroke="#e0e0e0" stroke-width="1"/>
+          <line x1="60" y1="48" x2="60" y2="72" stroke="#d0d0d6" stroke-width="2"/>
+        </svg>
+      </div>
+      <p class="store-utility-card-name">Apple Pencil Pro</p>
+      <p class="store-utility-card-price">$129.00</p>
+      <div class="store-utility-card-link">
+        <a href="#" class="text-link">Buy</a>
+      </div>
+    </div>
+
+    <!-- Card 3: Magic Keyboard -->
+    <div class="store-utility-card">
+      <div class="store-utility-card-image">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="22" y="30" width="76" height="48" rx="6" fill="#f0f0f5" stroke="#e0e0e0" stroke-width="1"/>
+          <g transform="translate(28, 38)">
+            <rect x="0" y="0" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="12" y="0" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="24" y="0" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="36" y="0" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="48" y="0" width="16" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="0" y="12" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="12" y="12" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="24" y="12" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="36" y="12" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="48" y="12" width="16" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="0" y="24" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="12" y="24" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="24" y="24" width="10" height="8" rx="2" fill="#d0d0d6"/>
+            <rect x="36" y="24" width="28" height="8" rx="2" fill="#d0d0d6"/>
+          </g>
+          <rect x="36" y="80" width="48" height="4" rx="2" fill="#d0d0d6"/>
+        </svg>
+      </div>
+      <p class="store-utility-card-name">Magic Keyboard</p>
+      <p class="store-utility-card-price">$299.00</p>
+      <div class="store-utility-card-link">
+        <a href="#" class="text-link">Buy</a>
+      </div>
+    </div>
+
+    <!-- Card 4: HomePod -->
+    <div class="store-utility-card">
+      <div class="store-utility-card-image">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="60" cy="62" rx="36" ry="44" fill="#2a2a2c"/>
+          <ellipse cx="60" cy="62" rx="30" ry="38" fill="#1a1a1d"/>
+          <!-- Mesh pattern -->
+          <ellipse cx="60" cy="62" rx="30" ry="38" fill="none" stroke="#333" stroke-width="0.5" stroke-dasharray="2 3"/>
+          <ellipse cx="60" cy="62" rx="24" ry="30" fill="none" stroke="#333" stroke-width="0.5" stroke-dasharray="2 3"/>
+          <ellipse cx="60" cy="62" rx="18" ry="22" fill="none" stroke="#333" stroke-width="0.5" stroke-dasharray="2 3"/>
+          <!-- Top glow -->
+          <ellipse cx="60" cy="30" rx="28" ry="14" fill="url(#hp-glow)"/>
+        </svg>
+        <defs>
+          <radialGradient id="hp-glow" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#ff3b30" stop-opacity="0.15"/>
+            <stop offset="50%" stop-color="#ff9500" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+        </defs>
+      </div>
+      <p class="store-utility-card-name">HomePod (2nd gen)</p>
+      <p class="store-utility-card-price">$299.00</p>
+      <div class="store-utility-card-link">
+        <a href="#" class="text-link">Buy</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  CTA Banner                                       -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="cta-banner">
+  <div class="cta-banner-inner">
+    <h2 class="display-md cta-banner-headline">Apple Trade In</h2>
+    <p class="lead-airy cta-banner-body" style="color: var(--color-ink);">
+      Get $180–$650 in credit when you trade in iPhone&nbsp;11 or higher.
+      <a href="#" class="text-link">See what your device is worth</a>.
+    </p>
+    <a href="#" class="btn-store-hero">Get started</a>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  Footer                                           -->
+<!-- ════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-note">
+      * Apple Intelligence is available in beta on all iPhone 16 models, iPhone 15 Pro, iPhone 15 Pro Max, iPad mini (A17 Pro), and iPad and Mac models with M1 and later, with Siri and device language set to U.S. English, as part of an iOS 18, iPadOS 18, and macOS Sequoia update. English (Australia, Canada, Ireland, New Zealand, South Africa, UK) language support available this year. Some features, applications, and services may not be available in all regions or all languages.
+    </p>
+
+    <div class="footer-columns">
+      <div class="footer-col">
+        <p class="footer-col-heading">Shop and Learn</p>
+        <a href="#">Store</a>
+        <a href="#">Mac</a>
+        <a href="#">iPad</a>
+        <a href="#">iPhone</a>
+        <a href="#">Watch</a>
+        <a href="#">Vision</a>
+        <a href="#">AirPods</a>
+        <a href="#">TV &amp; Home</a>
+        <a href="#">AirTag</a>
+        <a href="#">Accessories</a>
+        <a href="#">Gift Cards</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-heading">Apple Wallet</p>
+        <a href="#">Wallet</a>
+        <a href="#">Apple Card</a>
+        <a href="#">Apple Pay</a>
+        <a href="#">Apple Cash</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-heading">Account</p>
+        <a href="#">Manage Your Apple&nbsp;Account</a>
+        <a href="#">Apple Store Account</a>
+        <a href="#">iCloud.com</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-heading">Apple Store</p>
+        <a href="#">Find a Store</a>
+        <a href="#">Genius Bar</a>
+        <a href="#">Today at Apple</a>
+        <a href="#">Apple Camp</a>
+        <a href="#">Apple Trade In</a>
+        <a href="#">Financing</a>
+        <a href="#">Order Status</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-heading">Apple Values</p>
+        <a href="#">Accessibility</a>
+        <a href="#">Education</a>
+        <a href="#">Environment</a>
+        <a href="#">Inclusion and Diversity</a>
+        <a href="#">Privacy</a>
+        <a href="#">Racial Equity and Justice</a>
+        <a href="#">Supply Chain</a>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <div class="footer-legal-row">
+        <span>Copyright &copy; 2026 Apple Inc. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Sales and Refunds</a>
+          <a href="#">Legal</a>
+          <a href="#">Site Map</a>
+        </div>
+        <span>United States</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

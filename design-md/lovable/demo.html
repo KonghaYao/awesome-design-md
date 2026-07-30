@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lovable — Build apps with AI, beautifully</title>
+<style>
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* === DESIGN TOKENS === */
+:root {
+  /* Colors */
+  --color-cream: #f7f4ed;
+  --color-charcoal: #1c1c1c;
+  --color-off-white: #fcfbf8;
+  --color-muted: #5f5f5d;
+  --color-hairline: #eceae4;
+  --color-border-interactive: rgba(28, 28, 28, 0.4);
+  --color-hover-bg: rgba(28, 28, 28, 0.04);
+  --color-subtle-overlay: rgba(28, 28, 28, 0.03);
+  --color-strong-secondary: rgba(28, 28, 28, 0.83);
+  --color-body-text: rgba(28, 28, 28, 0.82);
+  --color-focus-ring: rgba(59, 130, 246, 0.5);
+
+  /* Spacing */
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-56: 56px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-128: 128px;
+  --space-176: 176px;
+  --space-192: 192px;
+  --space-208: 208px;
+
+  /* Border Radius */
+  --radius-micro: 4px;
+  --radius-standard: 6px;
+  --radius-comfortable: 8px;
+  --radius-card: 12px;
+  --radius-container: 16px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-inset-button: rgba(255,255,255,0.2) 0px 0.5px 0px 0px inset, rgba(0,0,0,0.2) 0px 0px 0px 0.5px inset, rgba(0,0,0,0.05) 0px 1px 2px 0px;
+  --shadow-focus: rgba(0,0,0,0.1) 0px 4px 12px;
+
+  /* Typography */
+  --font-primary: 'Camera Plain Variable', 'SF Pro Display', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--color-body-text);
+  background-color: var(--color-cream);
+}
+
+/* === UTILITY TYPOGRAPHY === */
+.display-hero {
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -1.5px;
+  color: var(--color-charcoal);
+}
+
+.display-alt {
+  font-size: 60px;
+  font-weight: 480;
+  line-height: 1.00;
+  letter-spacing: normal;
+  color: var(--color-charcoal);
+}
+
+.section-heading {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.00;
+  letter-spacing: -1.2px;
+  color: var(--color-charcoal);
+}
+
+.sub-heading {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -0.9px;
+  color: var(--color-charcoal);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: normal;
+  color: var(--color-charcoal);
+}
+
+.body-large {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.38;
+  letter-spacing: normal;
+}
+
+.body-text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: normal;
+}
+
+.caption {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: normal;
+}
+
+.stats-number {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.00;
+  letter-spacing: -1.2px;
+  color: var(--color-charcoal);
+}
+
+/* === CONTAINER === */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-32);
+}
+
+/* === NAVIGATION === */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: var(--color-cream);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-32);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  text-decoration: none;
+  color: var(--color-charcoal);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.nav-logo svg {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-32);
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-charcoal);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover {
+  opacity: 0.7;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.nav-toggle {
+  display: none;
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-standard);
+  padding: var(--space-8) var(--space-12);
+  cursor: pointer;
+  color: var(--color-charcoal);
+  font-family: var(--font-primary);
+  font-size: 14px;
+}
+
+/* === BUTTONS === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: var(--radius-standard);
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: normal;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:active {
+  opacity: 0.8;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.btn-primary {
+  background-color: var(--color-charcoal);
+  color: var(--color-off-white);
+  box-shadow: var(--shadow-inset-button);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-charcoal);
+  border: 1px solid var(--color-border-interactive);
+}
+
+.btn-ghost:hover {
+  background-color: var(--color-hover-bg);
+}
+
+.btn-cream {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+}
+
+.btn-cream:hover {
+  opacity: 0.9;
+}
+
+.btn-pill {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-inset-button);
+  opacity: 0.5;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.btn-pill:hover {
+  opacity: 0.8;
+}
+
+.btn-pill.active {
+  opacity: 0.8;
+}
+
+.btn-sm {
+  font-size: 14px;
+  padding: 8px 16px;
+}
+
+/* === HERO SECTION === */
+.hero {
+  position: relative;
+  padding: 208px 0 var(--space-128);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-gradient {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(251, 207, 232, 0.15) 0%,
+    rgba(251, 191, 136, 0.10) 35%,
+    rgba(147, 197, 253, 0.08) 65%,
+    rgba(247, 244, 237, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--space-32);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-24);
+}
+
+.hero-subtitle {
+  color: var(--color-muted);
+  margin-bottom: var(--space-40);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-32);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-cream);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.hero-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* === FEATURES SECTION === */
+.features {
+  padding: var(--space-128) 0;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: var(--space-80);
+}
+
+.features-header h2 {
+  margin-bottom: var(--space-16);
+}
+
+.features-header p {
+  color: var(--color-muted);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-24);
+}
+
+.feature-card {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  padding: var(--space-32);
+  transition: border-color 0.2s ease;
+  cursor: default;
+}
+
+.feature-card:hover {
+  border-color: var(--color-border-interactive);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  margin-bottom: var(--space-24);
+}
+
+.feature-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-charcoal);
+}
+
+.feature-card h3 {
+  margin-bottom: var(--space-8);
+}
+
+.feature-card p {
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.50;
+}
+
+/* === STATS SECTION === */
+.stats {
+  padding: var(--space-96) 0;
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-32);
+  text-align: center;
+}
+
+.stat-item p {
+  color: var(--color-muted);
+  margin-top: var(--space-8);
+  font-size: 16px;
+}
+
+/* === SHOWCASE / TEMPLATE GALLERY === */
+.showcase {
+  padding: var(--space-128) 0;
+}
+
+.showcase-header {
+  text-align: center;
+  margin-bottom: var(--space-80);
+}
+
+.showcase-header h2 {
+  margin-bottom: var(--space-16);
+}
+
+.showcase-header p {
+  color: var(--color-muted);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.showcase-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-56);
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-cream);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-pill:hover {
+  border-color: var(--color-border-interactive);
+  color: var(--color-charcoal);
+}
+
+.filter-pill.active {
+  background-color: var(--color-charcoal);
+  color: var(--color-off-white);
+  border-color: var(--color-charcoal);
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-24);
+}
+
+.showcase-card {
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.showcase-card:hover {
+  border-color: var(--color-border-interactive);
+}
+
+.showcase-card-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, rgba(28,28,28,0.03) 0%, rgba(28,28,28,0.06) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.showcase-card-image-inner {
+  width: 70%;
+  height: 60%;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-micro);
+  background-color: var(--color-subtle-overlay);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+}
+
+.image-bar {
+  height: 6px;
+  background-color: rgba(28,28,28,0.06);
+  border-radius: 2px;
+}
+
+.image-bar:nth-child(1) { width: 60%; }
+.image-bar:nth-child(2) { width: 90%; }
+.image-bar:nth-child(3) { width: 45%; }
+.image-bar:nth-child(4) { width: 75%; }
+
+.image-bar-accent {
+  background-color: rgba(28,28,28,0.12);
+}
+
+.showcase-card-body {
+  padding: var(--space-16) var(--space-20);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.showcase-card-body h3 {
+  margin-bottom: var(--space-4);
+}
+
+.showcase-card-body p {
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.showcase-card-tags {
+  display: flex;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+
+.tag {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-muted);
+  padding: 2px 8px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-micro);
+}
+
+/* === CTA SECTION === */
+.cta-section {
+  padding: var(--space-128) 0;
+  text-align: center;
+}
+
+.cta-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 var(--space-32);
+}
+
+.cta-inner h2 {
+  margin-bottom: var(--space-16);
+}
+
+.cta-inner p {
+  color: var(--color-muted);
+  margin-bottom: var(--space-32);
+}
+
+.cta-inner .btn-primary {
+  font-size: 18px;
+  padding: 12px 24px;
+}
+
+/* === FOOTER === */
+.footer {
+  border-top: 1px solid var(--color-hairline);
+  padding: var(--space-80) 0 var(--space-40);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-56);
+  margin-bottom: var(--space-56);
+}
+
+.footer-brand p {
+  color: var(--color-muted);
+  margin-top: var(--space-12);
+  max-width: 280px;
+}
+
+.footer-col h4 {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-charcoal);
+  margin-bottom: var(--space-16);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.footer-col a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-col a:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--color-hairline);
+  padding-top: var(--space-24);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--space-16);
+}
+
+.footer-social a {
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-social a:hover {
+  opacity: 0.7;
+}
+
+.footer-social svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .features-grid,
+  .showcase-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: var(--space-40);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .display-hero {
+    font-size: 48px;
+    letter-spacing: -1.2px;
+  }
+
+  .section-heading {
+    font-size: 36px;
+    letter-spacing: -0.9px;
+  }
+
+  .sub-heading {
+    font-size: 28px;
+    letter-spacing: -0.9px;
+  }
+
+  .stats-number {
+    font-size: 36px;
+    letter-spacing: -0.9px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 176px 0 var(--space-80);
+  }
+
+  .features,
+  .showcase {
+    padding: var(--space-80) 0;
+  }
+
+  .container {
+    padding: 0 var(--space-16);
+  }
+
+  .nav-inner {
+    padding: 0 var(--space-16);
+  }
+
+  .hero-gradient {
+    width: 500px;
+    height: 500px;
+    top: -30%;
+  }
+}
+
+@media (max-width: 640px) {
+  .display-hero {
+    font-size: 36px;
+    letter-spacing: -0.9px;
+  }
+
+  .features-grid,
+  .showcase-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-40);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--space-16);
+    text-align: center;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .hero {
+    padding: 128px 0 var(--space-56);
+  }
+
+  .features,
+  .showcase {
+    padding: var(--space-56) 0;
+  }
+
+  .cta-section {
+    padding: var(--space-56) 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+      Lovable
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#showcase">Templates</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="#" class="btn btn-ghost btn-sm">Log In</a>
+      <a href="#" class="btn btn-primary btn-sm">Start Building</a>
+      <button class="nav-toggle" aria-label="Menu">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="5" x2="15" y2="5"/>
+          <line x1="3" y1="9" x2="15" y2="9"/>
+          <line x1="3" y1="13" x2="15" y2="13"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<header class="hero">
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Now with chat-to-app intelligence
+    </div>
+    <h1 class="display-hero">Build software,<br>beautifully</h1>
+    <p class="hero-subtitle body-large">The AI-powered platform that turns your ideas into production-ready apps. Describe what you want, and watch Lovable build it — with stunning design, clean code, and zero compromises.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary">Start Building Free</a>
+      <a href="#" class="btn btn-ghost">See Templates</a>
+    </div>
+  </div>
+</header>
+
+<!-- FEATURES SECTION -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header">
+      <h2 class="section-heading">Designed for<br>how you build</h2>
+      <p class="body-large">From prototype to production, Lovable gives you the tools to ship faster without sacrificing quality. Every app looks and feels like it was handcrafted.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/>
+            <path d="M12 3v6h6"/>
+            <path d="M8 13h4"/>
+            <path d="M8 17h8"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Full-Stack Generation</h3>
+        <p>Generate complete applications with frontend, backend, database, and authentication. Every component is production-ready from the first prompt.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <path d="M8 21h8"/>
+            <path d="M12 17v4"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Visual Editing</h3>
+        <p>Click any element to edit it. Select components, change colors, tweak layouts — all visually, no code required. See changes instantly in your browser.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <h3 class="card-title">One-Click Deploy</h3>
+        <p>Ship to production with a single click. Custom domains, HTTPS, and global CDN included. Go from idea to live in minutes, not months.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Chat-to-App Intelligence</h3>
+        <p>Describe a feature in plain English. Lovable understands context, infers requirements, and builds exactly what you mean — complete with edge cases covered.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="9" y1="21" x2="9" y2="9"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Beautiful by Default</h3>
+        <p>Every app Lovable generates uses a curated design system. Components, spacing, and typography are polished out of the box — no design skill required.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Team Collaboration</h3>
+        <p>Invite your team to work on the same project simultaneously. Real-time sync, shared components, and version history keep everyone aligned.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stats-number">2M+</div>
+        <p class="caption">Apps Built</p>
+      </div>
+      <div class="stat-item">
+        <div class="stats-number">500K+</div>
+        <p class="caption">Developers</p>
+      </div>
+      <div class="stat-item">
+        <div class="stats-number">99.9%</div>
+        <p class="caption">Uptime SLA</p>
+      </div>
+      <div class="stat-item">
+        <div class="stats-number">150+</div>
+        <p class="caption">Countries</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMPLATE GALLERY -->
+<section class="showcase" id="showcase">
+  <div class="container">
+    <div class="showcase-header">
+      <h2 class="section-heading">Start with a template,<br>make it your own</h2>
+      <p class="body-large">Browse hundreds of professionally designed templates. Pick one, prompt your changes, and ship in hours.</p>
+    </div>
+
+    <div class="showcase-filter">
+      <button class="filter-pill active">All</button>
+      <button class="filter-pill">SaaS</button>
+      <button class="filter-pill">E-Commerce</button>
+      <button class="filter-pill">Portfolio</button>
+      <button class="filter-pill">Dashboard</button>
+      <button class="filter-pill">Blog</button>
+      <button class="filter-pill">Marketplace</button>
+    </div>
+
+    <div class="showcase-grid">
+      <div class="showcase-card">
+        <div class="showcase-card-image">
+          <div class="showcase-card-image-inner">
+            <div class="image-bar"></div>
+            <div class="image-bar"></div>
+            <div class="image-bar image-bar-accent"></div>
+            <div class="image-bar"></div>
+            <div class="image-bar"></div>
+          </div>
+        </div>
+        <div class="showcase-card-body">
+          <h3 class="card-title">SaaS Starter</h3>
+          <p>Landing page, auth, pricing, and dashboard.</p>
+          <div class="showcase-card-tags">
+            <span class="tag">SaaS</span>
+            <span class="tag">Auth</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-card">
+        <div class="showcase-card-image">
+          <div class="showcase-card-image-inner">
+            <div class="image-bar" style="width: 40%"></div>
+            <div class="image-bar" style="width: 80%"></div>
+            <div class="image-bar" style="width: 50%"></div>
+            <div class="image-bar image-bar-accent" style="width: 35%"></div>
+            <div class="image-bar" style="width: 70%"></div>
+          </div>
+        </div>
+        <div class="showcase-card-body">
+          <h3 class="card-title">AI Chat Interface</h3>
+          <p>Real-time messaging with streaming responses.</p>
+          <div class="showcase-card-tags">
+            <span class="tag">AI</span>
+            <span class="tag">Real-time</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-card">
+        <div class="showcase-card-image">
+          <div class="showcase-card-image-inner">
+            <div class="image-bar" style="width: 50%"></div>
+            <div class="image-bar" style="width: 90%"></div>
+            <div class="image-bar" style="width: 30%"></div>
+            <div class="image-bar" style="width: 65%"></div>
+            <div class="image-bar image-bar-accent" style="width: 45%"></div>
+          </div>
+        </div>
+        <div class="showcase-card-body">
+          <h3 class="card-title">Analytics Dashboard</h3>
+          <p>Charts, tables, and filters with real data.</p>
+          <div class="showcase-card-tags">
+            <span class="tag">Dashboard</span>
+            <span class="tag">Charts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-card">
+        <div class="showcase-card-image">
+          <div class="showcase-card-image-inner">
+            <div class="image-bar" style="width: 70%"></div>
+            <div class="image-bar" style="width: 40%"></div>
+            <div class="image-bar image-bar-accent" style="width: 55%"></div>
+            <div class="image-bar" style="width: 40%"></div>
+            <div class="image-bar" style="width: 80%"></div>
+          </div>
+        </div>
+        <div class="showcase-card-body">
+          <h3 class="card-title">Marketplace</h3>
+          <p>Listings, search, checkout, and seller dashboards.</p>
+          <div class="showcase-card-tags">
+            <span class="tag">E-Commerce</span>
+            <span class="tag">Payments</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-card">
+        <div class="showcase-card-image">
+          <div class="showcase-card-image-inner">
+            <div class="image-bar" style="width: 55%"></div>
+            <div class="image-bar" style="width: 75%"></div>
+            <div class="image-bar" style="width: 45%"></div>
+            <div class="image-bar" style="width: 35%"></div>
+            <div class="image-bar image-bar-accent" style="width: 60%"></div>
+          </div>
+        </div>
+        <div class="showcase-card-body">
+          <h3 class="card-title">Portfolio Site</h3>
+          <p>Project showcase with CMS and animations.</p>
+          <div class="showcase-card-tags">
+            <span class="tag">Portfolio</span>
+            <span class="tag">CMS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-card">
+        <div class="showcase-card-image">
+          <div class="showcase-card-image-inner">
+            <div class="image-bar" style="width: 30%"></div>
+            <div class="image-bar" style="width: 85%"></div>
+            <div class="image-bar" style="width: 65%"></div>
+            <div class="image-bar image-bar-accent" style="width: 20%"></div>
+            <div class="image-bar" style="width: 50%"></div>
+          </div>
+        </div>
+        <div class="showcase-card-body">
+          <h3 class="card-title">Social Platform</h3>
+          <p>Profiles, feeds, comments, and notifications.</p>
+          <div class="showcase-card-tags">
+            <span class="tag">Social</span>
+            <span class="tag">Feeds</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section" id="pricing">
+  <div class="cta-inner">
+    <h2 class="sub-heading">Ready to build something beautiful?</h2>
+    <p class="body-large">Join 500,000+ developers who ship faster with Lovable. Start for free, scale as you grow.</p>
+    <a href="#" class="btn btn-primary">Start Building Free</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="margin-bottom: var(--space-12);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          Lovable
+        </a>
+        <p class="caption">Build software, beautifully. The AI-powered platform for creating production-ready apps in minutes.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Templates</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2025 Lovable. All rights reserved.</span>
+      <div class="footer-social">
+        <a href="#" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+            <path d="M9 18c-4.51 2-5-2-7-2"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Discord">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18.93 5.5A14.4 14.4 0 0 0 12 4a14.4 14.4 0 0 0-6.93 1.5"/>
+            <path d="M21.5 15.5c-.6 1.3-10.7 4.5-19 0"/>
+            <circle cx="8" cy="13" r="1"/>
+            <circle cx="16" cy="13" r="1"/>
+            <path d="M15.5 18c-1 1.5-6 1.5-7 0"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

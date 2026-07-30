@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotify Premium - Get 1 month free</title>
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ===== DESIGN TOKENS FROM DESIGN.md ===== */
+:root {
+  /* Colors */
+  --spotify-green: #1ed760;
+  --near-black: #121212;
+  --dark-surface: #181818;
+  --mid-dark: #1f1f1f;
+  --dark-card: #252525;
+  --mid-card: #272727;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-near-white: #cbcbcb;
+  --text-max: #fdfdfd;
+  --border-gray: #4d4d4d;
+  --light-border: #7c7c7c;
+  --separator: #b3b3b3;
+  --light-surface: #eeeeee;
+  --negative-red: #f3727f;
+  --warning-orange: #ffa42b;
+  --announcement-blue: #539df5;
+
+  /* Typography - SpotifyMixUI fallback stack */
+  --font-title: 'SpotifyMixUITitle', 'SF Pro Display', 'Inter', system-ui, -apple-system, 'Helvetica Neue', helvetica, arial, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', 'MS Gothic', sans-serif;
+  --font-body: 'SpotifyMixUI', 'SF Pro Display', 'Inter', system-ui, -apple-system, 'Helvetica Neue', helvetica, arial, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', 'MS Gothic', sans-serif;
+
+  /* Border Radius Scale */
+  --radius-minimal: 2px;
+  --radius-subtle: 4px;
+  --radius-standard: 6px;
+  --radius-comfortable: 8px;
+  --radius-medium: 10px;
+  --radius-large: 100px;
+  --radius-pill: 500px;
+  --radius-full: 9999px;
+  --radius-circle: 50%;
+
+  /* Shadows */
+  --shadow-heavy: rgba(0,0,0,0.5) 0px 8px 24px;
+  --shadow-medium: rgba(0,0,0,0.3) 0px 8px 8px;
+  --shadow-inset: rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset;
+
+  /* Spacing (8px base) */
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-3: 3px;
+  --space-4: 4px;
+  --space-5: 5px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-15: 15px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+}
+
+body {
+  background: var(--near-black);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--near-black);
+  border-bottom: var(--space-1) solid var(--dark-surface);
+  padding: 0 var(--space-32);
+}
+
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  gap: var(--space-16);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  text-decoration: none;
+  color: var(--text-primary);
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.nav-logo svg { display: block; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-left: var(--space-32);
+  flex: 1;
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-full);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-link.active {
+  background: var(--mid-dark);
+}
+
+.nav-divider {
+  width: var(--space-1);
+  height: 24px;
+  background: var(--text-secondary);
+  opacity: 0.4;
+  margin: 0 var(--space-4);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* Pill buttons */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  line-height: 1.00;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-pill-dark {
+  background: var(--mid-dark);
+  color: var(--text-primary);
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-full);
+}
+.btn-pill-dark:hover { background: var(--dark-card); transform: scale(1.04); }
+
+.btn-pill-outlined {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--light-border);
+  padding: var(--space-4) var(--space-16);
+  border-radius: var(--radius-full);
+}
+.btn-pill-outlined:hover { border-color: var(--text-primary); }
+
+.btn-pill-green {
+  background: var(--spotify-green);
+  color: var(--near-black);
+  padding: var(--space-14) var(--space-32);
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  line-height: 1.00;
+}
+.btn-pill-green:hover { transform: scale(1.04); background: #1ed760; }
+
+.btn-pill-light {
+  background: var(--light-surface);
+  color: var(--dark-surface);
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-pill);
+}
+.btn-pill-light:hover { transform: scale(1.04); }
+
+/* ===== HERO ===== */
+.hero {
+  padding: 160px var(--space-32) var(--space-80);
+  text-align: center;
+  background: var(--near-black);
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 30%, rgba(30,215,96,0.08), transparent),
+    radial-gradient(ellipse 400px 500px at 75% 60%, rgba(83,157,245,0.05), transparent),
+    radial-gradient(ellipse 500px 300px at 50% 80%, rgba(30,215,96,0.04), transparent);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.33;
+  text-transform: capitalize;
+  color: var(--text-primary);
+  background: var(--dark-card);
+  padding: var(--space-6) var(--space-12);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-32);
+}
+
+.hero-badge-dot {
+  width: var(--space-6);
+  height: var(--space-6);
+  border-radius: var(--radius-circle);
+  background: var(--spotify-green);
+}
+
+.hero-title {
+  font-family: var(--font-title);
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--text-max);
+  margin-bottom: var(--space-20);
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.30;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-40);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.hero-note {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-top: var(--space-24);
+}
+
+.hero-note a {
+  color: var(--text-secondary);
+  text-decoration: underline;
+}
+.hero-note a:hover { color: var(--text-primary); }
+
+/* ===== FEATURES ===== */
+.features {
+  padding: var(--space-64) var(--space-32);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: var(--space-48);
+}
+
+.features-title {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-12);
+}
+
+.features-subtitle {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.30;
+  color: var(--text-secondary);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-16);
+}
+
+/* Feature Card - based on DESIGN.md card specs */
+.feature-card {
+  background: var(--dark-surface);
+  border-radius: var(--radius-comfortable);
+  padding: var(--space-24);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.feature-card:hover {
+  background: var(--mid-dark);
+  box-shadow: var(--shadow-medium);
+}
+
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-circle);
+  background: var(--mid-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-16);
+  color: var(--text-primary);
+}
+
+.feature-card-icon svg { width: 24px; height: 24px; }
+
+.feature-card-title {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-8);
+}
+
+.feature-card-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: normal;
+}
+
+/* ===== SHOWCASE / PLANS ===== */
+.plans {
+  padding: var(--space-64) var(--space-32);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.plans-header {
+  text-align: center;
+  margin-bottom: var(--space-48);
+}
+
+.plans-title {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-12);
+}
+
+.plans-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: var(--dark-surface);
+  border-radius: var(--radius-full);
+  padding: var(--space-3);
+  gap: var(--space-2);
+}
+
+.plans-toggle-btn {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.00;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+}
+
+.plans-toggle-btn.active {
+  background: var(--near-black);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Plan Cards */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-16);
+  margin-top: var(--space-32);
+}
+
+.plan-card {
+  background: var(--dark-surface);
+  border-radius: var(--radius-comfortable);
+  padding: var(--space-20);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.plan-card:hover {
+  border-color: var(--border-gray);
+  box-shadow: var(--shadow-medium);
+}
+
+.plan-card.featured {
+  border-color: var(--spotify-green);
+}
+
+.plan-card-badge {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.33;
+  text-transform: capitalize;
+  color: var(--text-primary);
+  background: var(--spotify-green);
+  color: var(--near-black);
+  padding: var(--space-3) var(--space-8);
+  border-radius: var(--radius-minimal);
+  display: inline-block;
+  margin-bottom: var(--space-8);
+}
+
+.plan-card-type {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.50;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  margin-bottom: var(--space-8);
+}
+
+.plan-card-name {
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.plan-card-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-16);
+  min-height: 36px;
+}
+
+.plan-card-divider {
+  height: var(--space-1);
+  background: var(--border-gray);
+  opacity: 0.3;
+  margin-bottom: var(--space-16);
+}
+
+.plan-card-features {
+  list-style: none;
+  margin-bottom: var(--space-20);
+}
+
+.plan-card-features li {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-near-white);
+  padding: var(--space-4) 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-8);
+}
+
+.plan-card-features li svg {
+  width: 16px;
+  height: 16px;
+  color: var(--spotify-green);
+  flex-shrink: 0;
+  margin-top: var(--space-2);
+}
+
+.plan-card-price {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.plan-card-period {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-16);
+}
+
+.plan-card .btn-pill-dark {
+  width: 100%;
+  padding: var(--space-12) var(--space-16);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.plan-card .btn-pill-green {
+  width: 100%;
+  padding: var(--space-12) var(--space-16);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  padding: var(--space-80) var(--space-32);
+  text-align: center;
+  background: var(--dark-surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(ellipse 500px 300px at 50% 50%, rgba(30,215,96,0.06), transparent);
+  pointer-events: none;
+}
+
+.cta-section-content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-family: var(--font-title);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  color: var(--text-max);
+  margin-bottom: var(--space-16);
+  line-height: 1.10;
+}
+
+.cta-subtitle {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.30;
+  margin-bottom: var(--space-32);
+}
+
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--near-black);
+  padding: var(--space-64) var(--space-32) var(--space-40);
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-32);
+  margin-bottom: var(--space-48);
+}
+
+.footer-brand svg { display: block; }
+
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-32);
+}
+
+.footer-col-title {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.50;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-12);
+}
+
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.footer-col-links a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-col-links a:hover { color: var(--spotify-green); }
+
+.footer-social {
+  display: flex;
+  gap: var(--space-12);
+}
+
+.footer-social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-circle);
+  background: var(--mid-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.footer-social-link:hover { background: var(--dark-card); }
+.footer-social-link svg { width: 18px; height: 18px; }
+
+.footer-divider {
+  height: var(--space-1);
+  background: var(--border-gray);
+  opacity: 0.3;
+  margin-bottom: var(--space-32);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.footer-legal {
+  display: flex;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.footer-legal a {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-legal a:hover { color: var(--spotify-green); }
+
+.footer-copyright {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .plans-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-cols { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero { padding: 120px var(--space-20) var(--space-48); }
+  .features { padding: var(--space-40) var(--space-20); }
+  .plans { padding: var(--space-40) var(--space-20); }
+  .features-grid { grid-template-columns: 1fr; }
+  .plans-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .footer-top { flex-direction: column; }
+  .footer-cols { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  nav { padding: 0 var(--space-16); }
+  .hero-actions { flex-direction: column; width: 100%; }
+  .hero-actions .btn-pill-green,
+  .hero-actions .btn-pill-outlined { width: 100%; max-width: 300px; justify-content: center; }
+  .cta-actions { flex-direction: column; }
+  .cta-actions .btn-pill-green { width: 100%; max-width: 300px; }
+}
+
+/* Scroll animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.feature-card { animation: fadeInUp 0.5s ease forwards; }
+.feature-card:nth-child(1) { animation-delay: 0.05s; }
+.feature-card:nth-child(2) { animation-delay: 0.1s; }
+.feature-card:nth-child(3) { animation-delay: 0.15s; }
+.feature-card:nth-child(4) { animation-delay: 0.2s; }
+
+.plan-card { animation: fadeInUp 0.5s ease forwards; }
+.plan-card:nth-child(1) { animation-delay: 0.05s; }
+.plan-card:nth-child(2) { animation-delay: 0.1s; }
+.plan-card:nth-child(3) { animation-delay: 0.15s; }
+.plan-card:nth-child(4) { animation-delay: 0.2s; }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <!-- Spotify Logo SVG -->
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" fill="#121212"/>
+        <path d="M20 4C11.163 4 4 11.163 4 20s7.163 16 16 16 16-7.163 16-16S28.837 4 20 4zm7.305 11.557a1.087 1.087 0 0 1-.403 1.485c-4.377 2.677-9.94 3.238-14.82 1.818a1.087 1.087 0 0 1 .6-2.09c4.266 1.24 9.164.744 12.914-1.55a1.086 1.086 0 0 1 1.71.337zm1.943 4.323a1.36 1.36 0 0 1-.505 1.855c-5.01 3.078-12.647 3.97-18.57 2.17a1.359 1.359 0 1 1 .783-2.604c5.264 1.601 11.816 1.16 16.436-1.926a1.36 1.36 0 0 1 1.856.505zm.169 4.622a1.631 1.631 0 0 1-.606 2.226c-5.602 3.31-14.162 4.09-19.37 2.47a1.629 1.629 0 1 1 .83-3.153c4.622 1.441 12.302.72 17.058-2.147a1.63 1.63 0 0 1 2.088.604z" fill="#1ed760"/>
+      </svg>
+      Spotify
+    </a>
+    <div class="nav-links">
+      <a href="#" class="nav-link active">Premium</a>
+      <a href="#" class="nav-link">Support</a>
+      <a href="#" class="nav-link">Download</a>
+      <span class="nav-divider"></span>
+      <a href="#" class="nav-link">Sign up</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="btn-pill btn-pill-dark">Log in</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      New: AI DJ now available
+    </div>
+    <h1 class="hero-title">Get Premium free for 1 month</h1>
+    <p class="hero-subtitle">Just $10.99/month after. Cancel anytime. Ad-free music listening, offline playback, and on-demand listening.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-pill btn-pill-green">Get Started</a>
+      <a href="#" class="btn-pill btn-pill-outlined">View All Plans</a>
+    </div>
+    <p class="hero-note">
+      <a href="#">Terms and conditions apply.</a> 1 month free not available for users who have already tried Premium.
+    </p>
+  </div>
+</header>
+
+<!-- ===== FEATURES ===== -->
+<section class="features" id="features">
+  <div class="features-header">
+    <h2 class="features-title">Why go Premium?</h2>
+    <p class="features-subtitle">Unlock the full Spotify experience.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
+      </div>
+      <h3 class="feature-card-title">Ad-free music listening</h3>
+      <p class="feature-card-desc">Enjoy uninterrupted music without any ad breaks.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </div>
+      <h3 class="feature-card-title">Download to listen offline</h3>
+      <p class="feature-card-desc">Save your favorite tracks and play them anywhere, no internet needed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </div>
+      <h3 class="feature-card-title">Play any track</h3>
+      <p class="feature-card-desc">Pick any song from over 100 million tracks and play it on-demand.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="9" x2="20" y2="9"/>
+          <line x1="4" y1="15" x2="20" y2="15"/>
+          <line x1="10" y1="3" x2="8" y2="21"/>
+          <line x1="16" y1="3" x2="14" y2="21"/>
+        </svg>
+      </div>
+      <h3 class="feature-card-title">High quality audio</h3>
+      <p class="feature-card-desc">Stream music in crystal-clear, high-definition audio quality.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLANS / PRICING ===== -->
+<section class="plans" id="pricing">
+  <div class="plans-header">
+    <h2 class="plans-title">Pick your Premium</h2>
+    <p style="font-family:var(--font-body);font-size:14px;font-weight:400;color:var(--text-secondary);margin-bottom:var(--space-20);">
+      Listen without limits on your phone, speaker, and other devices.
+    </p>
+  </div>
+  <div class="plans-grid">
+    <!-- Individual -->
+    <div class="plan-card featured">
+      <span class="plan-card-type">Individual</span>
+      <div class="plan-card-name">Premium Individual</div>
+      <p class="plan-card-desc">1 account</p>
+      <div class="plan-card-divider"></div>
+      <ul class="plan-card-features">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Ad-free music listening
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Download to listen offline
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Play songs in any order
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          High audio quality
+        </li>
+      </ul>
+      <div class="plan-card-price">Free for 1 month</div>
+      <div class="plan-card-period">then $10.99/month after</div>
+      <a href="#" class="btn-pill btn-pill-green">Get Started</a>
+    </div>
+
+    <!-- Duo -->
+    <div class="plan-card">
+      <span class="plan-card-type">Duo</span>
+      <div class="plan-card-name">Premium Duo</div>
+      <p class="plan-card-desc">2 accounts</p>
+      <div class="plan-card-divider"></div>
+      <ul class="plan-card-features">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          2 Premium accounts for a couple
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Duo Mix: a playlist for two
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Ad-free & offline listening
+        </li>
+      </ul>
+      <div class="plan-card-price">$14.99/month</div>
+      <div class="plan-card-period"></div>
+      <a href="#" class="btn-pill btn-pill-dark">Get Started</a>
+    </div>
+
+    <!-- Family -->
+    <div class="plan-card">
+      <span class="plan-card-type">Family</span>
+      <div class="plan-card-name">Premium Family</div>
+      <p class="plan-card-desc">Up to 6 accounts</p>
+      <div class="plan-card-divider"></div>
+      <ul class="plan-card-features">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Up to 6 Premium accounts
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Family Mix: shared playlist
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Block explicit music
+        </li>
+      </ul>
+      <div class="plan-card-price">$16.99/month</div>
+      <div class="plan-card-period"></div>
+      <a href="#" class="btn-pill btn-pill-dark">Get Started</a>
+    </div>
+
+    <!-- Student -->
+    <div class="plan-card">
+      <span class="plan-card-type">Student</span>
+      <div class="plan-card-name">Premium Student</div>
+      <p class="plan-card-desc">1 account</p>
+      <div class="plan-card-divider"></div>
+      <ul class="plan-card-features">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Special discount for students
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Access to Hulu (ad-supported)
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Ad-free music listening
+        </li>
+      </ul>
+      <div class="plan-card-price">$5.99/month</div>
+      <div class="plan-card-period">after offer period</div>
+      <a href="#" class="btn-pill btn-pill-dark">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section class="cta-section" id="cta">
+  <div class="cta-section-content">
+    <h2 class="cta-title">Ready to make the switch?</h2>
+    <p class="cta-subtitle">Try Premium free for 1 month. After that, only $10.99/month. Cancel anytime.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn-pill btn-pill-green">Start Free Trial</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <!-- Spotify Logo -->
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" fill="#121212"/>
+          <path d="M20 4C11.163 4 4 11.163 4 20s7.163 16 16 16 16-7.163 16-16S28.837 4 20 4zm7.305 11.557a1.087 1.087 0 0 1-.403 1.485c-4.377 2.677-9.94 3.238-14.82 1.818a1.087 1.087 0 0 1 .6-2.09c4.266 1.24 9.164.744 12.914-1.55a1.086 1.086 0 0 1 1.71.337zm1.943 4.323a1.36 1.36 0 0 1-.505 1.855c-5.01 3.078-12.647 3.97-18.57 2.17a1.359 1.359 0 1 1 .783-2.604c5.264 1.601 11.816 1.16 16.436-1.926a1.36 1.36 0 0 1 1.856.505zm.169 4.622a1.631 1.631 0 0 1-.606 2.226c-5.602 3.31-14.162 4.09-19.37 2.47a1.629 1.629 0 1 1 .83-3.153c4.622 1.441 12.302.72 17.058-2.147a1.63 1.63 0 0 1 2.088.604z" fill="#1ed760"/>
+        </svg>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4 class="footer-col-title">Company</h4>
+          <ul class="footer-col-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Jobs</a></li>
+            <li><a href="#">For the Record</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Communities</h4>
+          <ul class="footer-col-links">
+            <li><a href="#">For Artists</a></li>
+            <li><a href="#">Developers</a></li>
+            <li><a href="#">Advertising</a></li>
+            <li><a href="#">Investors</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Useful Links</h4>
+          <ul class="footer-col-links">
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Web Player</a></li>
+            <li><a href="#">Free Mobile App</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="footer-social-link" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </a>
+        <a href="#" class="footer-social-link" aria-label="Twitter / X">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4l6.5 7.5L4 20h2l5.5-6.5L17 20h4l-7-8.5L20 4h-2l-5 6L7 4H4z"/>
+          </svg>
+        </a>
+        <a href="#" class="footer-social-link" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        <a href="#">Legal</a>
+        <a href="#">Privacy Center</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookies</a>
+        <a href="#">About Ads</a>
+        <a href="#">Accessibility</a>
+      </div>
+      <p class="footer-copyright">&copy; 2024 Spotify AB</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

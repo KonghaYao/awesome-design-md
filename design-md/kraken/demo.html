@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kraken — Buy, Sell, and Trade Crypto</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple-primary: #7132f5;
+  --purple-dark: #5741d8;
+  --purple-deep: #5b1ecf;
+  --purple-subtle: rgba(133,91,251,0.16);
+  --ink: #101114;
+  --neutral: #686b82;
+  --muted: #9497a9;
+  --canvas: #ffffff;
+  --border: #dedee5;
+  --green: #149e61;
+  --green-dark: #026b3f;
+  --green-subtle: rgba(20,158,97,0.16);
+  --neutral-subtle: rgba(104,107,130,0.12);
+  --neutral-text: #484b5e;
+  --shadow-subtle: rgba(0,0,0,0.03) 0px 4px 24px;
+  --shadow-micro: rgba(16,24,40,0.04) 0px 1px 4px;
+}
+
+body {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.38;
+  color: var(--ink);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Typography ── */
+.h-display {
+  font-family: 'IBM Plex Sans', 'Helvetica', Arial, sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.17;
+  letter-spacing: -1px;
+}
+.h-section {
+  font-family: 'IBM Plex Sans', 'Helvetica', Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.5px;
+}
+.h-sub {
+  font-family: 'IBM Plex Sans', 'Helvetica', Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.29;
+  letter-spacing: -0.5px;
+}
+.h-feature {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.20;
+}
+.body-text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.38;
+  color: var(--ink);
+}
+.body-medium {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.38;
+}
+.caption-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--muted);
+}
+.text-small {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+}
+.text-micro {
+  font-size: 7px;
+  font-weight: 500;
+  line-height: 1.00;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.38;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--purple-primary);
+  color: #ffffff;
+  padding: 13px 16px;
+  border-radius: 12px;
+}
+.btn-primary:hover {
+  background: var(--purple-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-subtle);
+}
+.btn-outline {
+  background: var(--canvas);
+  color: var(--purple-dark);
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--purple-dark);
+}
+.btn-outline:hover {
+  background: var(--purple-subtle);
+}
+.btn-subtle {
+  background: var(--purple-subtle);
+  color: var(--purple-primary);
+  padding: 8px;
+  border-radius: 12px;
+}
+.btn-subtle:hover {
+  background: rgba(133,91,251,0.24);
+}
+.btn-white {
+  background: var(--canvas);
+  color: var(--ink);
+  padding: 13px 16px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-subtle);
+}
+.btn-white:hover {
+  box-shadow: rgba(0,0,0,0.06) 0px 4px 24px;
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: rgba(148,151,169,0.08);
+  color: var(--ink);
+  padding: 13px 16px;
+  border-radius: 12px;
+}
+.btn-secondary:hover {
+  background: rgba(148,151,169,0.14);
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Badges ── */
+.badge-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--green-subtle);
+  color: var(--green-dark);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.33;
+}
+.badge-neutral {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--neutral-subtle);
+  color: var(--neutral-text);
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.33;
+}
+
+/* ── Navigation ── */
+.nav {
+  position: sticky;
+  top: 0;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.nav-logo svg {
+  width: 32px;
+  height: 32px;
+}
+.nav-logo-text {
+  font-family: 'IBM Plex Sans', 'Helvetica', Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.43;
+  color: var(--neutral);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-link:hover {
+  color: var(--ink);
+}
+.nav-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Container ── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 80px 0;
+  text-align: center;
+}
+.hero-badge {
+  margin-bottom: 20px;
+}
+.hero h1 {
+  max-width: 860px;
+  margin: 0 auto 20px;
+}
+.hero-desc {
+  max-width: 600px;
+  margin: 0 auto 24px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.38;
+  color: var(--neutral);
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.29;
+  color: var(--purple-primary);
+}
+.hero-stat-label {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--muted);
+}
+
+/* ── Sections ── */
+.section {
+  padding: 80px 0;
+}
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+.section-header h2 {
+  margin-bottom: 12px;
+}
+.section-header p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.38;
+  color: var(--neutral);
+}
+.section-gray {
+  background: rgba(148,151,169,0.04);
+}
+
+/* ── Feature Cards ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature-card {
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: box-shadow 0.2s ease;
+}
+.feature-card:hover {
+  box-shadow: var(--shadow-subtle);
+}
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--purple-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.feature-card-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--purple-primary);
+}
+.feature-card h3 {
+  margin-bottom: 8px;
+}
+.feature-card p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--neutral);
+}
+
+/* ── Pricing Cards ── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.pricing-card {
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  transition: box-shadow 0.2s ease;
+}
+.pricing-card:hover {
+  box-shadow: var(--shadow-subtle);
+}
+.pricing-card-featured {
+  border-color: var(--purple-primary);
+  box-shadow: var(--shadow-micro);
+}
+.pricing-card-featured::before {
+  content: 'Most Popular';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--purple-primary);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.33;
+}
+.pricing-card h3 {
+  margin-bottom: 4px;
+}
+.pricing-card .price {
+  font-family: 'IBM Plex Sans', 'Helvetica', Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.pricing-card .price-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.pricing-features {
+  list-style: none;
+  margin-bottom: 20px;
+}
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--ink);
+  border-bottom: 1px solid rgba(222,222,229,0.5);
+}
+.pricing-features li:last-child {
+  border-bottom: none;
+}
+.pricing-features li::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--green-subtle);
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6.5 10.5L4 8l-.7.7 3.2 3.2 6-6L11.8 5l-5.3 5.5z' fill='%23026b3f'/%3E%3C/svg%3E");
+  background-size: contain;
+}
+
+/* ── Stats Row ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+.stat-item {
+  padding: 24px;
+}
+.stat-item .stat-value {
+  font-family: 'IBM Plex Sans', 'Helvetica', Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+.stat-item .stat-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ── CTA Banner ── */
+.cta-banner {
+  background: var(--purple-primary);
+  border-radius: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #ffffff;
+}
+.cta-banner h2 {
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+.cta-banner p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.38;
+  color: rgba(255,255,255,0.75);
+  max-width: 500px;
+  margin: 0 auto 24px;
+}
+.cta-banner .btn-white {
+  box-shadow: rgba(0,0,0,0.08) 0px 4px 24px;
+}
+.cta-banner .btn-white:hover {
+  box-shadow: rgba(0,0,0,0.14) 0px 4px 24px;
+}
+
+/* ── Footer ── */
+.footer {
+  background: var(--canvas);
+  border-top: 1px solid var(--border);
+  padding: 48px 0 24px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.footer-brand svg {
+  width: 24px;
+  height: 24px;
+}
+.footer-brand span {
+  font-family: 'IBM Plex Sans', 'Helvetica', Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+}
+.footer-desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--muted);
+  max-width: 300px;
+}
+.footer-col h4 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.43;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.footer-col a {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color 0.15s;
+}
+.footer-col a:hover {
+  color: var(--ink);
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--muted);
+}
+
+/* ── SVG Icons ── */
+.icon-kraken { fill: var(--purple-primary); }
+.icon-feature { fill: var(--purple-primary); }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .h-display { font-size: 36px; }
+  .h-section { font-size: 28px; }
+  .h-sub { font-size: 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 48px 0; }
+  .hero-stats { gap: 16px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+  .cta-banner { padding: 32px 16px; }
+  .section { padding: 48px 0; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .btn-group { flex-direction: column; }
+  .btn-group .btn { width: 100%; }
+  .nav-inner { padding: 16px; }
+  .container { padding: 0 16px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 32 32" class="icon-kraken">
+        <rect x="2" y="6" width="28" height="20" rx="4"/>
+        <path d="M10 14l4 4 4-4 4 4" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="10" r="2" fill="#fff"/>
+      </svg>
+      <span class="nav-logo-text">Kraken</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#stats" class="nav-link">Markets</a>
+      <a href="#" class="nav-link">Learn</a>
+      <a href="#" class="nav-link">Security</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-secondary" style="font-size:14px; padding:8px 13px;">Sign In</a>
+      <a href="#" class="btn btn-primary" style="font-size:14px; padding:8px 13px;">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="badge-success">● Trusted since 2013</span>
+    </div>
+    <h1 class="h-display">Your gateway to<br>crypto, built on trust</h1>
+    <p class="hero-desc">Buy, sell, and trade 350+ cryptocurrencies with industry-leading security, deep liquidity, and 24/7 dedicated support. Join 10+ million traders worldwide.</p>
+    <div class="btn-group" style="justify-content: center;">
+      <a href="#" class="btn btn-primary">Create your free account</a>
+      <a href="#" class="btn btn-outline">Explore markets</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">$207B+</div>
+        <div class="hero-stat-label">Quarterly volume</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">350+</div>
+        <div class="hero-stat-label">Cryptocurrencies</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">10M+</div>
+        <div class="hero-stat-label">Verified users</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">99.95%</div>
+        <div class="hero-stat-label">Uptime</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── Features ── -->
+<section id="features" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="h-section">Everything you need to trade</h2>
+      <p>From your first Bitcoin purchase to advanced derivatives trading, Kraken gives you the tools to trade with confidence.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="h-feature">Bank-grade security</h3>
+        <p>95% of assets held in cold storage with multi-sig wallets. SOC 2 Type II certified with real-time monitoring.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3 class="h-feature">Pro trading interface</h3>
+        <p>Advanced charting powered by TradingView. Place limit, stop-loss, and take-profit orders with one click.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3 class="h-feature">Deep liquidity</h3>
+        <p>Trade with minimal slippage across 350+ markets. Access competitive spreads backed by institutional liquidity.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <h3 class="h-feature">Instant deposits</h3>
+        <p>Fund your account instantly via bank transfer, wire, Apple Pay, or Google Pay. Low fees, fast settlement.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h3 class="h-feature">Global availability</h3>
+        <p>Available in 190+ countries with local payment methods. Multi-language support and regional compliance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </div>
+        <h3 class="h-feature">Staking rewards</h3>
+        <p>Earn up to 12% APY by staking 25+ assets directly on platform. No lockup periods, rewards paid weekly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pricing ── -->
+<section id="pricing" class="section section-gray">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="h-section">Transparent trading fees</h2>
+      <p>No hidden costs. Pay only when you trade, with fees that decrease as your volume grows.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3 class="h-feature">Starter</h3>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">For casual investors</p>
+        <div class="price">0.40%</div>
+        <div class="price-label">per trade</div>
+        <ul class="pricing-features">
+          <li>Instant Buy &amp; Sell</li>
+          <li>Mobile app trading</li>
+          <li>Recurring buys</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#" class="btn btn-secondary" style="width:100%; justify-content:center;">Get started</a>
+      </div>
+      <div class="pricing-card pricing-card-featured">
+        <h3 class="h-feature">Kraken Pro</h3>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">For active traders</p>
+        <div class="price">0.26%</div>
+        <div class="price-label">maker / taker*</div>
+        <ul class="pricing-features">
+          <li>Advanced order types</li>
+          <li>TradingView charts</li>
+          <li>Margin up to 5x</li>
+          <li>Priority 24/7 support</li>
+          <li>API access</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="width:100%; justify-content:center;">Start free trial</a>
+        <p style="font-size:12px; color:var(--muted); margin-top:12px; text-align:center;">*Fee drops to 0.16% at $50K+ volume</p>
+      </div>
+      <div class="pricing-card">
+        <h3 class="h-feature">Institutional</h3>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">For funds &amp; high-volume</p>
+        <div class="price">Custom</div>
+        <div class="price-label">tailored pricing</div>
+        <ul class="pricing-features">
+          <li>Dedicated account manager</li>
+          <li>OTC desk access</li>
+          <li>FIX &amp; REST API</li>
+          <li>SLA guarantees</li>
+        </ul>
+        <a href="#" class="btn btn-secondary" style="width:100%; justify-content:center;">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats ── -->
+<section id="stats" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="h-section">Built for performance</h2>
+      <p>Our infrastructure is engineered to handle millions of trades per second with zero downtime.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-value">1.2M+</div>
+        <div class="stat-label">Trades per second</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">&lt;0.1ms</div>
+        <div class="stat-label">Order latency</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">24/7/365</div>
+        <div class="stat-label">Live support</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">ISO 27001</div>
+        <div class="stat-label">Certified</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA Banner ── -->
+<section id="cta" class="section">
+  <div class="container">
+    <div class="cta-banner">
+      <span class="badge-neutral" style="background:rgba(255,255,255,0.16); color:rgba(255,255,255,0.9);">New user bonus</span>
+      <h2 class="h-section" style="margin-top:16px; color:#ffffff;">Ready to start your crypto journey?</h2>
+      <p>Sign up in minutes, verify your identity, and start trading with as little as $10. No hidden fees, no surprises.</p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="#" class="btn btn-white">Create your free account</a>
+        <a href="#" class="btn" style="color:#ffffff; border:1px solid rgba(255,255,255,0.3); padding:13px 16px; border-radius:10px;">Talk to our team</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <rect x="2" y="5" width="20" height="14" rx="3" fill="var(--purple-primary)"/>
+            <path d="M7 10l3.5 3 3.5-3 3 3" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="8" r="1.5" fill="#fff"/>
+          </svg>
+          <span>Kraken</span>
+        </div>
+        <p class="footer-desc">The world's most trusted crypto exchange. Trade with confidence on a platform built on security, transparency, and innovation.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#">Kraken Pro</a>
+        <a href="#">Kraken Futures</a>
+        <a href="#">OTC Trading</a>
+        <a href="#">Staking</a>
+        <a href="#">NFT Marketplace</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Security</a>
+        <a href="#">Blog</a>
+        <a href="#">Press</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">API Docs</a>
+        <a href="#">Fee Schedule</a>
+        <a href="#">System Status</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2024 Kraken. All rights reserved.</span>
+      <span>Privacy Policy &middot; Terms of Service &middot; Cookie Settings</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

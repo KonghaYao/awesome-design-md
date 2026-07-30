@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopify — The global commerce platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,420;14..32,500;14..32,550&display=swap" rel="stylesheet">
+<style>
+/* ============================
+   CSS RESET & ROOT
+   ============================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Colors — exact from DESIGN.md */
+  --color-primary: #000000;
+  --color-ink: #000000;
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+  --color-canvas-night: #000000;
+  --color-canvas-night-elevated: #0a0a0a;
+  --color-canvas-light: #ffffff;
+  --color-canvas-cream: #fbfbf5;
+  --color-surface-elevated-dark: #1e2c31;
+  --color-shade-30: #d4d4d8;
+  --color-shade-40: #a1a1aa;
+  --color-shade-50: #71717a;
+  --color-shade-60: #52525b;
+  --color-shade-70: #3f3f46;
+  --color-hairline-light: #e4e4e7;
+  --color-hairline-dark: #1e2c31;
+  --color-aloe-10: #c1fbd4;
+  --color-pistachio-10: #d4f9e0;
+  --color-link-cool-1: #9dabad;
+  --color-link-cool-2: #9797a2;
+  --color-link-cool-3: #bdbdca;
+  --color-link-mint: #99b3ad;
+
+  /* Rounded — exact from DESIGN.md */
+  --rounded-xs: 4px;
+  --rounded-sm: 5px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 20px;
+  --rounded-pill: 9999px;
+
+  /* Spacing — exact from DESIGN.md */
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-huge: 64px;
+
+  /* Typography — exact from DESIGN.md */
+  --font-display: "NeueHaasGrotesk Display", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  --font-body: "Inter Variable", "Inter", "Helvetica", "Arial", sans-serif;
+  --font-code: ui-monospace, "SFMono-Regular", "Menlo", "Monaco", "Consolas", monospace;
+}
+
+html {
+  font-feature-settings: "ss03";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  background: var(--color-canvas-night);
+}
+
+/* ============================
+   TYPOGRAPHY — exact tokens
+   ============================ */
+.display-xxl {
+  font-family: var(--font-display);
+  font-size: 96px;
+  font-weight: 330;
+  line-height: 1.0;
+  letter-spacing: 2.4px;
+}
+
+.display-xl {
+  font-family: var(--font-display);
+  font-size: 70px;
+  font-weight: 330;
+  line-height: 1.0;
+  letter-spacing: 0;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 55px;
+  font-weight: 330;
+  line-height: 1.16;
+  letter-spacing: 0;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 330;
+  line-height: 1.14;
+  letter-spacing: 0;
+}
+
+.heading-xl {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.28;
+  letter-spacing: 0.42px;
+}
+
+.heading-lg {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: 0.36px;
+}
+
+.heading-md {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+}
+
+.heading-sm {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.72px;
+}
+
+.body-lg {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 550;
+  line-height: 1.56;
+  letter-spacing: 0;
+}
+
+.body-md {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.body-strong {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 550;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.49;
+  letter-spacing: 0.28px;
+}
+
+.micro {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.13px;
+}
+
+.eyebrow-cap {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.72px;
+  text-transform: uppercase;
+}
+
+/* ============================
+   BUTTONS — exact component specs
+   ============================ */
+.btn-primary-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+  padding: 12px 24px;
+  border-radius: var(--rounded-pill);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-primary-pill:hover { background: var(--color-shade-70); }
+.btn-primary-pill:active { background: var(--color-shade-70); transform: scale(0.98); }
+
+.btn-outline-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--color-canvas-night);
+  color: var(--color-on-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+  padding: 12px 26px;
+  border-radius: var(--rounded-pill);
+  border: 2px solid var(--color-on-primary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-outline-on-dark:hover { background: rgba(255,255,255,0.08); }
+.btn-outline-on-dark:active { transform: scale(0.98); }
+
+.btn-outline-on-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--color-canvas-light);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+  padding: 12px 24px;
+  border-radius: var(--rounded-pill);
+  border: 1px solid var(--color-ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-outline-on-light:hover { background: rgba(0,0,0,0.04); }
+.btn-outline-on-light:active { transform: scale(0.98); }
+
+.btn-aloe-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--color-aloe-10);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+  padding: 12px 24px;
+  border-radius: var(--rounded-pill);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-aloe-pill:hover { filter: brightness(0.95); }
+.btn-aloe-pill:active { transform: scale(0.98); }
+
+/* ============================
+   PILL TAGS
+   ============================ */
+.pill-tag-mint {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-aloe-10);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.72px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: var(--rounded-pill);
+  border: none;
+}
+
+.pill-tag-shade {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-shade-30);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.72px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: var(--rounded-pill);
+  border: none;
+}
+
+/* ============================
+   NAVIGATION — nav-bar-dark
+   ============================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--color-canvas-night);
+  color: var(--color-on-primary);
+  padding: 16px 24px;
+  border-radius: var(--rounded-xs);
+}
+.nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.42px;
+  color: var(--color-on-primary);
+  text-decoration: none;
+}
+.nav-logo svg { width: 32px; height: 32px; margin-right: var(--spacing-sm); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxl);
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-on-primary);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.nav-links a:hover { opacity: 0.7; }
+.nav-actions { display: flex; align-items: center; gap: var(--spacing-sm); }
+.nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+
+/* ============================
+   HERO — Cinematic track on canvas-night
+   ============================ */
+.hero {
+  background: var(--color-canvas-night);
+  color: var(--color-on-primary);
+  padding: 160px 24px 128px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-eyebrow { margin-bottom: var(--spacing-xl); }
+.hero h1 {
+  max-width: 900px;
+  margin-bottom: var(--spacing-xl);
+}
+.hero-subhead {
+  max-width: 620px;
+  color: var(--color-shade-40);
+  margin-bottom: var(--spacing-xxl);
+}
+.hero-actions { display: flex; gap: var(--spacing-md); flex-wrap: wrap; justify-content: center; }
+
+/* Hero photography placeholder — full-bleed abstract shapes */
+.hero-visual {
+  margin-top: var(--spacing-huge);
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+}
+.hero-photo-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 300px 200px;
+  gap: var(--spacing-lg);
+  border-radius: var(--rounded-xl);
+  overflow: hidden;
+}
+.hero-photo-main {
+  grid-row: 1 / 3;
+  background: var(--color-canvas-night-elevated);
+  border-radius: var(--rounded-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-photo-secondary {
+  background: var(--color-canvas-night-elevated);
+  border-radius: var(--rounded-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-photo-accent {
+  background: var(--color-surface-elevated-dark);
+  border-radius: var(--rounded-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 2 / 4;
+}
+
+/* Abstract merchant/storefront SVG placeholders */
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-placeholder svg { width: 100%; height: 100%; }
+
+/* ============================
+   FEATURES — card-feature-cinematic
+   ============================ */
+.section-features {
+  background: var(--color-canvas-night);
+  color: var(--color-on-primary);
+  padding: var(--spacing-huge) 24px 128px;
+}
+.section-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-huge);
+}
+.section-header .eyebrow-cap { margin-bottom: var(--spacing-lg); color: var(--color-aloe-10); }
+.section-header h2 { margin-bottom: var(--spacing-lg); }
+.section-header p { max-width: 520px; margin: 0 auto; color: var(--color-shade-40); }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+}
+
+.card-feature-cinematic {
+  background: var(--color-canvas-night-elevated);
+  color: var(--color-on-primary);
+  padding: 32px;
+  border-radius: var(--rounded-lg);
+  box-shadow: 0 1px 2px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+.card-feature-cinematic:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.08),
+    0 1px 3px rgba(0,0,0,0.3),
+    0 5px 10px rgba(0,0,0,0.2);
+}
+.card-feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--rounded-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-elevated-dark);
+  flex-shrink: 0;
+}
+.card-feature-icon svg { width: 24px; height: 24px; }
+.card-feature-cinematic .heading-xl { margin-bottom: var(--spacing-xs); }
+.card-feature-cinematic .body-md { color: var(--color-shade-40); }
+
+/* ============================
+   PISTACHIO BAND
+   ============================ */
+.section-pistachio {
+  background: var(--color-pistachio-10);
+  color: var(--color-ink);
+  padding: var(--spacing-huge) 24px;
+}
+.card-pistachio-band {
+  background: var(--color-pistachio-10);
+  color: var(--color-ink);
+  padding: 32px;
+  border-radius: var(--rounded-lg);
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-huge);
+  align-items: center;
+}
+.pistachio-content .eyebrow-cap { margin-bottom: var(--spacing-lg); color: var(--color-shade-50); }
+.pistachio-content h3 { margin-bottom: var(--spacing-lg); }
+.pistachio-content p { max-width: 480px; color: var(--color-shade-60); margin-bottom: var(--spacing-xl); }
+.pistachio-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  border-radius: var(--rounded-lg);
+  background: var(--color-canvas-light);
+  box-shadow:
+    0 8px 8px rgba(0,0,0,0.1),
+    0 4px 4px rgba(0,0,0,0.1),
+    0 2px 2px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(0,0,0,0.1);
+}
+.pistachio-visual svg { width: 60%; height: auto; }
+
+/* ============================
+   PRICING — Canvas Cream transactional track
+   ============================ */
+.section-pricing {
+  background: var(--color-canvas-cream);
+  color: var(--color-ink);
+  padding: var(--spacing-huge) 24px;
+}
+.section-pricing .section-header { text-align: center; margin-bottom: var(--spacing-huge); }
+.section-pricing .section-header .eyebrow-cap { color: var(--color-shade-50); }
+.section-pricing .section-header p { color: var(--color-shade-50); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card-pricing {
+  background: var(--color-canvas-light);
+  color: var(--color-ink);
+  padding: 32px;
+  border-radius: var(--rounded-lg);
+  border: 1px solid var(--color-hairline-light);
+  box-shadow:
+    0 8px 8px rgba(0,0,0,0.1),
+    0 4px 4px rgba(0,0,0,0.1),
+    0 2px 2px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  transition: transform 0.25s ease;
+}
+.card-pricing:hover { transform: translateY(-2px); }
+
+.card-pricing-featured {
+  background: var(--color-aloe-10);
+  color: var(--color-ink);
+  padding: 32px;
+  border-radius: var(--rounded-lg);
+  border: none;
+  box-shadow:
+    0 8px 8px rgba(0,0,0,0.1),
+    0 4px 4px rgba(0,0,0,0.1),
+    0 2px 2px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  transition: transform 0.25s ease;
+  position: relative;
+}
+.card-pricing-featured:hover { transform: translateY(-2px); }
+
+.pricing-tier {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.pricing-tier .heading-xl { margin-bottom: var(--spacing-xs); }
+.pricing-tier .body-md { color: var(--color-shade-50); margin-bottom: var(--spacing-md); }
+
+.pricing-amount {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+}
+.pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  flex: 1;
+}
+.pricing-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-shade-50);
+}
+.pricing-feature-item svg { flex-shrink: 0; margin-top: 2px; color: var(--color-ink); }
+.pricing-action { margin-top: auto; }
+
+/* ============================
+   CTA Section
+   ============================ */
+.section-cta {
+  background: var(--color-canvas-light);
+  color: var(--color-ink);
+  padding: var(--spacing-huge) 24px 96px;
+  text-align: center;
+}
+.section-cta .section-header { margin-bottom: var(--spacing-xl); }
+.section-cta .heading-xl { margin-bottom: var(--spacing-md); }
+.section-cta .body-lg { color: var(--color-shade-50); max-width: 520px; margin: 0 auto var(--spacing-xl); }
+
+.cta-form {
+  display: flex;
+  gap: var(--spacing-sm);
+  max-width: 480px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.cta-input {
+  flex: 1;
+  min-width: 200px;
+  background: var(--color-canvas-light);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 420;
+  line-height: 1.5;
+  letter-spacing: 0;
+  padding: 10px 12px;
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--color-hairline-light);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.cta-input:focus { border-color: var(--color-ink); }
+.cta-input::placeholder { color: var(--color-shade-40); }
+
+/* ============================
+   FOOTER — footer-dark
+   ============================ */
+.footer-dark {
+  background: var(--color-canvas-night);
+  color: var(--color-on-primary);
+  padding: 64px 24px;
+}
+.footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--spacing-huge);
+}
+.footer-col-header {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.49;
+  letter-spacing: 0.28px;
+  color: var(--color-on-primary);
+  margin-bottom: var(--spacing-lg);
+}
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.footer-col-links a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.49;
+  letter-spacing: 0.28px;
+  color: var(--color-link-cool-1);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+.footer-col-links a:hover { color: var(--color-on-primary); }
+.footer-brand p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.49;
+  letter-spacing: 0.28px;
+  color: var(--color-link-cool-2);
+  margin-bottom: var(--spacing-lg);
+}
+.footer-bottom {
+  max-width: 1440px;
+  margin: var(--spacing-huge) auto 0;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-shade-30);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+}
+.footer-bottom-links {
+  display: flex;
+  gap: var(--spacing-xl);
+  list-style: none;
+}
+.footer-bottom-links a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.49;
+  letter-spacing: 0.28px;
+  color: var(--color-link-cool-3);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-bottom-links a:hover { color: var(--color-on-primary); }
+.footer-social {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+.footer-social a {
+  color: var(--color-link-cool-2);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+.footer-social a:hover { color: var(--color-on-primary); }
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 1023px) {
+  .display-xxl { font-size: 56px; letter-spacing: 1.4px; }
+  .display-xl { font-size: 48px; }
+  .display-lg { font-size: 40px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .card-pricing-featured { grid-column: 1 / -1; }
+  .hero-photo-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 160px; }
+  .hero-photo-main { grid-row: auto; grid-column: 1 / 3; }
+  .footer-inner { grid-template-columns: 1fr 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 767px) {
+  .display-xxl { font-size: 40px; letter-spacing: 1px; }
+  .display-xl { font-size: 36px; }
+  .display-lg { font-size: 32px; }
+  .hero { padding: 120px 24px 80px; }
+  .nav-links { display: none; }
+  .nav-actions { display: none; }
+  .nav-hamburger { display: block; }
+  .features-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .card-pricing-featured { grid-column: auto; }
+  .card-pistachio-band { grid-template-columns: 1fr; text-align: center; }
+  .pistachio-content p { max-width: 100%; }
+  .hero-photo-grid { grid-template-columns: 1fr; grid-template-rows: 200px 140px 140px; }
+  .hero-photo-main { grid-column: auto; }
+  .hero-photo-secondary:nth-of-type(2) { display: none; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .section-features { padding: var(--spacing-huge) 24px 80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================
+     NAVIGATION — nav-bar-dark
+     ============================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#95BF47"/><path d="M16 6L12 13H20L16 6Z" fill="#fff"/><circle cx="16" cy="16" r="4" fill="#fff"/></svg>
+      Shopify
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Solutions</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#resources">Resources</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn-outline-on-dark">Log in</a>
+      <a href="#" class="btn-primary-pill">Start free trial</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================
+     HERO — Cinematic marketing track
+     ============================ -->
+<section class="hero">
+  <span class="pill-tag-mint" style="color: var(--color-on-dark); background: rgba(255,255,255,0.1);">New: Shopify AI Sidekick</span>
+  <h1 class="display-xxl">Build your brand.<br>Own your future.</h1>
+  <p class="hero-subhead body-lg">The global commerce platform trusted by millions of businesses in 175+ countries. Start, grow, and scale — all from one place.</p>
+  <div class="hero-actions">
+    <a href="#" class="btn-outline-on-dark">Start free trial</a>
+    <a href="#" class="btn-primary-pill" style="background: transparent; border: 2px solid var(--color-on-primary); padding: 12px 26px;">Watch demo</a>
+  </div>
+
+  <!-- Full-bleed photography placeholder -->
+  <div class="hero-visual">
+    <div class="hero-photo-grid">
+      <div class="hero-photo-main">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="500" rx="20" fill="#0a0a0a"/>
+            <!-- Storefront abstract shape -->
+            <rect x="80" y="120" width="440" height="260" rx="8" fill="none" stroke="#1e2c31" stroke-width="2"/>
+            <rect x="180" y="180" width="240" height="140" rx="4" fill="none" stroke="#2a3a40" stroke-width="1.5"/>
+            <circle cx="300" cy="250" r="30" fill="#1e2c31" opacity="0.6"/>
+            <rect x="130" y="320" width="80" height="40" rx="6" fill="#1e2c31" opacity="0.5"/>
+            <rect x="390" y="320" width="80" height="40" rx="6" fill="#1e2c31" opacity="0.5"/>
+            <rect x="240" y="100" width="120" height="4" rx="2" fill="#3f3f46" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-photo-secondary">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="200" rx="12" fill="#0a0a0a"/>
+            <rect x="40" y="50" width="100" height="100" rx="6" fill="none" stroke="#1e2c31" stroke-width="1.5"/>
+            <rect x="160" y="50" width="100" height="100" rx="6" fill="none" stroke="#1e2c31" stroke-width="1.5"/>
+            <circle cx="90" cy="100" r="16" fill="#1e2c31" opacity="0.5"/>
+            <circle cx="210" cy="100" r="16" fill="#1e2c31" opacity="0.5"/>
+            <rect x="240" y="80" width="20" height="40" rx="3" fill="#2a3a40" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-photo-secondary">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="200" rx="12" fill="#0a0a0a"/>
+            <rect x="60" y="60" width="180" height="80" rx="8" fill="none" stroke="#2a3a40" stroke-width="1.5"/>
+            <rect x="90" y="80" width="120" height="6" rx="3" fill="#3f3f46" opacity="0.5"/>
+            <rect x="90" y="100" width="80" height="6" rx="3" fill="#3f3f46" opacity="0.3"/>
+            <rect x="90" y="114" width="60" height="6" rx="3" fill="#3f3f46" opacity="0.2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-photo-accent">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 600 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Analytics/growth abstract -->
+            <rect width="600" height="200" rx="12" fill="#1e2c31"/>
+            <rect x="40" y="40" width="520" height="120" rx="8" fill="#0a0a0a" opacity="0.5"/>
+            <polyline points="60,140 180,100 300,120 420,60 540,20" fill="none" stroke="#c1fbd4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="420" cy="60" r="6" fill="#c1fbd4"/>
+            <circle cx="540" cy="20" r="6" fill="#c1fbd4"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     FEATURES — card-feature-cinematic
+     ============================ -->
+<section class="section-features" id="features">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow-cap">Platform</span>
+      <h2 class="display-xl">Everything you need<br>to sell anywhere</h2>
+      <p class="body-lg">One unified platform to run your entire business — online, in person, and everywhere in between.</p>
+    </div>
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <a href="#" class="card-feature-cinematic">
+        <div class="card-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 8h20"/><circle cx="6" cy="14" r="1.5" fill="white"/><circle cx="10" cy="14" r="1.5" fill="white"/></svg>
+        </div>
+        <h4 class="heading-xl">Online Store</h4>
+        <p class="body-md">Build a beautiful, high-converting storefront with the world's best-converting checkout. No code required.</p>
+      </a>
+      <!-- Feature 2 -->
+      <a href="#" class="card-feature-cinematic">
+        <div class="card-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+        </div>
+        <h4 class="heading-xl">Point of Sale</h4>
+        <p class="body-md">Sell in person with a unified POS system. Sync inventory, orders, and customer data across every channel.</p>
+      </a>
+      <!-- Feature 3 -->
+      <a href="#" class="card-feature-cinematic">
+        <div class="card-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h4 class="heading-xl">AI Automation</h4>
+        <p class="body-md">Let Shopify Magic write product descriptions, generate emails, and answer customer questions — in your brand voice.</p>
+      </a>
+      <!-- Feature 4 -->
+      <a href="#" class="card-feature-cinematic">
+        <div class="card-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M3 3h18v18H3z"/><path d="M8 12h8M12 8v8"/></svg>
+        </div>
+        <h4 class="heading-xl">App Ecosystem</h4>
+        <p class="body-md">Extend with 8,000+ apps in the Shopify App Store. Every integration, every use case — already built.</p>
+      </a>
+      <!-- Feature 5 -->
+      <a href="#" class="card-feature-cinematic">
+        <div class="card-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="8" cy="6" r="3"/><circle cx="16" cy="6" r="3"/><path d="M2 21v-2a4 4 0 014-4h12a4 4 0 014 4v2"/></svg>
+        </div>
+        <h4 class="heading-xl">Customer Analytics</h4>
+        <p class="body-md">Understand every customer with unified profiles, segmentation, and AI-powered insights — right out of the box.</p>
+      </a>
+      <!-- Feature 6 -->
+      <a href="#" class="card-feature-cinematic">
+        <div class="card-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        </div>
+        <h4 class="heading-xl">Global Commerce</h4>
+        <p class="body-md">Sell in 175+ countries with built-in localization, multi-currency pricing, and local payment methods.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     PISTACHIO BAND — card-pistachio-band
+     ============================ -->
+<section class="section-pistachio">
+  <div class="card-pistachio-band">
+    <div class="pistachio-content">
+      <span class="eyebrow-cap">Scale</span>
+      <h3 class="display-md">From first sale<br>to global brand</h3>
+      <p class="body-md">The same platform that handles your first order scales effortlessly to millions. No replatforming, no migrations — just growth.</p>
+      <a href="#" class="btn-primary-pill">Learn about Shopify Plus</a>
+    </div>
+    <div class="pistachio-visual">
+      <svg viewBox="0 0 300 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Growth chart -->
+        <rect width="300" height="240" rx="12" fill="#fbfbf5"/>
+        <rect x="40" y="20" width="220" height="200" rx="8" fill="#fbfbf5"/>
+        <!-- Grid lines -->
+        <line x1="40" y1="180" x2="260" y2="180" stroke="#e4e4e7" stroke-width="1"/>
+        <line x1="40" y1="140" x2="260" y2="140" stroke="#e4e4e7" stroke-width="1"/>
+        <line x1="40" y1="100" x2="260" y2="100" stroke="#e4e4e7" stroke-width="1"/>
+        <line x1="40" y1="60" x2="260" y2="60" stroke="#e4e4e7" stroke-width="1"/>
+        <!-- Growth curve -->
+        <polyline points="60,190 110,170 140,130 190,90 230,35 260,25" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="230" cy="35" r="5" fill="#c1fbd4" stroke="#000" stroke-width="1.5"/>
+        <circle cx="260" cy="25" r="5" fill="#000"/>
+        <!-- Bars -->
+        <rect x="80" y="185" width="12" height="35" rx="3" fill="#e4e4e7"/>
+        <rect x="100" y="170" width="12" height="50" rx="3" fill="#e4e4e7"/>
+        <rect x="120" y="155" width="12" height="65" rx="3" fill="#d4d4d8"/>
+        <rect x="140" y="130" width="12" height="90" rx="3" fill="#d4d4d8"/>
+        <rect x="160" y="100" width="12" height="120" rx="3" fill="#c1fbd4"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     PRICING — Canvas Cream transactional track
+     ============================ -->
+<section class="section-pricing" id="pricing">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow-cap">Pricing</span>
+      <h2 class="display-lg">Plans for every stage</h2>
+      <p class="body-lg">Start for free. Upgrade when you're ready. No hidden fees, no surprises.</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- Basic -->
+      <div class="card-pricing">
+        <div class="pricing-tier">
+          <h4 class="heading-xl">Basic</h4>
+          <p class="body-md">For solo entrepreneurs getting started</p>
+          <div class="pricing-amount">
+            <span class="display-md">$29</span>
+            <span class="body-md" style="color: var(--color-shade-50);">/mo</span>
+          </div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Online store with ecommerce
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Unlimited products
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            2 staff accounts
+          </div>
+        </div>
+        <div class="pricing-action">
+          <a href="#" class="btn-outline-on-light" style="width: 100%; text-align: center;">Start free trial</a>
+        </div>
+      </div>
+
+      <!-- Shopify (Featured) -->
+      <div class="card-pricing-featured">
+        <span class="pill-tag-mint" style="margin-bottom: 4px;">Most popular</span>
+        <div class="pricing-tier">
+          <h4 class="heading-xl">Shopify</h4>
+          <p class="body-md">For growing businesses with a team</p>
+          <div class="pricing-amount">
+            <span class="display-md">$79</span>
+            <span class="body-md" style="color: var(--color-shade-50);">/mo</span>
+          </div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Everything in Basic
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            5 staff accounts
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Professional reports
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Lower transaction fees
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            International commerce
+          </div>
+        </div>
+        <div class="pricing-action">
+          <a href="#" class="btn-aloe-pill" style="width: 100%; text-align: center;">Start free trial</a>
+        </div>
+        <p class="micro" style="text-align: center; color: var(--color-shade-50);">3-day free trial. No credit card required.</p>
+      </div>
+
+      <!-- Advanced -->
+      <div class="card-pricing">
+        <div class="pricing-tier">
+          <h4 class="heading-xl">Advanced</h4>
+          <p class="body-md">For scaling businesses that need more</p>
+          <div class="pricing-amount">
+            <span class="display-md">$299</span>
+            <span class="body-md" style="color: var(--color-shade-50);">/mo</span>
+          </div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Everything in Shopify
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            15 staff accounts
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Advanced report builder
+          </div>
+          <div class="pricing-feature-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Lowest transaction fees
+          </div>
+        </div>
+        <div class="pricing-action">
+          <a href="#" class="btn-outline-on-light" style="width: 100%; text-align: center;">Start free trial</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     CTA Section
+     ============================ -->
+<section class="section-cta">
+  <div class="section-header">
+    <h2 class="display-md">Start your business<br>today</h2>
+    <p class="body-lg">Join millions of entrepreneurs building on Shopify. Enter your email to start your free trial.</p>
+  </div>
+  <div class="cta-form">
+    <input type="email" class="cta-input" placeholder="Enter your email address">
+    <button class="btn-primary-pill">Start free trial</button>
+  </div>
+  <p class="micro" style="margin-top: var(--spacing-lg); color: var(--color-shade-50);">Try Shopify free for 3 days, no credit card required.</p>
+</section>
+
+<!-- ============================
+     FOOTER — footer-dark
+     ============================ -->
+<footer class="footer-dark">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="margin-bottom: var(--spacing-lg); display: inline-flex;">
+        <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#95BF47"/><path d="M16 6L12 13H20L16 6Z" fill="#fff"/><circle cx="16" cy="16" r="4" fill="#fff"/></svg>
+        Shopify
+      </a>
+      <p>The global commerce platform. One place to sell everywhere — online, on social, and in person.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Twitter">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M10.7 7.6L17 0h-1.5L10 6.6 5.6 0H0l6.6 9.3L0 16.8h1.5l5.8-6.5 4.6 6.5H18L10.7 7.6zM3 1.1h2.3l10.5 14.6h-2.3L3 1.1z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><rect x="2" y="2" width="14" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="13.5" cy="4.5" r="0.8" fill="currentColor"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M17.2 5c-.2-.8-.8-1.4-1.6-1.6C14.1 3 9 3 9 3s-5.1 0-6.6.4C1.6 3.6 1 4.2.8 5 .4 6.6.4 10 .4 10s0 3.4.4 5c.2.8.8 1.4 1.6 1.6 1.5.4 6.6.4 6.6.4s5.1 0 6.6-.4c.8-.2 1.4-.8 1.6-1.6.4-1.6.4-5 .4-5s0-3.4-.4-5zM7.3 12.7V7.3L11.7 10 7.3 12.7z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h5 class="footer-col-header">Sell</h5>
+      <ul class="footer-col-links">
+        <li><a href="#">Online store</a></li>
+        <li><a href="#">Point of sale</a></li>
+        <li><a href="#">Buy Button</a></li>
+        <li><a href="#">Checkout</a></li>
+        <li><a href="#">International</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="footer-col-header">Manage</h5>
+      <ul class="footer-col-links">
+        <li><a href="#">Inventory</a></li>
+        <li><a href="#">Orders</a></li>
+        <li><a href="#">Analytics</a></li>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Finance</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="footer-col-header">Market</h5>
+      <ul class="footer-col-links">
+        <li><a href="#">Social media</a></li>
+        <li><a href="#">Shopify Audiences</a></li>
+        <li><a href="#">Shopify Email</a></li>
+        <li><a href="#">Shopify Inbox</a></li>
+        <li><a href="#">SEO tools</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="footer-col-header">Company</h5>
+      <ul class="footer-col-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Investors</a></li>
+        <li><a href="#">Partners</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="caption" style="color: var(--color-link-cool-2);">© 2026 Shopify Inc.</p>
+    <ul class="footer-bottom-links">
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Cookie Settings</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>

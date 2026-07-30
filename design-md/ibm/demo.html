@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBM — Let's create</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ======== RESET & BASE ======== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0.16px;
+  color: #161616;
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img, svg { display: block; }
+a { text-decoration: none; color: inherit; }
+
+/* ======== UTILITY BAR ======== */
+.utility-bar {
+  background-color: #f4f4f4;
+  color: #525252;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0.32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.utility-bar-inner {
+  width: 100%;
+  max-width: 1584px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
+.utility-bar-inner span { cursor: pointer; transition: color 0.15s ease; }
+.utility-bar-inner span:hover { color: #161616; }
+
+/* ======== TOP NAV ======== */
+.top-nav {
+  background-color: #ffffff;
+  height: 48px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.top-nav-inner {
+  width: 100%;
+  max-width: 1584px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.16px;
+  color: #161616;
+}
+.nav-logo svg { width: 24px; height: 24px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #161616;
+  transition: color 0.15s ease;
+  padding: 4px 0;
+}
+.nav-links a:hover { color: #0f62fe; }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-actions svg {
+  width: 20px; height: 20px;
+  color: #161616;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.nav-actions svg:hover { color: #0f62fe; }
+
+/* ======== HERO ======== */
+.hero {
+  background-color: #ffffff;
+  padding: 96px 32px 96px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60%;
+  height: 140%;
+  background: radial-gradient(ellipse at center, rgba(15,98,254,0.06) 0%, rgba(15,98,254,0.01) 50%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1584px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.hero-eyebrow {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #0f62fe;
+  margin-bottom: 16px;
+}
+.hero-headline {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 76px;
+  font-weight: 300;
+  line-height: 1.17;
+  letter-spacing: -0.5px;
+  color: #161616;
+  margin-bottom: 24px;
+}
+.hero-subhead {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: #525252;
+  margin-bottom: 32px;
+  max-width: 520px;
+}
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0f62fe;
+  color: #ffffff;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  border: none;
+  border-radius: 0px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-decoration: none;
+  min-height: 48px;
+}
+.btn-primary:hover { background-color: #0050e6; }
+.btn-primary:active { background-color: #002d9c; }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #161616;
+  color: #ffffff;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  border: none;
+  border-radius: 0px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-decoration: none;
+  min-height: 48px;
+}
+.btn-secondary:hover { background-color: #262626; }
+.btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #0f62fe;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  border: 1px solid #0f62fe;
+  border-radius: 0px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  text-decoration: none;
+  min-height: 48px;
+}
+.btn-tertiary:hover { background-color: #0f62fe; color: #ffffff; }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  color: #0f62fe;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  border: none;
+  border-radius: 0px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-decoration: none;
+  min-height: 48px;
+}
+.btn-ghost:hover { background-color: #f4f4f4; }
+
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-visual svg { width: 100%; max-width: 520px; height: auto; }
+
+/* ======== SECTION HEADERS ======== */
+.section-eyebrow {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #0f62fe;
+  margin-bottom: 8px;
+}
+.section-headline {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 60px;
+  font-weight: 300;
+  line-height: 1.17;
+  letter-spacing: -0.4px;
+  color: #161616;
+  margin-bottom: 16px;
+}
+.section-subhead {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: #525252;
+  max-width: 640px;
+}
+
+/* ======== FEATURES ======== */
+.features {
+  background-color: #f4f4f4;
+  padding: 96px 32px;
+}
+.features-inner {
+  max-width: 1584px;
+  margin: 0 auto;
+}
+.features-header {
+  margin-bottom: 48px;
+  text-align: center;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.feature-card {
+  background-color: #ffffff;
+  color: #161616;
+  border: 1px solid #e0e0e0;
+  border-radius: 0px;
+  padding: 24px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+.feature-card:hover { background-color: #f4f4f4; }
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+  border-radius: 0px;
+}
+.feature-card-icon svg { width: 24px; height: 24px; color: #0f62fe; }
+.feature-card-title {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0;
+  color: #161616;
+  margin-bottom: 12px;
+}
+.feature-card-desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #525252;
+  margin-bottom: 16px;
+}
+.feature-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #0f62fe;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.feature-card-link:hover { color: #0043ce; }
+.feature-card-link svg { width: 16px; height: 16px; }
+
+/* ======== PRODUCT SHOWCASE ======== */
+.showcase {
+  background-color: #ffffff;
+  padding: 96px 32px;
+}
+.showcase-inner {
+  max-width: 1584px;
+  margin: 0 auto;
+}
+.showcase-header {
+  margin-bottom: 48px;
+  text-align: center;
+}
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background-color: #e0e0e0;
+}
+.product-card {
+  background-color: #ffffff;
+  color: #161616;
+  border-radius: 0px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+}
+.product-card-tag {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0.32px;
+  color: #0f62fe;
+  margin-bottom: 16px;
+}
+.product-card-title {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0;
+  color: #161616;
+  margin-bottom: 12px;
+}
+.product-card-desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0.16px;
+  color: #525252;
+  margin-bottom: 24px;
+  flex: 1;
+}
+.product-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #0f62fe;
+  transition: color 0.15s ease;
+}
+.product-card-link:hover { color: #0043ce; }
+.product-card-link svg { width: 16px; height: 16px; }
+
+/* ======== CUSTOMER LOGOS ======== */
+.customers {
+  background-color: #f4f4f4;
+  padding: 96px 32px;
+}
+.customers-inner {
+  max-width: 1584px;
+  margin: 0 auto;
+  text-align: center;
+}
+.customers-headline {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: #161616;
+  margin-bottom: 48px;
+}
+.customers-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  background-color: #e0e0e0;
+}
+.customer-tile {
+  background-color: #ffffff;
+  color: #525252;
+  border-radius: 0px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0.32px;
+  transition: color 0.15s ease;
+}
+.customer-tile:hover { color: #0f62fe; }
+
+/* ======== CTA BANNER ======== */
+.cta-banner {
+  background-color: #0f62fe;
+  color: #ffffff;
+  border-radius: 0px;
+  padding: 48px;
+  text-align: center;
+}
+.cta-banner-inner {
+  max-width: 1584px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+.cta-banner-headline {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0;
+  margin-bottom: 16px;
+}
+.cta-banner-subhead {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  margin-bottom: 32px;
+  color: #ffffff;
+  opacity: 0.85;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: #0f62fe;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  border: none;
+  border-radius: 0px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-decoration: none;
+  min-height: 48px;
+}
+.cta-banner-btn:hover { background-color: #e0e0e0; }
+
+/* ======== RESOURCES ======== */
+.resources {
+  background-color: #ffffff;
+  padding: 96px 32px;
+}
+.resources-inner {
+  max-width: 1584px;
+  margin: 0 auto;
+}
+.resources-header {
+  margin-bottom: 48px;
+  text-align: center;
+}
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background-color: #e0e0e0;
+}
+.resource-tile {
+  background-color: #ffffff;
+  color: #161616;
+  border-radius: 0px;
+  padding: 16px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+.resource-tile:hover { background-color: #f4f4f4; }
+.resource-tile-tag {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0.32px;
+  color: #0f62fe;
+  margin-bottom: 8px;
+}
+.resource-tile-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #161616;
+  margin-bottom: 8px;
+}
+.resource-tile-date {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0.32px;
+  color: #8c8c8c;
+}
+
+/* ======== FOOTER ======== */
+.footer {
+  background-color: #161616;
+  color: #c6c6c6;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  padding: 64px 32px;
+}
+.footer-inner {
+  max-width: 1584px;
+  margin: 0 auto;
+}
+.footer-main {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-brand svg { width: 80px; height: 32px; margin-bottom: 16px; }
+.footer-brand {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+}
+.footer-col-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.footer-col-links a {
+  color: #c6c6c6;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  transition: color 0.15s ease;
+}
+.footer-col-links a:hover { color: #ffffff; }
+.footer-divider {
+  border: none;
+  border-top: 1px solid #262626;
+  margin-bottom: 24px;
+}
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-bottom-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+.footer-bottom-links a {
+  color: #c6c6c6;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0.32px;
+  transition: color 0.15s ease;
+}
+.footer-bottom-links a:hover { color: #ffffff; }
+.footer-copyright {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0.32px;
+  color: #8c8c8c;
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 1312px) {
+  .hero-headline { font-size: 60px; }
+  .section-headline { font-size: 42px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .showcase-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 1056px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .customers-grid { grid-template-columns: repeat(3, 1fr); }
+  .footer-main { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 672px) {
+  .utility-bar { display: none; }
+  .nav-links { display: none; }
+  .hero-headline { font-size: 42px; letter-spacing: 0; }
+  .section-headline { font-size: 32px; letter-spacing: 0; }
+  .hero { padding: 48px 16px; }
+  .features, .showcase, .customers, .resources { padding: 48px 16px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .showcase-grid { grid-template-columns: 1fr; }
+  .customers-grid { grid-template-columns: repeat(2, 1fr); }
+  .resources-grid { grid-template-columns: 1fr; }
+  .hero-ctas { flex-direction: column; align-items: flex-start; }
+  .footer { padding: 48px 16px; }
+  .footer-main { grid-template-columns: 1fr; }
+  .cta-banner-inner { padding: 24px 16px; }
+}
+
+/* ======== KEYBOARD FOCUS ======== */
+:focus-visible {
+  outline: 2px solid #0f62fe;
+  outline-offset: 0px;
+}
+</style>
+</head>
+<body>
+
+<!-- UTILITY BAR -->
+<div class="utility-bar">
+  <div class="utility-bar-inner">
+    <span>United States — English</span>
+    <span>Contact IBM</span>
+    <span>Search</span>
+  </div>
+</div>
+
+<!-- TOP NAVIGATION -->
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <a href="#" class="nav-logo" aria-label="IBM Home">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="0" y="0" width="24" height="24" fill="#161616"/><rect x="4" y="4" width="7" height="7" fill="#ffffff"/><rect x="4" y="13" width="7" height="3" fill="#ffffff"/><rect x="13" y="4" width="3" height="7" fill="#ffffff"/><rect x="13" y="13" width="7" height="3" fill="#ffffff"/><rect x="18" y="13" width="2" height="7" fill="#ffffff"/></svg>
+      IBM
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Products</a></li>
+      <li><a href="#showcase">Solutions</a></li>
+      <li><a href="#resources">Services</a></li>
+      <li><a href="#">Learn</a></li>
+    </ul>
+    <div class="nav-actions">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-eyebrow">IBM watsonx</p>
+      <h1 class="hero-headline">Let's create<br>what's next</h1>
+      <p class="hero-subhead">Build and scale AI with an open, trusted platform. Deploy models, automate workflows, and put AI to work — securely and at speed.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn-primary">Explore watsonx</a>
+        <a href="#" class="btn-secondary">Try the demo</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <svg viewBox="0 0 520 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Abstract blue geometric mesh pattern -->
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f62fe" stop-opacity="0.12"/><stop offset="100%" stop-color="#0f62fe" stop-opacity="0.02"/></linearGradient>
+        </defs>
+        <!-- Center node -->
+        <circle cx="260" cy="200" r="60" fill="none" stroke="#0f62fe" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="260" cy="200" r="36" fill="#0f62fe" opacity="0.08" stroke="#0f62fe" stroke-width="1"/>
+        <circle cx="260" cy="200" r="12" fill="#0f62fe" opacity="0.15"/>
+        <!-- Connected nodes -->
+        <circle cx="140" cy="100" r="8" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.5"/>
+        <circle cx="380" cy="100" r="8" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.5"/>
+        <circle cx="120" cy="280" r="8" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.5"/>
+        <circle cx="400" cy="280" r="8" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.5"/>
+        <circle cx="180" cy="340" r="6" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.4"/>
+        <circle cx="340" cy="340" r="6" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.4"/>
+        <circle cx="260" cy="60" r="6" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.3"/>
+        <circle cx="80" cy="180" r="6" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.3"/>
+        <circle cx="440" cy="180" r="6" fill="none" stroke="#0f62fe" stroke-width="1" opacity="0.3"/>
+        <!-- Connecting lines -->
+        <line x1="260" y1="200" x2="140" y2="100" stroke="#0f62fe" stroke-width="0.8" opacity="0.15"/>
+        <line x1="260" y1="200" x2="380" y2="100" stroke="#0f62fe" stroke-width="0.8" opacity="0.15"/>
+        <line x1="260" y1="200" x2="120" y2="280" stroke="#0f62fe" stroke-width="0.8" opacity="0.15"/>
+        <line x1="260" y1="200" x2="400" y2="280" stroke="#0f62fe" stroke-width="0.8" opacity="0.15"/>
+        <line x1="140" y1="100" x2="380" y2="100" stroke="#0f62fe" stroke-width="0.5" opacity="0.08"/>
+        <line x1="120" y1="280" x2="400" y2="280" stroke="#0f62fe" stroke-width="0.5" opacity="0.08"/>
+        <line x1="260" y1="200" x2="180" y2="340" stroke="#0f62fe" stroke-width="0.6" opacity="0.1"/>
+        <line x1="260" y1="200" x2="340" y2="340" stroke="#0f62fe" stroke-width="0.6" opacity="0.1"/>
+        <line x1="260" y1="200" x2="260" y2="60" stroke="#0f62fe" stroke-width="0.6" opacity="0.08"/>
+        <line x1="140" y1="100" x2="120" y2="280" stroke="#0f62fe" stroke-width="0.5" opacity="0.06"/>
+        <line x1="380" y1="100" x2="400" y2="280" stroke="#0f62fe" stroke-width="0.5" opacity="0.06"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- FEATURES SECTION -->
+<section id="features" class="features">
+  <div class="features-inner">
+    <div class="features-header">
+      <p class="section-eyebrow">Capabilities</p>
+      <h2 class="section-headline">AI built for<br>business</h2>
+      <p class="section-subhead" style="margin:0 auto;">Open, responsible, and governed — IBM's AI platform gives your teams the tools to build with confidence.</p>
+    </div>
+    <div class="features-grid">
+      <!-- Card 1 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="18" height="12" rx="1" stroke-linecap="round"/>
+            <path d="M7 21h10M12 17v4"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Model flexibility</h3>
+        <p class="feature-card-desc">Choose from IBM, open-source, and third-party models. One platform, every model you need.</p>
+        <span class="feature-card-link">Learn more <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+      <!-- Card 2 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Enterprise governance</h3>
+        <p class="feature-card-desc">Built-in AI governance keeps models transparent, compliant, and aligned with your risk policies.</p>
+        <span class="feature-card-link">Learn more <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+      <!-- Card 3 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Hybrid deployment</h3>
+        <p class="feature-card-desc">Run workloads on-premises, in any cloud, or at the edge — with consistent security and observability.</p>
+        <span class="feature-card-link">Learn more <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+      <!-- Card 4 -->
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Accelerate with automation</h3>
+        <p class="feature-card-desc">Intelligent automation that connects workflows, data, and decisions across your entire enterprise.</p>
+        <span class="feature-card-link">Learn more <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT SHOWCASE -->
+<section id="showcase" class="showcase">
+  <div class="showcase-inner">
+    <div class="showcase-header">
+      <p class="section-eyebrow">Products</p>
+      <h2 class="section-headline">Solutions for<br>every workload</h2>
+      <p class="section-subhead" style="margin:0 auto;">From data management to AI-powered analytics, our portfolio covers the full enterprise stack.</p>
+    </div>
+    <div class="showcase-grid">
+      <div class="product-card">
+        <p class="product-card-tag">AI & Data</p>
+        <h3 class="product-card-title">watsonx.ai</h3>
+        <p class="product-card-desc">Train, validate, tune, and deploy foundation models. Build generative AI applications with enterprise-grade governance.</p>
+        <span class="product-card-link">Explore watsonx.ai <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+      <div class="product-card">
+        <p class="product-card-tag">Cloud</p>
+        <h3 class="product-card-title">IBM Cloud</h3>
+        <p class="product-card-desc">Secure, open cloud infrastructure with 19 global regions. Run Kubernetes, VPC, and bare metal — your way.</p>
+        <span class="product-card-link">Explore IBM Cloud <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+      <div class="product-card">
+        <p class="product-card-tag">Automation</p>
+        <h3 class="product-card-title">IBM Concert</h3>
+        <p class="product-card-desc">AI-powered application management. Correlate signals across your entire estate and act with precision.</p>
+        <span class="product-card-link">Explore IBM Concert <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+      <div class="product-card">
+        <p class="product-card-tag">Security</p>
+        <h3 class="product-card-title">IBM Guardium</h3>
+        <p class="product-card-desc">Data security for the hybrid cloud. Discover, classify, and protect sensitive data everywhere it lives.</p>
+        <span class="product-card-link">Explore Guardium <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+      <div class="product-card">
+        <p class="product-card-tag">Infrastructure</p>
+        <h3 class="product-card-title">IBM zSystems</h3>
+        <p class="product-card-desc">The world's most powerful transactional platform. AI inferencing at scale, built on decades of resilience.</p>
+        <span class="product-card-link">Explore zSystems <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+      <div class="product-card">
+        <p class="product-card-tag">Consulting</p>
+        <h3 class="product-card-title">IBM Consulting</h3>
+        <p class="product-card-desc">Transform your business with strategy, experience, technology, and operations — delivered as one.</p>
+        <span class="product-card-link">Explore Consulting <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMER LOGOS -->
+<section class="customers">
+  <div class="customers-inner">
+    <h2 class="customers-headline">Trusted by leaders across every industry</h2>
+    <div class="customers-grid">
+      <div class="customer-tile"><strong style="font-size:18px;font-weight:400;color:#161616;">Ferrari</strong></div>
+      <div class="customer-tile"><strong style="font-size:18px;font-weight:400;color:#161616;">Pfizer</strong></div>
+      <div class="customer-tile"><strong style="font-size:18px;font-weight:400;color:#161616;">NASA</strong></div>
+      <div class="customer-tile"><strong style="font-size:18px;font-weight:400;color:#161616;">Wimbledon</strong></div>
+      <div class="customer-tile"><strong style="font-size:18px;font-weight:400;color:#161616;">Delta Air Lines</strong></div>
+      <div class="customer-tile"><strong style="font-size:18px;font-weight:400;color:#161616;">Siemens</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta" class="cta-banner">
+  <div class="cta-banner-inner">
+    <h2 class="cta-banner-headline">Ready to put AI to work?</h2>
+    <p class="cta-banner-subhead">Start building with IBM watsonx — the open, trusted AI platform designed for business.</p>
+    <a href="#" class="cta-banner-btn">
+      Get started free
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M5.293 12.707a1 1 0 010-1.414L9.586 7 5.293 2.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources" class="resources">
+  <div class="resources-inner">
+    <div class="resources-header">
+      <p class="section-eyebrow">Learn</p>
+      <h2 class="section-headline">Latest thinking</h2>
+      <p class="section-subhead" style="margin:0 auto;">Research, insights, and stories from IBM experts and partners around the world.</p>
+    </div>
+    <div class="resources-grid">
+      <div class="resource-tile">
+        <p class="resource-tile-tag">Report</p>
+        <p class="resource-tile-title">CEO's guide to generative AI: Responsible deployment</p>
+        <p class="resource-tile-date">July 2026</p>
+      </div>
+      <div class="resource-tile">
+        <p class="resource-tile-tag">Case study</p>
+        <p class="resource-tile-title">How Wimbledon uses AI to transform fan experience</p>
+        <p class="resource-tile-date">June 2026</p>
+      </div>
+      <div class="resource-tile">
+        <p class="resource-tile-tag">Article</p>
+        <p class="resource-tile-title">The open-source AI advantage: Why models matter</p>
+        <p class="resource-tile-date">May 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <svg viewBox="0 0 80 32" fill="none"><rect x="0" y="0" width="32" height="32" fill="#ffffff"/><rect x="5" y="5" width="9" height="9" fill="#161616"/><rect x="5" y="16" width="9" height="5" fill="#161616"/><rect x="17" y="5" width="5" height="9" fill="#161616"/><rect x="17" y="16" width="9" height="5" fill="#161616"/><rect x="24" y="16" width="3" height="11" fill="#161616"/></svg>
+      </div>
+      <div>
+        <p class="footer-col-title">Products</p>
+        <ul class="footer-col-links">
+          <li><a href="#">watsonx.ai</a></li>
+          <li><a href="#">IBM Cloud</a></li>
+          <li><a href="#">IBM Concert</a></li>
+          <li><a href="#">IBM Guardium</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Learn</p>
+        <ul class="footer-col-links">
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Tutorials</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Research</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">About</p>
+        <ul class="footer-col-links">
+          <li><a href="#">Company</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">Investors</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Connect</p>
+        <ul class="footer-col-links">
+          <li><a href="#">Contact IBM</a></li>
+          <li><a href="#">Support</a></li>
+          <li><a href="#">Partners</a></li>
+          <li><a href="#">Developer</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+      <ul class="footer-bottom-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms of use</a></li>
+        <li><a href="#">Accessibility</a></li>
+        <li><a href="#">Cookie preferences</a></li>
+      </ul>
+      <p class="footer-copyright">&copy; 2026 IBM Corporation</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binance — Buy & Sell Crypto with Low Trading Fees</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS from Binance DESIGN.md
+   ============================================================ */
+:root {
+  /* Colors — Brand & Accent */
+  --primary: #fcd535;
+  --primary-active: #f0b90b;
+  --primary-disabled: #3a3a1f;
+  --ink: #181a20;
+  --body: #eaecef;
+  --body-on-light: #181a20;
+  --muted: #707a8a;
+  --muted-strong: #929aa5;
+  --hairline-on-light: #eaecef;
+  --hairline-on-dark: #2b3139;
+  --border-strong: #cdd1d6;
+  --canvas-light: #ffffff;
+  --canvas-dark: #0b0e11;
+  --surface-card-dark: #1e2329;
+  --surface-elevated-dark: #2b3139;
+  --surface-soft-light: #fafafa;
+  --surface-strong-light: #f5f5f5;
+  --on-primary: #181a20;
+  --on-dark: #ffffff;
+  --trading-up: #0ecb81;
+  --trading-down: #f6465d;
+  --accent-turquoise: #2dbdb6;
+  --info: #3b82f6;
+  --info-ring: #3b82f6;
+
+  /* Typography — Font families (BinanceNova → Inter, BinancePlex → JetBrains Mono) */
+  --font-display: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-number: 'JetBrains Mono', 'IBM Plex Sans', 'Inter', monospace;
+  --font-body: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 80px;
+
+  /* Rounded */
+  --rounded-xs: 2px;
+  --rounded-sm: 4px;
+  --rounded-md: 6px;
+  --rounded-lg: 8px;
+  --rounded-xl: 12px;
+  --rounded-pill: 9999px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  background-color: var(--canvas-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul { list-style: none; }
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* ============================================================
+   TOP NAVIGATION — top-nav-dark
+   Height: 64px, background: canvas-dark, text: on-dark
+   ============================================================ */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 64px;
+  background-color: var(--canvas-dark);
+  color: var(--on-dark);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--hairline-on-dark);
+}
+
+.top-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.nav-wordmark {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--body);
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover { color: var(--primary); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+/* text-link — Log In */
+.btn-text-link {
+  background: transparent;
+  color: var(--body);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.btn-text-link:hover { color: var(--primary); }
+
+/* button-primary */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-md);
+  padding: 12px 24px;
+  height: 40px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-active);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  background-color: var(--primary-active);
+  transform: translateY(0);
+}
+
+/* button-primary-pill */
+.btn-primary-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-pill);
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary-pill:hover {
+  background-color: var(--primary-active);
+  transform: translateY(-1px);
+}
+
+.btn-primary-pill:active {
+  background-color: var(--primary-active);
+  transform: translateY(0);
+}
+
+/* button-secondary-on-dark */
+.btn-secondary-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-card-dark);
+  color: var(--on-dark);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  border: 1px solid var(--hairline-on-dark);
+  border-radius: var(--rounded-md);
+  padding: 12px 24px;
+  height: 40px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-secondary-dark:hover {
+  background-color: var(--surface-elevated-dark);
+}
+
+/* button-trading-up */
+.btn-trading-up {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: var(--trading-up);
+  color: var(--on-dark);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-sm);
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.btn-trading-up:hover { opacity: 0.9; }
+
+/* button-trading-down */
+.btn-trading-down {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: var(--trading-down);
+  color: var(--on-dark);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  border: none;
+  border-radius: var(--rounded-sm);
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.btn-trading-down:hover { opacity: 0.9; }
+
+/* ============================================================
+   HERO BAND — hero-band-dark
+   canvas-dark, padding section (80px)
+   ============================================================ */
+.hero-band {
+  background-color: var(--canvas-dark);
+  color: var(--on-dark);
+  padding: var(--spacing-section) 0;
+}
+
+.hero-band .container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxl);
+}
+
+.hero-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-content h1 {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-lg);
+}
+
+.hero-content h1 .highlight {
+  color: var(--primary);
+  display: block;
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  margin-bottom: var(--spacing-xl);
+  max-width: 520px;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* search-input-on-dark */
+.hero-search-group {
+  display: flex;
+  align-items: center;
+  background-color: var(--surface-card-dark);
+  border-radius: var(--rounded-lg);
+  padding: 0;
+  height: 40px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.hero-search-group:focus-within {
+  border-color: var(--info-ring);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.hero-search-group input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--on-dark);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 10px 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-search-group input::placeholder {
+  color: var(--muted);
+}
+
+.hero-stats {
+  display: flex;
+  gap: var(--spacing-xxl);
+  margin-top: var(--spacing-xxl);
+}
+
+/* stat-callout-card */
+.stat-callout {
+  background: transparent;
+}
+
+.stat-callout .stat-number {
+  font-family: var(--font-number);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+  color: var(--primary);
+}
+
+.stat-callout .stat-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: var(--spacing-xxs);
+}
+
+/* Hero Visual — markets-table-card */
+.hero-visual {
+  flex: 0 0 420px;
+}
+
+/* ============================================================
+   MARKETS TABLE CARD — markets-table-card
+   background: surface-card-dark, rounded: xl, padding: 24px
+   ============================================================ */
+.markets-card {
+  background-color: var(--surface-card-dark);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-lg);
+  color: var(--on-dark);
+}
+
+.markets-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.markets-tabs {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.markets-tab {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.markets-tab.active {
+  color: var(--on-dark);
+  border-bottom-color: var(--primary);
+}
+
+.markets-tab:hover { color: var(--body); }
+
+.markets-more {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.markets-more:hover { color: var(--primary); }
+
+.markets-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.markets-table th {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--muted);
+  text-align: left;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--hairline-on-dark);
+}
+
+.markets-table th:last-child { text-align: right; }
+
+/* markets-row */
+.markets-row {
+  border-bottom: 1px solid var(--hairline-on-dark);
+  transition: background-color 0.15s ease;
+}
+
+.markets-row:hover {
+  background-color: rgba(255,255,255,0.02);
+}
+
+.markets-row td {
+  padding: var(--spacing-sm) 0;
+  font-family: var(--font-number);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--on-dark);
+}
+
+.markets-row td:last-child { text-align: right; }
+
+.markets-row .coin-pair {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.coin-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.coin-icon-btc { background: linear-gradient(135deg, #f7931a, #f5a623); }
+.coin-icon-eth { background: linear-gradient(135deg, #627eea, #8c7cf0); }
+.coin-icon-bnb { background: linear-gradient(135deg, #f3ba2f, #f0b90b); }
+.coin-icon-sol { background: linear-gradient(135deg, #9945ff, #14f195); }
+.coin-icon-xrp { background: linear-gradient(135deg, #23292f, #34617d); }
+
+.coin-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--on-dark);
+}
+
+.coin-name small {
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+/* price-up-cell */
+.price-up {
+  color: var(--trading-up);
+  font-family: var(--font-number);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* price-down-cell */
+.price-down {
+  color: var(--trading-down);
+  font-family: var(--font-number);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.price-arrow-up::before { content: "▲ "; }
+.price-arrow-down::before { content: "▼ "; }
+
+/* ============================================================
+   TRUST SECTION
+   ============================================================ */
+.trust-section {
+  padding: var(--spacing-section) 0;
+  background-color: var(--canvas-dark);
+}
+
+.trust-section .container {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+/* trust-badge */
+.trust-badge {
+  flex: 1;
+  background-color: var(--surface-card-dark);
+  color: var(--on-dark);
+  border-radius: var(--rounded-lg);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.trust-badge:hover {
+  transform: translateY(-2px);
+  background-color: var(--surface-elevated-dark);
+}
+
+.trust-badge-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-lg);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.trust-badge-text {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.trust-badge-text small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   FUNDS SAFU BAND — funds-safu-band
+   canvas-dark bg, primary yellow headline, display-lg
+   ============================================================ */
+.funds-safu-band {
+  background-color: var(--canvas-dark);
+  color: var(--on-dark);
+  padding: var(--spacing-section) 0;
+  text-align: center;
+}
+
+.funds-safu-band h2 {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.funds-safu-band .safu-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body);
+  max-width: 600px;
+  margin: 0 auto var(--spacing-xxl);
+}
+
+.safu-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xxl);
+  flex-wrap: wrap;
+}
+
+.safu-stat .stat-number {
+  font-family: var(--font-number);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+  color: var(--primary);
+}
+
+.safu-stat .stat-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: var(--spacing-xxs);
+}
+
+/* ============================================================
+   FEATURES SECTION — feature-photo-card
+   ============================================================ */
+.features-section {
+  padding: var(--spacing-section) 0;
+  background-color: var(--canvas-dark);
+}
+
+.features-section h2 {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  color: var(--on-dark);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.features-section .section-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: center;
+  max-width: 580px;
+  margin: 0 auto var(--spacing-xxl);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+/* feature-photo-card */
+.feature-card {
+  background-color: var(--surface-card-dark);
+  color: var(--on-dark);
+  border-radius: var(--rounded-xl);
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  background-color: var(--surface-elevated-dark);
+}
+
+.feature-card-visual {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-elevated-dark);
+  font-size: 48px;
+  position: relative;
+}
+
+.feature-card-visual.chart-visual {
+  background: linear-gradient(180deg, rgba(14,203,129,0.08) 0%, rgba(14,203,129,0.02) 100%);
+}
+
+.feature-card-visual.trade-visual {
+  background: linear-gradient(180deg, rgba(252,213,53,0.08) 0%, rgba(252,213,53,0.02) 100%);
+}
+
+.feature-card-visual.earn-visual {
+  background: linear-gradient(180deg, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0.02) 100%);
+}
+
+.feature-card-body {
+  padding: var(--spacing-lg);
+}
+
+.feature-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-xs);
+}
+
+.feature-card-body p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Chart placeholder — inline SVG */
+.chart-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 24px 32px;
+}
+
+.chart-bar {
+  width: 28px;
+  border-radius: 2px 2px 0 0;
+  transition: height 0.3s ease;
+}
+
+/* ============================================================
+   QR PROMO CARD — qr-promo-card
+   background: surface-card-dark, rounded: xl, padding: 32px
+   ============================================================ */
+.promo-section {
+  padding: var(--spacing-section) 0;
+  background-color: var(--canvas-dark);
+}
+
+.qr-promo-card {
+  background-color: var(--surface-card-dark);
+  color: var(--on-dark);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxl);
+}
+
+.qr-promo-content {
+  flex: 1;
+}
+
+.qr-promo-content h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-sm);
+}
+
+.qr-promo-content p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-bottom: var(--spacing-lg);
+}
+
+.app-badges {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.app-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--on-dark);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--rounded-md);
+  padding: 10px 16px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s ease;
+}
+
+.app-badge:hover { opacity: 0.85; }
+
+.app-badge svg {
+  width: 20px;
+  height: 20px;
+}
+
+.qr-code {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  background-color: var(--on-dark);
+  border-radius: var(--rounded-lg);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* QR code built with CSS grid */
+.qr-pattern {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+}
+
+.qr-cell {
+  border-radius: 1px;
+  background-color: var(--ink);
+}
+
+.qr-cell.blank {
+  background-color: transparent;
+}
+
+/* ============================================================
+   FAQ SECTION — faq-row
+   ============================================================ */
+.faq-section {
+  padding: var(--spacing-section) 0;
+  background-color: var(--canvas-dark);
+}
+
+.faq-section h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.faq-list {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.faq-row {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--hairline-on-dark);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.faq-row:hover {
+  background-color: rgba(255,255,255,0.01);
+}
+
+.faq-row:first-child {
+  border-top: 1px solid var(--hairline-on-dark);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--on-dark);
+}
+
+.faq-question .chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.faq-row.open .faq-question .chevron {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+  padding-top: var(--spacing-sm);
+  display: none;
+}
+
+.faq-row.open .faq-answer {
+  display: block;
+}
+
+/* ============================================================
+   CTA BAND — cta-band-dark
+   background: surface-card-dark, rounded: xl, padding: 48px, display-sm
+   ============================================================ */
+.cta-band {
+  padding: var(--spacing-section) 0;
+  background-color: var(--canvas-dark);
+}
+
+.cta-band-inner {
+  background-color: var(--surface-card-dark);
+  color: var(--on-dark);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xxl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+}
+
+.cta-band-inner h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-xs);
+}
+
+.cta-band-inner p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 480px;
+}
+
+.cta-band-action {
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   FOOTER — footer-light
+   background: surface-soft-light (#fafafa), text: body-on-light, padding: 64px
+   ============================================================ */
+.footer {
+  background-color: var(--surface-soft-light);
+  color: var(--body-on-light);
+  padding: 64px 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-col a {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-bottom: var(--spacing-xs);
+  transition: color 0.15s ease;
+}
+
+.footer-col a:hover {
+  color: var(--primary);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--hairline-on-light);
+  padding-top: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.footer-bottom .copyright {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.footer-social a {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-md);
+  background-color: var(--surface-strong-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.footer-social a:hover {
+  color: var(--primary);
+  background-color: var(--hairline-on-light);
+}
+
+/* ============================================================
+   RESPONSIVE — Match DESIGN.md breakpoints
+   ============================================================ */
+@media (max-width: 1024px) {
+  .hero-content h1 { font-size: 48px; }
+  .hero-band .container { flex-direction: column; }
+  .hero-visual { flex: 0 0 auto; width: 100%; max-width: 420px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .trust-section .container { flex-wrap: wrap; }
+  .trust-badge { flex: 0 0 calc(50% - 12px); }
+  .qr-promo-card { flex-direction: column; text-align: center; }
+  .app-badges { justify-content: center; }
+  .hero-stats { gap: var(--spacing-xl); }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero-content h1 { font-size: 36px; letter-spacing: -0.5px; }
+  .hero-section { padding: var(--spacing-xxl) 0; }
+  .hero-stats { flex-direction: column; gap: var(--spacing-lg); }
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .trust-badge { flex: 0 0 100%; }
+  .cta-band-inner { flex-direction: column; align-items: flex-start; }
+  .markets-card { overflow-x: auto; }
+  .safu-stats { flex-direction: column; align-items: center; gap: var(--spacing-lg); }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 { font-size: 28px; }
+  .hero-cta-group { flex-direction: column; width: 100%; }
+  .hero-cta-group .btn-primary-pill,
+  .hero-cta-group .btn-secondary-dark { width: 100%; justify-content: center; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+
+/* ============================================================
+   ANIMATIONS & POLISH
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-content { animation: fadeInUp 0.6s ease-out; }
+.hero-visual { animation: fadeInUp 0.6s ease-out 0.15s both; }
+.feature-card { animation: fadeInUp 0.5s ease-out both; }
+
+.features-grid .feature-card:nth-child(1) { animation-delay: 0.1s; }
+.features-grid .feature-card:nth-child(2) { animation-delay: 0.2s; }
+.features-grid .feature-card:nth-child(3) { animation-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAVIGATION — top-nav-dark
+     ============================================================ -->
+<nav class="top-nav">
+  <div class="container">
+    <div class="nav-left">
+      <a href="#" class="nav-wordmark">BINANCE</a>
+      <ul class="nav-links">
+        <li><a href="#">Buy Crypto</a></li>
+        <li><a href="#">Markets</a></li>
+        <li><a href="#">Trade</a></li>
+        <li><a href="#">Futures</a></li>
+        <li><a href="#">Earn</a></li>
+        <li><a href="#">Square</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <button class="btn-text-link">Log In</button>
+      <button class="btn-primary">Sign Up</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO BAND — hero-band-dark
+     ============================================================ -->
+<section class="hero-band">
+  <div class="container">
+    <div class="hero-content">
+      <h1>
+        <span class="highlight">316,258,026</span>
+        USERS TRUST US
+      </h1>
+      <p class="hero-subheadline">
+        Buy, sell, and trade hundreds of cryptocurrencies with industry-leading security and low trading fees. Join the world's largest crypto exchange.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#" class="btn-primary-pill">Sign Up Now</a>
+        <a href="#" class="btn-secondary-dark">Learn More</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-callout">
+          <div class="stat-number">$429.4B</div>
+          <div class="stat-label">24h Trading Volume</div>
+        </div>
+        <div class="stat-callout">
+          <div class="stat-number">350+</div>
+          <div class="stat-label">Cryptocurrencies</div>
+        </div>
+        <div class="stat-callout">
+          <div class="stat-number">180+</div>
+          <div class="stat-label">Countries Supported</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <!-- markets-table-card -->
+      <div class="markets-card">
+        <div class="markets-card-header">
+          <div class="markets-tabs">
+            <button class="markets-tab active">Popular</button>
+            <button class="markets-tab">New Listing</button>
+            <button class="markets-tab">Top Gainers</button>
+          </div>
+          <span class="markets-more">More →</span>
+        </div>
+        <table class="markets-table">
+          <thead>
+            <tr>
+              <th>Pair</th>
+              <th>Last Price</th>
+              <th>24h Change</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="markets-row">
+              <td>
+                <div class="coin-pair">
+                  <div class="coin-icon coin-icon-btc">₿</div>
+                  <span class="coin-name">BTC <small>/USDT</small></span>
+                </div>
+              </td>
+              <td class="price-cell">$79,152.43</td>
+              <td class="price-up price-arrow-up">2.34%</td>
+              <td><button class="btn-trading-up">Buy</button></td>
+            </tr>
+            <tr class="markets-row">
+              <td>
+                <div class="coin-pair">
+                  <div class="coin-icon coin-icon-eth">Ξ</div>
+                  <span class="coin-name">ETH <small>/USDT</small></span>
+                </div>
+              </td>
+              <td class="price-cell">$3,847.21</td>
+              <td class="price-up price-arrow-up">1.87%</td>
+              <td><button class="btn-trading-up">Buy</button></td>
+            </tr>
+            <tr class="markets-row">
+              <td>
+                <div class="coin-pair">
+                  <div class="coin-icon coin-icon-bnb">B</div>
+                  <span class="coin-name">BNB <small>/USDT</small></span>
+                </div>
+              </td>
+              <td class="price-cell">$612.85</td>
+              <td class="price-down price-arrow-down">0.45%</td>
+              <td><button class="btn-trading-down">Sell</button></td>
+            </tr>
+            <tr class="markets-row">
+              <td>
+                <div class="coin-pair">
+                  <div class="coin-icon coin-icon-sol">S</div>
+                  <span class="coin-name">SOL <small>/USDT</small></span>
+                </div>
+              </td>
+              <td class="price-cell">$182.64</td>
+              <td class="price-up price-arrow-up">5.21%</td>
+              <td><button class="btn-trading-up">Buy</button></td>
+            </tr>
+            <tr class="markets-row">
+              <td>
+                <div class="coin-pair">
+                  <div class="coin-icon coin-icon-xrp">X</div>
+                  <span class="coin-name">XRP <small>/USDT</small></span>
+                </div>
+              </td>
+              <td class="price-cell">$0.6247</td>
+              <td class="price-down price-arrow-down">1.12%</td>
+              <td><button class="btn-trading-down">Sell</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRUST BADGES
+     ============================================================ -->
+<section class="trust-section">
+  <div class="container">
+    <div class="trust-badge">
+      <div class="trust-badge-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="trust-badge-text">No.1<small>Trading Volume</small></div>
+    </div>
+    <div class="trust-badge">
+      <div class="trust-badge-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="trust-badge-text">No.1<small>Security &amp; Compliance</small></div>
+    </div>
+    <div class="trust-badge">
+      <div class="trust-badge-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <div class="trust-badge-text">24/7<small>Customer Service</small></div>
+    </div>
+    <div class="trust-badge">
+      <div class="trust-badge-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div class="trust-badge-text">Low Fees<small>Spot &amp; Futures Trading</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FUNDS SAFU BAND — funds-safu-band
+     ============================================================ -->
+<section class="funds-safu-band">
+  <div class="container">
+    <h2>FUNDS ARE SAFU</h2>
+    <p class="safu-subtitle">
+      Your assets are protected by our industry-leading Secure Asset Fund for Users, multi-tier and multi-cluster system architecture, and advanced risk controls.
+    </p>
+    <div class="safu-stats">
+      <div class="safu-stat">
+        <div class="stat-number">618,256</div>
+        <div class="stat-label">Total BTC Reserves</div>
+      </div>
+      <div class="safu-stat">
+        <div class="stat-number">$1.2B</div>
+        <div class="stat-label">SAFU Insurance Fund</div>
+      </div>
+      <div class="safu-stat">
+        <div class="stat-number">12,847</div>
+        <div class="stat-label">Users Helped (Incidents)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES — feature-photo-card
+     ============================================================ -->
+<section class="features-section">
+  <div class="container">
+    <h2>Trade Smarter with Binance</h2>
+    <p class="section-subtitle">
+      Professional-grade trading tools, deep liquidity, and a comprehensive ecosystem designed for traders at every level.
+    </p>
+    <div class="features-grid">
+      <!-- Feature 1: Spot Trading -->
+      <div class="feature-card">
+        <div class="feature-card-visual chart-visual">
+          <div class="chart-placeholder">
+            <div class="chart-bar" style="height:40%;background:var(--trading-up);"></div>
+            <div class="chart-bar" style="height:55%;background:var(--trading-up);"></div>
+            <div class="chart-bar" style="height:35%;background:var(--trading-down);"></div>
+            <div class="chart-bar" style="height:70%;background:var(--trading-up);"></div>
+            <div class="chart-bar" style="height:50%;background:var(--trading-up);"></div>
+            <div class="chart-bar" style="height:85%;background:var(--trading-up);"></div>
+            <div class="chart-bar" style="height:65%;background:var(--trading-up);"></div>
+            <div class="chart-bar" style="height:80%;background:var(--trading-up);"></div>
+            <div class="chart-bar" style="height:72%;background:var(--trading-up);"></div>
+            <div class="chart-bar" style="height:90%;background:var(--trading-up);"></div>
+          </div>
+        </div>
+        <div class="feature-card-body">
+          <h3>Spot Trading</h3>
+          <p>Buy and sell 350+ crypto assets with low fees starting at 0.1%. Real-time order books and advanced charting tools.</p>
+        </div>
+      </div>
+
+      <!-- Feature 2: Futures -->
+      <div class="feature-card">
+        <div class="feature-card-visual trade-visual">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--primary);">
+            <div style="font-family:var(--font-number);font-size:32px;font-weight:700;">
+              <span style="font-size:14px;vertical-align:super;">BTC</span>
+              79,152<span style="font-size:18px;">.43</span>
+            </div>
+            <div style="display:flex;gap:12px;font-family:var(--font-number);font-size:14px;">
+              <span style="color:var(--trading-up);">▲ +2.34%</span>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <span style="background:var(--trading-up);padding:4px 12px;border-radius:var(--rounded-sm);font-size:12px;color:var(--on-dark);">Long</span>
+              <span style="background:var(--trading-down);padding:4px 12px;border-radius:var(--rounded-sm);font-size:12px;color:var(--on-dark);">Short</span>
+            </div>
+          </div>
+        </div>
+        <div class="feature-card-body">
+          <h3>Futures Trading</h3>
+          <p>Trade crypto derivatives with up to 125x leverage. USDⓈ-M and COIN-M perpetual contracts with deep liquidity.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3: Earn -->
+      <div class="feature-card">
+        <div class="feature-card-visual earn-visual">
+          <div style="text-align:center;color:var(--on-dark);">
+            <div style="font-family:var(--font-number);font-size:36px;font-weight:700;color:var(--info);">12.5%</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:8px;">Estimated APY</div>
+            <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;">
+              <span style="background:var(--surface-elevated-dark);padding:6px 14px;border-radius:var(--rounded-pill);font-size:12px;">Flexible</span>
+              <span style="background:var(--surface-elevated-dark);padding:6px 14px;border-radius:var(--rounded-pill);font-size:12px;">Locked</span>
+            </div>
+          </div>
+        </div>
+        <div class="feature-card-body">
+          <h3>Earn Passive Income</h3>
+          <p>Stake, save, and farm with your crypto. Choose from Simple Earn, Launchpool, Liquid Swap, and Dual Investment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     QR PROMO CARD — qr-promo-card
+     ============================================================ -->
+<section class="promo-section">
+  <div class="container">
+    <div class="qr-promo-card">
+      <div class="qr-promo-content">
+        <h2>Trade on the go. Anywhere, anytime.</h2>
+        <p>
+          Download the Binance mobile app for iOS and Android. Get real-time price alerts, manage your portfolio, and execute trades in seconds — all from your phone.
+        </p>
+        <div class="app-badges">
+          <button class="app-badge">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            App Store
+          </button>
+          <button class="app-badge">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.2l1.484.86a1 1 0 010 1.732l-1.485.86L15.2 12l2.498-2.493zM5.864 3.658l10.937 6.333-2.302 2.302-8.635-8.635z"/></svg>
+            Google Play
+          </button>
+        </div>
+      </div>
+      <div class="qr-code">
+        <div class="qr-pattern">
+          <div class="qr-cell"></div><div class="qr-cell"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div>
+          <div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div>
+          <div class="qr-cell"></div><div class="qr-cell"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell"></div><div class="qr-cell"></div>
+          <div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div>
+          <div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div>
+          <div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div>
+          <div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div><div class="qr-cell blank"></div><div class="qr-cell"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ SECTION — faq-row
+     ============================================================ -->
+<section class="faq-section">
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-row open">
+        <div class="faq-question">
+          <span>What is Binance and how does it work?</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-answer">
+          Binance is the world's largest cryptocurrency exchange by trading volume. It provides a platform for buying, selling, and trading hundreds of cryptocurrencies with low fees, advanced trading tools, and industry-leading security.
+        </div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-question">
+          <span>How do I buy cryptocurrency on Binance?</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-answer">
+          You can buy crypto on Binance using a credit/debit card, bank transfer, or P2P trading. Simply create an account, complete identity verification, and choose your preferred payment method to start buying.
+        </div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-question">
+          <span>Is Binance safe and regulated?</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-answer">
+          Yes. Binance maintains the SAFU (Secure Asset Fund for Users) insurance fund, uses multi-tier and multi-cluster system architecture, and implements advanced risk controls. We are committed to regulatory compliance across all operating jurisdictions.
+        </div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-question">
+          <span>What are the trading fees on Binance?</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-answer">
+          Standard spot trading fees start at just 0.1% maker and taker. You can further reduce fees by holding BNB, increasing your 30-day trading volume, or becoming a VIP member.
+        </div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-question">
+          <span>How can I earn passive income with my crypto?</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-answer">
+          Binance offers multiple earning products including Simple Earn (flexible and locked staking), Launchpool, Liquid Swap, BNB Vault, and Dual Investment. Choose the product that matches your risk tolerance and earning goals.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BAND — cta-band-dark
+     ============================================================ -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-band-inner">
+      <div>
+        <h2>Secure, Low-Fee Trading on Binance</h2>
+        <p>Join over 316 million users worldwide. Start trading crypto with industry-leading security, deep liquidity, and the lowest fees in the market.</p>
+      </div>
+      <div class="cta-band-action">
+        <a href="#" class="btn-primary-pill">Get Started Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER — footer-light
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="#">Telegram</a>
+        <a href="#">Twitter (X)</a>
+        <a href="#">Discord</a>
+        <a href="#">Reddit</a>
+        <a href="#">YouTube</a>
+      </div>
+      <div class="footer-col">
+        <h4>About Us</h4>
+        <a href="#">About Binance</a>
+        <a href="#">Careers</a>
+        <a href="#">Blog</a>
+        <a href="#">Press</a>
+        <a href="#">Legal</a>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#">Exchange</a>
+        <a href="#">Futures</a>
+        <a href="#">Earn</a>
+        <a href="#">NFT</a>
+        <a href="#">Pay</a>
+      </div>
+      <div class="footer-col">
+        <h4>Business</h4>
+        <a href="#">Institutional</a>
+        <a href="#">Listings</a>
+        <a href="#">API</a>
+        <a href="#">Market Maker</a>
+        <a href="#">Affiliate</a>
+      </div>
+      <div class="footer-col">
+        <h4>Service</h4>
+        <a href="#">Support Center</a>
+        <a href="#">Fees</a>
+        <a href="#">Trading Rules</a>
+        <a href="#">Verification</a>
+        <a href="#">Risk Warning</a>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <a href="#">Binance Academy</a>
+        <a href="#">Research</a>
+        <a href="#">Build &amp; Build</a>
+        <a href="#">ECOSYSTEM</a>
+        <a href="#">Crypto Glossary</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="copyright">&copy; 2024 Binance. All rights reserved.</span>
+      <div class="footer-social">
+        <a href="#" title="Twitter">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="#" title="Telegram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.66-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.41-.88.03-.24.37-.49 1.02-.74 4.01-1.75 6.68-2.9 8.01-3.46 3.81-1.59 4.61-1.86 5.12-1.87.12 0 .37.03.54.17.13.11.17.25.19.36.02.11.04.37.02.53z"/></svg>
+        </a>
+        <a href="#" title="Discord">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.184 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     INTERACTIVE JS — Simple FAQ accordion toggle
+     ============================================================ -->
+<script>
+document.querySelectorAll('.faq-row').forEach(row => {
+  row.addEventListener('click', () => {
+    // Close all others
+    document.querySelectorAll('.faq-row').forEach(r => {
+      if (r !== row) r.classList.remove('open');
+    });
+    row.classList.toggle('open');
+  });
+});
+</script>
+
+</body>
+</html>

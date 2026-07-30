@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nintendo.com 2001 — Demo</title>
+<style>
+/* ═══════════════════════════════════════════════
+   Nintendo.com 2001 — Console Chrome Design System
+   ═══════════════════════════════════════════════ */
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Design Tokens ── */
+:root {
+  /* Colors */
+  --primary: #e60012;
+  --signal: #f68d1f;
+  --amber: #ecab37;
+  --nav-gold: #e48600;
+  --canvas: #7a8aba;
+  --canvas-soft: #9fbee7;
+  --lavender: #acace7;
+  --ice: #c0d5e6;
+  --periwinkle: #8ba1d4;
+  --chrome-indigo: #3d4f97;
+  --muted-indigo: #60619c;
+  --platinum: #dedede;
+  --surface: #ffffff;
+  --carbon: #21242e;
+  --hairline: #5a5f8c;
+  --ink: #21242e;
+  --ink-soft: #3d4f97;
+  --on-primary: #ffffff;
+  --systems-teal: #206479;
+  --games-red: #a7282b;
+  --error: #e60012;
+
+  /* Typography */
+  --font-nav: Arial, Helvetica, sans-serif;
+  --font-ui: Arial, Helvetica, sans-serif;
+  --font-display: 'Arial Black', 'Helvetica Black', Arial, Helvetica, sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
+
+  /* Spacing */
+  --space-xxs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-section: 48px;
+
+  /* Rounded */
+  --rounded-none: 0px;
+  --rounded-xs: 2px;
+  --rounded-sm: 4px;
+  --rounded-md: 6px;
+  --rounded-lg: 10px;
+  --rounded-full: 9999px;
+}
+
+/* ── Base ── */
+body {
+  background: var(--canvas);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink);
+  /* Subtle brush-texture on the canvas body */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(255,255,255,0.02) 1px,
+      rgba(255,255,255,0.02) 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,0.015) 3px,
+      rgba(255,255,255,0.015) 4px
+    );
+}
+
+/* ── Layout Container ── */
+.page {
+  width: 790px;
+  margin: 0 auto;
+  padding: var(--space-sm) 0;
+}
+
+/* ═══════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════ */
+
+/* ── Primary Nav Bar ── */
+.nav-bar {
+  background: var(--carbon);
+  height: 28px;
+  padding: 0 var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  border-radius: var(--rounded-none);
+  position: relative;
+  /* Halftone dot-matrix texture */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  background-color: var(--carbon);
+}
+
+.nav-bar .nav-home {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+}
+
+/* Logo Pill */
+.logo-pill {
+  background: var(--surface);
+  color: var(--primary);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  padding: 2px 8px;
+  border-radius: var(--rounded-full);
+  border: 2px solid var(--surface);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  outline: 1px solid var(--hairline);
+  outline-offset: 1px;
+}
+
+/* Nav Links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: var(--space-lg);
+  align-items: center;
+  height: 100%;
+}
+
+.nav-links a {
+  font-family: var(--font-nav);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  color: var(--nav-gold);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+
+.nav-links a:hover {
+  color: #f0b040;
+}
+
+/* ── Secondary Nav Strip ── */
+.subnav-strip {
+  background: var(--canvas-soft);
+  padding: 2px var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  border-radius: var(--rounded-none);
+  /* Bevel: bottom shadow */
+  border-bottom: 2px solid var(--chrome-indigo);
+}
+
+.subnav-strip a {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.subnav-divider {
+  color: var(--hairline);
+  font-size: 11px;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════════════
+   MASTHEAD (Mario + Bubble + Search)
+   ═══════════════════════════════════════════════ */
+
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: var(--space-sm) 0 var(--space-sm) var(--space-sm);
+  gap: var(--space-md);
+}
+
+.masthead-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  position: relative;
+}
+
+/* Mario pixel-art placeholder */
+.mario-sprite {
+  width: 48px;
+  height: 56px;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.mario-sprite svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Speech Bubble */
+.mascot-bubble {
+  background: var(--surface);
+  color: var(--carbon);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.3;
+  padding: var(--space-sm);
+  border-radius: var(--rounded-lg);
+  position: relative;
+  margin-left: -6px;
+  margin-bottom: 36px;
+  white-space: nowrap;
+  box-shadow: 1px 1px 0 var(--chrome-indigo);
+}
+
+/* Bubble tail */
+.mascot-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 16px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--surface);
+}
+
+/* Search Module */
+.masthead-search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  align-self: flex-end;
+  margin-bottom: var(--space-xs);
+}
+
+.search-field {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  border-radius: var(--rounded-xs);
+  padding: var(--space-xs);
+  height: 20px;
+  border: 1px solid var(--hairline);
+  width: 140px;
+  outline: none;
+}
+
+.search-category {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  border-radius: var(--rounded-xs);
+  padding: var(--space-xs);
+  height: 20px;
+  border: 1px solid var(--carbon);
+  outline: none;
+}
+
+.btn-go {
+  background: var(--amber);
+  color: var(--carbon);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  border-radius: var(--rounded-xs);
+  padding: 2px 10px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Bevel: bright top edge */
+  border-top: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.btn-go:hover {
+  background: var(--nav-gold);
+}
+
+.btn-go:active {
+  background: var(--nav-gold);
+  border-top: 1px solid rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+/* ═══════════════════════════════════════════════
+   HERO PANEL
+   ═══════════════════════════════════════════════ */
+
+.hero-panel {
+  background: var(--lavender);
+  border-radius: var(--rounded-md);
+  padding: var(--space-lg);
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Bevel: top light, bottom shadow */
+  border-top: 2px solid rgba(255,255,255,0.3);
+  border-bottom: 3px solid var(--chrome-indigo);
+  border-left: 1px solid rgba(255,255,255,0.15);
+  border-right: 1px solid rgba(0,0,0,0.1);
+  /* Circuit-board pattern background */
+  background-image:
+    linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.06) 42%, transparent 42%),
+    linear-gradient(-45deg, transparent 60%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0.04) 62%, transparent 62%),
+    linear-gradient(135deg, transparent 70%, rgba(100,100,200,0.08) 70%, rgba(100,100,200,0.08) 72%, transparent 72%);
+  background-color: var(--lavender);
+}
+
+.hero-panel .display-wordmark {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--surface);
+  /* Outlined box-art style */
+  -webkit-text-stroke: 3px rgba(30,30,50,0.85);
+  paint-order: stroke fill;
+  text-shadow:
+    3px 3px 0 rgba(0,0,0,0.6),
+    -1px -1px 0 rgba(255,255,255,0.2);
+  margin-bottom: var(--space-sm);
+}
+
+.hero-tagline {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--surface);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+  margin-bottom: var(--space-md);
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Round Forward Arrow */
+.btn-icon-arrow {
+  background: var(--signal);
+  color: var(--on-primary);
+  border-radius: var(--rounded-full);
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  /* Bevel */
+  border-top: 1px solid rgba(255,255,255,0.4);
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.btn-icon-arrow:hover {
+  transform: scale(1.1);
+  background: #e07c10;
+}
+
+.btn-icon-arrow:active {
+  transform: scale(0.95);
+}
+
+.btn-icon-arrow svg {
+  width: 10px;
+  height: 10px;
+}
+
+.hero-cta-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  color: var(--surface);
+  text-transform: uppercase;
+  text-decoration: none;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+/* ═══════════════════════════════════════════════
+   MAIN BODY — Two-Column Layout
+   ═══════════════════════════════════════════════ */
+
+.main-body {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.content-col {
+  flex: 0 0 515px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.rail-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* ═══════════════════════════════════════════════
+   SECTION LABEL BAR
+   ═══════════════════════════════════════════════ */
+
+.section-label-bar {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  padding: var(--space-sm);
+  border-radius: var(--rounded-none);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  /* Bevel */
+  border-top: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 1px solid var(--chrome-indigo);
+}
+
+.section-label-bar .glyph {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   NEWS ROWS
+   ═══════════════════════════════════════════════ */
+
+.news-list {
+  background: var(--platinum);
+  border-radius: var(--rounded-sm);
+  overflow: hidden;
+  /* Bevel panel */
+  border-top: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 2px solid var(--chrome-indigo);
+}
+
+.news-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--platinum);
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  border-radius: var(--rounded-sm);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+.news-row:last-child {
+  border-bottom: none;
+}
+
+.news-row:hover {
+  background: #e8e8e8;
+}
+
+.news-row .news-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--ink-soft);
+}
+
+.news-row .news-text {
+  flex: 1;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.news-row:hover .news-text {
+  color: var(--ink);
+}
+
+/* Arrow Chip */
+.btn-arrow-chip {
+  background: var(--signal);
+  color: var(--on-primary);
+  border-radius: var(--rounded-xs);
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  text-decoration: none;
+  /* Bevel */
+  border-top: 1px solid rgba(255,255,255,0.4);
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.btn-arrow-chip:hover {
+  background: #e07c10;
+}
+
+.btn-arrow-chip svg {
+  width: 8px;
+  height: 8px;
+}
+
+/* Other Headlines */
+.other-headlines-link {
+  display: block;
+  padding: var(--space-sm);
+  background: var(--platinum);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  text-decoration: none;
+  text-align: center;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  transition: color 0.15s;
+}
+
+.other-headlines-link:hover {
+  color: var(--ink);
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURED SITES GRID
+   ═══════════════════════════════════════════════ */
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+  background: var(--platinum);
+  padding: var(--space-sm);
+  border-radius: var(--rounded-sm);
+  /* Bevel */
+  border-top: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 2px solid var(--chrome-indigo);
+}
+
+.featured-tile {
+  background: var(--carbon);
+  border-radius: var(--rounded-sm);
+  padding: var(--space-xxs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--carbon);
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.featured-tile:hover {
+  border-color: var(--nav-gold);
+  transform: translateY(-1px);
+}
+
+.featured-tile .tile-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-tile .tile-caption {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  background: rgba(0,0,0,0.7);
+  color: var(--on-primary);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0;
+  padding: 1px 4px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ═══════════════════════════════════════════════
+   POLL PANEL
+   ═══════════════════════════════════════════════ */
+
+.poll-panel {
+  background: var(--periwinkle);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  border-radius: var(--rounded-md);
+  padding: var(--space-md);
+  /* Bevel */
+  border-top: 2px solid rgba(255,255,255,0.25);
+  border-bottom: 2px solid var(--chrome-indigo);
+}
+
+.poll-question {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: var(--space-sm);
+  color: var(--ink);
+}
+
+.poll-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.poll-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+}
+
+.radio-option {
+  background: var(--surface);
+  border-radius: var(--rounded-full);
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--hairline);
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color 0.15s;
+}
+
+.poll-option:hover .radio-option {
+  border-color: var(--signal);
+}
+
+.radio-option.checked::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: var(--signal);
+  border-radius: var(--rounded-full);
+}
+
+.radio-text {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.btn-submit {
+  background: var(--signal);
+  color: var(--on-primary);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  border-radius: var(--rounded-xs);
+  padding: 6px var(--space-lg);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  /* Bevel */
+  border-top: 1px solid rgba(255,255,255,0.3);
+  border-bottom: 2px solid rgba(0,0,0,0.3);
+  transition: background 0.15s;
+}
+
+.btn-submit:hover {
+  background: #e07c10;
+}
+
+.btn-submit:active {
+  background: #d0700c;
+  border-top: 1px solid rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ═══════════════════════════════════════════════
+   RIGHT RAIL — Action Buttons
+   ═══════════════════════════════════════════════ */
+
+.rail-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+.btn-secondary {
+  background: var(--carbon);
+  color: var(--on-primary);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  border-radius: var(--rounded-none);
+  padding: var(--space-md);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  /* Halftone texture */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  background-color: var(--carbon);
+  /* Bevel */
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.5);
+  transition: background-color 0.15s;
+}
+
+.btn-secondary:hover {
+  background-color: #2a2d38;
+}
+
+.btn-secondary:active {
+  border-top: 1px solid rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-secondary .btn-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   INFO BOX
+   ═══════════════════════════════════════════════ */
+
+.info-box {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  border-radius: var(--rounded-sm);
+  padding: var(--space-md);
+  /* Bevel */
+  border-top: 1px solid rgba(255,255,255,0.6);
+  border-bottom: 2px solid var(--chrome-indigo);
+  position: relative;
+}
+
+.info-box-tab {
+  background: var(--amber);
+  color: var(--carbon);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 2px var(--space-sm);
+  display: inline-block;
+  margin-bottom: var(--space-sm);
+  border-radius: var(--rounded-xs);
+  border-top: 1px solid rgba(255,255,255,0.4);
+}
+
+.info-box p {
+  margin-bottom: var(--space-sm);
+}
+
+.info-box p:last-child {
+  margin-bottom: 0;
+}
+
+.info-box .info-link {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.info-box .info-link:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════
+   PROMO CARD
+   ═══════════════════════════════════════════════ */
+
+.promo-card {
+  background: var(--lavender);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 44px;
+  border-radius: var(--rounded-sm);
+  padding: var(--space-md);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  /* Bevel */
+  border-top: 2px solid rgba(255,255,255,0.3);
+  border-bottom: 2px solid var(--chrome-indigo);
+}
+
+.promo-card .promo-wordmark {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--surface);
+  -webkit-text-stroke: 2px rgba(30,30,50,0.8);
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+  margin-bottom: var(--space-sm);
+}
+
+.promo-card .promo-device {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--space-sm) 0;
+}
+
+.promo-card .promo-link {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--signal);
+  color: var(--on-primary);
+  padding: 4px var(--space-md);
+  border-radius: var(--rounded-xs);
+  border-top: 1px solid rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+  transition: background 0.15s;
+}
+
+.promo-card .promo-link:hover {
+  background: #e07c10;
+}
+
+/* ═══════════════════════════════════════════════
+   LEFT RAIL TABS
+   ═══════════════════════════════════════════════ */
+
+.left-rail {
+  position: absolute;
+  left: calc((100% - 790px) / 2 - 20px);
+  top: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.left-rail-tab {
+  background: var(--carbon);
+  color: var(--canvas-soft);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--rounded-none);
+  text-transform: uppercase;
+  text-decoration: none;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  /* Halftone */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 2px 2px;
+  background-color: var(--carbon);
+  border-right: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.5);
+}
+
+.left-rail-tab:hover {
+  background-color: #2a2d38;
+}
+
+/* ═══════════════════════════════════════════════
+   CTA SECTION (Bottom)
+   ═══════════════════════════════════════════════ */
+
+.cta-section {
+  margin-top: var(--space-sm);
+  background: var(--carbon);
+  border-radius: var(--rounded-md);
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Halftone */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  background-color: var(--carbon);
+  /* Bevel / Chamfer */
+  border-top: 2px solid rgba(255,255,255,0.05);
+  border-bottom: 2px solid rgba(0,0,0,0.6);
+  clip-path: polygon(
+    10px 0%, calc(100% - 10px) 0%,
+    100% 0%, 100% 100%,
+    calc(100% - 10px) 100%, 10px 100%,
+    0% 100%, 0% 0%,
+    10px 0%
+  );
+}
+
+.cta-text {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--canvas-soft);
+}
+
+.cta-text strong {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--surface);
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.cta-btn {
+  background: var(--signal);
+  color: var(--on-primary);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  border-radius: var(--rounded-xs);
+  padding: 10px var(--space-xl);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  white-space: nowrap;
+  /* Bevel */
+  border-top: 2px solid rgba(255,255,255,0.3);
+  border-bottom: 2px solid rgba(0,0,0,0.3);
+  transition: background 0.15s, transform 0.15s;
+}
+
+.cta-btn:hover {
+  background: #e07c10;
+  transform: translateY(-1px);
+}
+
+.cta-btn:active {
+  transform: translateY(0);
+  border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+.cta-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════ */
+
+.footer-bar {
+  background: var(--carbon);
+  color: var(--canvas-soft);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.3;
+  border-radius: var(--rounded-none);
+  padding: var(--space-lg);
+  margin-top: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  /* Halftone */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 3px 3px;
+  background-color: var(--carbon);
+  /* Chamfered corners (top corners) */
+  clip-path: polygon(
+    8px 0%, calc(100% - 8px) 0%,
+    100% 0%, 100% 100%,
+    calc(100% - 8px) 100%, 8px 100%,
+    0% 100%, 0% 0%,
+    8px 0%
+  );
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--canvas-soft);
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.3;
+  transition: color 0.15s;
+}
+
+.footer-links a:hover {
+  color: var(--surface);
+}
+
+.esrb-badge {
+  background: var(--amber);
+  color: var(--carbon);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.3;
+  border-radius: var(--rounded-xs);
+  padding: 2px 6px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.esrb-rating-square {
+  background: var(--surface);
+  color: var(--carbon);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+  border-radius: var(--rounded-xs);
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--carbon);
+}
+
+/* ═══════════════════════════════════════════════
+   BEVEL HELPERS
+   ═══════════════════════════════════════════════ */
+
+.bevel-panel {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 2px solid var(--chrome-indigo);
+}
+
+.bevel-panel-raised {
+  border-top: 2px solid rgba(255,255,255,0.25);
+  border-bottom: 2px solid var(--chrome-indigo);
+  border-left: 1px solid rgba(255,255,255,0.1);
+  border-right: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ═══════════════════════════════════════════════
+   UTILITY: Dotted Divider
+   ═══════════════════════════════════════════════ */
+
+.dotted-divider {
+  height: 1px;
+  border: none;
+  background: none;
+  border-top: 1px dotted var(--muted-indigo);
+  margin: var(--space-sm) 0;
+}
+
+/* ═══════════════════════════════════════════════
+   INTERACTIVE ENHANCEMENTS
+   ═══════════════════════════════════════════════ */
+
+button, .btn-go, .btn-submit, .btn-secondary, .btn-icon-arrow, .btn-arrow-chip, .cta-btn {
+  transition: background-color 0.15s ease, transform 0.12s ease, border-color 0.15s ease;
+}
+
+a {
+  transition: color 0.15s ease;
+}
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ MASTHEAD ═══ -->
+  <div class="masthead">
+    <div class="masthead-left">
+      <!-- Mario Pixel Sprite -->
+      <div class="mario-sprite">
+        <svg viewBox="0 0 48 56" xmlns="http://www.w3.org/2000/svg">
+          <!-- Hat -->
+          <rect x="12" y="0" width="24" height="8" fill="#e60012"/>
+          <rect x="8" y="8" width="32" height="4" fill="#e60012"/>
+          <!-- Face -->
+          <rect x="12" y="12" width="24" height="8" fill="#FFD7A0"/>
+          <!-- Eyes -->
+          <rect x="16" y="14" width="4" height="4" fill="#21242e"/>
+          <rect x="28" y="14" width="4" height="4" fill="#21242e"/>
+          <!-- Mustache -->
+          <rect x="14" y="20" width="20" height="4" fill="#8B4513"/>
+          <!-- Body -->
+          <rect x="12" y="24" width="24" height="8" fill="#e60012"/>
+          <!-- Overalls -->
+          <rect x="14" y="32" width="8" height="8" fill="#2134E6"/>
+          <rect x="26" y="32" width="8" height="8" fill="#2134E6"/>
+          <!-- Arms -->
+          <rect x="4" y="24" width="8" height="6" fill="#e60012"/>
+          <rect x="36" y="24" width="8" height="6" fill="#e60012"/>
+          <!-- Hands -->
+          <rect x="4" y="30" width="8" height="4" fill="#FFD7A0"/>
+          <rect x="36" y="30" width="8" height="4" fill="#FFD7A0"/>
+          <!-- Shoes -->
+          <rect x="10" y="40" width="12" height="6" fill="#8B4513"/>
+          <rect x="26" y="40" width="12" height="6" fill="#8B4513"/>
+          <!-- Hat brim highlight -->
+          <rect x="10" y="8" width="28" height="2" fill="#cc0010"/>
+          <!-- Buttons -->
+          <rect x="22" y="28" width="4" height="4" rx="2" fill="#FFD700"/>
+        </svg>
+      </div>
+      <!-- Speech Bubble -->
+      <div class="mascot-bubble">Welcome to Nintendo.com!</div>
+    </div>
+    <!-- Search Module -->
+    <div class="masthead-search">
+      <input type="text" class="search-field" placeholder="Search..." value="">
+      <select class="search-category">
+        <option>All</option>
+        <option>Games</option>
+        <option>Systems</option>
+        <option>News</option>
+      </select>
+      <button class="btn-go">GO</button>
+    </div>
+  </div>
+
+  <!-- ═══ DUAL NAV BARS ═══ -->
+
+  <!-- Primary Nav -->
+  <nav class="nav-bar">
+    <a href="#" class="nav-home">
+      <span class="logo-pill">Nintendo</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Games</a></li>
+      <li><a href="#">Systems</a></li>
+      <li><a href="#">News</a></li>
+      <li><a href="#">Nsider</a></li>
+      <li><a href="#">Downloads</a></li>
+    </ul>
+    <!-- Utility Chips -->
+    <div style="margin-left: auto; display: flex; gap: 6px;">
+      <button class="btn-go" style="font-size: 9px; padding: 1px 8px; height: 16px;">CODE BANK</button>
+      <button class="btn-go" style="font-size: 9px; padding: 1px 8px; height: 16px;">GAME FINDER</button>
+    </div>
+  </nav>
+
+  <!-- Secondary Nav Strip -->
+  <div class="subnav-strip">
+    <a href="#">Parents</a>
+    <span class="subnav-divider">|</span>
+    <a href="#">Customer Service</a>
+    <span class="subnav-divider">|</span>
+    <a href="#">Corporate</a>
+    <span class="subnav-divider">|</span>
+    <a href="#">Global</a>
+    <span class="subnav-divider">|</span>
+    <a href="#">Privacy</a>
+    <span class="subnav-divider">|</span>
+    <a href="#">Store</a>
+    <span class="subnav-divider">|</span>
+    <a href="#">Contact</a>
+  </div>
+
+  <!-- ═══ HERO PANEL ═══ -->
+  <header class="hero-panel" style="margin-top: var(--space-sm);">
+    <h1 class="display-wordmark">Nintendo GameCube</h1>
+    <p class="hero-tagline">Gorgeous graphics, great sound,<br>and a huge library of exclusive games.</p>
+    <div class="hero-cta">
+      <a href="#" class="btn-icon-arrow" aria-label="Learn more">
+        <svg viewBox="0 0 10 10"><polygon points="0,0 10,5 0,10" fill="white"/></svg>
+      </a>
+      <a href="#" class="hero-cta-label">Explore the System</a>
+    </div>
+  </header>
+
+  <!-- ═══ MAIN BODY ═══ -->
+  <div class="main-body">
+
+    <!-- Content Column (2/3) -->
+    <div class="content-col">
+
+      <!-- Official News -->
+      <div>
+        <div class="section-label-bar">
+          <svg class="glyph" viewBox="0 0 10 10"><rect x="0" y="0" width="3" height="3" fill="currentColor"/><rect x="4" y="0" width="3" height="3" fill="currentColor"/><rect x="8" y="0" width="2" height="3" fill="currentColor"/><rect x="0" y="4" width="3" height="3" fill="currentColor"/><rect x="4" y="4" width="3" height="3" fill="currentColor"/><rect x="8" y="4" width="2" height="6" fill="currentColor"/></svg>
+          Official News
+        </div>
+        <div class="news-list">
+          <div class="news-row">
+            <svg class="news-icon" viewBox="0 0 14 14"><circle cx="7" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <a href="#" class="news-text">E3 2001: Nintendo Reveals GameCube Launch Lineup</a>
+            <a href="#" class="btn-arrow-chip">
+              <svg viewBox="0 0 8 8"><polygon points="0,0 8,4 0,8" fill="white"/></svg>
+            </a>
+          </div>
+          <div class="news-row">
+            <svg class="news-icon" viewBox="0 0 14 14"><circle cx="7" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <a href="#" class="news-text">Super Smash Bros. Melee Hits Store Shelves December 3</a>
+            <a href="#" class="btn-arrow-chip">
+              <svg viewBox="0 0 8 8"><polygon points="0,0 8,4 0,8" fill="white"/></svg>
+            </a>
+          </div>
+          <div class="news-row">
+            <svg class="news-icon" viewBox="0 0 14 14"><circle cx="7" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <a href="#" class="news-text">New Pokémon Gold &amp; Silver Versions Now Available</a>
+            <a href="#" class="btn-arrow-chip">
+              <svg viewBox="0 0 8 8"><polygon points="0,0 8,4 0,8" fill="white"/></svg>
+            </a>
+          </div>
+          <div class="news-row">
+            <svg class="news-icon" viewBox="0 0 14 14"><circle cx="7" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <a href="#" class="news-text">The Legend of Zelda: Oracle of Ages &amp; Seasons Announced</a>
+            <a href="#" class="btn-arrow-chip">
+              <svg viewBox="0 0 8 8"><polygon points="0,0 8,4 0,8" fill="white"/></svg>
+            </a>
+          </div>
+          <div class="news-row">
+            <svg class="news-icon" viewBox="0 0 14 14"><circle cx="7" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <a href="#" class="news-text">Mario Kart: Super Circuit Races to Game Boy Advance</a>
+            <a href="#" class="btn-arrow-chip">
+              <svg viewBox="0 0 8 8"><polygon points="0,0 8,4 0,8" fill="white"/></svg>
+            </a>
+          </div>
+          <a href="#" class="other-headlines-link">Other Headlines &raquo;</a>
+        </div>
+      </div>
+
+      <!-- Featured Sites -->
+      <div>
+        <div class="section-label-bar">
+          <svg class="glyph" viewBox="0 0 10 10"><rect x="0" y="0" width="4" height="4" fill="currentColor"/><rect x="6" y="0" width="4" height="4" fill="currentColor"/><rect x="0" y="6" width="4" height="4" fill="currentColor"/><rect x="6" y="6" width="4" height="4" fill="currentColor"/></svg>
+          Featured Sites
+        </div>
+        <div class="featured-grid">
+          <div class="featured-tile">
+            <div class="tile-img">
+              <svg viewBox="0 0 60 30" width="60" height="30">
+                <text x="30" y="18" text-anchor="middle" fill="#FFCB05" font-family="Arial,sans-serif" font-size="8" font-weight="bold">POK&Eacute;MON</text>
+              </svg>
+            </div>
+            <div class="tile-caption">www.pokemon.com</div>
+          </div>
+          <div class="featured-tile">
+            <div class="tile-img">
+              <svg viewBox="0 0 60 30" width="60" height="30">
+                <text x="30" y="18" text-anchor="middle" fill="#E6A817" font-family="Arial,sans-serif" font-size="7" font-weight="bold">ZELDA.COM</text>
+              </svg>
+            </div>
+            <div class="tile-caption">www.zelda.com</div>
+          </div>
+          <div class="featured-tile">
+            <div class="tile-img">
+              <svg viewBox="0 0 60 30" width="60" height="30">
+                <text x="30" y="18" text-anchor="middle" fill="#FF4444" font-family="Arial,sans-serif" font-size="7" font-weight="bold">MARIO.COM</text>
+              </svg>
+            </div>
+            <div class="tile-caption">www.mario.com</div>
+          </div>
+          <div class="featured-tile">
+            <div class="tile-img">
+              <svg viewBox="0 0 60 30" width="60" height="30">
+                <text x="30" y="18" text-anchor="middle" fill="#44AADD" font-family="Arial,sans-serif" font-size="7" font-weight="bold">METROID.COM</text>
+              </svg>
+            </div>
+            <div class="tile-caption">www.metroid.com</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player's Poll -->
+      <div>
+        <div class="section-label-bar">
+          <svg class="glyph" viewBox="0 0 10 10"><rect x="2" y="0" width="6" height="2" fill="currentColor"/><rect x="2" y="3" width="6" height="2" fill="currentColor"/><rect x="2" y="6" width="6" height="2" fill="currentColor"/></svg>
+          Player's Poll
+        </div>
+        <div class="poll-panel">
+          <p class="poll-question">Which upcoming GameCube title are you most excited for?</p>
+          <div class="poll-options">
+            <label class="poll-option">
+              <span class="radio-option checked"></span>
+              <span class="radio-text">Super Smash Bros. Melee</span>
+            </label>
+            <label class="poll-option">
+              <span class="radio-option"></span>
+              <span class="radio-text">Luigi's Mansion</span>
+            </label>
+            <label class="poll-option">
+              <span class="radio-option"></span>
+              <span class="radio-text">Pikmin</span>
+            </label>
+            <label class="poll-option">
+              <span class="radio-option"></span>
+              <span class="radio-text">Wave Race: Blue Storm</span>
+            </label>
+            <label class="poll-option">
+              <span class="radio-option"></span>
+              <span class="radio-text">Star Wars Rogue Leader</span>
+            </label>
+          </div>
+          <button class="btn-submit">SUBMIT VOTE</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Action Rail (1/3) -->
+    <aside class="rail-col">
+
+      <!-- Action Buttons -->
+      <div class="rail-actions">
+        <a href="#" class="btn-secondary">
+          <svg class="btn-icon" viewBox="0 0 14 14"><circle cx="7" cy="5" r="3" fill="none" stroke="white" stroke-width="1.2"/><path d="M3 12 Q7 7 11 12" fill="none" stroke="white" stroke-width="1.2"/></svg>
+          LOGIN
+        </a>
+        <a href="#" class="btn-secondary">
+          <svg class="btn-icon" viewBox="0 0 14 14"><rect x="2" y="2" width="10" height="10" rx="1" fill="none" stroke="white" stroke-width="1.2"/><line x1="5" y1="7" x2="9" y2="7" stroke="white" stroke-width="1.2"/><line x1="7" y1="5" x2="7" y2="9" stroke="white" stroke-width="1.2"/></svg>
+          SUBSCRIBE
+        </a>
+        <a href="#" class="btn-secondary">
+          <svg class="btn-icon" viewBox="0 0 14 14"><rect x="2" y="3" width="10" height="8" rx="1" fill="none" stroke="white" stroke-width="1.2"/><polyline points="2,3 7,8 12,3" fill="none" stroke="white" stroke-width="1.2"/></svg>
+          NEWSLETTER
+        </a>
+        <a href="#" class="btn-secondary">
+          <svg class="btn-icon" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="none" stroke="white" stroke-width="1.2"/><text x="7" y="10" text-anchor="middle" fill="white" font-size="7" font-weight="bold">?</text></svg>
+          HELP
+        </a>
+      </div>
+
+      <!-- Info Box -->
+      <div class="info-box">
+        <div class="info-box-tab">What Is&mdash;Game Finder</div>
+        <p>Use <strong>Game Finder</strong> to search our entire catalog of Nintendo games by platform, genre, rating, and player count. Find the perfect game for you or your family.</p>
+        <a href="#" class="info-link">Try Game Finder &raquo;</a>
+      </div>
+
+      <!-- Promo Card -->
+      <div class="promo-card">
+        <div class="promo-wordmark">GAME BOY ADVANCE</div>
+        <div class="promo-device">
+          <svg viewBox="0 0 120 60" width="120" height="60">
+            <!-- GBA body -->
+            <rect x="10" y="8" width="100" height="44" rx="8" fill="#4B2E8A"/>
+            <!-- Screen -->
+            <rect x="18" y="14" width="50" height="30" rx="3" fill="#8BAC0F"/>
+            <!-- Screen content -->
+            <rect x="24" y="20" width="6" height="6" fill="#306230"/>
+            <rect x="32" y="20" width="6" height="6" fill="#306230"/>
+            <rect x="40" y="20" width="6" height="6" fill="#306230"/>
+            <rect x="48" y="28" width="12" height="8" fill="#306230"/>
+            <!-- D-pad -->
+            <rect x="74" y="18" width="4" height="14" fill="#333"/>
+            <rect x="70" y="22" width="12" height="4" fill="#333"/>
+            <!-- A/B buttons -->
+            <circle cx="96" cy="26" r="5" fill="#AA2244"/>
+            <circle cx="88" cy="30" r="5" fill="#AA2244"/>
+            <!-- Start/Select -->
+            <rect x="96" y="38" width="8" height="2" rx="1" fill="#666"/>
+          </svg>
+        </div>
+        <a href="#" class="promo-link">Learn More &raquo;</a>
+      </div>
+
+      <!-- ESRB Rating Squares -->
+      <div style="display: flex; gap: var(--space-xs); justify-content: flex-end;">
+        <span class="esrb-rating-square">E</span>
+        <span class="esrb-rating-square">T</span>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- ═══ CTA BANNER ═══ -->
+  <section class="cta-section">
+    <div class="cta-text">
+      <strong>Join Nsider Today</strong>
+      Connect with Nintendo fans worldwide, access exclusive downloads, and get the latest news first.
+    </div>
+    <a href="#" class="cta-btn">
+      SIGN UP NOW
+      <svg viewBox="0 0 14 14"><polygon points="0,0 14,7 0,14" fill="white"/></svg>
+    </a>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer-bar">
+    <div class="footer-left">
+      <span>&copy;1997&ndash;2001 Nintendo. Games are property of their respective owners.</span>
+      <span>Nintendo of America Inc. | P.O. Box 957, Redmond, WA 98073-0957 U.S.A.</span>
+    </div>
+    <div class="footer-links">
+      <span class="esrb-badge">
+        <svg viewBox="0 0 8 8" width="8" height="8"><polygon points="4,0 8,8 0,8" fill="currentColor"/></svg>
+        ESRB &mdash; PRIVACY CERTIFIED
+      </span>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Contact Us</a>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

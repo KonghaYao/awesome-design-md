@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starbucks® Coffee — 星巴克咖啡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   CSS Custom Properties — Design Tokens
+   Source: design-md/starbucks/DESIGN.md
+   ============================================ */
+:root {
+  /* Brand Greens */
+  --starbucks-green: #006241;
+  --green-accent: #00754A;
+  --house-green: #1E3932;
+  --green-uplift: #2b5148;
+  --green-light: #d4e9e2;
+
+  /* Rewards Gold */
+  --gold: #cba258;
+  --gold-light: #dfc49d;
+
+  /* Surfaces */
+  --white: #ffffff;
+  --neutral-cool: #f9f9f9;
+  --neutral-warm: #f2f0eb;
+  --ceramic: #edebe9;
+  --black: #000000;
+
+  /* Text */
+  --text-black: rgba(0, 0, 0, 0.87);
+  --text-black-soft: rgba(0, 0, 0, 0.58);
+  --text-white: rgba(255, 255, 255, 1);
+  --text-white-soft: rgba(255, 255, 255, 0.70);
+  --rewards-green: #33433d;
+
+  /* Semantic */
+  --red: #c82014;
+  --yellow: #fbbc05;
+
+  /* Typography */
+  --font-primary: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --letter-spacing-normal: -0.01em;
+  --letter-spacing-display: -0.16px;
+  --letter-spacing-loose: 0.1em;
+  --letter-spacing-looser: 0.15em;
+
+  /* Spacing (rem-based, 1rem = 10px via 62.5% root) */
+  --space-1: 0.4rem;
+  --space-2: 0.8rem;
+  --space-3: 1.6rem;
+  --space-4: 2.4rem;
+  --space-5: 3.2rem;
+  --space-6: 4rem;
+  --space-7: 4.8rem;
+  --space-8: 5.6rem;
+  --space-9: 6.4rem;
+
+  /* Gutters */
+  --outer-gutter: 1.6rem;
+  --outer-gutter-md: 2.4rem;
+  --outer-gutter-lg: 4rem;
+
+  /* Radius */
+  --card-radius: 12px;
+  --button-radius: 50px;
+  --circle-radius: 50%;
+
+  /* Shadows */
+  --card-shadow: 0px 0px 0.5px 0px rgba(0,0,0,0.14), 0px 1px 1px 0px rgba(0,0,0,0.24);
+  --nav-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 2px 2px rgba(0,0,0,0.06), 0 0 2px rgba(0,0,0,0.07);
+  --frap-shadow-base: 0 0 6px rgba(0,0,0,0.24);
+  --frap-shadow-ambient: 0 8px 12px rgba(0,0,0,0.14);
+
+  /* Column Widths */
+  --column-sm: 343px;
+  --column-md: 500px;
+  --column-lg: 720px;
+  --column-xl: 1440px;
+
+  /* Nav Height */
+  --nav-height: 99px;
+  --subnav-height: 53px;
+}
+
+/* ============================================
+   Global Reset & Base
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--text-black);
+  background-color: var(--neutral-warm);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ============================================
+   Button System (8 variants from DESIGN.md)
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--button-radius);
+  padding: 7px 16px;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-normal);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  border: 1px solid transparent;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* 1. Primary Filled */
+.btn-primary {
+  background: var(--green-accent);
+  color: var(--white);
+  border-color: var(--green-accent);
+}
+.btn-primary:hover {
+  opacity: 0.92;
+}
+
+/* 2. Primary Outlined */
+.btn-primary-outline {
+  background: transparent;
+  color: var(--green-accent);
+  border-color: var(--green-accent);
+}
+.btn-primary-outline:hover {
+  background: rgba(0, 117, 74, 0.06);
+}
+
+/* 3. Black Filled */
+.btn-black {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+  font-size: 14px;
+}
+.btn-black:hover {
+  opacity: 0.88;
+}
+
+/* 4. Dark Outlined */
+.btn-dark-outline {
+  background: transparent;
+  color: var(--text-black);
+  border-color: var(--text-black);
+  font-size: 14px;
+}
+.btn-dark-outline:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* 5. White-on-Dark (Green-on-Green Inverted) */
+.btn-white-on-dark {
+  background: var(--white);
+  color: var(--green-accent);
+  border-color: var(--white);
+}
+.btn-white-on-dark:hover {
+  opacity: 0.92;
+}
+
+/* 6. Outlined on Dark */
+.btn-outline-dark {
+  background: transparent;
+  color: var(--white);
+  border-color: var(--white);
+}
+.btn-outline-dark:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* PDP Customize Button */
+.btn-customize {
+  background: var(--white);
+  color: var(--green-accent);
+  border: 1.5px solid var(--green-accent);
+  border-radius: var(--button-radius);
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.btn-customize:hover {
+  background: rgba(0, 117, 74, 0.04);
+}
+.btn-customize:active {
+  transform: scale(0.95);
+}
+
+/* Rewards Cost Pill */
+.btn-rewards-pill {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: var(--button-radius);
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.btn-rewards-pill:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+   Global Navigation
+   ============================================ */
+.global-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--nav-height);
+  background: var(--white);
+  box-shadow: var(--nav-shadow);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--outer-gutter-lg);
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: var(--column-xl);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-logo svg {
+  width: 51px;
+  height: 51px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.nav-links a {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--text-black);
+  padding: var(--space-2) 0;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.nav-links a:hover {
+  color: var(--green-accent);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--green-accent);
+  transition: width 0.25s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav-store {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-black);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: var(--letter-spacing-normal);
+  transition: color 0.2s ease;
+}
+
+.nav-store:hover {
+  color: var(--green-accent);
+}
+
+.nav-store svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ============================================
+   Hero Section
+   ============================================ */
+.hero {
+  margin-top: var(--nav-height);
+  background: var(--neutral-warm);
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-inner {
+  width: 100%;
+  max-width: var(--column-xl);
+  margin: 0 auto;
+  padding: var(--space-9) var(--outer-gutter-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.hero-content {
+  flex: 60%;
+  max-width: 60%;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--green-accent);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: var(--letter-spacing-loose);
+  padding: 4px 12px;
+  border-radius: var(--button-radius);
+  margin-bottom: var(--space-4);
+  text-transform: uppercase;
+}
+
+.hero-headline {
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--starbucks-green);
+  margin-bottom: var(--space-4);
+}
+
+.hero-subheadline {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--text-black-soft);
+  margin-bottom: var(--space-5);
+  max-width: 540px;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hero-visual {
+  flex: 40%;
+  max-width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image-placeholder {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, #d4e9e2 0%, #00754A 50%, #1E3932 100%);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: var(--frap-shadow-base), var(--frap-shadow-ambient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image-placeholder::after {
+  content: '';
+  width: 60%;
+  height: 60%;
+  background: var(--white);
+  border-radius: 50%;
+  opacity: 0.15;
+}
+.hero-image-placeholder svg {
+  position: absolute;
+  width: 48%;
+  height: 48%;
+  color: var(--white);
+  opacity: 0.9;
+}
+
+/* ============================================
+   Menu Highlights Section
+   ============================================ */
+.section-menu {
+  background: var(--white);
+  padding: var(--space-9) var(--outer-gutter-lg);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-7);
+}
+
+.section-header h2 {
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--starbucks-green);
+  margin-bottom: var(--space-3);
+}
+
+.section-header p {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--text-black-soft);
+  letter-spacing: var(--letter-spacing-display);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.menu-grid {
+  max-width: var(--column-xl);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.menu-card {
+  background: var(--white);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.menu-card:hover {
+  box-shadow: 0 0 6px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.14);
+  transform: translateY(-2px);
+}
+
+.menu-card-image {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-card-image .bg {
+  position: absolute;
+  inset: 0;
+}
+
+.menu-card-image svg {
+  position: relative;
+  z-index: 1;
+  width: 48%;
+  height: 48%;
+}
+
+.menu-card-body {
+  padding: var(--space-3) var(--space-4);
+}
+
+.menu-card-body h3 {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--text-black);
+  margin-bottom: var(--space-1);
+}
+
+.menu-card-body .meta {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-black-soft);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-bottom: var(--space-3);
+}
+
+.menu-card-body .price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-card-body .price {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-black);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+/* ============================================
+   Dark Green Feature Band
+   ============================================ */
+.feature-band {
+  background: var(--house-green);
+  padding: var(--space-9) var(--outer-gutter-lg);
+}
+
+.feature-band-inner {
+  max-width: var(--column-xl);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.feature-band-content {
+  flex: 50%;
+}
+
+.feature-band-content h2 {
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--text-white);
+  margin-bottom: var(--space-4);
+}
+
+.feature-band-content p {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--text-white-soft);
+  margin-bottom: var(--space-5);
+}
+
+.feature-band-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.feature-band-visual {
+  flex: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-card-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.feature-card-mini {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--card-radius);
+  padding: var(--space-4);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: background 0.3s ease;
+}
+
+.feature-card-mini:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.feature-card-mini .icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--circle-radius);
+  background: var(--green-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-3);
+  box-shadow: var(--frap-shadow-base), var(--frap-shadow-ambient);
+}
+
+.feature-card-mini .icon-circle svg {
+  width: 28px;
+  height: 28px;
+  color: var(--white);
+}
+
+.feature-card-mini .num {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--gold);
+  margin-bottom: var(--space-1);
+}
+
+.feature-card-mini .label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-white);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-bottom: var(--space-1);
+}
+
+.feature-card-mini .desc {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-white-soft);
+  letter-spacing: var(--letter-spacing-normal);
+  line-height: 1.5;
+}
+
+/* ============================================
+   Rewards Showcase
+   ============================================ */
+.section-rewards {
+  background: var(--ceramic);
+  padding: var(--space-9) var(--outer-gutter-lg);
+}
+
+.rewards-inner {
+  max-width: var(--column-xl);
+  margin: 0 auto;
+}
+
+.rewards-head {
+  text-align: center;
+  margin-bottom: var(--space-7);
+}
+
+.rewards-head .gold-pill {
+  display: inline-block;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: var(--button-radius);
+  padding: 4px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-4);
+}
+
+.rewards-head h2 {
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--starbucks-green);
+  margin-bottom: var(--space-3);
+}
+
+.rewards-head p {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--text-black-soft);
+  letter-spacing: var(--letter-spacing-display);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.rewards-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.tier-card {
+  background: var(--house-green);
+  border-radius: var(--card-radius);
+  padding: var(--space-5);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.tier-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+}
+
+.tier-card.bronze::before {
+  background: linear-gradient(90deg, #cd7f32, #a0522d);
+}
+
+.tier-card.silver::before {
+  background: linear-gradient(90deg, #c0c0c0, #a8a8a8);
+}
+
+.tier-card.gold::before {
+  background: linear-gradient(90deg, var(--gold), #b8942d);
+}
+
+.tier-card .tier-level {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: var(--letter-spacing-loose);
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.tier-card h3 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--text-white);
+  margin-bottom: var(--space-4);
+}
+
+.tier-card .benefits {
+  text-align: left;
+  margin-bottom: var(--space-4);
+}
+
+.tier-card .benefits li {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-white-soft);
+  letter-spacing: var(--letter-spacing-normal);
+  padding: var(--space-1) 0;
+}
+
+.tier-card .benefits li::before {
+  content: '✦';
+  color: var(--gold);
+  margin-right: var(--space-2);
+  font-size: 10px;
+}
+
+.tier-card .progress {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-white-soft);
+  letter-spacing: var(--letter-spacing-normal);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: var(--space-3);
+}
+
+/* ============================================
+   CTA Banner
+   ============================================ */
+.section-cta {
+  background: var(--neutral-warm);
+  padding: var(--space-9) var(--outer-gutter-lg);
+}
+
+.cta-banner {
+  max-width: var(--column-xl);
+  margin: 0 auto;
+  background: var(--house-green);
+  border-radius: var(--card-radius);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  box-shadow: var(--card-shadow);
+}
+
+.cta-banner h2 {
+  font-size: 3.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--text-white);
+  margin-bottom: var(--space-3);
+}
+
+.cta-banner p {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--text-white-soft);
+  letter-spacing: var(--letter-spacing-display);
+  margin-bottom: var(--space-5);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-banner-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.cta-banner .small-note {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-white-soft);
+  margin-top: var(--space-3);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.footer {
+  background: var(--house-green);
+  padding: var(--space-8) var(--outer-gutter-lg) var(--space-5);
+  color: var(--text-white);
+}
+
+.footer-inner {
+  max-width: var(--column-xl);
+  margin: 0 auto;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-7);
+}
+
+.footer-col h4 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--text-white);
+  margin-bottom: var(--space-3);
+}
+
+.footer-col ul li {
+  margin-bottom: var(--space-2);
+}
+
+.footer-col ul li a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-white-soft);
+  letter-spacing: var(--letter-spacing-normal);
+  transition: color 0.2s ease;
+}
+
+.footer-col ul li a:hover {
+  color: var(--text-white);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.footer-bottom .social-links {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.footer-bottom .social-links a {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--circle-radius);
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.footer-bottom .social-links a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.footer-bottom .social-links svg {
+  width: 18px;
+  height: 18px;
+  color: var(--white);
+}
+
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.footer-legal span,
+.footer-legal a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-white-soft);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.footer-legal a:hover {
+  color: var(--text-white);
+}
+
+.footer-legal .divider {
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   Frap Floating CTA Button
+   ============================================ */
+.frap-button {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  width: 56px;
+  height: 56px;
+  border-radius: var(--circle-radius);
+  background: var(--green-accent);
+  box-shadow: var(--frap-shadow-base), var(--frap-shadow-ambient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 900;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+}
+
+.frap-button:hover {
+  transform: scale(1.06);
+}
+
+.frap-button:active {
+  transform: scale(0.95);
+  box-shadow: var(--frap-shadow-base), 0 8px 12px rgba(0,0,0,0);
+}
+
+.frap-button svg {
+  width: 28px;
+  height: 28px;
+  color: var(--white);
+}
+
+/* ============================================
+   Content Card Section (white cards on cream)
+   ============================================ */
+.section-community {
+  background: var(--white);
+  padding: var(--space-9) var(--outer-gutter-lg);
+}
+
+.community-inner {
+  max-width: var(--column-xl);
+  margin: 0 auto;
+}
+
+.community-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.community-card {
+  background: var(--neutral-warm);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.community-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 6px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.14);
+}
+
+.community-card-img {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.community-card-img .bg {
+  position: absolute;
+  inset: 0;
+}
+
+.community-card-img svg {
+  position: relative;
+  z-index: 1;
+  width: 40%;
+  height: 40%;
+  opacity: 0.5;
+}
+
+.community-card-body {
+  padding: var(--space-4);
+}
+
+.community-card-body h3 {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--text-black);
+  margin-bottom: var(--space-2);
+}
+
+.community-card-body p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-black-soft);
+  letter-spacing: var(--letter-spacing-normal);
+  margin-bottom: var(--space-3);
+}
+
+.community-card-body .link {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--green-accent);
+  letter-spacing: var(--letter-spacing-normal);
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.community-card-body .link:hover {
+  opacity: 0.8;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 1023px) {
+  :root {
+    --nav-height: 83px;
+  }
+  .global-nav {
+    padding: 0 var(--outer-gutter-md);
+  }
+  .hero-inner {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: var(--space-5);
+  }
+  .hero-content {
+    max-width: 100%;
+    flex: 100%;
+  }
+  .hero-subheadline {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-cta-group {
+    justify-content: center;
+  }
+  .hero-visual {
+    max-width: 60%;
+    flex: 100%;
+  }
+  .hero-headline {
+    font-size: 3.6rem;
+  }
+  .feature-band-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-5);
+  }
+  .feature-band-content {
+    flex: 100%;
+  }
+  .feature-band-visual {
+    flex: 100%;
+  }
+  .feature-band-cta {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .feature-card-group {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .rewards-tier-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .community-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .footer-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --nav-height: 72px;
+  }
+  .global-nav {
+    padding: 0 var(--outer-gutter);
+  }
+  .nav-links {
+    display: none;
+  }
+  .nav-store span {
+    display: none;
+  }
+  .hero {
+    min-height: auto;
+  }
+  .hero-inner {
+    padding: var(--space-5) var(--outer-gutter);
+  }
+  .hero-headline {
+    font-size: 2.8rem;
+  }
+  .hero-subheadline {
+    font-size: 16px;
+  }
+  .hero-visual {
+    max-width: 80%;
+  }
+  .menu-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .feature-card-group {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .feature-band-inner {
+    flex-direction: column;
+  }
+  .section-menu,
+  .feature-band,
+  .section-rewards,
+  .section-community,
+  .section-cta {
+    padding: var(--space-6) var(--outer-gutter);
+  }
+  .section-header h2,
+  .feature-band-content h2,
+  .rewards-head h2 {
+    font-size: 2.4rem;
+  }
+  .cta-banner h2 {
+    font-size: 2.8rem;
+  }
+  .cta-banner {
+    padding: var(--space-5) var(--space-4);
+  }
+  .footer-columns {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 479px) {
+  :root {
+    --nav-height: 64px;
+  }
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+  .feature-band-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+  .feature-band-cta .btn {
+    width: 100%;
+  }
+  .cta-banner-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .cta-banner-actions .btn {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     Global Navigation
+     ============================================ -->
+<nav class="global-nav">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="#" class="nav-logo" aria-label="Starbucks Home">
+        <!-- Starbucks Siren Logo (inline SVG) -->
+        <svg viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="31" cy="31" r="30" fill="#006241"/>
+          <path d="M31 8c-4 0-7 2-9 5-2-3-5-5-9-5-6 0-11 5-11 11 0 3 1 6 3 8l17 17 17-17c2-2 3-5 3-8 0-6-5-11-11-11z" fill="#ffffff" opacity="0.9"/>
+          <path d="M38 24c-2 0-3.5 1-4.5 2.5-1-1.5-2.5-2.5-4.5-2.5-3 0-5.5 2.5-5.5 5.5 0 1.5.5 3 1.5 4L31 39.5 37.5 33.5c1-1 1.5-2.5 1.5-4 0-3-2.5-5.5-5.5-5.5z" fill="#cba258"/>
+          <path d="M31 14c-2.5 0-5 1.5-6 4-1-2.5-3.5-4-6-4-4 0-7 3-7 7 0 2 .5 4 2 5.5l11 11.5 11-11.5c1.5-1.5 2-3.5 2-5.5 0-4-3-7-7-7z" fill="#00754A"/>
+          <ellipse cx="20" cy="20" rx="2.5" ry="2" fill="#d4e9e2"/>
+          <ellipse cx="42" cy="20" rx="2.5" ry="2" fill="#d4e9e2"/>
+        </svg>
+      </a>
+      <div class="nav-links">
+        <a href="#menu">菜单</a>
+        <a href="#rewards">奖励</a>
+        <a href="#gift">礼品卡</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="nav-store">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>查找门店</span>
+      </a>
+      <div class="nav-cta-group">
+        <button class="btn btn-dark-outline">登录</button>
+        <button class="btn btn-black">立即加入</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================
+     Hero Section
+     ============================================ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">🎉 新品上市</div>
+      <h1 class="hero-headline">每一口，都是匠心之作</h1>
+      <p class="hero-subheadline">
+        从全球精选的阿拉比卡咖啡豆，到每一杯手工调制的饮品，星巴克始终以热情与匠心，为您带来独特的咖啡体验。
+      </p>
+      <div class="hero-cta-group">
+        <button class="btn btn-primary">探索春季菜单</button>
+        <button class="btn btn-primary-outline">开始点单</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-image-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 8h1a4 4 0 010 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+          <line x1="6" y1="1" x2="6" y2="4"/>
+          <line x1="10" y1="1" x2="10" y2="4"/>
+          <line x1="14" y1="1" x2="14" y2="4"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================
+     Menu Highlights Section
+     ============================================ -->
+<section class="section-menu" id="menu">
+  <div class="section-header">
+    <h2>当季热卖</h2>
+    <p>探索我们精心调制的季节限定饮品，感受每一杯的独特风味</p>
+  </div>
+  <div class="menu-grid">
+    <!-- Card 1 -->
+    <div class="menu-card">
+      <div class="menu-card-image">
+        <div class="bg" style="background: linear-gradient(135deg, #d4e9e2, #00754A);"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" opacity="0.8">
+          <path d="M18 8h1a4 4 0 010 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+        </svg>
+      </div>
+      <div class="menu-card-body">
+        <h3>冰摇浓缩拿铁</h3>
+        <p class="meta">Iced Shaken Espresso Latte · Grande</p>
+        <div class="price-row">
+          <span class="price">¥36</span>
+          <button class="btn btn-primary">加入订单</button>
+        </div>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="menu-card">
+      <div class="menu-card-image">
+        <div class="bg" style="background: linear-gradient(135deg, #dfc49d, #cba258);"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" opacity="0.8">
+          <path d="M18 8h1a4 4 0 010 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+        </svg>
+      </div>
+      <div class="menu-card-body">
+        <h3>焦糖玛奇朵</h3>
+        <p class="meta">Caramel Macchiato · Grande</p>
+        <div class="price-row">
+          <span class="price">¥38</span>
+          <button class="btn btn-primary">加入订单</button>
+        </div>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="menu-card">
+      <div class="menu-card-image">
+        <div class="bg" style="background: linear-gradient(135deg, #edebe9, #006241);"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" opacity="0.8">
+          <path d="M18 8h1a4 4 0 010 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+        </svg>
+      </div>
+      <div class="menu-card-body">
+        <h3>抹茶星冰乐</h3>
+        <p class="meta">Matcha Frappuccino · Grande</p>
+        <div class="price-row">
+          <span class="price">¥42</span>
+          <button class="btn btn-primary">加入订单</button>
+        </div>
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="menu-card">
+      <div class="menu-card-image">
+        <div class="bg" style="background: linear-gradient(135deg, #1E3932, #00754A);"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2" opacity="0.8">
+          <path d="M18 8h1a4 4 0 010 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+        </svg>
+      </div>
+      <div class="menu-card-body">
+        <h3>冷萃冰咖啡</h3>
+        <p class="meta">Cold Brew Coffee · Grande</p>
+        <div class="price-row">
+          <span class="price">¥33</span>
+          <button class="btn btn-primary">加入订单</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     Dark Green Feature Band (Rewards Highlight)
+     ============================================ -->
+<section class="feature-band" id="rewards">
+  <div class="feature-band-inner">
+    <div class="feature-band-content">
+      <h2>免费咖啡，只是开始</h2>
+      <p>
+        加入星巴克® Rewards，每次消费都可累积星星。用星星兑换免费饮品、食品，还有生日专属好礼和独家会员优惠等着你。
+      </p>
+      <div class="feature-band-cta">
+        <button class="btn btn-white-on-dark">免费注册</button>
+        <button class="btn btn-outline-dark">了解更多</button>
+      </div>
+    </div>
+    <div class="feature-band-visual">
+      <div class="feature-card-group">
+        <div class="feature-card-mini">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+            </svg>
+          </div>
+          <div class="num">25★</div>
+          <div class="label">定制饮品</div>
+          <div class="desc">兑换任意一杯定制饮品</div>
+        </div>
+        <div class="feature-card-mini">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+            </svg>
+          </div>
+          <div class="num">100★</div>
+          <div class="label">食品或饮品</div>
+          <div class="desc">兑换热早餐或任意饮品</div>
+        </div>
+        <div class="feature-card-mini">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+            </svg>
+          </div>
+          <div class="num">400★</div>
+          <div class="label">周边商品</div>
+          <div class="desc">兑换精选周边或咖啡豆</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     Rewards Tier Showcase
+     ============================================ -->
+<section class="section-rewards">
+  <div class="rewards-inner">
+    <div class="rewards-head">
+      <div class="gold-pill">🌟 Rewards 会员</div>
+      <h2>探索你的会员等级</h2>
+      <p>每次消费累积星星，解锁更高等级，享受更多专属权益</p>
+    </div>
+    <div class="rewards-tier-grid">
+      <!-- Bronze -->
+      <div class="tier-card bronze">
+        <div class="tier-level">Level 1</div>
+        <h3>青铜会员</h3>
+        <ul class="benefits">
+          <li>免费生日饮品</li>
+          <li>手机点单 & 支付</li>
+          <li>会员专属活动</li>
+        </ul>
+        <div class="progress">累积更多星星，升级到白银会员</div>
+      </div>
+      <!-- Silver -->
+      <div class="tier-card silver">
+        <div class="tier-level">Level 2</div>
+        <h3>白银会员</h3>
+        <ul class="benefits">
+          <li>青铜所有权益</li>
+          <li>每月双倍星星日</li>
+          <li>限定饮品优先体验</li>
+        </ul>
+        <div class="progress">继续累积，解锁黄金会员荣耀</div>
+      </div>
+      <!-- Gold -->
+      <div class="tier-card gold">
+        <div class="tier-level">Level 3</div>
+        <h3>黄金会员</h3>
+        <ul class="benefits">
+          <li>白银所有权益</li>
+          <li>尊享个人金卡</li>
+          <li>SkyMiles &amp; Bonvoy 合作伙伴</li>
+        </ul>
+        <div class="progress">您已达到最高等级 — 享受专属礼遇</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     Community / Lifestyle Section
+     ============================================ -->
+<section class="section-community">
+  <div class="community-inner">
+    <div class="section-header">
+      <h2>不止是咖啡</h2>
+      <p>探索星巴克社区中的故事、创新与可持续实践</p>
+    </div>
+    <div class="community-grid">
+      <div class="community-card">
+        <div class="community-card-img">
+          <div class="bg" style="background: linear-gradient(135deg, #d4e9e2, #006241);"></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <div class="community-card-body">
+          <h3>道德采购</h3>
+          <p>我们致力于以 100% 道德方式采购咖啡，支持全球咖啡种植社区的可持续发展。</p>
+          <a href="#" class="link">了解更多 →</a>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="community-card-img">
+          <div class="bg" style="background: linear-gradient(135deg, #dfc49d, #1E3932);"></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <div class="community-card-body">
+          <h3>星巴克甄选</h3>
+          <p>甄选全球稀有咖啡豆，在小批量烘焙中释放每款咖啡的独特风味与故事。</p>
+          <a href="#" class="link">探索甄选 →</a>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="community-card-img">
+          <div class="bg" style="background: linear-gradient(135deg, #edebe9, #00754A);"></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <div class="community-card-body">
+          <h3>伙伴文化</h3>
+          <p>20 万+ 伙伴（员工）遍布中国，每一位都是我们与顾客之间的温暖连接。</p>
+          <a href="#" class="link">加入我们 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CTA Banner
+     ============================================ -->
+<section class="section-cta" id="cta">
+  <div class="cta-banner">
+    <h2>准备好开启你的咖啡之旅了吗？</h2>
+    <p>立即注册星巴克® Rewards，每次消费累积星星，解锁专属福利和惊喜好礼。</p>
+    <div class="cta-banner-actions">
+      <button class="btn btn-white-on-dark">免费加入 Rewards</button>
+      <button class="btn btn-outline-dark">下载 App</button>
+    </div>
+    <p class="small-note">*适用于参与活动的星巴克®门店。条款与细则适用。</p>
+  </div>
+</section>
+
+<!-- ============================================
+     Footer
+     ============================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <h4>关于我们</h4>
+        <ul>
+          <li><a href="#">我们的传承</a></li>
+          <li><a href="#">我们的咖啡</a></li>
+          <li><a href="#">星巴克故事</a></li>
+          <li><a href="#">投资者关系</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>客户服务</h4>
+        <ul>
+          <li><a href="#">常见问题</a></li>
+          <li><a href="#">联系我们</a></li>
+          <li><a href="#">门店查询</a></li>
+          <li><a href="#">手机 App</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>星享俱乐部</h4>
+        <ul>
+          <li><a href="#">会员权益</a></li>
+          <li><a href="#">星星兑换</a></li>
+          <li><a href="#">等级说明</a></li>
+          <li><a href="#">礼品卡</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>社会责任</h4>
+        <ul>
+          <li><a href="#">社区影响</a></li>
+          <li><a href="#">可持续发展</a></li>
+          <li><a href="#">道德采购</a></li>
+          <li><a href="#">包容与多元</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="social-links">
+        <a href="#" aria-label="微信"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.746 0 1.536-.108 2.39-.366l1.607.942a.418.418 0 00.21.062.38.38 0 00.37-.376.519.519 0 00-.06-.272l-.498-1.887c1.619-1.389 2.59-3.078 2.59-4.916-.003-3.105-3.06-5.422-6.433-5.422zm-2.185 2.584c.534 0 .969.446.969.995a.982.982 0 01-.969.994.982.982 0 01-.969-.994c0-.55.434-.995.97-.995zm4.36 0c.535 0 .97.446.97.995a.982.982 0 01-.97.994.982.982 0 01-.969-.994c0-.55.435-.995.97-.995z"/></svg></a>
+        <a href="#" aria-label="微博"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.194 14.197c0 3.86-5.677 6.99-12.68 6.99-2.52 0-4.894-.598-6.674-1.677.35.035.704.053 1.064.053 2.09 0 4.004-.575 5.388-1.543-1.9-.028-3.502-1.04-4.054-2.43.265.04.537.064.817.064.407 0 .803-.043 1.178-.123-1.985-.323-3.482-1.734-3.482-3.428v-.043a3.96 3.96 0 001.78.41 3.417 3.417 0 01-1.548-2.851c0-.625.21-1.204.56-1.705 1.714 2.115 4.278 3.506 7.17 3.652-.06-.25-.09-.51-.09-.773 0-1.87 1.512-3.387 3.376-3.387.971 0 1.85.413 2.466 1.073.77-.152 1.493-.434 2.146-.822-.252.794-.788 1.46-1.485 1.88.683-.08 1.333-.264 1.939-.53-.453.68-1.025 1.278-1.685 1.757.007.146.01.292.01.44z"/></svg></a>
+        <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+      </div>
+      <div class="footer-legal">
+        <span>&copy; 2026 Starbucks Corporation.</span>
+        <span class="divider"></span>
+        <a href="#">隐私政策</a>
+        <span class="divider"></span>
+        <a href="#">使用条款</a>
+        <span class="divider"></span>
+        <a href="#">Cookie 偏好</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================
+     Frap Floating Order Button
+     ============================================ -->
+<button class="frap-button" aria-label="快速点单">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+  </svg>
+</button>
+
+</body>
+</html>

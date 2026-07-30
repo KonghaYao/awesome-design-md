@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notion — Your connected workspace for wiki, docs &amp; projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Notion Sans', 'Inter', -apple-system, system-ui, 'Segoe UI', Helvetica, sans-serif;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img, svg { display: block; }
+a { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; }
+
+/* ===== DESIGN TOKENS (from DESIGN.md) ===== */
+:root {
+  /* Colors */
+  --primary: #5645d4;
+  --primary-pressed: #4534b3;
+  --primary-deep: #3a2a99;
+  --on-primary: #ffffff;
+  --brand-navy: #0a1530;
+  --brand-navy-deep: #070f24;
+  --brand-navy-mid: #1a2a52;
+  --link-blue: #0075de;
+  --link-blue-pressed: #005bab;
+  --brand-orange: #dd5b00;
+  --brand-orange-deep: #793400;
+  --brand-pink: #ff64c8;
+  --brand-pink-deep: #a02e6d;
+  --brand-purple: #7b3ff2;
+  --brand-purple-300: #d6b6f6;
+  --brand-purple-800: #391c57;
+  --brand-teal: #2a9d99;
+  --brand-green: #1aae39;
+  --brand-yellow: #f5d75e;
+  --brand-brown: #523410;
+  --card-tint-peach: #ffe8d4;
+  --card-tint-rose: #fde0ec;
+  --card-tint-mint: #d9f3e1;
+  --card-tint-lavender: #e6e0f5;
+  --card-tint-sky: #dcecfa;
+  --card-tint-yellow: #fef7d6;
+  --card-tint-yellow-bold: #f9e79f;
+  --card-tint-cream: #f8f5e8;
+  --card-tint-gray: #f0eeec;
+  --canvas: #ffffff;
+  --surface: #f6f5f4;
+  --surface-soft: #fafaf9;
+  --hairline: #e5e3df;
+  --hairline-soft: #ede9e4;
+  --hairline-strong: #c8c4be;
+  --ink-deep: #000000;
+  --ink: #1a1a1a;
+  --charcoal: #37352f;
+  --slate: #5d5b54;
+  --steel: #787671;
+  --stone: #a4a097;
+  --muted: #bbb8b1;
+  --on-dark: #ffffff;
+  --on-dark-muted: #a4a097;
+  --semantic-success: #1aae39;
+  --semantic-warning: #dd5b00;
+  --semantic-error: #e03131;
+
+  /* Typography */
+  --font-family: 'Notion Sans', 'Inter', -apple-system, system-ui, 'Segoe UI', Helvetica, sans-serif;
+  --hero-display-size: 80px;
+  --hero-display-weight: 600;
+  --hero-display-lh: 1.05;
+  --hero-display-ls: -2px;
+  --display-lg-size: 56px;
+  --display-lg-weight: 600;
+  --display-lg-lh: 1.10;
+  --display-lg-ls: -1px;
+  --heading-1-size: 48px;
+  --heading-1-weight: 600;
+  --heading-1-lh: 1.15;
+  --heading-1-ls: -0.5px;
+  --heading-2-size: 36px;
+  --heading-2-weight: 600;
+  --heading-2-lh: 1.20;
+  --heading-2-ls: -0.5px;
+  --heading-3-size: 28px;
+  --heading-3-weight: 600;
+  --heading-3-lh: 1.25;
+  --heading-4-size: 22px;
+  --heading-4-weight: 600;
+  --heading-4-lh: 1.30;
+  --heading-5-size: 18px;
+  --heading-5-weight: 600;
+  --heading-5-lh: 1.40;
+  --subtitle-size: 18px;
+  --subtitle-weight: 400;
+  --subtitle-lh: 1.50;
+  --body-md-size: 16px;
+  --body-md-weight: 400;
+  --body-md-lh: 1.55;
+  --body-sm-size: 14px;
+  --body-sm-weight: 400;
+  --body-sm-lh: 1.50;
+  --body-sm-medium-size: 14px;
+  --body-sm-medium-weight: 500;
+  --body-sm-medium-lh: 1.50;
+  --caption-bold-size: 13px;
+  --caption-bold-weight: 600;
+  --caption-bold-lh: 1.40;
+  --button-md-size: 14px;
+  --button-md-weight: 500;
+  --button-md-lh: 1.30;
+
+  /* Rounded */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 20px;
+  --rounded-xxxl: 24px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-xxxl: 40px;
+  --spacing-section-sm: 48px;
+  --spacing-section: 64px;
+  --spacing-section-lg: 96px;
+  --spacing-hero: 120px;
+
+  /* Elevation */
+  --shadow-subtle: 0px 1px 2px 0px rgba(15, 15, 15, 0.04);
+  --shadow-card: 0px 4px 12px 0px rgba(15, 15, 15, 0.08);
+  --shadow-mockup: 0px 24px 48px -8px rgba(15, 15, 15, 0.20);
+  --shadow-modal: 0px 16px 48px -8px rgba(15, 15, 15, 0.16);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ===== PROMO BANNER ===== */
+.promo-banner {
+  background: var(--surface);
+  text-align: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-family);
+  font-size: var(--body-sm-medium-size);
+  font-weight: var(--body-sm-medium-weight);
+  line-height: var(--body-sm-medium-lh);
+  color: var(--ink);
+}
+.promo-banner a {
+  color: var(--link-blue);
+  transition: color 0.15s ease;
+}
+.promo-banner a:hover { color: var(--link-blue-pressed); }
+
+/* ===== TOP NAVIGATION ===== */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxl);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+.nav-logo svg { width: 32px; height: 32px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+.nav-links a {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-medium-weight);
+  line-height: var(--body-sm-lh);
+  color: var(--steel);
+  transition: color 0.15s ease;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-family);
+  font-size: var(--button-md-size);
+  font-weight: var(--button-md-weight);
+  line-height: var(--button-md-lh);
+  border-radius: var(--rounded-md);
+  padding: 10px 18px;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.btn-primary:hover { background: var(--primary-pressed); }
+.btn-primary:active { background: var(--primary-deep); }
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--hairline-strong);
+}
+.btn-secondary:hover {
+  background: var(--surface);
+  border-color: var(--stone);
+}
+.btn-dark {
+  background: var(--ink-deep);
+  color: var(--on-dark);
+}
+.btn-dark:hover { background: #333; }
+.btn-on-dark {
+  background: var(--on-dark);
+  color: var(--ink);
+}
+.btn-on-dark:hover { background: #e8e8e8; }
+.btn-secondary-on-dark {
+  background: transparent;
+  color: var(--on-dark);
+  border: 1px solid var(--on-dark-muted);
+}
+.btn-secondary-on-dark:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--on-dark);
+}
+
+.btn-lg {
+  padding: 14px 24px;
+  font-size: 16px;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  background: var(--brand-navy);
+  color: var(--on-dark);
+  padding: var(--spacing-hero) 0 var(--spacing-section-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+/* Decorative sticky-note dots */
+.hero-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-dot {
+  position: absolute;
+  border-radius: var(--rounded-full);
+  opacity: 0.7;
+  animation: float 6s ease-in-out infinite;
+}
+.hero-dot--pink { background: var(--brand-pink); }
+.hero-dot--orange { background: var(--brand-orange); }
+.hero-dot--purple { background: var(--brand-purple); }
+.hero-dot--teal { background: var(--brand-teal); }
+.hero-dot--green { background: var(--brand-green); }
+.hero-dot--yellow { background: var(--brand-yellow); }
+.hero-dot--blue { background: var(--link-blue); }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+/* Mesh wire decoration */
+.hero-wire {
+  position: absolute;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+.hero-content .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--brand-navy-mid);
+  color: var(--on-dark);
+  font-family: var(--font-family);
+  font-size: var(--caption-bold-size);
+  font-weight: var(--caption-bold-weight);
+  line-height: var(--caption-bold-lh);
+  padding: 4px 12px;
+  border-radius: var(--rounded-full);
+  margin-bottom: var(--spacing-xl);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.hero-content .badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--brand-green);
+  border-radius: var(--rounded-full);
+}
+.hero-headline {
+  font-family: var(--font-family);
+  font-size: var(--hero-display-size);
+  font-weight: var(--hero-display-weight);
+  line-height: var(--hero-display-lh);
+  letter-spacing: var(--hero-display-ls);
+  margin-bottom: var(--spacing-xl);
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-subtitle {
+  font-family: var(--font-family);
+  font-size: var(--subtitle-size);
+  font-weight: var(--subtitle-weight);
+  line-height: var(--subtitle-lh);
+  color: var(--on-dark-muted);
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--spacing-xxl);
+}
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-section);
+}
+.hero-mockup {
+  max-width: 920px;
+  margin: 0 auto;
+  background: var(--canvas);
+  border-radius: var(--rounded-lg);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-mockup);
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Mockup inner UI */
+.mockup-inner {
+  display: flex;
+  flex-direction: column;
+}
+.mockup-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--hairline);
+  background: var(--surface-soft);
+}
+.mockup-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.mockup-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--rounded-full);
+}
+.mockup-dot--red { background: #fe5f57; }
+.mockup-dot--yellow { background: #febc2e; }
+.mockup-dot--green { background: #28c840; }
+.mockup-toolbar-breadcrumb {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  color: var(--slate);
+  margin-left: var(--spacing-md);
+}
+.mockup-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+.mockup-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--rounded-full);
+  background: var(--hairline-strong);
+}
+.mockup-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-md);
+  padding: 4px 12px;
+  height: 28px;
+  width: 160px;
+}
+.mockup-search-icon { color: var(--muted); font-size: 12px; }
+.mockup-search-text {
+  font-family: var(--font-family);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.mockup-body {
+  display: flex;
+  min-height: 280px;
+}
+.mockup-sidebar {
+  width: 200px;
+  background: var(--surface-soft);
+  border-right: 1px solid var(--hairline);
+  padding: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mockup-sidebar-item {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  color: var(--charcoal);
+  padding: 6px 10px;
+  border-radius: var(--rounded-sm);
+  cursor: default;
+  transition: background 0.15s ease;
+}
+.mockup-sidebar-item:hover { background: rgba(0,0,0,0.04); }
+.mockup-sidebar-item.active {
+  background: rgba(0,0,0,0.06);
+  font-weight: 500;
+  color: var(--ink);
+}
+.mockup-main {
+  flex: 1;
+  display: flex;
+  padding: var(--spacing-md);
+  gap: var(--spacing-md);
+  overflow-x: auto;
+}
+.mockup-column {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--surface-soft);
+  border-radius: var(--rounded-sm);
+  padding: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.mockup-column-header {
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--slate);
+  padding: 4px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.mockup-card-item {
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-xs);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mockup-card-item-title {
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.mockup-card-item-subtitle {
+  font-family: var(--font-family);
+  font-size: 11px;
+  color: var(--steel);
+}
+.mockup-card-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.mockup-tag {
+  font-family: var(--font-family);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: var(--rounded-xs);
+}
+.mockup-tag--purple { background: var(--card-tint-lavender); color: var(--brand-purple-800); }
+.mockup-tag--orange { background: var(--card-tint-peach); color: var(--brand-orange-deep); }
+.mockup-tag--green { background: var(--card-tint-mint); color: var(--brand-green); }
+.mockup-tag--sky { background: var(--card-tint-sky); color: var(--link-blue); }
+.mockup-tag--pink { background: var(--card-tint-rose); color: var(--brand-pink-deep); }
+
+/* ===== STAT ROW ===== */
+.stat-row {
+  background: var(--surface);
+  border-radius: var(--rounded-lg);
+  margin: var(--spacing-section-lg) auto 0;
+  max-width: 1280px;
+  padding: var(--spacing-section-sm);
+  color: var(--ink);
+}
+.stat-row-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-xl);
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+}
+.stat-value {
+  font-family: var(--font-family);
+  font-size: var(--heading-3-size);
+  font-weight: var(--heading-3-weight);
+  line-height: var(--heading-3-lh);
+  color: var(--ink);
+}
+.stat-label {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  line-height: var(--body-sm-lh);
+  color: var(--slate);
+}
+.stat-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 48px;
+}
+.stat-bar {
+  width: 8px;
+  border-radius: var(--rounded-xs);
+  transition: height 0.5s ease;
+}
+.stat-bar--1 { height: 32px; background: var(--card-tint-sky); }
+.stat-bar--2 { height: 40px; background: var(--link-blue); }
+.stat-bar--3 { height: 24px; background: var(--card-tint-sky); }
+.stat-bar--4 { height: 48px; background: var(--brand-purple); }
+.stat-bar--5 { height: 36px; background: var(--card-tint-lavender); }
+.stat-bar--6 { height: 28px; background: var(--card-tint-sky); }
+
+/* ===== SECTION ===== */
+.section {
+  padding: var(--spacing-section-lg) 0;
+}
+.section-heading {
+  text-align: center;
+  margin-bottom: var(--spacing-section);
+}
+.section-label {
+  display: inline-block;
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-medium-weight);
+  color: var(--primary);
+  margin-bottom: var(--spacing-sm);
+}
+.section-title {
+  font-family: var(--font-family);
+  font-size: var(--display-lg-size);
+  font-weight: var(--display-lg-weight);
+  line-height: var(--display-lg-lh);
+  letter-spacing: var(--display-lg-ls);
+  color: var(--ink);
+  margin-bottom: var(--spacing-md);
+}
+.section-description {
+  font-family: var(--font-family);
+  font-size: var(--subtitle-size);
+  font-weight: var(--subtitle-weight);
+  line-height: var(--subtitle-lh);
+  color: var(--slate);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ===== FEATURE CARDS GRID ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+}
+.feature-card {
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+.feature-card--white {
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+}
+.feature-card--peach { background: var(--card-tint-peach); color: var(--charcoal); }
+.feature-card--rose { background: var(--card-tint-rose); color: var(--charcoal); }
+.feature-card--mint { background: var(--card-tint-mint); color: var(--charcoal); }
+.feature-card--lavender { background: var(--card-tint-lavender); color: var(--charcoal); }
+.feature-card--sky { background: var(--card-tint-sky); color: var(--charcoal); }
+.feature-card--yellow { background: var(--card-tint-yellow); color: var(--charcoal); }
+.feature-card--cream { background: var(--card-tint-cream); color: var(--charcoal); }
+
+.feature-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--rounded-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.feature-card-icon--purple { background: var(--brand-purple-300); color: var(--brand-purple-800); }
+.feature-card-icon--orange { background: var(--card-tint-peach); color: var(--brand-orange-deep); }
+.feature-card-icon--teal { background: var(--card-tint-mint); color: var(--brand-teal); }
+.feature-card-icon--pink { background: var(--card-tint-rose); color: var(--brand-pink-deep); }
+.feature-card-icon--blue { background: var(--card-tint-sky); color: var(--link-blue); }
+.feature-card-icon--green { background: var(--card-tint-mint); color: var(--brand-green); }
+
+.feature-card-title {
+  font-family: var(--font-family);
+  font-size: var(--heading-4-size);
+  font-weight: var(--heading-4-weight);
+  line-height: var(--heading-4-lh);
+}
+.feature-card-desc {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-lh);
+  color: var(--slate);
+}
+.feature-card--peach .feature-card-desc,
+.feature-card--rose .feature-card-desc,
+.feature-card--mint .feature-card-desc,
+.feature-card--lavender .feature-card-desc,
+.feature-card--sky .feature-card-desc,
+.feature-card--yellow .feature-card-desc,
+.feature-card--cream .feature-card-desc {
+  color: var(--charcoal);
+}
+.feature-card-link {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-medium-size);
+  font-weight: var(--body-sm-medium-weight);
+  line-height: var(--body-sm-medium-lh);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.15s ease;
+  margin-top: auto;
+}
+.feature-card-link:hover { gap: 10px; }
+.feature-card-link-arrow { transition: transform 0.15s ease; }
+.feature-card-link:hover .feature-card-link-arrow { transform: translateX(2px); }
+
+/* ===== YELLOW BANNER FEATURE ===== */
+.feature-banner-yellow {
+  background: var(--card-tint-yellow-bold);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-section);
+  color: var(--charcoal);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+.feature-banner-yellow .section-title {
+  color: var(--ink);
+}
+.feature-banner-yellow .section-description {
+  color: var(--slate);
+}
+.feature-banner-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xl);
+  justify-content: center;
+  margin-top: var(--spacing-xxl);
+}
+.feature-banner-tile {
+  flex: 1;
+  max-width: 360px;
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.feature-banner-tile--orange { background: var(--card-tint-peach); }
+.feature-banner-tile--rose { background: var(--card-tint-rose); }
+.feature-banner-tile--mint { background: var(--card-tint-mint); }
+
+/* ===== PRICING SECTION ===== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+.pricing-card {
+  background: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  border: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: transform 0.2s ease;
+}
+.pricing-card:hover {
+  transform: translateY(-2px);
+}
+.pricing-card--featured {
+  background: var(--surface);
+  border: 2px solid var(--primary);
+  position: relative;
+}
+.pricing-card-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-family);
+  font-size: var(--caption-bold-size);
+  font-weight: var(--caption-bold-weight);
+  line-height: var(--caption-bold-lh);
+  padding: 4px 10px;
+  border-radius: var(--rounded-full);
+  white-space: nowrap;
+}
+.pricing-tier-name {
+  font-family: var(--font-family);
+  font-size: var(--heading-5-size);
+  font-weight: var(--heading-5-weight);
+  line-height: var(--heading-5-lh);
+  color: var(--ink);
+}
+.pricing-price {
+  font-family: var(--font-family);
+  font-size: var(--heading-2-size);
+  font-weight: var(--heading-2-weight);
+  line-height: var(--heading-2-lh);
+  letter-spacing: var(--heading-2-ls);
+  color: var(--ink);
+}
+.pricing-price span {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  color: var(--slate);
+}
+.pricing-desc {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  line-height: var(--body-sm-lh);
+  color: var(--slate);
+  min-height: 42px;
+}
+.pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  flex: 1;
+}
+.pricing-feature-item {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  line-height: var(--body-sm-lh);
+  color: var(--charcoal);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+}
+.pricing-feature-check {
+  color: var(--semantic-success);
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.pricing-card .btn {
+  width: 100%;
+}
+
+/* ===== CTA BANNER ===== */
+.cta-banner {
+  background: var(--surface);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-section);
+  text-align: center;
+}
+.cta-banner-title {
+  font-family: var(--font-family);
+  font-size: var(--heading-1-size);
+  font-weight: var(--heading-1-weight);
+  line-height: var(--heading-1-lh);
+  letter-spacing: var(--heading-1-ls);
+  color: var(--ink);
+  margin-bottom: var(--spacing-md);
+}
+.cta-banner-desc {
+  font-family: var(--font-family);
+  font-size: var(--subtitle-size);
+  font-weight: var(--subtitle-weight);
+  line-height: var(--subtitle-lh);
+  color: var(--slate);
+  margin-bottom: var(--spacing-xxl);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-banner-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl);
+}
+.testimonial-card {
+  background: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  border: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+.testimonial-quote {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-lh);
+  color: var(--charcoal);
+  font-style: italic;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.testimonial-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-full);
+  background: var(--hairline-strong);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-size: var(--caption-bold-size);
+  font-weight: var(--caption-bold-weight);
+  color: var(--steel);
+}
+.testimonial-info {
+  display: flex;
+  flex-direction: column;
+}
+.testimonial-name {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-medium-size);
+  font-weight: var(--body-sm-medium-weight);
+  line-height: var(--body-sm-medium-lh);
+  color: var(--ink);
+}
+.testimonial-role {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  line-height: var(--body-sm-lh);
+  color: var(--steel);
+}
+
+/* ===== LOGO WALL ===== */
+.logo-wall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xxl);
+  margin-top: var(--spacing-section);
+}
+.logo-wall-item {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 500;
+  color: var(--stone);
+  padding: var(--spacing-lg);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--canvas);
+  border-top: 1px solid var(--hairline);
+  padding: var(--spacing-section) var(--spacing-xxl);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-xl);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.footer-column-title {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: 600;
+  line-height: var(--body-sm-lh);
+  color: var(--ink);
+  margin-bottom: var(--spacing-xxs);
+}
+.footer-link {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  line-height: var(--body-sm-lh);
+  color: var(--steel);
+  padding: var(--spacing-xxs) 0;
+  transition: color 0.15s ease;
+}
+.footer-link:hover { color: var(--ink); }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: var(--spacing-section) auto 0;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--hairline);
+}
+.footer-bottom-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+.footer-copyright {
+  font-family: var(--font-family);
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  color: var(--steel);
+}
+.footer-social {
+  display: flex;
+  gap: var(--spacing-md);
+}
+.footer-social a {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-sm);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--steel);
+  font-size: 14px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.footer-social a:hover { background: var(--hairline); color: var(--ink); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-headline { font-size: 56px; letter-spacing: -1px; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .feature-banner-grid { flex-direction: column; align-items: center; }
+  .feature-banner-tile { max-width: 100%; }
+  .stat-row-inner { flex-direction: column; align-items: center; text-align: center; }
+  .section-title { font-size: 36px; }
+}
+
+@media (max-width: 767px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-headline { font-size: 36px; letter-spacing: -0.5px; }
+  .hero { padding: 64px 0 48px; }
+  .hero-buttons { flex-direction: column; }
+  .stat-row-inner { gap: var(--spacing-lg); }
+  .container { padding: 0 16px; }
+}
+
+@media (max-width: 479px) {
+  .hero-headline { font-size: 30px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .logo-wall { gap: var(--spacing-md); }
+  .section { padding: var(--spacing-section) 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== PROMO BANNER ===== -->
+<div class="promo-banner">
+  Developers: Get a first look at Notion's new Developer Platform. <a href="#">Learn more →</a>
+</div>
+
+<!-- ===== TOP NAVIGATION ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="#" class="nav-logo">
+        <svg viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="6" fill="#1a1a1a"/>
+          <path d="M8 8h6l6 16h-6L8 8z" fill="#fff"/>
+          <path d="M18 8h6l-6 16h-6l6-16z" fill="#fff" fill-opacity="0.6"/>
+        </svg>
+      </a>
+      <div class="nav-links">
+        <a href="#">Product</a>
+        <a href="#">AI</a>
+        <a href="#">Solutions</a>
+        <a href="#">Resources</a>
+        <a href="#">Enterprise</a>
+        <a href="#">Pricing</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="btn btn-ghost" style="font-size: 14px; font-weight: 500; color: var(--steel); border-radius: var(--rounded-sm); padding: 8px 12px; background: transparent;">Log in</a>
+      <a href="#" class="btn btn-primary">Get Notion free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero">
+  <!-- Decorative elements -->
+  <div class="hero-decorations">
+    <div class="hero-dot hero-dot--pink" style="width:14px;height:14px;top:12%;left:12%;animation-delay:0s;"></div>
+    <div class="hero-dot hero-dot--orange" style="width:10px;height:10px;top:18%;left:22%;animation-delay:1s;"></div>
+    <div class="hero-dot hero-dot--teal" style="width:12px;height:12px;top:14%;right:18%;animation-delay:2s;"></div>
+    <div class="hero-dot hero-dot--purple" style="width:16px;height:16px;top:25%;right:12%;animation-delay:0.5s;"></div>
+    <div class="hero-dot hero-dot--green" style="width:8px;height:8px;top:60%;left:8%;animation-delay:1.5s;"></div>
+    <div class="hero-dot hero-dot--yellow" style="width:12px;height:12px;top:55%;right:10%;animation-delay:3s;"></div>
+    <div class="hero-dot hero-dot--blue" style="width:10px;height:10px;top:35%;left:30%;animation-delay:2.5s;"></div>
+    <div class="hero-dot hero-dot--pink" style="width:8px;height:8px;top:40%;right:28%;animation-delay:1.8s;"></div>
+    <div class="hero-dot hero-dot--orange" style="width:16px;height:16px;bottom:20%;left:18%;animation-delay:0.8s;"></div>
+    <div class="hero-dot hero-dot--purple" style="width:14px;height:14px;bottom:15%;right:22%;animation-delay:2.2s;"></div>
+    <div class="hero-wire" style="width:300px;height:300px;top:-80px;right:-60px;"></div>
+    <div class="hero-wire" style="width:200px;height:200px;bottom:40px;left:-50px;"></div>
+    <div class="hero-wire" style="width:150px;height:150px;top:30%;left:50%;"></div>
+  </div>
+
+  <div class="hero-content container">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Now with Notion AI
+    </div>
+    <h1 class="hero-headline">Meet the night shift.</h1>
+    <p class="hero-subtitle">
+      Notion AI works while you sleep — automatically organizing your workspace, generating summaries, and preparing your day before you even wake up.
+    </p>
+    <div class="hero-buttons">
+      <a href="#" class="btn btn-primary btn-lg">Get Notion free</a>
+      <a href="#" class="btn btn-secondary-on-dark btn-lg">Request a demo</a>
+    </div>
+    <div class="hero-mockup">
+      <div class="mockup-inner">
+        <div class="mockup-toolbar">
+          <div class="mockup-toolbar-left">
+            <span class="mockup-dot mockup-dot--red"></span>
+            <span class="mockup-dot mockup-dot--yellow"></span>
+            <span class="mockup-dot mockup-dot--green"></span>
+            <span class="mockup-toolbar-breadcrumb">Ramp HQ / Engineering / Sprint Board</span>
+          </div>
+          <div class="mockup-toolbar-right">
+            <div class="mockup-search">
+              <span class="mockup-search-icon">⌕</span>
+              <span class="mockup-search-text">Search...</span>
+            </div>
+            <span class="mockup-avatar"></span>
+          </div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="mockup-sidebar-item active">Sprint Board</div>
+            <div class="mockup-sidebar-item">Docs</div>
+            <div class="mockup-sidebar-item">Wiki</div>
+            <div class="mockup-sidebar-item">Projects</div>
+            <div class="mockup-sidebar-item">Calendar</div>
+          </div>
+          <div class="mockup-main">
+            <div class="mockup-column">
+              <div class="mockup-column-header">To Do</div>
+              <div class="mockup-card-item">
+                <div class="mockup-card-item-title">Set up CI pipeline</div>
+                <div class="mockup-card-tags">
+                  <span class="mockup-tag mockup-tag--purple">infra</span>
+                  <span class="mockup-tag mockup-tag--sky">P0</span>
+                </div>
+              </div>
+              <div class="mockup-card-item">
+                <div class="mockup-card-item-title">Update auth docs</div>
+                <div class="mockup-card-tags">
+                  <span class="mockup-tag mockup-tag--green">docs</span>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-column">
+              <div class="mockup-column-header">In Progress</div>
+              <div class="mockup-card-item">
+                <div class="mockup-card-item-title">Refactor payment module</div>
+                <div class="mockup-card-tags">
+                  <span class="mockup-tag mockup-tag--orange">backend</span>
+                  <span class="mockup-tag mockup-tag--sky">P1</span>
+                </div>
+              </div>
+              <div class="mockup-card-item">
+                <div class="mockup-card-item-title">Design system tokens</div>
+                <div class="mockup-card-tags">
+                  <span class="mockup-tag mockup-tag--pink">design</span>
+                </div>
+              </div>
+              <div class="mockup-card-item">
+                <div class="mockup-card-item-title">API rate limiting</div>
+                <div class="mockup-card-tags">
+                  <span class="mockup-tag mockup-tag--orange">backend</span>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-column">
+              <div class="mockup-column-header">Done</div>
+              <div class="mockup-card-item">
+                <div class="mockup-card-item-title">Landing page redesign</div>
+                <div class="mockup-card-tags">
+                  <span class="mockup-tag mockup-tag--pink">design</span>
+                  <span class="mockup-tag mockup-tag--green">done</span>
+                </div>
+              </div>
+              <div class="mockup-card-item">
+                <div class="mockup-card-item-title">Onboarding flow v2</div>
+                <div class="mockup-card-tags">
+                  <span class="mockup-tag mockup-tag--purple">product</span>
+                  <span class="mockup-tag mockup-tag--green">done</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STAT ROW ===== -->
+<div class="stat-row">
+  <div class="stat-row-inner">
+    <div class="stat-item">
+      <div class="stat-value">100M+</div>
+      <div class="stat-label">Users worldwide</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">85%</div>
+      <div class="stat-label">Fewer tools needed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">50%</div>
+      <div class="stat-label">Faster project delivery</div>
+    </div>
+    <div class="stat-bar-chart">
+      <div class="stat-bar stat-bar--1"></div>
+      <div class="stat-bar stat-bar--2"></div>
+      <div class="stat-bar stat-bar--3"></div>
+      <div class="stat-bar stat-bar--4"></div>
+      <div class="stat-bar stat-bar--5"></div>
+      <div class="stat-bar stat-bar--6"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURES SECTION ===== -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-label">Features</span>
+      <h2 class="section-title">Keep work moving 24/7</h2>
+      <p class="section-description">
+        Notion adapts to how your team works — wikis, docs, projects, and databases all connected in one place.
+      </p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card feature-card--peach">
+        <div class="feature-card-icon feature-card-icon--orange" style="background:transparent; width:auto; height:auto; justify-content:flex-start;">📄</div>
+        <h3 class="feature-card-title">Rich documents</h3>
+        <p class="feature-card-desc">Drag-and-drop tables, kanban boards, calendars, and galleries into any page. Embed Figma, Loom, Typeform, and 50+ apps.</p>
+        <a href="#" class="feature-card-link">Learn more <span class="feature-card-link-arrow">→</span></a>
+      </div>
+      <div class="feature-card feature-card--mint">
+        <div class="feature-card-icon feature-card-icon--teal" style="background:transparent; width:auto; height:auto; justify-content:flex-start;">🔄</div>
+        <h3 class="feature-card-title">Connected databases</h3>
+        <p class="feature-card-desc">Organize anything — sprint tracking, product roadmaps, hiring pipelines, and meeting notes — all linked together in one system.</p>
+        <a href="#" class="feature-card-link">Learn more <span class="feature-card-link-arrow">→</span></a>
+      </div>
+      <div class="feature-card feature-card--lavender">
+        <div class="feature-card-icon feature-card-icon--purple" style="background:transparent; width:auto; height:auto; justify-content:flex-start;">🤖</div>
+        <h3 class="feature-card-title">Notion AI</h3>
+        <p class="feature-card-desc">Automatically generate summaries, fill properties, translate content, and find answers across your entire workspace.</p>
+        <a href="#" class="feature-card-link">Learn more <span class="feature-card-link-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== YELLOW BANNER FEATURE ===== -->
+<section class="section">
+  <div class="container">
+    <div class="feature-banner-yellow">
+      <span class="section-label" style="color: var(--brand-brown);">AI Agents</span>
+      <h2 class="section-title">Ask your on-demand assistants</h2>
+      <p class="section-description">
+        Notion Agents work alongside your team, handling research, drafts, and data analysis — whenever you need them.
+      </p>
+      <div class="feature-banner-grid">
+        <div class="feature-banner-tile feature-banner-tile--orange">
+          <div class="feature-card-icon feature-card-icon--orange" style="background:transparent; width:auto; height:auto; justify-content:flex-start; font-size:28px;">🔍</div>
+          <h3 class="feature-card-title" style="font-size:22px;">Research Agent</h3>
+          <p class="feature-card-desc">Searches across your workspace and the web, synthesizing findings into structured reports with citations.</p>
+        </div>
+        <div class="feature-banner-tile feature-banner-tile--rose">
+          <div class="feature-card-icon feature-card-icon--pink" style="background:transparent; width:auto; height:auto; justify-content:flex-start; font-size:28px;">✍️</div>
+          <h3 class="feature-card-title" style="font-size:22px;">Writing Agent</h3>
+          <p class="feature-card-desc">Drafts blog posts, release notes, and internal memos in your team's voice — ready for review, not replacement.</p>
+        </div>
+        <div class="feature-banner-tile feature-banner-tile--mint">
+          <div class="feature-card-icon feature-card-icon--teal" style="background:transparent; width:auto; height:auto; justify-content:flex-start; font-size:28px;">📊</div>
+          <h3 class="feature-card-title" style="font-size:22px;">Data Agent</h3>
+          <p class="feature-card-desc">Analyzes Notion databases, generates charts, spots trends, and creates dashboard views automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MORE FEATURES ===== -->
+<section class="section" style="padding-top: 0;">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card feature-card--sky">
+        <div class="feature-card-icon feature-card-icon--blue" style="background:transparent; width:auto; height:auto; justify-content:flex-start;">📅</div>
+        <h3 class="feature-card-title">Integrated calendar</h3>
+        <p class="feature-card-desc">View deadlines, sprints, and due dates in a unified calendar that syncs with Google Calendar and Outlook.</p>
+        <a href="#" class="feature-card-link">Learn more <span class="feature-card-link-arrow">→</span></a>
+      </div>
+      <div class="feature-card feature-card--rose">
+        <div class="feature-card-icon feature-card-icon--pink" style="background:transparent; width:auto; height:auto; justify-content:flex-start;">🌐</div>
+        <h3 class="feature-card-title">Publish to web</h3>
+        <p class="feature-card-desc">Turn any Notion page into a public website, help center, or job board — with custom domains and SEO.</p>
+        <a href="#" class="feature-card-link">Learn more <span class="feature-card-link-arrow">→</span></a>
+      </div>
+      <div class="feature-card feature-card--cream">
+        <div class="feature-card-icon feature-card-icon--green" style="background:transparent; width:auto; height:auto; justify-content:flex-start;">🔐</div>
+        <h3 class="feature-card-title">Enterprise security</h3>
+        <p class="feature-card-desc">SOC 2 certified, SAML SSO, SCIM provisioning, audit logs, and granular permissions for every team.</p>
+        <a href="#" class="feature-card-link">Learn more <span class="feature-card-link-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section" style="background: var(--surface-soft);">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-label">Testimonials</span>
+      <h2 class="section-title" style="font-size: var(--display-lg-size);">Trusted by teams of every size</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"Notion replaced 5 separate tools for us. Our product team now runs entirely in Notion — from roadmap planning to launch retrospectives."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SM</div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Sarah Mitchell</div>
+            <div class="testimonial-role">VP of Product, TechCo</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"The AI features alone save our team 10+ hours per week. Auto-summaries of meetings and cross-workspace Q&amp;A are genuinely game-changing."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JD</div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">James Davidson</div>
+            <div class="testimonial-role">Engineering Lead, StartupXYZ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING SECTION ===== -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-label">Pricing</span>
+      <h2 class="section-title">Start for free,<br>upgrade as you grow</h2>
+      <p class="section-description">
+        Every plan comes with unlimited pages and blocks. Upgrade for collaboration, AI, and enterprise controls.
+      </p>
+    </div>
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="pricing-card">
+        <div class="pricing-tier-name">Free</div>
+        <div class="pricing-price">$0</div>
+        <div class="pricing-desc">For individuals getting started with organized notes and docs.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Unlimited pages &amp; blocks</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> 10 guest collaborators</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> 7 day page history</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Basic page analytics</div>
+        </div>
+        <a href="#" class="btn btn-secondary">Get started</a>
+      </div>
+
+      <!-- Plus (featured) -->
+      <div class="pricing-card pricing-card--featured">
+        <span class="pricing-card-badge">Most popular</span>
+        <div class="pricing-tier-name">Plus</div>
+        <div class="pricing-price">$10<span> / seat / month</span></div>
+        <div class="pricing-desc">For small teams that need connected collaboration and AI.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Everything in Free</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Unlimited collaborators</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> 30 day page history</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Unlimited AI responses</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Custom websites &amp; domains</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Charts &amp; dashboards</div>
+        </div>
+        <a href="#" class="btn btn-primary">Get started</a>
+      </div>
+
+      <!-- Business -->
+      <div class="pricing-card">
+        <div class="pricing-tier-name">Business</div>
+        <div class="pricing-price">$18<span> / seat / month</span></div>
+        <div class="pricing-desc">For growing companies that need advanced controls and security.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Everything in Plus</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> 90 day page history</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> SAML SSO</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Private team spaces</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Bulk PDF export</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Advanced page analytics</div>
+        </div>
+        <a href="#" class="btn btn-secondary">Get started</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card">
+        <div class="pricing-tier-name">Enterprise</div>
+        <div class="pricing-price" style="font-size: var(--heading-3-size);">Custom</div>
+        <div class="pricing-desc">For large organizations that need enterprise-grade controls and support.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Everything in Business</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Unlimited page history</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> SCIM provisioning</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Advanced DLP</div>
+          <div class="pricing-feature-item"><span class="pricing-feature-check">✓</span> Dedicated success manager</div>
+        </div>
+        <a href="#" class="btn btn-secondary">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BANNER ===== -->
+<section class="section" id="cta">
+  <div class="container">
+    <div class="cta-banner">
+      <h2 class="cta-banner-title">Try Notion for free</h2>
+      <p class="cta-banner-desc">
+        Join millions of teams already using Notion to connect their work, collaborate better, and build faster.
+      </p>
+      <div class="cta-banner-buttons">
+        <a href="#" class="btn btn-primary btn-lg">Get Notion free</a>
+        <a href="#" class="btn btn-dark btn-lg">Talk to sales</a>
+      </div>
+    </div>
+
+    <!-- Logo wall -->
+    <div class="logo-wall">
+      <div class="logo-wall-item">figma</div>
+      <div class="logo-wall-item">pixar</div>
+      <div class="logo-wall-item">headspace</div>
+      <div class="logo-wall-item">match group</div>
+      <div class="logo-wall-item">ikea</div>
+      <div class="logo-wall-item">lattice</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-column">
+      <div class="footer-column-title">Product</div>
+      <a href="#" class="footer-link">Docs</a>
+      <a href="#" class="footer-link">Wikis</a>
+      <a href="#" class="footer-link">Projects</a>
+      <a href="#" class="footer-link">Calendar</a>
+      <a href="#" class="footer-link">Notion AI</a>
+      <a href="#" class="footer-link">Agents</a>
+      <a href="#" class="footer-link">What's new</a>
+    </div>
+    <div class="footer-column">
+      <div class="footer-column-title">Download</div>
+      <a href="#" class="footer-link">iOS &amp; Android</a>
+      <a href="#" class="footer-link">Mac &amp; Windows</a>
+      <a href="#" class="footer-link">Web Clipper</a>
+      <a href="#" class="footer-link">Calendar</a>
+    </div>
+    <div class="footer-column">
+      <div class="footer-column-title">Resources</div>
+      <a href="#" class="footer-link">Help center</a>
+      <a href="#" class="footer-link">API docs</a>
+      <a href="#" class="footer-link">Template gallery</a>
+      <a href="#" class="footer-link">Webinars</a>
+      <a href="#" class="footer-link">Community</a>
+    </div>
+    <div class="footer-column">
+      <div class="footer-column-title">Notion for</div>
+      <a href="#" class="footer-link">Enterprise</a>
+      <a href="#" class="footer-link">Startups</a>
+      <a href="#" class="footer-link">Education</a>
+      <a href="#" class="footer-link">Nonprofits</a>
+      <a href="#" class="footer-link">Engineering</a>
+      <a href="#" class="footer-link">Design</a>
+      <a href="#" class="footer-link">Product</a>
+    </div>
+    <div class="footer-column">
+      <div class="footer-column-title">Company</div>
+      <a href="#" class="footer-link">About</a>
+      <a href="#" class="footer-link">Careers</a>
+      <a href="#" class="footer-link">Blog</a>
+      <a href="#" class="footer-link">Brand</a>
+      <a href="#" class="footer-link">Press</a>
+    </div>
+    <div class="footer-column">
+      <div class="footer-column-title">Legal</div>
+      <a href="#" class="footer-link">Terms of service</a>
+      <a href="#" class="footer-link">Privacy policy</a>
+      <a href="#" class="footer-link">Cookie notice</a>
+      <a href="#" class="footer-link">GDPR</a>
+      <a href="#" class="footer-link">Security</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-left">
+      <span class="footer-copyright">© 2025 Notion Labs, Inc.</span>
+    </div>
+    <div class="footer-social">
+      <a href="#" aria-label="Twitter">𝕏</a>
+      <a href="#" aria-label="LinkedIn">in</a>
+      <a href="#" aria-label="YouTube">▶</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

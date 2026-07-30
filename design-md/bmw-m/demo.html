@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMW M — The Most Powerful Letter in the World</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BMW M DESIGN SYSTEM — DEMO PAGE
+   All tokens from design-md/bmw-m/DESIGN.md
+   Font: Inter as BMW Type Next Latin substitute (700/300)
+   ============================================================ */
+
+/* --- RESET --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* Typography (fallback stack per DESIGN.md) */
+  --font-display: 'Inter', 'SF Pro Display', 'BMWTypeNextLatin', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', 'SF Pro Display', 'BMWTypeNextLatin Light', system-ui, -apple-system, sans-serif;
+
+  /* Colors */
+  --primary: #ffffff;
+  --ink: #ffffff;
+  --body: #bbbbbb;
+  --body-strong: #e6e6e6;
+  --muted: #7e7e7e;
+  --hairline: #3c3c3c;
+  --hairline-strong: #262626;
+  --canvas: #000000;
+  --surface-card: #1a1a1a;
+  --surface-elevated: #262626;
+  --surface-soft: #0d0d0d;
+  --on-primary: #000000;
+  --on-dark: #ffffff;
+  --m-blue-light: #0066b1;
+  --m-blue-dark: #1c69d4;
+  --m-red: #e22718;
+  --bmw-blue: #1c69d4;
+  --electric-blue: #0653b6;
+  --carbon-gray: #2b2b2b;
+  --warning: #f4b400;
+  --success: #0fa336;
+
+  /* Spacing (4px base) */
+  --sp-xxs: 4px;
+  --sp-xs: 8px;
+  --sp-sm: 12px;
+  --sp-md: 16px;
+  --sp-lg: 24px;
+  --sp-xl: 40px;
+  --sp-xxl: 64px;
+  --sp-section: 96px;
+
+  /* Border Radius */
+  --r-none: 0px;
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-full: 9999px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--canvas);
+  color: var(--body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+img, svg { display: block; }
+a { text-decoration: none; color: inherit; }
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--sp-lg);
+}
+
+/* --- M STRIPE DIVIDER --- */
+.m-stripe {
+  width: 64px;
+  height: 4px;
+  display: flex;
+  flex-shrink: 0;
+}
+.m-stripe span { flex: 1; height: 100%; }
+.m-stripe span:nth-child(1) { background: var(--m-blue-light); }
+.m-stripe span:nth-child(2) { background: var(--m-blue-dark); }
+.m-stripe span:nth-child(3) { background: var(--m-red); }
+
+/* --- TOP NAVIGATION --- */
+/* token: top-nav — 64px, canvas bg, on-dark text, nav-link typography */
+.top-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 64px;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-lg);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+.nav-logo svg { height: 24px; width: auto; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xl);
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  color: var(--on-dark);
+  transition: color 0.2s ease;
+}
+.nav-links a:hover { color: var(--m-red); }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+.nav-actions button {
+  background: none;
+  border: none;
+  color: var(--on-dark);
+  cursor: pointer;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r-full);
+  transition: background 0.2s ease;
+}
+.nav-actions button:hover { background: var(--surface-card); }
+.nav-actions svg { width: 20px; height: 20px; }
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px; height: 40px;
+  align-items: center; justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  border-radius: var(--r-full);
+}
+.hamburger span {
+  display: block;
+  width: 18px; height: 2px;
+  background: var(--on-dark);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* --- HERO PHOTO BAND --- */
+/* token: hero-photo-band — full-bleed, canvas bg, display-xl typography, padding 96px */
+.hero {
+  position: relative;
+  background: var(--canvas);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: var(--sp-section);
+  margin-top: 0;
+}
+
+/* Photography simulation — dark track atmosphere with angular light */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 50%, rgba(28,105,212,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(226,39,24,0.08) 0%, transparent 50%),
+    radial-gradient(circle 30% at 75% 30%, rgba(255,255,255,0.04) 0%, transparent 60%),
+    linear-gradient(180deg, #000 0%, #0a0a0a 30%, #000 70%, #0d0d0d 100%);
+}
+/* Track surface hint */
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: 0; right: 0;
+  height: 40%;
+  background:
+    linear-gradient(0deg, rgba(26,26,26,0.5) 0%, transparent 100%);
+  transform: perspective(800px) rotateX(15deg);
+  transform-origin: bottom center;
+}
+
+/* Speed lines */
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  animation: speedLine 8s linear infinite;
+}
+.hero-line:nth-child(1) { top: 15%; width: 60%; left: -60%; animation-duration: 6s; }
+.hero-line:nth-child(2) { top: 28%; width: 45%; left: -45%; animation-duration: 8s; animation-delay: 1s; }
+.hero-line:nth-child(3) { top: 42%; width: 70%; left: -70%; animation-duration: 7s; animation-delay: 2s; }
+.hero-line:nth-child(4) { top: 55%; width: 50%; left: -50%; animation-duration: 9s; animation-delay: 0.5s; }
+.hero-line:nth-child(5) { top: 68%; width: 65%; left: -65%; animation-duration: 6.5s; animation-delay: 3s; }
+.hero-line:nth-child(6) { top: 80%; width: 40%; left: -40%; animation-duration: 8.5s; animation-delay: 1.5s; }
+
+@keyframes speedLine {
+  0% { transform: translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(200%); opacity: 0; }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-lg);
+}
+.hero-label {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--on-dark);
+}
+
+/* token: display-xl — 80px, 700, 1.0 line-height, 0 tracking */
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-lg);
+  max-width: 800px;
+}
+
+/* token: body-md — 16px, 300, 1.5 */
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  max-width: 520px;
+  margin-bottom: var(--sp-xl);
+}
+
+/* token: button-primary — canvas bg, on-dark text, none rounded, 16x32 padding, 48px height, 1.5px tracking, uppercase */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-xs);
+  background: var(--canvas);
+  color: var(--on-dark);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: 1px solid var(--on-dark);
+  border-radius: var(--r-none);
+  padding: 16px 32px;
+  height: 48px;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.btn-primary:hover {
+  background: var(--on-dark);
+  color: var(--on-primary);
+}
+
+/* token: button-primary-outline — transparent bg */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-xs);
+  background: transparent;
+  color: var(--on-dark);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: 1px solid var(--on-dark);
+  border-radius: var(--r-none);
+  padding: 16px 32px;
+  height: 48px;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.btn-outline:hover {
+  background: var(--on-dark);
+  color: var(--on-primary);
+}
+
+.hero-ctas {
+  display: flex;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+/* Chevron arrow for links */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--on-dark);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.text-link:hover { color: var(--m-red); }
+.text-link svg { width: 16px; height: 16px; transition: transform 0.2s ease; }
+.text-link:hover svg { transform: translateX(3px); }
+
+/* Hero scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: var(--sp-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-xs);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* --- SECTION BASICS --- */
+.section {
+  padding: var(--sp-section) 0;
+}
+
+.section-header {
+  margin-bottom: var(--sp-xxl);
+}
+
+/* token: label-uppercase — 14px, 700, 1.3, 1.5px tracking */
+.section-label {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-sm);
+}
+
+/* token: display-lg — 56px, 700, 1.05, 0 tracking */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  text-transform: uppercase;
+}
+
+.section-title-lg {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-sm);
+}
+.section-subtitle {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  max-width: 600px;
+}
+
+/* --- MODEL CARDS SECTION --- */
+/* token: model-card — canvas bg, on-dark text, title-lg typography, none rounded, 24px padding */
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-lg);
+}
+
+.model-card {
+  background: var(--canvas);
+  border-radius: var(--r-none);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.model-card:hover { transform: translateY(-4px); }
+
+.model-photo {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  margin-bottom: var(--sp-lg);
+}
+
+/* Abstract car photography simulation */
+.model-photo-inner {
+  width: 100%; height: 100%;
+  position: relative;
+}
+
+.model-photo-1 { background: linear-gradient(135deg, #0a0a0a 30%, #1a1a1a 50%, #0d0d0d 70%, #000 100%); }
+.model-photo-2 { background: linear-gradient(135deg, #0d0d0d 30%, #1a1a1a 50%, #0a0a0a 70%, #000 100%); }
+.model-photo-3 { background: linear-gradient(135deg, #0a0a0a 30%, #151515 50%, #0d0d0d 70%, #000 100%); }
+
+.model-photo-inner::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+}
+
+.model-photo-inner::before {
+  content: '';
+  position: absolute;
+  top: 25%; left: 15%;
+  width: 60%; height: 40%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.03) 0%, transparent 70%);
+}
+
+/* Light streak on model (simulated car body reflection) */
+.model-photo-gleam {
+  position: absolute;
+  top: 20%; left: 10%;
+  width: 50%; height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: rotate(-2deg);
+}
+
+/* token: display-md — 40px, 700, 1.1 */
+.model-name {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-xs);
+  padding: 0 var(--sp-lg);
+}
+
+/* token: body-sm — 14px, 300, 1.5 */
+.model-specs {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  padding: 0 var(--sp-lg);
+  margin-bottom: var(--sp-md);
+}
+
+.model-card .text-link {
+  padding: 0 var(--sp-lg) var(--sp-lg);
+}
+
+/* Hover M stripe reveal for model card */
+.model-m-stripe {
+  width: 64px;
+  height: 4px;
+  display: flex;
+  margin: 0 var(--sp-lg) var(--sp-lg);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.model-card:hover .model-m-stripe {
+  opacity: 1;
+  transform: translateY(0);
+}
+.model-m-stripe span { flex: 1; height: 100%; }
+.model-m-stripe span:nth-child(1) { background: var(--m-blue-light); }
+.model-m-stripe span:nth-child(2) { background: var(--m-blue-dark); }
+.model-m-stripe span:nth-child(3) { background: var(--m-red); }
+
+/* --- PERFORMANCE SPEC CELLS --- */
+/* token: spec-cell — surface-soft bg, on-dark text, body-md typography, none rounded, 24px padding */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-lg);
+}
+
+.spec-cell {
+  background: var(--surface-soft);
+  border-radius: var(--r-none);
+  padding: var(--sp-lg);
+  border: 1px solid var(--hairline);
+  transition: border-color 0.3s ease;
+}
+.spec-cell:hover { border-color: var(--hairline-strong); }
+
+/* token: display-sm — 32px, 700, 1.15 */
+.spec-value {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  margin-bottom: var(--sp-xs);
+}
+
+.spec-label {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* --- MAGAZINE / FEATURE PHOTO CARDS --- */
+/* token: feature-photo-card — surface-card bg, on-dark text, title-md typography, none rounded, 24px padding */
+.magazine-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-lg);
+}
+
+.feature-card {
+  background: var(--surface-card);
+  border-radius: var(--r-none);
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.feature-card:hover { background: var(--surface-elevated); }
+
+.feature-photo {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  position: relative;
+}
+.feature-photo-bg {
+  width: 100%; height: 100%;
+}
+.fp-1 {
+  background:
+    radial-gradient(circle 40% at 70% 50%, rgba(28,105,212,0.12) 0%, transparent 60%),
+    linear-gradient(160deg, #0a0a0a 0%, #1a1a1a 40%, #0d0d0d 100%);
+}
+.fp-2 {
+  background:
+    radial-gradient(circle 40% at 30% 60%, rgba(226,39,24,0.08) 0%, transparent 60%),
+    linear-gradient(200deg, #0d0d0d 0%, #1a1a1a 40%, #0a0a0a 100%);
+}
+.fp-3 {
+  background:
+    radial-gradient(circle 40% at 50% 40%, rgba(255,255,255,0.04) 0%, transparent 60%),
+    linear-gradient(180deg, #0a0a0a 0%, #151515 40%, #0d0d0d 100%);
+}
+
+/* Subtle diagonal light streak */
+.feature-photo::after {
+  content: '';
+  position: absolute;
+  top: 10%; left: -20%;
+  width: 80%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transform: rotate(-15deg);
+}
+
+.feature-card-body {
+  padding: var(--sp-lg);
+}
+
+/* token: label-uppercase */
+.feature-category {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-sm);
+}
+
+/* token: title-lg — 24px, 700, 1.3 */
+.feature-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  margin-bottom: var(--sp-sm);
+}
+
+/* token: body-md */
+.feature-excerpt {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --- CTA BAND PHOTO --- */
+/* token: cta-band-photo — canvas bg, on-dark text, display-md typography, 80px padding */
+.cta-band {
+  position: relative;
+  background: var(--canvas);
+  overflow: hidden;
+  padding: 80px var(--sp-lg);
+  text-align: center;
+}
+
+.cta-bg {
+  position: absolute;
+  inset: 0;
+}
+.cta-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 40%, rgba(28,105,212,0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 70% 60%, rgba(226,39,24,0.06) 0%, transparent 50%),
+    linear-gradient(180deg, #000 0%, #0a0a0a 40%, #000 100%);
+}
+
+/* Track perspective */
+.cta-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(0deg, rgba(13,13,13,0.7) 0%, transparent 100%);
+  transform: perspective(600px) rotateX(10deg);
+  transform-origin: bottom center;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* token: display-md — 40px, 700, 1.1 */
+.cta-headline {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--on-dark);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-md);
+}
+
+.cta-body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  margin-bottom: var(--sp-xl);
+}
+
+/* --- FOOTER --- */
+/* token: footer — canvas bg, body color, body-sm typography, 64px padding */
+.footer {
+  background: var(--canvas);
+  border-top: 1px solid var(--hairline);
+  padding: var(--sp-xxl) 0 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-lg);
+  padding-bottom: var(--sp-xxl);
+}
+
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--on-dark);
+  margin-bottom: var(--sp-lg);
+}
+
+.footer-col ul {
+  list-style: none;
+}
+.footer-col li {
+  margin-bottom: var(--sp-sm);
+}
+.footer-col a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--body);
+  transition: color 0.2s ease;
+}
+.footer-col a:hover { color: var(--on-dark); }
+
+.footer-bottom {
+  border-top: 1px solid var(--hairline);
+  padding: var(--sp-lg) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-md);
+}
+
+/* token: caption — 12px, 400, 1.4, 0.5px tracking */
+.footer-legal {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+}
+
+.footer-lang {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  color: var(--body);
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-none);
+  padding: 8px var(--sp-md);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+.footer-lang:hover { border-color: var(--on-dark); }
+
+/* --- CATEGORY TABS (used in magazine section header) --- */
+/* token: category-tab — transparent bg, body text, label-uppercase typography */
+.category-tabs {
+  display: flex;
+  gap: var(--sp-xl);
+  margin-bottom: var(--sp-xl);
+}
+
+.category-tab {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--body);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--sp-sm) 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+.category-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.3s ease;
+}
+.category-tab:hover { color: var(--on-dark); }
+/* token: category-tab-active — on-dark text */
+.category-tab.active {
+  color: var(--on-dark);
+}
+.category-tab.active::after {
+  background: var(--on-dark);
+}
+
+/* --- RESPONSIVE --- */
+/* Tablet: 768–1024px */
+@media (max-width: 1024px) {
+  :root {
+    --sp-section: 64px;
+  }
+
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .nav-actions button:not(:last-child) { display: none; }
+
+  .hero h1 { font-size: 56px; }
+
+  .models-grid,
+  .magazine-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .specs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .section-title,
+  .section-title-lg { font-size: 40px; }
+}
+
+/* Mobile: < 768px */
+@media (max-width: 768px) {
+  :root {
+    --sp-section: 48px;
+  }
+
+  .top-nav { padding: 0 var(--sp-md); }
+
+  .hero {
+    padding: 120px var(--sp-md) var(--sp-xxl);
+    min-height: 90vh;
+  }
+  .hero h1 { font-size: 48px; }
+  .hero-subtitle { font-size: 14px; }
+
+  .models-grid,
+  .magazine-grid {
+    grid-template-columns: 1fr;
+  }
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title,
+  .section-title-lg { font-size: 32px; }
+
+  .cta-headline { font-size: 32px; }
+  .cta-band { padding: 64px var(--sp-md); }
+
+  .hero-ctas { flex-direction: column; }
+  .hero-ctas .btn-primary,
+  .hero-ctas .btn-outline { width: 100%; }
+
+  .category-tabs {
+    gap: var(--sp-md);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .category-tab { white-space: nowrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAVIGATION
+     token: top-nav — 64px, canvas bg, on-dark text, nav-link typography
+     ============================================================ -->
+<nav class="top-nav" role="navigation" aria-label="Main navigation">
+  <!-- BMW M Logo with tricolor M -->
+  <a href="#" class="nav-logo" aria-label="BMW M Home">
+    <svg width="92" height="24" viewBox="0 0 92 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- BMW Roundel outer ring -->
+      <circle cx="10" cy="12" r="10" stroke="white" stroke-width="1.5" fill="none"/>
+      <circle cx="10" cy="12" r="6" stroke="white" stroke-width="0.5" fill="none"/>
+      <!-- Quadrants -->
+      <path d="M10 6 A6 6 0 0 1 16 12" stroke="white" stroke-width="0.5" fill="none"/>
+      <path d="M10 18 A6 6 0 0 1 4 12" stroke="white" stroke-width="0.5" fill="none"/>
+      <!-- Fill quadrants -->
+      <path d="M10 6 A6 6 0 0 1 16 12 L10 12 Z" fill="#1c69d4" opacity="0.9"/>
+      <path d="M4 12 A6 6 0 0 1 10 6 L10 12 Z" fill="white" opacity="0.9"/>
+      <path d="M10 18 A6 6 0 0 1 4 12 L10 12 Z" fill="white" opacity="0.9"/>
+      <path d="M16 12 A6 6 0 0 1 10 18 L10 12 Z" fill="#1c69d4" opacity="0.9"/>
+      <!-- M tricolor strip beside logo -->
+      <rect x="24" y="4" width="3" height="16" fill="#0066b1"/>
+      <rect x="28" y="4" width="3" height="16" fill="#1c69d4"/>
+      <rect x="32" y="4" width="3" height="16" fill="#e22718"/>
+      <!-- M Wordmark -->
+      <text x="42" y="18" fill="white" font-family="Inter, sans-serif" font-weight="700" font-size="20" letter-spacing="2">M</text>
+    </svg>
+  </a>
+
+  <!-- Desktop Menu -->
+  <ul class="nav-links" role="menubar">
+    <li role="none"><a href="#models" role="menuitem">Models</a></li>
+    <li role="none"><a href="#" role="menuitem">Topics</a></li>
+    <li role="none"><a href="#magazine" role="menuitem">Magazine</a></li>
+    <li role="none"><a href="#" role="menuitem">Configurator</a></li>
+    <li role="none"><a href="#" role="menuitem">Fastlane</a></li>
+  </ul>
+
+  <!-- Right Actions -->
+  <div class="nav-actions">
+    <button aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+    </button>
+    <button aria-label="Account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="8" r="4"/><path d="M4 22c0-4.42 3.58-8 8-8s8 3.58 8 8"/>
+      </svg>
+    </button>
+    <!-- Hamburger (mobile) -->
+    <button class="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO PHOTO BAND
+     token: hero-photo-band — full-bleed, canvas bg, display-xl type, 96px padding
+     ============================================================ -->
+<header class="hero" role="banner">
+  <div class="hero-bg"></div>
+  <div class="hero-lines">
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="m-stripe">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="hero-label">New Model</span>
+    </div>
+
+    <h1>The M5 Sedan</h1>
+
+    <!-- token: body-md -->
+    <p class="hero-subtitle">
+      The most powerful expression of BMW M engineering — a high-performance sedan with
+      motorsport DNA. 727 horsepower. M xDrive all-wheel drive. 0–60 mph in 3.4 seconds.
+    </p>
+
+    <div class="hero-ctas">
+      <!-- token: button-primary -->
+      <button class="btn-primary">
+        Configure Now
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+      <!-- token: button-primary-outline -->
+      <button class="btn-outline">
+        Explore the M5
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-scroll">Scroll</div>
+</header>
+
+<main>
+  <!-- ============================================================
+       MODEL CARDS — "MORE NEW M MODELS"
+       token: model-card — canvas bg, on-dark text, title-lg typography, none rounded, 24px padding
+       ============================================================ -->
+  <section id="models" class="section" aria-labelledby="models-heading">
+    <div class="container">
+      <header class="section-header">
+        <!-- token: label-uppercase -->
+        <p class="section-label">The M Lineup</p>
+        <!-- token: display-lg -->
+        <h2 class="section-title" id="models-heading">More New M Models</h2>
+      </header>
+
+      <div class="models-grid">
+        <!-- Model Card 1 -->
+        <article class="model-card">
+          <div class="model-photo">
+            <div class="model-photo-inner model-photo-1">
+              <div class="model-photo-gleam"></div>
+            </div>
+          </div>
+          <h3 class="model-name">M5 Sedan</h3>
+          <p class="model-specs">727 hp &middot; 0–60 mph 3.4s &middot; M xDrive</p>
+          <div class="model-m-stripe"><span></span><span></span><span></span></div>
+          <!-- token: text-link -->
+          <button class="text-link">
+            Explore This Model
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+          </button>
+        </article>
+
+        <!-- Model Card 2 -->
+        <article class="model-card">
+          <div class="model-photo">
+            <div class="model-photo-inner model-photo-2">
+              <div class="model-photo-gleam"></div>
+            </div>
+          </div>
+          <h3 class="model-name">M4 CSL</h3>
+          <p class="model-specs">543 hp &middot; 0–60 mph 3.6s &middot; Rear-Wheel Drive</p>
+          <div class="model-m-stripe"><span></span><span></span><span></span></div>
+          <button class="text-link">
+            Explore This Model
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+          </button>
+        </article>
+
+        <!-- Model Card 3 -->
+        <article class="model-card">
+          <div class="model-photo">
+            <div class="model-photo-inner model-photo-3">
+              <div class="model-photo-gleam"></div>
+            </div>
+          </div>
+          <h3 class="model-name">M3 Competition</h3>
+          <p class="model-specs">503 hp &middot; 0–60 mph 3.8s &middot; M xDrive</p>
+          <div class="model-m-stripe"><span></span><span></span><span></span></div>
+          <button class="text-link">
+            Explore This Model
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+          </button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PERFORMANCE SPEC CELLS
+       token: spec-cell — surface-soft bg, on-dark text, body-md typo, none rounded, 24px padding
+       ============================================================ -->
+  <section id="specs" class="section" aria-labelledby="specs-heading">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-label">Performance</p>
+        <h2 class="section-title-lg" id="specs-heading">Engineered For Speed</h2>
+        <p class="section-subtitle">Every BMW M model is born on the racetrack and refined for the road.</p>
+      </header>
+
+      <div class="specs-grid">
+        <!-- token: display-sm — 32px, 700, 1.15 -->
+        <div class="spec-cell">
+          <div class="spec-value">3.4<span style="font-size:18px;font-weight:300;">s</span></div>
+          <div class="spec-label">0–60 mph</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-value">727</div>
+          <div class="spec-label">Horsepower</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-value">190<span style="font-size:18px;font-weight:300;"> mph</span></div>
+          <div class="spec-label">Top Speed</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-value">M xDrive</div>
+          <div class="spec-label">Drivetrain</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MAGAZINE / FEATURE PHOTO CARDS — "MORE FROM BMW M MAGAZINE."
+       token: feature-photo-card — surface-card bg, on-dark text, title-md typo, none rounded, 24px padding
+       token: category-tab / category-tab-active
+       ============================================================ -->
+  <section id="magazine" class="section" aria-labelledby="magazine-heading">
+    <div class="container">
+      <header class="section-header">
+        <p class="section-label">Stories</p>
+        <h2 class="section-title" id="magazine-heading">More From BMW M Magazine.</h2>
+      </header>
+
+      <!-- token: category-tab -->
+      <div class="category-tabs" role="tablist">
+        <button class="category-tab active" role="tab" aria-selected="true">All</button>
+        <button class="category-tab" role="tab" aria-selected="false">Magazine</button>
+        <button class="category-tab" role="tab" aria-selected="false">Models</button>
+        <button class="category-tab" role="tab" aria-selected="false">Motorsport</button>
+        <button class="category-tab" role="tab" aria-selected="false">Lifestyle</button>
+      </div>
+
+      <div class="magazine-grid">
+        <!-- Feature Card 1 -->
+        <article class="feature-card">
+          <div class="feature-photo">
+            <div class="feature-photo-bg fp-1"></div>
+          </div>
+          <div class="feature-card-body">
+            <!-- token: label-uppercase -->
+            <p class="feature-category">Engineering</p>
+            <!-- token: title-lg -->
+            <h3 class="feature-title">The Art of Precision</h3>
+            <!-- token: body-md -->
+            <p class="feature-excerpt">
+              Behind the new M5's hybrid powertrain — how BMW M engineers balanced
+              electrification with raw motorsport performance to create the most powerful M5 ever built.
+            </p>
+          </div>
+        </article>
+
+        <!-- Feature Card 2 -->
+        <article class="feature-card">
+          <div class="feature-photo">
+            <div class="feature-photo-bg fp-2"></div>
+          </div>
+          <div class="feature-card-body">
+            <p class="feature-category">Motorsport</p>
+            <h3 class="feature-title">Track Ready</h3>
+            <p class="feature-excerpt">
+              Testing the M4 CSL at the Nürburgring Nordschleife — 20.832 kilometers of
+              green hell, one car built to conquer every corner.
+            </p>
+          </div>
+        </article>
+
+        <!-- Feature Card 3 -->
+        <article class="feature-card">
+          <div class="feature-photo">
+            <div class="feature-photo-bg fp-3"></div>
+          </div>
+          <div class="feature-card-body">
+            <p class="feature-category">Culture</p>
+            <h3 class="feature-title">M Town</h3>
+            <p class="feature-excerpt">
+              Inside Garching, the home of BMW M — where every M car is conceived,
+              engineered, and tested before it ever reaches the road.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BAND PHOTO — "DRIVE AN M"
+       token: cta-band-photo — canvas bg, on-dark text, display-md typo, 80px padding
+       ============================================================ -->
+  <section class="cta-band" aria-labelledby="cta-heading">
+    <div class="cta-bg"></div>
+    <div class="cta-content">
+      <!-- token: display-md — 40px, 700, 1.1 -->
+      <h2 class="cta-headline" id="cta-heading">Drive an M</h2>
+      <p class="cta-body">
+        Configure your M model. Experience motorsport DNA engineered for the road.
+        Every detail, from the carbon-fiber roof to the M-specific suspension,
+        is designed for one purpose — driving pleasure.
+      </p>
+      <!-- token: button-primary-outline -->
+      <button class="btn-outline">
+        Start Configuration
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </div>
+  </section>
+</main>
+
+<!-- ============================================================
+     FOOTER
+     token: footer — canvas bg, body color, body-sm typo, 64px padding
+     ============================================================ -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Column 1 -->
+      <div class="footer-col">
+        <h4>BMW M Models</h4>
+        <ul>
+          <li><a href="#">M2 Coupe</a></li>
+          <li><a href="#">M3 Sedan</a></li>
+          <li><a href="#">M4 Coupe</a></li>
+          <li><a href="#">M5 Sedan</a></li>
+          <li><a href="#">XM SUV</a></li>
+        </ul>
+      </div>
+      <!-- Column 2 -->
+      <div class="footer-col">
+        <h4>Lifestyle</h4>
+        <ul>
+          <li><a href="#">BMW M Magazine</a></li>
+          <li><a href="#">M Town</a></li>
+          <li><a href="#">BMW M Driving Experience</a></li>
+          <li><a href="#">BMW M Motorsport</a></li>
+          <li><a href="#">M Collection</a></li>
+        </ul>
+      </div>
+      <!-- Column 3 -->
+      <div class="footer-col">
+        <h4>Owners</h4>
+        <ul>
+          <li><a href="#">My BMW Account</a></li>
+          <li><a href="#">BMW ConnectedDrive</a></li>
+          <li><a href="#">Service &amp; Maintenance</a></li>
+          <li><a href="#">Warranty Information</a></li>
+          <li><a href="#">BMW Financial Services</a></li>
+        </ul>
+      </div>
+      <!-- Column 4 -->
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About BMW M</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Legal &amp; Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <!-- token: caption — 12px, 400, 1.4, 0.5px tracking -->
+      <p class="footer-legal">&copy; BMW M GmbH 2025. All rights reserved. The BMW M logo and wordmark are trademarks of BMW AG.</p>
+      <button class="footer-lang">United States / English</button>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

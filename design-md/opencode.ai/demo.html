@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenCode — The open source AI coding agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --color-primary: #201d1d;
+  --color-on-primary: #fdfcfc;
+  --color-ink: #201d1d;
+  --color-ink-deep: #0f0000;
+  --color-charcoal: #302c2c;
+  --color-body: #424245;
+  --color-mute: #646262;
+  --color-stone: #6e6e73;
+  --color-ash: #9a9898;
+  --color-canvas: #fdfcfc;
+  --color-surface-soft: #f8f7f7;
+  --color-surface-card: #f1eeee;
+  --color-surface-dark: #201d1d;
+  --color-surface-dark-elevated: #302c2c;
+  --color-hairline: rgba(15,0,0,0.12);
+  --color-hairline-strong: #646262;
+  --color-on-dark: #fdfcfc;
+  --color-on-dark-mute: #9a9898;
+  --color-accent: #007aff;
+  --color-accent-hover: #0056b3;
+  --color-accent-active: #004085;
+  --color-warning: #ff9f0a;
+  --color-danger: #ff3b30;
+  --color-success: #30d158;
+  --font-family: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --display-xl-size: 38px;
+  --heading-md-size: 16px;
+  --body-md-size: 16px;
+  --caption-md-size: 14px;
+  --spacing-xxs: 1px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-section: 96px;
+  --rounded-none: 0px;
+  --rounded-sm: 4px;
+  --rounded-full: 9999px;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+  background-color: var(--color-canvas);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+.container-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+/* ===== PRIMARY NAV ===== */
+.primary-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-canvas);
+  height: 56px;
+  border-bottom: 1px solid var(--color-hairline);
+  display: flex;
+  align-items: center;
+}
+
+.primary-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.ascii-wordmark {
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  white-space: pre;
+  user-select: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.nav-links a {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--color-mute);
+}
+
+.nav-links .star-count {
+  color: var(--color-stone);
+  font-weight: 400;
+}
+
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: 0;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: 4px 20px;
+  height: 36px;
+  border-radius: var(--rounded-sm);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.btn-nav:hover {
+  background-color: var(--color-ink-deep);
+}
+
+.btn-nav:active {
+  background-color: var(--color-ink-deep);
+}
+
+.dl-glyph {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  color: var(--color-ink);
+  font-family: var(--font-family);
+  font-size: 20px;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  padding-top: var(--spacing-section);
+  padding-bottom: var(--spacing-section);
+}
+
+.section + .section {
+  border-top: 1px solid var(--color-hairline);
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding-top: var(--spacing-section);
+  padding-bottom: 0;
+}
+
+.badge-news {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-family);
+  font-size: var(--caption-md-size);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  background-color: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  padding: 2px 8px;
+  border-radius: var(--rounded-sm);
+  margin-bottom: var(--spacing-xl);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.badge-news:hover {
+  opacity: 0.85;
+}
+
+.hero-headline {
+  font-family: var(--font-family);
+  font-size: var(--display-xl-size);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-lg);
+  max-width: 800px;
+}
+
+.hero-subheadline {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+  margin-bottom: var(--spacing-xxl);
+  max-width: 640px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-section);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: 0;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: 4px 20px;
+  height: 36px;
+  border-radius: var(--rounded-sm);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-ink-deep);
+}
+
+.btn-primary:active {
+  background-color: var(--color-ink-deep);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: 0;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  padding: 4px 20px;
+  height: 36px;
+  border-radius: var(--rounded-sm);
+  border: 1px solid var(--color-hairline-strong);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-surface-soft);
+}
+
+.btn-secondary:active {
+  background-color: var(--color-surface-card);
+}
+
+/* ===== HERO TUI MOCKUP ===== */
+.hero-tui-mockup {
+  background-color: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  padding: 64px 32px;
+  border-radius: var(--rounded-none);
+  font-family: var(--font-family);
+  overflow-x: auto;
+}
+
+.tui-ascii-wordmark {
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--color-on-dark);
+  white-space: pre;
+  margin-bottom: var(--spacing-xl);
+  user-select: none;
+}
+
+.tui-prompt-row {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  background-color: var(--color-surface-dark-elevated);
+  color: var(--color-on-dark);
+  padding: 8px 12px;
+  border-radius: var(--rounded-sm);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.tui-prompt-row .pipe {
+  color: var(--color-on-dark-mute);
+}
+
+.tui-prompt-row .cmd-build {
+  color: var(--color-success);
+}
+
+.tui-prompt-row .model {
+  color: var(--color-warning);
+}
+
+.tui-prompt-row .product {
+  color: var(--color-accent);
+}
+
+.tui-keybinding-row {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ash);
+}
+
+/* ===== FEATURES SECTION ===== */
+.section-label {
+  font-family: var(--font-family);
+  font-size: var(--heading-md-size);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.list-row {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+  padding: 8px 0;
+  border-radius: var(--rounded-none);
+}
+
+.list-row .bracket-marker {
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-right: var(--spacing-sm);
+}
+
+.list-row .feature-label {
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-right: var(--spacing-sm);
+}
+
+/* ===== STATS / CHART SECTION ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.stats-grid .chart-tile {
+  font-family: var(--font-family);
+  font-size: var(--caption-md-size);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  color: var(--color-body);
+  padding: var(--spacing-lg);
+  border-radius: var(--rounded-none);
+  border-right: 1px solid var(--color-hairline);
+}
+
+.stats-grid .chart-tile:last-child {
+  border-right: none;
+}
+
+.chart-tile .chart-visual {
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--color-body);
+  white-space: pre;
+  margin-bottom: var(--spacing-md);
+  user-select: none;
+  min-height: 64px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.chart-tile .chart-caption {
+  font-family: var(--font-family);
+  font-size: var(--caption-md-size);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  color: var(--color-mute);
+}
+
+.chart-caption .stat-value {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* ===== INSTALL SECTION ===== */
+.install-section {
+  /* share .section styles */
+}
+
+.tab-strip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid var(--color-hairline-strong);
+  margin-bottom: var(--spacing-lg);
+}
+
+.btn-tab {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: 0;
+  background-color: transparent;
+  color: var(--color-mute);
+  padding: 8px 16px;
+  border-radius: var(--rounded-none);
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.btn-tab:hover {
+  color: var(--color-ink);
+}
+
+.btn-tab.active {
+  color: var(--color-ink);
+  border-bottom: 2px solid var(--color-ash);
+  margin-bottom: -1px;
+}
+
+.install-snippet {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  background-color: var(--color-surface-card);
+  color: var(--color-ink);
+  padding: 12px 16px;
+  border-radius: var(--rounded-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: auto;
+}
+
+.install-snippet code {
+  font-family: var(--font-family);
+  white-space: nowrap;
+  user-select: all;
+}
+
+.copy-btn {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--color-mute);
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.copy-btn:hover {
+  color: var(--color-ink);
+}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+.testimonial-row {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  background-color: var(--color-surface-soft);
+  color: var(--color-body);
+  padding: 16px 20px;
+  border-radius: var(--rounded-sm);
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.testimonial-row .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-surface-card);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-mute);
+}
+
+.testimonial-row .testimonial-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.testimonial-row .testimonial-author {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-xs);
+}
+
+.testimonial-row .testimonial-role {
+  font-family: var(--font-family);
+  font-size: var(--caption-md-size);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  color: var(--color-mute);
+  margin-bottom: var(--spacing-sm);
+}
+
+.testimonial-row .testimonial-quote {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+}
+
+/* ===== FAQ ===== */
+.faq-row {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  padding: 12px 0;
+  border-radius: var(--rounded-none);
+  border-bottom: 1px solid var(--color-hairline);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.faq-row:hover {
+  color: var(--color-charcoal);
+}
+
+.faq-row .faq-toggle {
+  font-weight: 700;
+  margin-right: var(--spacing-sm);
+}
+
+.faq-row .faq-question {
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.faq-row .faq-answer {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+  margin-top: var(--spacing-sm);
+  padding-left: calc(1ch + var(--spacing-sm));
+}
+
+/* ===== NEWSLETTER CTA ===== */
+.cta-section {
+  padding-top: var(--spacing-section);
+  padding-bottom: var(--spacing-section);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.cta-heading {
+  font-family: var(--font-family);
+  font-size: var(--heading-md-size);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+.cta-text {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-body);
+  margin-bottom: var(--spacing-lg);
+  max-width: 480px;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: var(--spacing-sm);
+  max-width: 480px;
+  align-items: flex-start;
+}
+
+.text-input {
+  font-family: var(--font-family);
+  font-size: var(--body-md-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  background-color: var(--color-surface-soft);
+  color: var(--color-ink);
+  padding: 8px 12px;
+  height: 40px;
+  border-radius: var(--rounded-sm);
+  border: 1px solid var(--color-hairline);
+  outline: none;
+  flex: 1;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.text-input:focus {
+  background-color: var(--color-canvas);
+  border-color: var(--color-ink);
+}
+
+.text-input::placeholder {
+  color: var(--color-ash);
+}
+
+/* ===== FOOTER ===== */
+.footer-section {
+  font-family: var(--font-family);
+  font-size: var(--caption-md-size);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  background-color: var(--color-canvas);
+  color: var(--color-body);
+  padding: var(--spacing-xxl) 0;
+  border-radius: var(--rounded-none);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.footer-link-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border: 1px solid var(--color-hairline);
+  border-left: none;
+  border-right: none;
+  margin-bottom: var(--spacing-xl);
+}
+
+.footer-link-grid a {
+  font-family: var(--font-family);
+  font-size: var(--caption-md-size);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  text-decoration: none;
+  text-align: center;
+  padding: var(--spacing-sm) 0;
+  border-right: 1px solid var(--color-hairline);
+  transition: color 0.15s ease;
+}
+
+.footer-link-grid a:last-child {
+  border-right: none;
+}
+
+.footer-link-grid a:hover {
+  color: var(--color-mute);
+}
+
+.footer-link-grid .footer-stat {
+  color: var(--color-stone);
+  font-weight: 400;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.footer-copyright {
+  font-family: var(--font-family);
+  font-size: var(--caption-md-size);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  color: var(--color-mute);
+}
+
+.footer-utility {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.footer-utility a,
+.footer-utility span {
+  font-family: var(--font-family);
+  font-size: var(--caption-md-size);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  color: var(--color-mute);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-utility a:hover {
+  color: var(--color-ink);
+}
+
+.dot-sep {
+  color: var(--color-stone);
+  user-select: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 850px) {
+  .footer-link-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-link-grid a {
+    text-align: left;
+    padding-left: var(--spacing-lg);
+  }
+  .footer-link-grid a:nth-child(2n) {
+    border-right: none;
+  }
+  .footer-link-grid a:nth-child(n+3) {
+    border-top: 1px solid var(--color-hairline);
+  }
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .stats-grid .chart-tile {
+    border-right: none;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+  .stats-grid .chart-tile:last-child {
+    border-bottom: none;
+  }
+  :root {
+    --display-xl-size: 32px;
+    --spacing-section: 64px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+  }
+  .hero-tui-mockup {
+    padding: 48px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --display-xl-size: 28px;
+    --spacing-section: 48px;
+  }
+  .container,
+  .container-wide {
+    padding: 0 var(--spacing-lg);
+  }
+  .hero {
+    padding-top: 64px;
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-tui-mockup {
+    padding: 32px 16px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .newsletter-form {
+    flex-direction: column;
+  }
+  .newsletter-form .btn-primary {
+    align-self: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== PRIMARY NAV ===== -->
+<nav class="primary-nav">
+  <div class="container">
+    <a href="/" class="nav-brand">
+      <span class="ascii-wordmark">
+  ___  ___  ___  _  _  ___  ___  ___  ___
+ ( _ )( _ )( _ )( \( )( _ )( _ )( _ )( _ )
+/ _ \/ _ \/ _ \/    \/ _ \/ _ \/ _ \/ _ \
+\___/\___/\___/\_/\_/\___/\___/\___/\___/
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">GitHub <span class="star-count">[150K]</span></a>
+      <a href="#docs">Docs</a>
+      <a href="#zen">Zen</a>
+      <a href="#go">Go</a>
+      <a href="#enterprise">Enterprise</a>
+    </div>
+    <a href="#download" class="btn-nav">
+      <span class="dl-glyph">&#8595;</span> Download
+    </a>
+    <button class="hamburger" aria-label="Menu">[=]</button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container-wide">
+    <a href="#" class="badge-news">News</a>
+    <h1 class="hero-headline">The open source AI coding agent</h1>
+    <p class="hero-subheadline">
+      OpenCode runs locally as a TUI that connects to any LLM. It reads your entire
+      codebase, spawns terminals, edits files, and builds full features — all from
+      your terminal. No cloud, no subscription, no telemetry.
+    </p>
+    <div class="hero-actions">
+      <a href="#get-started" class="btn-primary">Get started with Zen</a>
+      <a href="#read-docs" class="btn-secondary">Read docs →</a>
+    </div>
+  </div>
+  <div class="container-wide" style="margin-top: var(--spacing-section);">
+    <div class="hero-tui-mockup">
+      <div class="tui-ascii-wordmark">
+  ___  ___  ___  _  _  ___  ___  ___  ___
+ ( _ )( _ )( _ )( \( )( _ )( _ )( _ )( _ )
+/ _ \/ _ \/ _ \/    \/ _ \/ _ \/ _ \/ _ \
+\___/\___/\___/\_/\_/\___/\___/\___/\___/
+      </div>
+      <div class="tui-prompt-row">
+        <span class="pipe">|</span>
+        <span class="cmd-build">Build</span>
+        <span class="model">Claude Opus 4.5</span>
+        <span class="product">OpenCode Zen</span>
+      </div>
+      <div class="tui-keybinding-row">
+        tab switch agent&nbsp;&nbsp;&nbsp;&nbsp;ctrl-p commands
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-label">[+] What is OpenCode?</div>
+    <div class="list-row">
+      <span class="bracket-marker">[+]</span>
+      <span class="feature-label">LSP enabled</span>
+      Automatically loads the right LSPs for the IDE
+    </div>
+    <div class="list-row">
+      <span class="bracket-marker">[+]</span>
+      <span class="feature-label">Full-codebase context</span>
+      Reads your entire repo into a searchable index — every file, every symbol
+    </div>
+    <div class="list-row">
+      <span class="bracket-marker">[+]</span>
+      <span class="feature-label">Multi-model support</span>
+      Connect Claude, GPT-4o, Gemini, Ollama, or any OpenAI-compatible endpoint
+    </div>
+    <div class="list-row">
+      <span class="bracket-marker">[+]</span>
+      <span class="feature-label">Terminal-native TUI</span>
+      Built with Charm's Bubble Tea — works over SSH, tmux, and inside VS Code
+    </div>
+    <div class="list-row">
+      <span class="bracket-marker">[+]</span>
+      <span class="feature-label">Agentic workflows</span>
+      Spawns terminals, runs commands, reads output, and iterates autonomously
+    </div>
+    <div class="list-row">
+      <span class="bracket-marker">[+]</span>
+      <span class="feature-label">Zero telemetry</span>
+      All inference stays on your machine or routes to your own API keys
+    </div>
+    <div class="list-row">
+      <span class="bracket-marker">[-]</span>
+      <span class="feature-label">No cloud dependency</span>
+      You own every line. OpenCode never phones home
+    </div>
+    <div class="list-row">
+      <span class="bracket-marker">[x]</span>
+      <span class="feature-label">Open source</span>
+      MIT licensed, 150K GitHub stars, 850+ contributors
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS / CHARTS ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">[x] The open source AI coding agent</div>
+    <div class="stats-grid">
+      <div class="chart-tile">
+        <div class="chart-visual">
+          .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&#x2591;&#x2591;<br>
+          .&#x2591;&#x2591;
+        </div>
+        <div class="chart-caption">Fig 1. <span class="stat-value">150K</span> GitHub Stars</div>
+      </div>
+      <div class="chart-tile">
+        <div class="chart-visual">
+          &nbsp;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;<br>
+          &nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&#x2591;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&#x2591;<br>
+          &#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;<br>
+          &nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&#x2591;<br>
+          &nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&#x2591;<br>
+          &nbsp;&nbsp;&nbsp;&#x2591;&nbsp;&nbsp;&#x2591;&nbsp;&#x2591;<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;
+        </div>
+        <div class="chart-caption">Fig 2. <span class="stat-value">850</span> Contributors</div>
+      </div>
+      <div class="chart-tile">
+        <div class="chart-visual">
+          .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;<br>
+          .&nbsp;&nbsp;&nbsp;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;<br>
+          .&nbsp;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;<br>
+          &#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;&#x2591;
+        </div>
+        <div class="chart-caption">Fig 3. <span class="stat-value">6.5M</span> Monthly Devs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INSTALL ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">[+] Install OpenCode</div>
+    <div class="tab-strip">
+      <button class="btn-tab active">curl</button>
+      <button class="btn-tab">npm</button>
+      <button class="btn-tab">bun</button>
+      <button class="btn-tab">brew</button>
+      <button class="btn-tab">yay</button>
+    </div>
+    <div class="install-snippet">
+      <code>curl -fsSL https://opencode.ai/install | bash</code>
+      <button class="copy-btn" aria-label="Copy">&#x2398;</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">[x] What developers are saying</div>
+    <div class="testimonials-grid">
+      <div class="testimonial-row">
+        <div class="avatar">SJ</div>
+        <div class="testimonial-content">
+          <div class="testimonial-author">Sarah Johnson</div>
+          <div class="testimonial-role">Senior Engineer · Stripe</div>
+          <div class="testimonial-quote">
+            OpenCode replaced four separate AI tools in my workflow. The TUI is
+            faster than any browser-based chat — and it actually understands my
+            entire monorepo.
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-row">
+        <div class="avatar">MK</div>
+        <div class="testimonial-content">
+          <div class="testimonial-author">Marcus Kim</div>
+          <div class="testimonial-role">CTO · Vercel</div>
+          <div class="testimonial-quote">
+            We switched our entire engineering org to OpenCode Zen. The privacy
+            model alone saved us months of security review. Best terminal app
+            I've used in a decade.
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-row">
+        <div class="avatar">AR</div>
+        <div class="testimonial-content">
+          <div class="testimonial-author">Aiko Reyes</div>
+          <div class="testimonial-role">Independent Developer</div>
+          <div class="testimonial-quote">
+            Runs perfectly over SSH into my dev server. I code on an iPad with
+            Blink and it feels native. The ASCII-only aesthetic is exactly what
+            I wanted.
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-row">
+        <div class="avatar">DC</div>
+        <div class="testimonial-content">
+          <div class="testimonial-author">David Chen</div>
+          <div class="testimonial-role">Staff Engineer · Datadog</div>
+          <div class="testimonial-quote">
+            OpenCode's codebase indexing is the real differentiator. It loads my
+            2M-line repo in seconds and finds exactly the files that matter for
+            each task.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-label">[+] FAQ</div>
+    <div class="faq-row">
+      <span class="faq-toggle">+</span>
+      <span class="faq-question">How is OpenCode different from Copilot or Cursor?</span>
+      <div class="faq-answer">
+        OpenCode is a terminal-native TUI, not an IDE plugin. It works over SSH,
+        inside tmux, and with any editor. It indexes your entire codebase rather
+        than relying on open-tab context. And it's fully open source (MIT) —
+        no vendor lock-in, no subscription fees.
+      </div>
+    </div>
+    <div class="faq-row">
+      <span class="faq-toggle">+</span>
+      <span class="faq-question">Which LLMs does OpenCode support?</span>
+      <div class="faq-answer">
+        Any model with an OpenAI-compatible API. Claude (Anthropic), GPT-4o
+        (OpenAI), Gemini (Google), Llama (Meta via Ollama), Mistral, DeepSeek —
+        you bring your own API keys. OpenCode ships with sensible defaults for
+        each model family.
+      </div>
+    </div>
+    <div class="faq-row">
+      <span class="faq-toggle">−</span>
+      <span class="faq-question">Does OpenCode send my code to any server?</span>
+      <div class="faq-answer">
+        No. OpenCode itself never phones home — zero telemetry, zero analytics.
+        Code is sent to your chosen LLM provider through your own API key; you
+        control where inference happens. Run Ollama locally for fully air-gapped
+        coding.
+      </div>
+    </div>
+    <div class="faq-row">
+      <span class="faq-toggle">+</span>
+      <span class="faq-question">What is OpenCode Zen?</span>
+      <div class="faq-answer">
+        Zen is a managed deployment of OpenCode that runs on your infrastructure
+        with SSO, audit logging, and centralized model routing. It ships the same
+        TUI interface with enterprise controls — RBAC, usage quotas, and SOC 2
+        compliance.
+      </div>
+    </div>
+    <div class="faq-row">
+      <span class="faq-toggle">+</span>
+      <span class="faq-question">Can I use OpenCode without an internet connection?</span>
+      <div class="faq-answer">
+        Yes. Point OpenCode at a local Ollama instance running Llama, Mistral, or
+        any GGUF model. The TUI, codebase indexer, and terminal runner all work
+        entirely offline. Only model inference needs network — and even that can
+        stay local.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-heading">Built for privacy first</h2>
+    <p class="cta-text">
+      Get release notes, security advisories, and new model support announcements.
+      No marketing spam — one email per month, plain text, from <code style="color: var(--color-ink);">noreply@opencode.ai</code>.
+    </p>
+    <div class="newsletter-form">
+      <input type="email" class="text-input" placeholder="you@company.com" aria-label="Email address">
+      <button class="btn-primary">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-section">
+  <div class="container">
+    <div class="footer-link-grid">
+      <a href="#">GitHub <span class="footer-stat">[150K]</span></a>
+      <a href="#">Docs</a>
+      <a href="#">Changelog</a>
+      <a href="#">Discord</a>
+      <a href="#">X</a>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copyright">&copy; 2026 Anomaly</div>
+      <div class="footer-utility">
+        <a href="#">Brand</a>
+        <span class="dot-sep">&middot;</span>
+        <a href="#">Privacy</a>
+        <span class="dot-sep">&middot;</span>
+        <a href="#">Terms</a>
+        <span class="dot-sep">&middot;</span>
+        <span>English &#9660;</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

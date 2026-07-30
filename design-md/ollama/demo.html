@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ollama — The easiest way to build with open models</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Ollama Design System — Demo Page
+   Tokens sourced from design-md/ollama/DESIGN.md
+   ============================================================ */
+
+:root {
+  /* Colors */
+  --primary: #000000;
+  --on-primary: #ffffff;
+  --ink: #000000;
+  --ink-deep: #090909;
+  --charcoal: #525252;
+  --body: #737373;
+  --mute: #a3a3a3;
+  --canvas: #ffffff;
+  --surface-soft: #fafafa;
+  --surface-card: #ffffff;
+  --hairline: #e5e5e5;
+  --hairline-strong: #d4d4d4;
+  --on-dark: #ffffff;
+  --on-dark-mute: rgba(255,255,255,0.7);
+  --surface-dark: #171717;
+  --focus-ring: rgba(59,130,246,0.5);
+  --link: #000000;
+  --link-mute: #737373;
+  --terminal-red: #ff5f56;
+  --terminal-yellow: #ffbd2e;
+  --terminal-green: #27c93f;
+
+  /* Typography — display headings use SF Pro Rounded / Nunito fallback */
+  --font-display: 'SF Pro Rounded', 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-body: ui-sans-serif, 'Inter', system-ui, -apple-system, sans-serif;
+  --font-code: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', 'Fira Code', Menlo, Monaco, 'Consolas', monospace;
+
+  /* Typography Tokens */
+  --text-display-xl-size: 36px;
+  --text-display-xl-weight: 500;
+  --text-display-xl-lh: 1.11;
+  --text-display-xl-ls: 0;
+
+  --text-display-lg-size: 30px;
+  --text-display-lg-weight: 500;
+  --text-display-lg-lh: 1.2;
+  --text-display-lg-ls: 0;
+
+  --text-heading-lg-size: 24px;
+  --text-heading-lg-weight: 600;
+  --text-heading-lg-lh: 1.33;
+  --text-heading-lg-ls: 0;
+
+  --text-heading-md-size: 20px;
+  --text-heading-md-weight: 500;
+  --text-heading-md-lh: 1.4;
+  --text-heading-md-ls: 0;
+
+  --text-heading-sm-size: 18px;
+  --text-heading-sm-weight: 500;
+  --text-heading-sm-lh: 1.56;
+  --text-heading-sm-ls: 0;
+
+  --text-body-md-size: 16px;
+  --text-body-md-weight: 400;
+  --text-body-md-lh: 1.5;
+  --text-body-md-ls: 0;
+
+  --text-body-strong-size: 16px;
+  --text-body-strong-weight: 500;
+  --text-body-strong-lh: 1.5;
+  --text-body-strong-ls: 0;
+
+  --text-body-sm-size: 14px;
+  --text-body-sm-weight: 400;
+  --text-body-sm-lh: 1.43;
+  --text-body-sm-ls: 0;
+
+  --text-body-sm-strong-size: 14px;
+  --text-body-sm-strong-weight: 500;
+  --text-body-sm-strong-lh: 1.43;
+  --text-body-sm-strong-ls: 0;
+
+  --text-caption-sm-size: 12px;
+  --text-caption-sm-weight: 400;
+  --text-caption-sm-lh: 1.33;
+  --text-caption-sm-ls: 0;
+
+  --text-code-md-size: 16px;
+  --text-code-md-weight: 400;
+  --text-code-md-lh: 1.5;
+  --text-code-md-ls: 0;
+
+  --text-code-sm-size: 14px;
+  --text-code-sm-weight: 400;
+  --text-code-sm-lh: 1.43;
+  --text-code-sm-ls: 0;
+
+  --text-button-md-size: 14px;
+  --text-button-md-weight: 500;
+  --text-button-md-lh: 1;
+  --text-button-md-ls: 0;
+
+  /* Rounded */
+  --rounded-none: 0px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-section: 88px;
+}
+
+/* ============================================================
+   Reset & Base
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body-md-size);
+  font-weight: var(--text-body-md-weight);
+  line-height: var(--text-body-md-lh);
+  letter-spacing: var(--text-body-md-ls);
+  color: var(--body);
+  background-color: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Typography Utility Classes
+   ============================================================ */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: var(--text-display-xl-size);
+  font-weight: var(--text-display-xl-weight);
+  line-height: var(--text-display-xl-lh);
+  letter-spacing: var(--text-display-xl-ls);
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg-size);
+  font-weight: var(--text-display-lg-weight);
+  line-height: var(--text-display-lg-lh);
+  letter-spacing: var(--text-display-lg-ls);
+}
+
+.heading-lg {
+  font-family: var(--font-display);
+  font-size: var(--text-heading-lg-size);
+  font-weight: var(--text-heading-lg-weight);
+  line-height: var(--text-heading-lg-lh);
+  letter-spacing: var(--text-heading-lg-ls);
+}
+
+.heading-md {
+  font-family: var(--font-body);
+  font-size: var(--text-heading-md-size);
+  font-weight: var(--text-heading-md-weight);
+  line-height: var(--text-heading-md-lh);
+  letter-spacing: var(--text-heading-md-ls);
+}
+
+.heading-sm {
+  font-family: var(--font-body);
+  font-size: var(--text-heading-sm-size);
+  font-weight: var(--text-heading-sm-weight);
+  line-height: var(--text-heading-sm-lh);
+  letter-spacing: var(--text-heading-sm-ls);
+}
+
+.body-md {
+  font-family: var(--font-body);
+  font-size: var(--text-body-md-size);
+  font-weight: var(--text-body-md-weight);
+  line-height: var(--text-body-md-lh);
+  letter-spacing: var(--text-body-md-ls);
+}
+
+.body-sm {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-lh);
+  letter-spacing: var(--text-body-sm-ls);
+}
+
+.body-sm-strong {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-strong-size);
+  font-weight: var(--text-body-sm-strong-weight);
+  line-height: var(--text-body-sm-strong-lh);
+  letter-spacing: var(--text-body-sm-strong-ls);
+}
+
+.caption-sm {
+  font-family: var(--font-body);
+  font-size: var(--text-caption-sm-size);
+  font-weight: var(--text-caption-sm-weight);
+  line-height: var(--text-caption-sm-lh);
+  letter-spacing: var(--text-caption-sm-ls);
+}
+
+.code-md {
+  font-family: var(--font-code);
+  font-size: var(--text-code-md-size);
+  font-weight: var(--text-code-md-weight);
+  line-height: var(--text-code-md-lh);
+  letter-spacing: var(--text-code-md-ls);
+}
+
+.code-sm {
+  font-family: var(--font-code);
+  font-size: var(--text-code-sm-size);
+  font-weight: var(--text-code-sm-weight);
+  line-height: var(--text-code-sm-lh);
+  letter-spacing: var(--text-code-sm-ls);
+}
+
+/* ============================================================
+   Component: Button Primary
+   ============================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: var(--text-button-md-size);
+  font-weight: var(--text-button-md-weight);
+  line-height: var(--text-button-md-lh);
+  letter-spacing: var(--text-button-md-ls);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--rounded-full);
+  padding: 8px 20px;
+  height: 36px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--ink-deep);
+}
+
+.btn-primary:active {
+  background-color: var(--ink-deep);
+}
+
+/* ============================================================
+   Component: Button Secondary
+   ============================================================ */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: var(--text-button-md-size);
+  font-weight: var(--text-button-md-weight);
+  line-height: var(--text-button-md-lh);
+  letter-spacing: var(--text-button-md-ls);
+  background-color: var(--canvas);
+  color: var(--ink);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--rounded-full);
+  padding: 8px 20px;
+  height: 36px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--ink);
+  background-color: var(--surface-soft);
+}
+
+/* ============================================================
+   Component: Button Pill on Dark
+   ============================================================ */
+.btn-pill-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: var(--text-button-md-size);
+  font-weight: var(--text-button-md-weight);
+  line-height: var(--text-button-md-lh);
+  letter-spacing: var(--text-button-md-ls);
+  background-color: var(--canvas);
+  color: var(--ink);
+  border-radius: var(--rounded-full);
+  padding: 8px 20px;
+  height: 36px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.btn-pill-on-dark:hover {
+  opacity: 0.9;
+}
+
+/* ============================================================
+   Component: Search Pill
+   ============================================================ */
+.search-pill {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: var(--surface-soft);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-lh);
+  letter-spacing: var(--text-body-sm-ls);
+  border-radius: var(--rounded-full);
+  padding: 8px 16px;
+  height: 36px;
+  border: none;
+  cursor: text;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-pill:focus,
+.search-pill:focus-within {
+  background-color: var(--canvas);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.search-pill svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.search-pill input {
+  border: none;
+  background: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: var(--ink);
+  width: 100%;
+  min-width: 120px;
+}
+
+.search-pill input::placeholder {
+  color: var(--mute);
+}
+
+/* ============================================================
+   Component: Install Snippet
+   ============================================================ */
+.install-snippet {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: var(--surface-soft);
+  color: var(--ink);
+  font-family: var(--font-code);
+  font-size: var(--text-code-md-size);
+  font-weight: var(--text-code-md-weight);
+  line-height: var(--text-code-md-lh);
+  letter-spacing: var(--text-code-md-ls);
+  border-radius: var(--rounded-full);
+  padding: 12px 20px;
+  height: 48px;
+  border: none;
+  cursor: default;
+  user-select: all;
+  white-space: nowrap;
+}
+
+.install-snippet .copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--mute);
+  flex-shrink: 0;
+  border-radius: var(--rounded-full);
+  transition: color 0.15s ease;
+}
+
+.install-snippet .copy-btn:hover {
+  color: var(--ink);
+}
+
+/* ============================================================
+   Component: Command Tag
+   ============================================================ */
+.command-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface-soft);
+  color: var(--ink);
+  font-family: var(--font-code);
+  font-size: var(--text-code-sm-size);
+  font-weight: var(--text-code-sm-weight);
+  line-height: var(--text-code-sm-lh);
+  letter-spacing: var(--text-code-sm-ls);
+  border-radius: var(--rounded-full);
+  padding: 6px 12px;
+}
+
+/* ============================================================
+   Component: Terminal Card
+   ============================================================ */
+.terminal-card {
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
+}
+
+.terminal-card .traffic-lights {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.terminal-card .traffic-lights .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--rounded-full);
+}
+
+.terminal-card .traffic-lights .dot.red { background-color: var(--terminal-red); }
+.terminal-card .traffic-lights .dot.yellow { background-color: var(--terminal-yellow); }
+.terminal-card .traffic-lights .dot.green { background-color: var(--terminal-green); }
+
+.terminal-card .terminal-body {
+  font-family: var(--font-code);
+  font-size: var(--text-code-sm-size);
+  font-weight: var(--text-code-sm-weight);
+  line-height: var(--text-code-sm-lh);
+  letter-spacing: var(--text-code-sm-ls);
+}
+
+.terminal-card .terminal-body .comment {
+  color: var(--mute);
+}
+
+.terminal-card .terminal-body .command {
+  color: var(--ink);
+}
+
+.terminal-card .terminal-body .output {
+  color: var(--body);
+}
+
+/* ============================================================
+   Component: Pricing Card
+   ============================================================ */
+.pricing-card {
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+}
+
+.pricing-card .pricing-llama {
+  width: 32px;
+  height: 32px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.pricing-card .tier-name {
+  font-family: var(--font-body);
+  font-size: var(--text-heading-md-size);
+  font-weight: var(--text-heading-md-weight);
+  line-height: var(--text-heading-md-lh);
+  letter-spacing: var(--text-heading-md-ls);
+  color: var(--ink);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pricing-card .tier-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-lh);
+  letter-spacing: var(--text-body-sm-ls);
+  color: var(--body);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pricing-card .price {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg-size);
+  font-weight: var(--text-display-lg-weight);
+  line-height: var(--text-display-lg-lh);
+  letter-spacing: var(--text-display-lg-ls);
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pricing-card .price .period {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  color: var(--body);
+}
+
+.pricing-card .pricing-cta {
+  margin-bottom: var(--spacing-xl);
+}
+
+.pricing-card .divider {
+  border: none;
+  border-top: 1px solid var(--hairline);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pricing-card .features-header {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-strong-size);
+  font-weight: var(--text-body-sm-strong-weight);
+  line-height: var(--text-body-sm-strong-lh);
+  letter-spacing: var(--text-body-sm-strong-ls);
+  color: var(--ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pricing-card .feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.pricing-card .feature-list li {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-lh);
+  letter-spacing: var(--text-body-sm-ls);
+  color: var(--charcoal);
+  padding-left: 20px;
+  position: relative;
+}
+
+.pricing-card .feature-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--ink);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-lh);
+}
+
+/* ============================================================
+   Component: Pricing Card Dark (Max tier)
+   ============================================================ */
+.pricing-card-dark {
+  background-color: var(--surface-dark);
+  border: 1px solid var(--surface-dark);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+}
+
+.pricing-card-dark .pricing-llama svg path {
+  stroke: var(--on-dark-mute);
+}
+
+.pricing-card-dark .tier-name {
+  color: var(--on-dark);
+}
+
+.pricing-card-dark .tier-desc {
+  color: var(--on-dark-mute);
+}
+
+.pricing-card-dark .price {
+  color: var(--on-dark);
+}
+
+.pricing-card-dark .price .period {
+  color: var(--on-dark-mute);
+}
+
+.pricing-card-dark .divider {
+  border-top-color: rgba(255,255,255,0.15);
+}
+
+.pricing-card-dark .features-header {
+  color: var(--on-dark);
+}
+
+.pricing-card-dark .feature-list li {
+  color: var(--on-dark-mute);
+}
+
+.pricing-card-dark .feature-list li::before {
+  color: var(--on-dark);
+}
+
+/* ============================================================
+   Component: CTA Strip Dark
+   ============================================================ */
+.cta-strip-dark {
+  background-color: var(--surface-dark);
+  border-radius: var(--rounded-lg);
+  padding: 24px 32px;
+  text-align: center;
+}
+
+.cta-strip-dark .cta-text {
+  font-family: var(--font-display);
+  font-size: var(--text-heading-lg-size);
+  font-weight: var(--text-heading-lg-weight);
+  line-height: var(--text-heading-lg-lh);
+  letter-spacing: var(--text-heading-lg-ls);
+  color: var(--on-dark);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================================
+   Component: FAQ Row
+   ============================================================ */
+.faq-row {
+  background-color: var(--canvas);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.faq-row:last-child {
+  border-bottom: none;
+}
+
+.faq-row .faq-question {
+  font-family: var(--font-body);
+  font-size: var(--text-heading-sm-size);
+  font-weight: var(--text-heading-sm-weight);
+  line-height: var(--text-heading-sm-lh);
+  letter-spacing: var(--text-heading-sm-ls);
+  color: var(--ink);
+  margin-bottom: var(--spacing-xs);
+}
+
+.faq-row .faq-answer {
+  font-family: var(--font-body);
+  font-size: var(--text-body-md-size);
+  font-weight: var(--text-body-md-weight);
+  line-height: var(--text-body-md-lh);
+  letter-spacing: var(--text-body-md-ls);
+  color: var(--body);
+}
+
+.faq-row .faq-answer a {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Layout: Primary Nav
+   ============================================================ */
+.primary-nav {
+  background-color: var(--canvas);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-xl);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.primary-nav .nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.primary-nav .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  text-decoration: none;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-strong-size);
+  font-weight: var(--text-body-sm-strong-weight);
+  line-height: var(--text-body-sm-strong-lh);
+  letter-spacing: var(--text-body-sm-strong-ls);
+}
+
+.primary-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  list-style: none;
+}
+
+.primary-nav .nav-links a {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-strong-size);
+  font-weight: var(--text-body-sm-strong-weight);
+  line-height: var(--text-body-sm-strong-lh);
+  letter-spacing: var(--text-body-sm-strong-ls);
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.primary-nav .nav-links a:hover {
+  color: var(--mute);
+}
+
+.primary-nav .nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.primary-nav .nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* ============================================================
+   Layout: Hero Section
+   ============================================================ */
+.hero-section {
+  text-align: center;
+  padding-top: var(--spacing-section);
+  padding-bottom: var(--spacing-section);
+  padding-left: var(--spacing-xl);
+  padding-right: var(--spacing-xl);
+}
+
+.hero-section .hero-llama {
+  margin-bottom: var(--spacing-xl);
+  display: flex;
+  justify-content: center;
+}
+
+.hero-section .hero-headline {
+  color: var(--ink);
+  max-width: 720px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.hero-section .hero-subhead {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-lh);
+  color: var(--body);
+  margin-bottom: var(--spacing-xl);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-section .hero-install {
+  margin-bottom: var(--spacing-xl);
+  display: inline-flex;
+}
+
+.hero-section .hero-cta {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* ============================================================
+   Layout: Container
+   ============================================================ */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: var(--spacing-xl);
+  padding-right: var(--spacing-xl);
+}
+
+.container-wide {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: var(--spacing-xl);
+  padding-right: var(--spacing-xl);
+}
+
+/* ============================================================
+   Section Spacing
+   ============================================================ */
+.section {
+  padding-top: var(--spacing-section);
+  padding-bottom: var(--spacing-section);
+}
+
+/* ============================================================
+   Layout: Automate Section
+   ============================================================ */
+.automate-section .automate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxl);
+  align-items: center;
+}
+
+.automate-section .automate-text h2 {
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+}
+
+.automate-section .automate-text p {
+  color: var(--body);
+  margin-bottom: var(--spacing-lg);
+}
+
+.automate-section .automate-text .command-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================================
+   Layout: Pricing Section
+   ============================================================ */
+.pricing-section .pricing-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.pricing-section .pricing-header h2 {
+  color: var(--ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pricing-section .pricing-header p {
+  color: var(--body);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+}
+
+/* ============================================================
+   Layout: Data Privacy Section
+   ============================================================ */
+.privacy-section {
+  text-align: center;
+}
+
+.privacy-section .privacy-icon {
+  margin-bottom: var(--spacing-lg);
+}
+
+.privacy-section h2 {
+  color: var(--ink);
+  margin-bottom: var(--spacing-lg);
+}
+
+.privacy-section p {
+  color: var(--body);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   Layout: FAQ Section
+   ============================================================ */
+.faq-section .faq-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.faq-section .faq-header h2 {
+  color: var(--ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+.faq-section .faq-header p {
+  color: var(--body);
+}
+
+.faq-list {
+  border-top: 1px solid var(--hairline);
+}
+
+/* ============================================================
+   Layout: Footer
+   ============================================================ */
+.footer-section {
+  background-color: var(--canvas);
+  border-top: 1px solid var(--hairline);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.footer-section .footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-section .footer-links a {
+  font-family: var(--font-body);
+  font-size: var(--text-caption-sm-size);
+  font-weight: var(--text-caption-sm-weight);
+  line-height: var(--text-caption-sm-lh);
+  letter-spacing: var(--text-caption-sm-ls);
+  color: var(--body);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-section .footer-links a:hover {
+  color: var(--ink);
+}
+
+.footer-section .footer-copyright {
+  font-family: var(--font-body);
+  font-size: var(--text-caption-sm-size);
+  font-weight: var(--text-caption-sm-weight);
+  line-height: var(--text-caption-sm-lh);
+  letter-spacing: var(--text-caption-sm-ls);
+  color: var(--mute);
+}
+
+/* ============================================================
+   Link Inline
+   ============================================================ */
+.link-inline {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 850px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing-grid .pricing-card:last-child,
+  .pricing-grid .pricing-card-dark:last-child {
+    grid-column: 1 / -1;
+  }
+  .primary-nav .nav-links {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --spacing-section: 64px;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .automate-section .automate-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .primary-nav .nav-links,
+  .primary-nav .nav-center {
+    display: none;
+  }
+
+  .primary-nav .nav-right .btn-secondary {
+    display: none;
+  }
+
+  .hero-section .hero-headline {
+    font-size: 28px;
+  }
+
+  .hero-section .hero-install .install-snippet {
+    font-size: 13px;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --spacing-section: 48px;
+  }
+
+  .primary-nav {
+    padding: 0 var(--spacing-lg);
+  }
+
+  .container,
+  .container-wide {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+  }
+
+  .hero-section .hero-headline {
+    font-size: 26px;
+  }
+
+  .install-snippet {
+    font-size: 12px;
+    white-space: normal;
+    height: auto;
+    min-height: 48px;
+  }
+
+  .cta-strip-dark {
+    padding: 24px 20px;
+  }
+
+  .cta-strip-dark .cta-text {
+    font-size: 20px;
+  }
+}
+
+/* ============================================================
+   Focus Ring
+   ============================================================ */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     Primary Navigation
+     ============================================================ -->
+<nav class="primary-nav">
+  <div class="nav-left">
+    <a href="#" class="nav-logo">
+      <!-- Llama icon SVG -->
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 26c-1-3-2-6 0-8l2 4 3 1-2-2 5 0c1-2 3-7-1-9l-4 1-2 7-5-1 1-3c-2 0-4 5-2 10l5 0Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 18c2-4 5-6 9-6 2 0 4 2 3 5" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="26" cy="10" r="2" fill="#000"/>
+        <ellipse cx="17" cy="24" rx="3" ry="2" fill="#000"/>
+        <path d="M12 22c-1 0-2-1-2-2s1-1 2-1" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Ollama
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Models</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Pricing</a></li>
+    </ul>
+  </div>
+  <div class="nav-center">
+    <div class="search-pill" tabindex="0">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input type="text" placeholder="Search models" aria-label="Search models">
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="btn-secondary">Sign in</a>
+    <a href="#" class="btn-primary">Download</a>
+  </div>
+</nav>
+
+<!-- ============================================================
+     Hero Section
+     ============================================================ -->
+<header class="hero-section">
+  <div class="hero-llama">
+    <!-- Hand-drawn llama mascot SVG -->
+    <svg width="96" height="72" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Body -->
+      <ellipse cx="70" cy="76" rx="30" ry="20" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Neck -->
+      <path d="M54 66c-2-12-4-24-2-34" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M86 66c2-12 4-24 2-34" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Head -->
+      <ellipse cx="70" cy="30" rx="16" ry="14" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Ears -->
+      <path d="M58 20l-6-10" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M82 20l6-10" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M54 16l-4-6" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M86 16l4-6" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <!-- Eyes -->
+      <circle cx="64" cy="28" r="2.5" fill="#000"/>
+      <circle cx="76" cy="28" r="2.5" fill="#000"/>
+      <!-- Snout -->
+      <ellipse cx="70" cy="35" rx="5" ry="3" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M65 33c1 1 3 2 5 2s4-1 5-2" stroke="#000" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Legs -->
+      <path d="M52 80c-4 6-6 12-5 16" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M88 80c4 6 6 12 5 16" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M60 82c-2 5-3 10-2 14" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M80 82c2 5 3 10 2 14" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <!-- Tail -->
+      <path d="M96 74c8-2 16-4 18 0s-4 6-10 4" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <h1 class="display-xl hero-headline">The easiest way to build with open models</h1>
+  <p class="hero-subhead">Power OpenClaw with Ollama</p>
+  <div class="hero-install">
+    <div class="install-snippet" onclick="copyInstall()">
+      <span id="install-cmd">curl -fsSL https://ollama.com/install.sh | sh</span>
+      <button class="copy-btn" aria-label="Copy install command" title="Copy">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M2 12V3a1 1 0 011-1h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="hero-cta">
+    <a href="#" class="btn-primary" style="padding: 8px 32px;">Download</a>
+  </div>
+</header>
+
+<!-- ============================================================
+     Automate Your Work Section
+     ============================================================ -->
+<section class="automate-section section" id="features">
+  <div class="container-wide">
+    <div class="automate-grid">
+      <div class="automate-text">
+        <h2 class="heading-lg">Automate your work</h2>
+        <p class="body-md">Run large language models locally with a single command. No cloud account, no API key — just you and the model on your machine.</p>
+        <div class="command-chips">
+          <span class="command-tag">ollama run llama3.2</span>
+          <span class="command-tag">ollama pull mistral</span>
+          <span class="command-tag">ollama launch openclaw</span>
+        </div>
+        <p class="body-md">Ollama gives you everything you need to build AI-powered applications: model management, inference APIs, and a growing library of open-weight models — all running on your hardware.</p>
+      </div>
+      <div class="terminal-card">
+        <div class="traffic-lights">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="comment"># Launch a model</span></div>
+          <div style="margin-top: 4px"><span class="command">$ ollama launch openclaw</span></div>
+          <div style="margin-top: 8px"><span class="comment"># Pulling manifest</span></div>
+          <div style="margin-top: 2px"><span class="output">pulling manifest... 100%</span></div>
+          <div style="margin-top: 2px"><span class="output">pulling model... 100%</span></div>
+          <div style="margin-top: 8px"><span class="comment"># Model ready</span></div>
+          <div style="margin-top: 2px"><span class="output">openclaw is running at http://localhost:11434</span></div>
+          <div style="margin-top: 8px"><span class="command">$ _</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Pricing Section
+     ============================================================ -->
+<section class="pricing-section section" id="pricing">
+  <div class="container-wide">
+    <div class="pricing-header">
+      <h2 class="display-lg">Start local. Scale cloud.</h2>
+      <p class="body-md">Run models on your machine for free, or scale to the cloud when you need more compute.</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- Free Tier -->
+      <div class="pricing-card">
+        <!-- Small llama icon -->
+        <div class="pricing-llama">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="16" cy="22" rx="8" ry="6" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+            <ellipse cx="16" cy="10" rx="5" ry="4" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13 7l-2-4m6 4l2-4" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="14" cy="9" r="1" fill="#000"/>
+            <circle cx="18" cy="9" r="1" fill="#000"/>
+            <path d="M14 12c1 0 2 1 2 1s1-1 2-1" stroke="#000" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="tier-name">Free</div>
+        <div class="tier-desc">Run models locally on your machine</div>
+        <div class="price">$0<span class="period"> / month</span></div>
+        <div class="pricing-cta">
+          <a href="#" class="btn-primary">Get Free</a>
+        </div>
+        <hr class="divider">
+        <div class="features-header">Everything in Free:</div>
+        <ul class="feature-list">
+          <li>Run any open-weight model locally</li>
+          <li>REST API for local inference</li>
+          <li>Model management via CLI</li>
+          <li>Community-supported models</li>
+        </ul>
+      </div>
+
+      <!-- Pro Tier -->
+      <div class="pricing-card">
+        <div class="pricing-llama">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="16" cy="22" rx="8" ry="6" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+            <ellipse cx="16" cy="10" rx="5" ry="4" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13 7l-2-4m6 4l2-4" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="14" cy="9" r="1" fill="#000"/>
+            <circle cx="18" cy="9" r="1" fill="#000"/>
+            <path d="M14 12c1 0 2 1 2 1s1-1 2-1" stroke="#000" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="tier-name">Pro</div>
+        <div class="tier-desc">Access larger models on data-center-grade hardware</div>
+        <div class="price">$20<span class="period"> / month</span></div>
+        <div class="pricing-cta">
+          <a href="#" class="btn-primary">Get Pro</a>
+        </div>
+        <hr class="divider">
+        <div class="features-header">Everything in Free, plus:</div>
+        <ul class="feature-list">
+          <li>Access larger models (70B+)</li>
+          <li>Data-center-grade GPU inference</li>
+          <li>Priority model loading</li>
+          <li>50 requests per minute</li>
+          <li>Email support</li>
+        </ul>
+      </div>
+
+      <!-- Max Tier (Dark) -->
+      <div class="pricing-card-dark">
+        <div class="pricing-llama">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="16" cy="22" rx="8" ry="6" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+            <ellipse cx="16" cy="10" rx="5" ry="4" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13 7l-2-4m6 4l2-4" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="14" cy="9" r="1" fill="rgba(255,255,255,0.8)"/>
+            <circle cx="18" cy="9" r="1" fill="rgba(255,255,255,0.8)"/>
+            <path d="M14 12c1 0 2 1 2 1s1-1 2-1" stroke="rgba(255,255,255,0.6)" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="tier-name">Max</div>
+        <div class="tier-desc">Solve harder tasks, faster</div>
+        <div class="price">$200<span class="period"> / month</span></div>
+        <div class="pricing-cta">
+          <a href="#" class="btn-pill-on-dark">Get Max</a>
+        </div>
+        <hr class="divider">
+        <div class="features-header">Everything in Pro, plus:</div>
+        <ul class="feature-list">
+          <li>Unlimited requests</li>
+          <li>Multi-GPU inference clusters</li>
+          <li>Custom model fine-tuning</li>
+          <li>Dedicated infrastructure</li>
+          <li>99.9% uptime SLA</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Your Data Stays Yours Section
+     ============================================================ -->
+<section class="privacy-section section" id="cta">
+  <div class="container">
+    <!-- Lock icon SVG -->
+    <div class="privacy-icon">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="14" y="22" width="20" height="16" rx="3" stroke="#000" stroke-width="2.5"/>
+        <path d="M18 22v-5a6 6 0 0112 0v5" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="24" cy="30" r="2" stroke="#000" stroke-width="2"/>
+        <path d="M24 32v2" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h2 class="display-lg">Your data stays yours</h2>
+    <p class="body-md">Everything runs on your machine. Your prompts, your conversations, your fine-tuned models — none of it leaves your hardware unless you choose to share it. Ollama has no telemetry, no analytics, and no cloud dependency.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     Dark CTA Strip
+     ============================================================ -->
+<section class="section">
+  <div class="container">
+    <div class="cta-strip-dark">
+      <div class="cta-text">Ready to run models locally?</div>
+      <a href="#" class="btn-pill-on-dark" style="padding: 8px 32px;">Get started for free</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ Section
+     ============================================================ -->
+<section class="faq-section section">
+  <div class="container">
+    <div class="faq-header">
+      <h2 class="display-lg">Frequently asked questions</h2>
+      <p class="body-md">Everything you need to know about running models with Ollama.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-row">
+        <div class="faq-question">What hardware do I need to run Ollama?</div>
+        <div class="faq-answer">Ollama runs on macOS, Linux, and Windows. For most models under 7B parameters, a machine with 8GB of RAM will work well. Larger models (13B–70B) benefit from 16GB+ RAM and a discrete GPU. See our <a href="#" class="link-inline">hardware guide</a> for detailed recommendations.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-question">Can I use Ollama in production?</div>
+        <div class="faq-answer">Yes. Ollama's REST API is designed for production use. The Free tier is great for local development and personal projects. For production workloads with higher throughput requirements, the Pro and Max tiers provide data-center-grade GPU infrastructure and guaranteed availability.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-question">Which models are supported?</div>
+        <div class="faq-answer">Ollama supports hundreds of open-weight models including Llama 3.2, Mistral, Gemma, Phi, Qwen, DeepSeek, and many more. Browse the full library at <a href="#" class="link-inline">ollama.com/library</a>. You can also import custom models in GGUF format.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-question">How does billing work for cloud tiers?</div>
+        <div class="faq-answer">Pro and Max are billed monthly with no long-term commitment. You can upgrade, downgrade, or cancel anytime. Usage is measured in requests per minute — each tier includes a fixed RPM allowance. For custom enterprise plans, contact <a href="#" class="link-inline">hello@ollama.com</a>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Footer
+     ============================================================ -->
+<footer class="footer-section">
+  <div class="footer-links">
+    <a href="#">Download</a>
+    <span style="color: var(--mute);">·</span>
+    <a href="#">Blog</a>
+    <span style="color: var(--mute);">·</span>
+    <a href="#">Docs</a>
+    <span style="color: var(--mute);">·</span>
+    <a href="#">GitHub</a>
+    <span style="color: var(--mute);">·</span>
+    <a href="#">Discord</a>
+    <span style="color: var(--mute);">·</span>
+    <a href="#">X</a>
+    <span style="color: var(--mute);">·</span>
+    <a href="#">Contact</a>
+    <span style="color: var(--mute);">·</span>
+    <a href="#">Privacy</a>
+    <span style="color: var(--mute);">·</span>
+    <a href="#">Terms</a>
+  </div>
+  <div class="footer-copyright">&copy; 2026 Ollama</div>
+</footer>
+
+<script>
+function copyInstall() {
+  const el = document.getElementById('install-cmd');
+  const text = el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.parentElement.querySelector('.copy-btn svg');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<path d="M4 8l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+    setTimeout(() => { btn.innerHTML = orig; }, 2000);
+  }).catch(() => {});
+}
+</script>
+
+</body>
+</html>

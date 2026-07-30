@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniMax — Intelligence with Everyone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  background: #ffffff;
+  color: #222222;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.50;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { text-decoration: none; color: inherit; }
+img, svg { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+/* ── Container ── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ── Promo Banner ── */
+.promo-banner {
+  background: #0a0a0a;
+  color: #ffffff;
+  text-align: center;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+}
+.promo-banner a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
+/* ── Nav ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 1px solid #eaecf0;
+  height: 64px;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.40;
+  color: #0a0a0a;
+}
+.nav-logo svg { width: 28px; height: 28px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: #222222;
+  transition: color 0.15s ease;
+}
+.nav-links a:hover { color: #0a0a0a; }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #0a0a0a;
+  border: 1px solid #0a0a0a;
+  border-radius: 9999px;
+  padding: 11px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.40;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.btn-outline:hover { background: #0a0a0a; color: #ffffff; }
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 11px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.40;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.btn-primary:hover { background: #222222; }
+.btn-primary:active { background: #222222; transform: scale(0.98); }
+.btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #0a0a0a;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  padding: 11px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.40;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.btn-tertiary:hover { background: #f7f8fa; border-color: #d1d5db; }
+
+/* ── Hero ── */
+.hero {
+  padding: 96px 0;
+  text-align: center;
+  background: #ffffff;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #e8ffea;
+  color: #1ba673;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.50;
+  margin-bottom: 24px;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1ba673;
+}
+.hero-headline {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 80px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -2px;
+  color: #0a0a0a;
+  max-width: 900px;
+  margin: 0 auto 24px;
+}
+.hero-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: #5f5f5f;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ── Section Headers ── */
+.section-label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.40;
+  color: #0a0a0a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+.section-heading {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -1px;
+  color: #0a0a0a;
+  margin-bottom: 16px;
+}
+.section-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: #5f5f5f;
+  max-width: 560px;
+}
+.section-header {
+  text-align: center;
+  padding: 0 0 48px;
+}
+
+/* ── Product Cards Matrix ── */
+.product-matrix {
+  padding: 80px 0;
+  background: #ffffff;
+}
+.product-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.product-card {
+  border-radius: 32px;
+  padding: 32px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-2px);
+}
+.product-card-coral {
+  background: linear-gradient(135deg, #ff5530 0%, #ff7355 100%);
+  box-shadow: rgba(255, 85, 48, 0.18) 0px 0px 22px 0px;
+}
+.product-card-coral:hover {
+  box-shadow: rgba(255, 85, 48, 0.28) 0px 0px 32px 0px;
+}
+.product-card-magenta {
+  background: linear-gradient(135deg, #ea5ec1 0%, #d946ef 100%);
+  box-shadow: rgba(234, 94, 193, 0.18) 0px 0px 22px 0px;
+}
+.product-card-magenta:hover {
+  box-shadow: rgba(234, 94, 193, 0.28) 0px 0px 32px 0px;
+}
+.product-card-blue {
+  background: linear-gradient(135deg, #1456f0 0%, #3b82f6 100%);
+  box-shadow: rgba(20, 86, 240, 0.18) 0px 0px 22px 0px;
+}
+.product-card-blue:hover {
+  box-shadow: rgba(20, 86, 240, 0.28) 0px 0px 32px 0px;
+}
+.product-card-purple {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  box-shadow: rgba(168, 85, 247, 0.18) 0px 0px 22px 0px;
+}
+.product-card-purple:hover {
+  box-shadow: rgba(168, 85, 247, 0.28) 0px 0px 32px 0px;
+}
+.product-card-badge {
+  align-self: flex-start;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.50;
+}
+.product-card-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  opacity: 0.9;
+}
+.product-card-title {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+.product-card-desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  opacity: 0.8;
+  max-width: 240px;
+}
+.product-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.40;
+  margin-top: auto;
+  opacity: 0.9;
+}
+.product-card-footer svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+.product-card:hover .product-card-footer svg {
+  transform: translateX(4px);
+}
+
+/* ── AI Product Matrix ── */
+.ai-product-section {
+  padding: 80px 0;
+  background: #f7f8fa;
+}
+.ai-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.ai-product-tile {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ai-product-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(0,0,0,0.04) 0px 1px 2px 0px;
+}
+.ai-product-illustration {
+  width: 100%;
+  height: 100px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.ai-product-illustration.t1 { background: linear-gradient(135deg, #f0f4ff, #dbeafe); }
+.ai-product-illustration.t2 { background: linear-gradient(135deg, #fdf2f8, #fce7f3); }
+.ai-product-illustration.t3 { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+.ai-product-illustration.t4 { background: linear-gradient(135deg, #faf5ff, #f3e8ff); }
+.ai-product-tile h4 {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.40;
+  color: #0a0a0a;
+  margin-bottom: 8px;
+}
+.ai-product-tile p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: #5f5f5f;
+}
+
+/* ── Stats Row ── */
+.stats-section {
+  padding: 64px 0;
+  background: #ffffff;
+  border-top: 1px solid #eaecf0;
+  border-bottom: 1px solid #eaecf0;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+.stat-cell h3 {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -1px;
+  color: #0a0a0a;
+  margin-bottom: 8px;
+}
+.stat-cell p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: #5f5f5f;
+}
+
+/* ── Feature Cards Section ── */
+.features-section {
+  padding: 80px 0;
+  background: #ffffff;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.feature-card {
+  background: #f7f8fa;
+  border-radius: 16px;
+  padding: 32px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(0,0,0,0.08) 0px 4px 6px 0px;
+}
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.feature-icon.f1 { background: #ff5530; }
+.feature-icon.f2 { background: #1456f0; }
+.feature-icon.f3 { background: #a855f7; }
+.feature-icon.f4 { background: #ea5ec1; }
+.feature-icon.f5 { background: #3b82f6; }
+.feature-icon.f6 { background: #1ba673; }
+.feature-card h4 {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.40;
+  color: #0a0a0a;
+  margin-bottom: 8px;
+}
+.feature-card p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: #5f5f5f;
+}
+
+/* ── Promo CTA Card ── */
+.promo-cta-section {
+  padding: 80px 0;
+  background: #ffffff;
+}
+.promo-cta-card {
+  background: linear-gradient(135deg, #ff5530, #ff7355);
+  border-radius: 32px;
+  padding: 64px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  box-shadow: rgba(255,85,48,0.12) 0px 0px 22px 0px;
+}
+.promo-cta-card h3 {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+.promo-cta-card p {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.50;
+  opacity: 0.9;
+}
+.promo-cta-card .btn-tertiary {
+  flex-shrink: 0;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.40;
+}
+
+/* ── Pricing Section ── */
+.pricing-section {
+  padding: 80px 0;
+  background: #ffffff;
+}
+.pricing-tabs {
+  display: inline-flex;
+  gap: 8px;
+  margin-bottom: 40px;
+  justify-content: center;
+  width: 100%;
+}
+.pill-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #5f5f5f;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  transition: all 0.15s ease;
+}
+.pill-tab.active {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+}
+.pill-tab:hover:not(.active) {
+  background: #f7f8fa;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.pricing-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  position: relative;
+  transition: box-shadow 0.2s ease;
+}
+.pricing-card:hover {
+  box-shadow: rgba(0,0,0,0.08) 0px 4px 6px 0px;
+}
+.pricing-card.recommended {
+  border-color: #0a0a0a;
+  box-shadow: rgba(0,0,0,0.04) 0px 1px 2px 0px;
+}
+.pricing-badge {
+  display: inline-block;
+  background: #ff5530;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.50;
+  margin-bottom: 16px;
+}
+.pricing-card h4 {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.40;
+  color: #0a0a0a;
+  margin-bottom: 4px;
+}
+.pricing-card .price-desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: #5f5f5f;
+  margin-bottom: 16px;
+}
+.pricing-price {
+  font-family: 'DM Sans', 'SF Pro Display', Inter, system-ui, -apple-system, sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -1px;
+  color: #0a0a0a;
+  margin-bottom: 4px;
+}
+.pricing-price span {
+  font-size: 16px;
+  font-weight: 400;
+  color: #8e8e93;
+  letter-spacing: 0;
+}
+.pricing-features {
+  list-style: none;
+  margin: 20px 0 24px;
+}
+.pricing-features li {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: #222222;
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pricing-features li::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  background: #e8ffea;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pricing-card .btn-primary,
+.pricing-card .btn-outline {
+  width: 100%;
+}
+
+/* ── Footer ── */
+.footer {
+  background: #0a0a0a;
+  padding: 64px 32px;
+  color: #ffffff;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.footer-brand p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: #a8aab2;
+  max-width: 260px;
+  margin-top: 16px;
+}
+.footer-col h4 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+.footer-col a {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: #a8aab2;
+  padding: 4px 0;
+  transition: color 0.15s ease;
+}
+.footer-col a:hover { color: #ffffff; }
+.footer-bottom {
+  max-width: 1280px;
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: #a8aab2;
+}
+.social-icons {
+  display: flex;
+  gap: 12px;
+}
+.social-icons a {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.social-icons a:hover {
+  border-color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.05);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
+  .product-matrix-grid,
+  .ai-product-grid { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-headline { font-size: 56px; letter-spacing: -1.5px; }
+  .promo-cta-card { flex-direction: column; text-align: center; padding: 40px 32px; }
+  .promo-cta-card h3 { font-size: 32px; letter-spacing: -0.5px; }
+  .section-heading { font-size: 32px; letter-spacing: -0.5px; }
+}
+
+@media (max-width: 767px) {
+  .product-matrix-grid,
+  .ai-product-grid,
+  .features-grid,
+  .stats-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-headline { font-size: 40px; letter-spacing: -1px; }
+  .hero { padding: 64px 0; }
+  .container { padding: 0 20px; }
+  .nav-inner { padding: 0 20px; }
+  .product-matrix { padding: 64px 0; }
+  .ai-product-section { padding: 64px 0; }
+  .features-section { padding: 64px 0; }
+  .promo-cta-section { padding: 64px 0; }
+  .pricing-section { padding: 64px 0; }
+  .section-heading { font-size: 32px; }
+  .pricing-tabs { flex-direction: column; align-items: center; }
+}
+
+@media (max-width: 479px) {
+  .hero-headline { font-size: 32px; letter-spacing: -0.5px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .product-card { min-height: 280px; }
+  .product-card-title { font-size: 32px; }
+  .nav-actions .btn-outline { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Promo Banner -->
+<div class="promo-banner">
+  Invite &amp; Earn — Rewards for Both! <a href="#">Learn more →</a>
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="#0a0a0a"/><text x="14" y="20" text-anchor="middle" fill="#fff" font-size="14" font-weight="700" font-family="DM Sans,sans-serif">M</text></svg>
+      MiniMax
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Models</a></li>
+      <li><a href="#">Product</a></li>
+      <li><a href="#">API</a></li>
+      <li><a href="#">Company</a></li>
+      <li><a href="#">Pricing</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn-outline">Login</a>
+      <a href="#" class="btn-primary">Contact Us</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge">M2.7 Now Available</div>
+    <h1 class="hero-headline">Intelligence<br>with Everyone</h1>
+    <p class="hero-subtitle">Build with the full-stack model matrix — from text generation to video, audio, and speech. One platform, every modality.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Start Building Free →</a>
+      <a href="#" class="btn-outline">Explore Models</a>
+    </div>
+  </div>
+</header>
+
+<!-- Product Cards Matrix -->
+<section id="products" class="product-matrix">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Full-Stack Model Matrix</div>
+      <h2 class="section-heading">One platform,<br>every modality</h2>
+      <p class="section-subtitle" style="margin: 0 auto;">Choose from our family of state-of-the-art models, each purpose-built for its domain.</p>
+    </div>
+    <div class="product-matrix-grid">
+      <a href="#" class="product-card product-card-coral">
+        <div>
+          <span class="product-card-badge">NEW</span>
+          <svg class="product-card-icon" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><path d="M18 16h12l-6 9h4l-8 10 2-7h-4l3-7-3 7Z" fill="rgba(255,255,255,0.8)" transform="translate(13,9) scale(0.65)"/></svg>
+        </div>
+        <div>
+          <div class="product-card-title">M2.7</div>
+          <p class="product-card-desc">Most capable large language model with advanced reasoning</p>
+        </div>
+        <div class="product-card-footer">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+      <a href="#" class="product-card product-card-magenta">
+        <div>
+          <span class="product-card-badge">NEW</span>
+          <svg class="product-card-icon" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><path d="M18 10v21a4 4 0 004 4 4 4 0 004-4v-21M22 28h4" stroke="rgba(255,255,255,0.8)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="product-card-title">Music 2.6</div>
+          <p class="product-card-desc">AI-powered music generation with studio-quality output</p>
+        </div>
+        <div class="product-card-footer">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+      <a href="#" class="product-card product-card-blue">
+        <div>
+          <span class="product-card-badge">LIVE</span>
+          <svg class="product-card-icon" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><rect x="18" y="14" width="12" height="16" rx="2" stroke="rgba(255,255,255,0.8)" stroke-width="2" fill="none"/><path d="M20 18l6 4-6 4v-8Z" fill="rgba(255,255,255,0.8)"/></svg>
+        </div>
+        <div>
+          <div class="product-card-title">Hailuo</div>
+          <p class="product-card-desc">Text-to-video generation with cinematic quality and control</p>
+        </div>
+        <div class="product-card-footer">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+      <a href="#" class="product-card product-card-purple">
+        <div>
+          <span class="product-card-badge">NEW</span>
+          <svg class="product-card-icon" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><path d="M16 16h16M16 24h12M16 32h8" stroke="rgba(255,255,255,0.8)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="product-card-title">Speech 2.8</div>
+          <p class="product-card-desc">Natural text-to-speech with 40+ languages and emotional control</p>
+        </div>
+        <div class="product-card-footer">
+          Learn more
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- AI Product Matrix -->
+<section id="platform" class="ai-product-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">AI Platform</div>
+      <h2 class="section-heading">Products for every<br>creative workflow</h2>
+      <p class="section-subtitle" style="margin: 0 auto;">Purpose-built tools that harness our models for specific use cases.</p>
+    </div>
+    <div class="ai-product-grid">
+      <a href="#" class="ai-product-tile">
+        <div class="ai-product-illustration t1">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="18" fill="#1456f0" opacity="0.12"/>
+            <path d="M18 20a4 4 0 017-2.65A4 4 0 0125 24v4a4 4 0 11-4-4v-2a4 4 0 00-3 3.87V28" stroke="#1456f0" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h4>Agent</h4>
+        <p>Autonomous AI agents that plan, reason, and execute complex multi-step tasks across tools and APIs.</p>
+      </a>
+      <a href="#" class="ai-product-tile">
+        <div class="ai-product-illustration t2">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="18" fill="#ea5ec1" opacity="0.12"/>
+            <rect x="15" y="14" width="18" height="20" rx="3" stroke="#ea5ec1" stroke-width="2" fill="none"/>
+            <path d="M18 21l4 3 4-3" stroke="#ea5ec1" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h4>Hailuo Video</h4>
+        <p>Generate cinematic video from text prompts with motion control and scene composition.</p>
+      </a>
+      <a href="#" class="ai-product-tile">
+        <div class="ai-product-illustration t3">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="18" fill="#1ba673" opacity="0.12"/>
+            <path d="M18 20v4a2 2 0 002 2h8a2 2 0 002-2v-4M22 16h4a2 2 0 012 2v2h-8v-2a2 2 0 012-2z" stroke="#1ba673" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h4>MiniMax Audio</h4>
+        <p>Studio-grade music generation, sound effects, and audio editing powered by generative AI.</p>
+      </a>
+      <a href="#" class="ai-product-tile">
+        <div class="ai-product-illustration t4">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="18" fill="#a855f7" opacity="0.12"/>
+            <path d="M16 28V18l12-4v14M16 28a3 3 0 103-3 3 3 0 00-3 3z" stroke="#a855f7" stroke-width="2" fill="none"/>
+            <path d="M28 28a3 3 0 103-3 3 3 0 00-3 3z" stroke="#a855f7" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <h4>Video</h4>
+        <p>Real-time video understanding with scene analysis, object detection, and content moderation.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <h3>214,000+</h3>
+        <p>Enterprise Clients &amp; Developers</p>
+      </div>
+      <div class="stat-cell">
+        <h3>40+</h3>
+        <p>Countries Served</p>
+      </div>
+      <div class="stat-cell">
+        <h3>99.9%</h3>
+        <p>API Uptime SLA</p>
+      </div>
+      <div class="stat-cell">
+        <h3>10B+</h3>
+        <p>API Calls per Month</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Why MiniMax</div>
+      <h2 class="section-heading">Built for scale,<br>designed for speed</h2>
+      <p class="section-subtitle" style="margin: 0 auto;">Enterprise-grade infrastructure with developer-first DX.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon f1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h4>Sub-100ms Latency</h4>
+        <p>Optimized inference across our global edge network with streaming responses for real-time applications.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon f2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h4>Multi-Modal Stack</h4>
+        <p>One unified API across text, image, video, and audio — no need to stitch together multiple providers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon f3">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="#fff" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <h4>Enterprise Security</h4>
+        <p>SOC 2 Type II certified with data encryption at rest and in transit. Custom VPC deployment available.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon f4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 20V10M18 20V4M6 20v-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h4>Fine-Tuning &amp; Custom Models</h4>
+        <p>Train on your proprietary data with LoRA, full fine-tuning, and RLHF. Deploy as private endpoints.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon f5">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2" fill="none"/><path d="M12 6v6l4 2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h4>99.9% Uptime SLA</h4>
+        <p>Redundant infrastructure across three availability zones. Automatic failover with zero data loss.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon f6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h4>Streaming &amp; Batch APIs</h4>
+        <p>Real-time streaming with SSE, plus async batch processing for high-volume workloads at lower cost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" class="pricing-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-heading">Simple, transparent<br>token-based pricing</h2>
+      <p class="section-subtitle" style="margin: 0 auto;">Pay only for what you use. No hidden fees, no minimum commitments.</p>
+    </div>
+    <div class="pricing-tabs">
+      <button class="pill-tab active">Token Plan</button>
+      <button class="pill-tab">Audio Subscription</button>
+      <button class="pill-tab">Video Package</button>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h4>Starter</h4>
+        <p class="price-desc">For individuals and small projects</p>
+        <div class="pricing-price">$0<span>/mo</span></div>
+        <ul class="pricing-features">
+          <li>100K tokens per month</li>
+          <li>Access to all text models</li>
+          <li>Community support</li>
+          <li>Standard API rate limits</li>
+        </ul>
+        <a href="#" class="btn-outline">Get Started</a>
+      </div>
+      <div class="pricing-card recommended">
+        <span class="pricing-badge">Most Popular</span>
+        <h4>Pro</h4>
+        <p class="price-desc">For teams and growing products</p>
+        <div class="pricing-price">$49<span>/mo</span></div>
+        <ul class="pricing-features">
+          <li>5M tokens per month</li>
+          <li>All models + priority access</li>
+          <li>Email support, 4hr SLA</li>
+          <li>10 concurrent requests</li>
+          <li>Fine-tuning access</li>
+        </ul>
+        <a href="#" class="btn-primary">Start Free Trial</a>
+      </div>
+      <div class="pricing-card">
+        <h4>Enterprise</h4>
+        <p class="price-desc">For large-scale deployments</p>
+        <div class="pricing-price">Custom</div>
+        <ul class="pricing-features">
+          <li>Unlimited tokens, volume pricing</li>
+          <li>Dedicated infrastructure</li>
+          <li>24/7 premium support</li>
+          <li>Custom model training</li>
+          <li>SSO &amp; audit logs</li>
+        </ul>
+        <a href="#" class="btn-outline">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Promo CTA -->
+<section id="cta" class="promo-cta-section">
+  <div class="container">
+    <div class="promo-cta-card">
+      <div>
+        <h3>Start building with<br>MiniMax today</h3>
+        <p>Get $5 in free credits — no credit card required.</p>
+      </div>
+      <a href="#" class="btn-tertiary">Join Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="#fff"/><text x="14" y="20" text-anchor="middle" fill="#0a0a0a" font-size="14" font-weight="700" font-family="DM Sans,sans-serif">M</text></svg>
+        <span style="font-size:20px;font-weight:600;color:#ffffff;">MiniMax</span>
+      </div>
+      <p>Intelligence with everyone. Building the infrastructure for the next generation of AI-powered applications.</p>
+      <div class="social-icons" style="margin-top:20px;">
+        <a href="#" aria-label="X">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/></svg>
+        </a>
+        <a href="#" aria-label="GitHub">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+        <a href="#" aria-label="Discord">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 00-3.257-1.011.05.05 0 00-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 00-3.658 0 8.243 8.243 0 00-.412-.833.051.051 0 00-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 00-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 004.015 2.03.052.052 0 00.056-.019c.31-.42.585-.864.82-1.33a.05.05 0 00-.028-.07 8.728 8.728 0 01-1.255-.598.05.05 0 01-.005-.085c.084-.063.168-.128.248-.194a.05.05 0 01.051-.007c2.634 1.202 5.488 1.202 8.088 0a.05.05 0 01.052.007c.08.066.164.131.248.195a.05.05 0 01-.004.084c-.39.249-.81.45-1.256.599a.05.05 0 00-.028.07c.237.465.512.91.82 1.33a.05.05 0 00.056.019 13.244 13.244 0 004.017-2.03.043.043 0 00.021-.037c.334-3.451-.559-6.449-2.366-9.107a.034.034 0 00-.02-.018z"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 011.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 01-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 01-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 010 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 011.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 017.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Research</h4>
+      <a href="#">Overview</a>
+      <a href="#">Papers</a>
+      <a href="#">Blog</a>
+      <a href="#">Safety</a>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#">Models</a>
+      <a href="#">Agent</a>
+      <a href="#">Hailuo Video</a>
+      <a href="#">Audio</a>
+    </div>
+    <div class="footer-col">
+      <h4>API</h4>
+      <a href="#">Documentation</a>
+      <a href="#">API Reference</a>
+      <a href="#">Changelog</a>
+      <a href="#">Status</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+      <a href="#">Press</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 MiniMax. All rights reserved.</span>
+    <div style="display:flex;gap:24px;">
+      <a href="#" style="font-size:12px;color:#a8aab2;">Privacy Policy</a>
+      <a href="#" style="font-size:12px;color:#a8aab2;">Terms of Service</a>
+      <a href="#" style="font-size:12px;color:#a8aab2;">Cookie Policy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

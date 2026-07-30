@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airtable — Create apps that move work forward</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..600&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: #ffffff;
+  color: #333840;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: #1b61c9;
+  text-decoration: none;
+}
+
+a:active {
+  color: #1a3866;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* ===== TOP NAV ===== */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dddddd;
+}
+
+.top-nav .container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 32px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #181d26;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.nav-logo svg {
+  width: 28px;
+  height: 28px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #333840;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  padding: 4px 0;
+  transition: color 0.15s;
+}
+
+.nav-links a:active {
+  color: #181d26;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.nav-text-link {
+  color: #333840;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  padding: 4px 0;
+}
+
+.nav-text-link:active {
+  color: #181d26;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #181d26;
+  color: #ffffff;
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s;
+  white-space: nowrap;
+}
+
+.btn-primary:active {
+  background-color: #0d1218;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #181d26;
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  padding: 16px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.15s, background-color 0.15s;
+  white-space: nowrap;
+}
+
+.btn-secondary:active {
+  border-color: #9297a0;
+  background-color: #f8fafc;
+}
+
+.btn-secondary-on-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #181d26;
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  padding: 16px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s;
+  white-space: nowrap;
+}
+
+.btn-secondary-on-dark:active {
+  background-color: rgba(255,255,255,0.88);
+}
+
+/* ===== HERO ===== */
+.hero-band {
+  padding: 96px 0;
+  padding-top: 160px;
+  background-color: #ffffff;
+}
+
+.hero-band .container {
+  text-align: center;
+}
+
+.hero-headline {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #181d26;
+  max-width: 800px;
+  margin: 0 auto 16px;
+}
+
+.hero-subhead {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #333840;
+  max-width: 620px;
+  margin: 0 auto 32px;
+}
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ===== TRUSTED BY - LOGO STRIP ===== */
+.logo-strip {
+  padding: 32px 0;
+  background-color: #ffffff;
+}
+
+.logo-strip-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #41454d;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.logo-strip-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.logo-strip-item {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #9297a0;
+  line-height: 1.4;
+}
+
+/* ===== DEMO GRID FEATURES ===== */
+.demo-grid-section {
+  padding: 96px 0;
+  background-color: #ffffff;
+}
+
+.demo-grid-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.demo-grid-header h2 {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #181d26;
+  margin-bottom: 16px;
+}
+
+.demo-grid-header p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #333840;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.demo-grid-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  overflow: hidden;
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-grid-card:nth-child(1) {
+  background-color: #fcab79;
+  min-height: 320px;
+}
+
+.demo-grid-card:nth-child(2) {
+  background-color: #a8d8c4;
+  min-height: 280px;
+}
+
+.demo-grid-card:nth-child(3) {
+  background-color: #f5e9d4;
+  min-height: 360px;
+}
+
+.demo-grid-card:nth-child(4) {
+  background-color: #f4d35e;
+  min-height: 300px;
+}
+
+.demo-grid-card:nth-child(5) {
+  background-color: #d9a441;
+  min-height: 340px;
+}
+
+.demo-grid-card:nth-child(6) {
+  background-color: #fcab79;
+  min-height: 260px;
+}
+
+.demo-grid-card-label {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #181d26;
+  margin-bottom: 8px;
+}
+
+.demo-grid-card-mockup {
+  flex: 1;
+  background: rgba(255,255,255,0.45);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Mockup SVG elements */
+.demo-mockup-content {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mockup-row {
+  display: flex;
+  gap: 6px;
+}
+
+.mockup-cell {
+  height: 8px;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.08);
+}
+
+.mockup-cell-wide {
+  flex: 1;
+}
+
+.mockup-cell-sm {
+  width: 30%;
+}
+
+.mockup-cell-md {
+  width: 50%;
+}
+
+.mockup-cell-xs {
+  width: 20%;
+}
+
+.mockup-table-row {
+  display: flex;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.mockup-table-cell {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 10px;
+  line-height: 1.3;
+  color: rgba(0,0,0,0.25);
+}
+
+.mockup-table-cell.header {
+  color: rgba(0,0,0,0.45);
+  font-weight: 500;
+}
+
+/* ===== FEATURE TABBED SECTION ===== */
+.feature-tabbed-section {
+  padding: 96px 0;
+  background-color: #ffffff;
+}
+
+.feature-tabbed-card {
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  gap: 48px;
+  min-height: 420px;
+}
+
+.tab-rail {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tab-item {
+  padding: 12px 16px;
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #41454d;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.15s, background-color 0.15s;
+  border: none;
+  background: none;
+  text-align: left;
+}
+
+.tab-item.active {
+  color: #181d26;
+  background-color: #ffffff;
+}
+
+.tab-item:active {
+  color: #181d26;
+}
+
+.tab-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.tab-illustration {
+  width: 320px;
+  height: 240px;
+  background: linear-gradient(135deg, #a8d8c4 0%, #fcab79 50%, #f4d35e 100%);
+  border-radius: 10px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-illustration::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-info h3 {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0.12px;
+  color: #181d26;
+  margin-bottom: 12px;
+}
+
+.tab-info p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #333840;
+  margin-bottom: 20px;
+}
+
+.tab-link {
+  color: #1b61c9;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tab-link:active {
+  color: #1a3866;
+}
+
+/* ===== SIGNATURE CORAL CARD ===== */
+.signature-coral-card {
+  background-color: #aa2d00;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 48px;
+  margin: 0 auto;
+}
+
+.signature-coral-card h2 {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #ffffff;
+  margin-bottom: 16px;
+  max-width: 600px;
+}
+
+.signature-coral-card p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: rgba(255,255,255,0.82);
+  margin-bottom: 24px;
+  max-width: 520px;
+}
+
+/* ===== CREAM CALLOUT ===== */
+.cream-callout-section {
+  padding: 96px 0;
+  background-color: #ffffff;
+}
+
+.cream-callout-card {
+  background-color: #f5e9d4;
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+}
+
+.cream-callout-card h2 {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0.12px;
+  color: #181d26;
+  margin-bottom: 16px;
+}
+
+.cream-callout-card p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #333840;
+  margin-bottom: 24px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cream-callout-graphic {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.cream-graphic-item {
+  background: rgba(255,255,255,0.6);
+  border-radius: 6px;
+  width: 180px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+.cream-graphic-stat {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #aa2d00;
+}
+
+.cream-graphic-label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.16px;
+  color: #41454d;
+}
+
+/* ===== DARK CTA CARD (hero-card-dark) ===== */
+.dark-cta-section {
+  padding: 96px 0;
+  background-color: #ffffff;
+}
+
+.hero-card-dark {
+  background-color: #181d26;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 48px;
+}
+
+.hero-card-dark h2 {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #ffffff;
+  margin-bottom: 16px;
+  max-width: 640px;
+}
+
+.hero-card-dark p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 24px;
+  max-width: 520px;
+}
+
+.hero-card-dark .btn-primary {
+  background-color: #ffffff;
+  color: #181d26;
+}
+
+.hero-card-dark .btn-primary:active {
+  background-color: #e0e2e6;
+}
+
+/* ===== CTA BAND LIGHT ===== */
+.cta-band-light {
+  background-color: #e0e2e6;
+  border-radius: 12px;
+  padding: 48px;
+  text-align: center;
+}
+
+.cta-band-light h2 {
+  font-family: 'Inter Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #181d26;
+  margin-bottom: 16px;
+}
+
+.cta-band-light p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #333840;
+  margin-bottom: 24px;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  padding: 64px 0 48px;
+  background-color: #ffffff;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.footer-column h4 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.16px;
+  color: #181d26;
+  margin-bottom: 16px;
+}
+
+.footer-column ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-column a {
+  color: #41454d;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.footer-column a:active {
+  color: #181d26;
+}
+
+.footer-bottom {
+  border-top: 1px solid #dddddd;
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-bottom-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-bottom-left span,
+.footer-bottom-left a {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #41454d;
+}
+
+.footer-bottom-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #181d26;
+  border: 1px solid #dddddd;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.social-icon:active {
+  background-color: #f8fafc;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 960px) {
+  .container {
+    padding: 0 32px;
+  }
+
+  .demo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feature-tabbed-card {
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .tab-rail {
+    flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
+    gap: 4px;
+    padding-bottom: 8px;
+  }
+
+  .tab-item {
+    white-space: nowrap;
+  }
+
+  .tab-content {
+    flex-direction: column;
+  }
+
+  .tab-illustration {
+    width: 100%;
+    height: 180px;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero-headline {
+    font-size: 32px;
+  }
+
+  .logo-strip-row {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .hero-band {
+    padding: 96px 0 64px;
+    padding-top: 128px;
+  }
+
+  .hero-headline {
+    font-size: 28px;
+  }
+
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-grid-card {
+    min-height: 200px !important;
+  }
+
+  .signature-coral-card,
+  .hero-card-dark,
+  .cta-band-light {
+    padding: 32px 24px;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .logo-strip-row {
+    gap: 24px;
+  }
+
+  .logo-strip-item {
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== TOP NAV ========== -->
+<nav class="top-nav">
+  <div class="container">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect x="2" y="2" width="24" height="24" rx="4" fill="#181d26"/><rect x="6.5" y="7.5" width="6" height="4.5" rx="1.5" fill="#ffffff"/><rect x="6.5" y="16" width="15" height="4.5" rx="1.5" fill="#ffffff" opacity="0.6"/></svg>
+      Airtable
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Platform</a></li>
+      <li><a href="#solutions">Solutions</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#enterprise">Enterprise</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#" class="nav-text-link">Log in</a>
+      <a href="#" class="btn-secondary" style="padding: 10px 18px; font-size: 14px;">Book a demo</a>
+      <a href="#" class="btn-primary" style="padding: 10px 18px; font-size: 14px;">Sign up for free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero-band">
+  <div class="container">
+    <h1 class="hero-headline">Create apps that move work forward</h1>
+    <p class="hero-subhead">Build powerful applications on a flexible platform. Connect your data, workflows, and teams — all in one place.</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary">Sign up for free</a>
+      <a href="#" class="btn-secondary">Book a demo</a>
+    </div>
+  </div>
+</header>
+
+<!-- ========== TRUSTED BY ========== -->
+<section class="logo-strip">
+  <div class="container">
+    <p class="logo-strip-label">Trusted by teams at</p>
+    <div class="logo-strip-row">
+      <span class="logo-strip-item">NETFLIX</span>
+      <span class="logo-strip-item">Shopify</span>
+      <span class="logo-strip-item">TIME</span>
+      <span class="logo-strip-item">Condé Nast</span>
+      <span class="logo-strip-item">Expedia</span>
+      <span class="logo-strip-item">BAKER HUGHES</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DEMO GRID FEATURES ========== -->
+<section id="features" class="demo-grid-section">
+  <div class="container">
+    <div class="demo-grid-header">
+      <h2>Everything you need to build powerful apps</h2>
+      <p>From product management to marketing operations, Airtable gives every team the building blocks to create the tools they need.</p>
+    </div>
+    <div class="demo-grid">
+      <div class="demo-grid-card">
+        <span class="demo-grid-card-label">Interface Designer</span>
+        <div class="demo-grid-card-mockup">
+          <div class="demo-mockup-content">
+            <div class="mockup-row">
+              <div class="mockup-cell mockup-cell-sm" style="height:24px;background:rgba(0,0,0,0.12);border-radius:4px;"></div>
+              <div class="mockup-cell mockup-cell-wide" style="height:24px;background:rgba(255,255,255,0.7);border-radius:4px;"></div>
+            </div>
+            <div class="mockup-row" style="gap:4px;">
+              <div class="mockup-cell mockup-cell-wide" style="height:60px;background:rgba(255,255,255,0.85);border-radius:4px;"></div>
+              <div class="mockup-cell mockup-cell-wide" style="height:60px;background:rgba(255,255,255,0.6);border-radius:4px;"></div>
+            </div>
+            <div class="mockup-row">
+              <div class="mockup-cell mockup-cell-sm" style="height:8px;background:rgba(0,0,0,0.08);border-radius:2px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-grid-card">
+        <span class="demo-grid-card-label">Automations</span>
+        <div class="demo-grid-card-mockup">
+          <div class="demo-mockup-content">
+            <div class="mockup-row" style="align-items:center;gap:12px;margin-bottom:12px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.1);flex-shrink:0;"></div>
+              <div style="flex:1;">
+                <div style="height:8px;background:rgba(0,0,0,0.1);border-radius:2px;width:60%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:rgba(0,0,0,0.06);border-radius:2px;width:80%;"></div>
+              </div>
+            </div>
+            <div style="width:2px;height:20px;background:rgba(0,0,0,0.08);margin-left:15px;margin-bottom:4px;"></div>
+            <div class="mockup-row" style="align-items:center;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.1);flex-shrink:0;"></div>
+              <div style="flex:1;">
+                <div style="height:8px;background:rgba(0,0,0,0.1);border-radius:2px;width:50%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:rgba(0,0,0,0.06);border-radius:2px;width:70%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-grid-card">
+        <span class="demo-grid-card-label">Data Sync</span>
+        <div class="demo-grid-card-mockup">
+          <div class="demo-mockup-content">
+            <div class="mockup-table-row">
+              <div class="mockup-table-cell header">Name</div>
+              <div class="mockup-table-cell header">Status</div>
+              <div class="mockup-table-cell header">Owner</div>
+            </div>
+            <div class="mockup-table-row">
+              <div class="mockup-table-cell">Q4 Launch</div>
+              <div class="mockup-table-cell">Active</div>
+              <div class="mockup-table-cell">AM</div>
+            </div>
+            <div class="mockup-table-row">
+              <div class="mockup-table-cell">Design QA</div>
+              <div class="mockup-table-cell">Review</div>
+              <div class="mockup-table-cell">KL</div>
+            </div>
+            <div class="mockup-table-row">
+              <div class="mockup-table-cell">Campaign</div>
+              <div class="mockup-table-cell">Draft</div>
+              <div class="mockup-table-cell">JP</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-grid-card">
+        <span class="demo-grid-card-label">Views</span>
+        <div class="demo-grid-card-mockup">
+          <div class="demo-mockup-content" style="flex-direction:row;flex-wrap:wrap;">
+            <div style="width:100%;height:28px;background:rgba(255,255,255,0.7);border-radius:4px;margin-bottom:8px;display:flex;align-items:center;padding:0 8px;">
+              <div style="width:56px;height:6px;background:rgba(0,0,0,0.12);border-radius:2px;"></div>
+            </div>
+            <div style="width:48%;height:60px;background:rgba(255,255,255,0.85);border-radius:4px;display:flex;align-items:flex-end;padding:6px;">
+              <div style="width:100%;height:40%;background:rgba(0,0,0,0.08);border-radius:2px;"></div>
+            </div>
+            <div style="width:48%;height:60px;background:rgba(255,255,255,0.85);border-radius:4px;display:flex;align-items:flex-end;padding:6px;">
+              <div style="width:100%;height:65%;background:rgba(0,0,0,0.08);border-radius:2px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-grid-card">
+        <span class="demo-grid-card-label">Reporting</span>
+        <div class="demo-grid-card-mockup">
+          <div class="demo-mockup-content">
+            <div style="height:8px;width:60%;background:rgba(0,0,0,0.1);border-radius:2px;margin-bottom:12px;"></div>
+            <div style="display:flex;align-items:flex-end;gap:6px;flex:1;">
+              <div style="flex:1;height:70%;background:rgba(255,255,255,0.8);border-radius:3px 3px 0 0;"></div>
+              <div style="flex:1;height:45%;background:rgba(255,255,255,0.6);border-radius:3px 3px 0 0;"></div>
+              <div style="flex:1;height:85%;background:rgba(255,255,255,0.8);border-radius:3px 3px 0 0;"></div>
+              <div style="flex:1;height:55%;background:rgba(255,255,255,0.6);border-radius:3px 3px 0 0;"></div>
+              <div style="flex:1;height:95%;background:rgba(255,255,255,0.8);border-radius:3px 3px 0 0;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-grid-card">
+        <span class="demo-grid-card-label">Integrations</span>
+        <div class="demo-grid-card-mockup">
+          <div class="demo-mockup-content" style="flex-direction:row;flex-wrap:wrap;align-content:flex-start;">
+            <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.7);margin:3px;"></div>
+            <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.5);margin:3px;"></div>
+            <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.7);margin:3px;"></div>
+            <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.5);margin:3px;"></div>
+            <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.65);margin:3px;"></div>
+            <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.5);margin:3px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SIGNATURE CORAL CARD ========== -->
+<section style="padding: 96px 0; background-color: #ffffff;">
+  <div class="container">
+    <div class="signature-coral-card">
+      <h2>Production apps in prototype speed</h2>
+      <p>Build interfaces, connect data, and ship applications that your whole organization can rely on — without writing a single line of code.</p>
+      <a href="#" class="btn-secondary-on-dark">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURE TABBED SECTION ========== -->
+<section id="solutions" class="feature-tabbed-section">
+  <div class="container">
+    <div class="feature-tabbed-card">
+      <div class="tab-rail">
+        <button class="tab-item active" data-tab="0">Marketing</button>
+        <button class="tab-item" data-tab="1">Product</button>
+        <button class="tab-item" data-tab="2">Operations</button>
+        <button class="tab-item" data-tab="3">HR</button>
+      </div>
+      <div class="tab-content" id="tab-content">
+        <div class="tab-illustration"></div>
+        <div class="tab-info">
+          <h3>Run campaigns that scale</h3>
+          <p>Centralize creative assets, manage editorial calendars, and track campaign performance — all in a single source of truth that your entire marketing team can collaborate on.</p>
+          <a href="#" class="tab-link">Learn more <span>→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CREAM CALLOUT ========== -->
+<section class="cream-callout-section">
+  <div class="container">
+    <div class="cream-callout-card">
+      <h2>The path to 10× every person in your organization</h2>
+      <p>When teams are empowered to build their own tools, the entire organization moves faster. See the impact Airtable can have on your business.</p>
+      <a href="#" class="btn-primary">Read customer stories</a>
+      <div class="cream-callout-graphic">
+        <div class="cream-graphic-item">
+          <span class="cream-graphic-stat">2.5×</span>
+          <span class="cream-graphic-label">Faster project delivery</span>
+        </div>
+        <div class="cream-graphic-item">
+          <span class="cream-graphic-stat">80%</span>
+          <span class="cream-graphic-label">Reduction in manual work</span>
+        </div>
+        <div class="cream-graphic-item">
+          <span class="cream-graphic-stat">300k+</span>
+          <span class="cream-graphic-label">Organizations on Airtable</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DARK CTA CARD ========== -->
+<section class="dark-cta-section">
+  <div class="container">
+    <div class="hero-card-dark">
+      <h2>Connect every team. Unlock every workflow.</h2>
+      <p>From engineering to marketing, every team operates on the same platform — with the flexibility to build exactly the tools they need while maintaining shared data integrity across the organization.</p>
+      <a href="#" class="btn-primary">Get started for free</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA BAND LIGHT ========== -->
+<section style="padding: 96px 0; background-color: #ffffff;">
+  <div class="container">
+    <div class="cta-band-light">
+      <h2>Start building with Airtable today</h2>
+      <p>Create your first app in minutes. No credit card required.</p>
+      <a href="#" class="btn-primary">Sign up for free</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#">Interface Designer</a></li>
+          <li><a href="#">Automations</a></li>
+          <li><a href="#">Data Sync</a></li>
+          <li><a href="#">Views</a></li>
+          <li><a href="#">Integrations</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#">Marketing</a></li>
+          <li><a href="#">Product</a></li>
+          <li><a href="#">Operations</a></li>
+          <li><a href="#">HR</a></li>
+          <li><a href="#">Enterprise</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">API Docs</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="#">Webinars</a></li>
+          <li><a href="#">Guide</a></li>
+          <li><a href="#">Templates</a></li>
+          <li><a href="#">University</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">Investors</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Compare</h4>
+        <ul>
+          <li><a href="#">vs Notion</a></li>
+          <li><a href="#">vs Asana</a></li>
+          <li><a href="#">vs Smartsheet</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-left">
+        <span>Airtable</span>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+      <div class="footer-bottom-right">
+        <a href="#" class="social-icon" aria-label="Twitter">X</a>
+        <a href="#" class="social-icon" aria-label="LinkedIn">in</a>
+        <a href="#" class="social-icon" aria-label="Instagram">IG</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== TAB INTERACTION SCRIPT ===== -->
+<script>
+document.querySelectorAll('.tab-item').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+
+    const tabContents = {
+      0: {
+        title: 'Run campaigns that scale',
+        body: 'Centralize creative assets, manage editorial calendars, and track campaign performance — all in a single source of truth that your entire marketing team can collaborate on.',
+        gradient: 'linear-gradient(135deg, #fcab79 0%, #f5e9d4 50%, #aa2d00 100%)'
+      },
+      1: {
+        title: 'Ship products with clarity',
+        body: 'Plan roadmaps, prioritize features, and track launches across every team. Give product managers the visibility they need to make decisions with confidence.',
+        gradient: 'linear-gradient(135deg, #a8d8c4 0%, #f4d35e 50%, #0a2e0e 100%)'
+      },
+      2: {
+        title: 'Streamline every operation',
+        body: 'From procurement to facilities management, connect your operational workflows so nothing falls through the cracks. Automate approvals and track requests effortlessly.',
+        gradient: 'linear-gradient(135deg, #f5e9d4 0%, #d9a441 50%, #41454d 100%)'
+      },
+      3: {
+        title: 'Build a better employee experience',
+        body: 'Manage onboarding, equipment requests, and team directories in one flexible system. Give HR the power to create tools that actually meet their needs.',
+        gradient: 'linear-gradient(135deg, #fcab79 0%, #f4d35e 50%, #a8d8c4 100%)'
+      }
+    };
+
+    const idx = parseInt(this.dataset.tab);
+    const content = tabContents[idx];
+    const tabInfo = document.querySelector('.tab-info');
+    const tabIllustration = document.querySelector('.tab-illustration');
+
+    tabInfo.querySelector('h3').textContent = content.title;
+    tabInfo.querySelector('p').textContent = content.body;
+    tabIllustration.style.background = content.gradient;
+  });
+});
+</script>
+
+</body>
+</html>

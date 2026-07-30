@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revolut — Banking & Beyond</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+img, svg { display: block; max-width: 100%; }
+
+/* ===== DESIGN TOKENS (from DESIGN.md) ===== */
+:root {
+  /* Colors */
+  --color-primary: #494fdf;
+  --color-primary-bright: #4f55f1;
+  --color-primary-deep: #3a40c4;
+  --color-on-primary: #ffffff;
+  --color-ink: #191c1f;
+  --color-body: #1f2226;
+  --color-charcoal: #3a3d40;
+  --color-mute: #505a63;
+  --color-ash: #5c5e60;
+  --color-stone: #8d969e;
+  --color-faint: #c9c9cd;
+  --color-on-dark: #ffffff;
+  --color-on-dark-mute: rgba(255,255,255,0.72);
+  --color-canvas-light: #ffffff;
+  --color-canvas-dark: #000000;
+  --color-surface-soft: #f4f4f4;
+  --color-surface-card: #ffffff;
+  --color-surface-deep: #0a0a0a;
+  --color-surface-elevated: #16181a;
+  --color-hairline-light: #e2e2e7;
+  --color-hairline-dark: rgba(255,255,255,0.12);
+  --color-hairline-strong: #191c1f;
+  --color-divider-soft: rgba(255,255,255,0.06);
+  --color-accent-teal: #00a87e;
+  --color-accent-blue-link: #376cd5;
+  --color-accent-light-blue: #007bc2;
+  --color-accent-light-green: #428619;
+  --color-accent-green-text: #006400;
+  --color-accent-yellow: #b09000;
+  --color-accent-warning: #ec7e00;
+  --color-accent-pink: #e61e49;
+  --color-accent-danger: #e23b4a;
+  --color-accent-deep-red: #8b0000;
+  --color-accent-brown: #936d62;
+  --color-link: #376cd5;
+
+  /* Typography — Aeonik Pro substitute with Inter Display / General Sans feel */
+  --font-display: 'Inter', 'Inter Display', 'General Sans', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 6px;
+  --spacing-sm: 8px;
+  --spacing-md: 14px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-xxxl: 48px;
+  --spacing-block: 80px;
+  --spacing-section: 88px;
+  --spacing-band: 120px;
+
+  /* Rounded */
+  --rounded-none: 0px;
+  --rounded-sm: 8px;
+  --rounded-md: 12px;
+  --rounded-lg: 20px;
+  --rounded-xl: 28px;
+  --rounded-full: 9999px;
+}
+
+/* ===== TYPOGRAPHY CLASSES (from DESIGN.md tokens) ===== */
+.display-xxl {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 136px);
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+}
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.21;
+  letter-spacing: -0.01em;
+}
+.display-md {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.heading-lg {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.19;
+  letter-spacing: -0.01em;
+}
+.heading-md {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.33;
+  letter-spacing: 0;
+}
+.heading-sm {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+.body-lg {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.56;
+  letter-spacing: -0.005em;
+}
+.body-md {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+}
+.body-md-bold {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+.body-sm {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+}
+.button-lg {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.button-md {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+}
+.button-sm {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+}
+.caption {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+.link-emph {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+.section-dark {
+  background-color: var(--color-canvas-dark);
+  color: var(--color-on-dark);
+}
+.section-light {
+  background-color: var(--color-canvas-light);
+  color: var(--color-ink);
+}
+
+/* ===== BUTTONS (from DESIGN.md components) ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* button-primary — white pill on dark */
+.btn-primary {
+  background-color: var(--color-canvas-light);
+  color: var(--color-canvas-dark);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  border-radius: var(--rounded-full);
+  padding: 14px 28px;
+  height: 48px;
+}
+.btn-primary:hover { background-color: var(--color-faint); }
+.btn-primary:active { background-color: var(--color-faint); }
+
+/* button-dark — dark CTA on light */
+.btn-dark {
+  background-color: var(--color-canvas-dark);
+  color: var(--color-on-dark);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  border-radius: var(--rounded-full);
+  padding: 14px 28px;
+  height: 48px;
+}
+.btn-dark:hover { opacity: 0.85; }
+.btn-dark:active { opacity: 0.75; }
+
+/* button-soft — soft surface CTA */
+.btn-soft {
+  background-color: var(--color-surface-soft);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  border-radius: var(--rounded-full);
+  padding: 14px 28px;
+  height: 48px;
+}
+.btn-soft:hover { background-color: var(--color-hairline-light); }
+
+/* button-outline-dark — outline on dark */
+.btn-outline-dark {
+  background-color: transparent;
+  color: var(--color-on-dark);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  border-radius: var(--rounded-full);
+  padding: 13px 27px;
+  height: 48px;
+  border: 1px solid var(--color-on-dark);
+}
+.btn-outline-dark:hover { background-color: rgba(255,255,255,0.08); }
+
+/* button-outline-light — outline on light */
+.btn-outline-light {
+  background-color: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  border-radius: var(--rounded-full);
+  padding: 13px 27px;
+  height: 48px;
+  border: 1px solid var(--color-hairline-strong);
+}
+.btn-outline-light:hover { background-color: var(--color-surface-soft); }
+
+/* button-pill-sm */
+.btn-pill-sm {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-on-dark);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  border-radius: var(--rounded-full);
+  padding: 8px 16px;
+  height: 36px;
+  border: none;
+}
+.btn-pill-sm:hover { background-color: rgba(255,255,255,0.15); }
+
+/* featured CTA — cobalt violet button (secondary, on white canvas) */
+.btn-featured {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  border-radius: var(--rounded-full);
+  padding: 14px 28px;
+  height: 48px;
+}
+.btn-featured:hover { background-color: var(--color-primary-bright); }
+.btn-featured:active { background-color: var(--color-primary-deep); }
+
+/* ===== NAV (from DESIGN.md nav-bar component) ===== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: var(--color-canvas-dark);
+  color: var(--color-on-dark);
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+.nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  text-decoration: none;
+  color: var(--color-on-dark);
+}
+.nav-logo svg { width: 28px; height: 28px; }
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-on-dark);
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxl);
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  color: var(--color-on-dark-mute);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.nav-links a:hover { color: var(--color-on-dark); }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+.nav-login {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  color: var(--color-on-dark-mute);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.nav-login:hover { color: var(--color-on-dark); }
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-on-dark);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+}
+
+/* ===== HERO (hero-band-dark from DESIGN.md) ===== */
+.hero {
+  background-color: var(--color-canvas-dark);
+  color: var(--color-on-dark);
+  padding: var(--spacing-band) var(--spacing-xl);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  color: var(--color-on-dark-mute);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-xl);
+}
+.hero-headline {
+  max-width: 900px;
+  margin-bottom: var(--spacing-xl);
+}
+.hero-subheadline {
+  max-width: 600px;
+  color: var(--color-on-dark-mute);
+  margin-bottom: var(--spacing-xxxl);
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero-phone-mockup {
+  margin-top: var(--spacing-band);
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* Phone mockup illustration (CSS-only) */
+.phone-illustration {
+  width: 280px;
+  height: 560px;
+  background: linear-gradient(160deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+  border-radius: var(--rounded-xl);
+  border: 3px solid #2a2a3a;
+  position: relative;
+  overflow: hidden;
+}
+.phone-illustration::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 6px;
+  background: #333;
+  border-radius: 3px;
+}
+.phone-screen-content {
+  position: absolute;
+  top: 32px;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.phone-card-row {
+  display: flex;
+  gap: 8px;
+}
+.phone-card {
+  flex: 1;
+  height: 56px;
+  border-radius: var(--rounded-md);
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+}
+.phone-card-balance {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+}
+.card-teal { background-color: var(--color-accent-teal); }
+.card-blue { background-color: var(--color-accent-light-blue); }
+.card-pink { background-color: var(--color-accent-pink); }
+.phone-graph {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--rounded-md);
+  position: relative;
+  overflow: hidden;
+}
+.phone-graph::after {
+  content: '';
+  position: absolute;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  background: var(--color-accent-teal);
+  opacity: 0.5;
+}
+.phone-graph-line {
+  position: absolute;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  height: 40px;
+  background: linear-gradient(transparent 60%, rgba(0,168,126,0.15) 100%);
+  border-bottom: 2px solid var(--color-accent-teal);
+  border-radius: 0 0 4px 4px;
+}
+.phone-actions {
+  display: flex;
+  gap: 8px;
+}
+.phone-action-pill {
+  flex: 1;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  background: rgba(255,255,255,0.12);
+}
+
+/* Accent gradient glow behind phone */
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(73,79,223,0.15) 0%, transparent 70%);
+  bottom: -100px;
+  pointer-events: none;
+}
+
+/* ===== SECTION HEADERS ===== */
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--spacing-xxxl);
+}
+
+/* ===== FEATURES (white band, feature-card-light) ===== */
+.features {
+  background-color: var(--color-canvas-light);
+  color: var(--color-ink);
+  padding: var(--spacing-section) var(--spacing-xl);
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+}
+.feature-card {
+  background-color: var(--color-surface-card);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline-light);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.feature-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-faint);
+}
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--rounded-md);
+  margin-bottom: var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feature-icon-teal { background-color: rgba(0,168,126,0.12); color: var(--color-accent-teal); }
+.feature-icon-blue { background-color: rgba(55,108,213,0.12); color: var(--color-accent-blue-link); }
+.feature-icon-pink { background-color: rgba(230,30,73,0.12); color: var(--color-accent-pink); }
+.feature-icon-purple { background-color: rgba(73,79,223,0.12); color: var(--color-primary); }
+.feature-icon-orange { background-color: rgba(236,126,0,0.12); color: var(--color-accent-warning); }
+.feature-icon-green { background-color: rgba(66,134,25,0.12); color: var(--color-accent-light-green); }
+
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-ink);
+}
+.feature-card p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  color: var(--color-mute);
+}
+.feature-card .badge {
+  display: inline-block;
+  background-color: var(--color-surface-soft);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  border-radius: var(--rounded-full);
+  padding: 4px 12px;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ===== PLANS (dark band, plan-card / plan-card-featured) ===== */
+.plans {
+  background-color: var(--color-canvas-dark);
+  color: var(--color-on-dark);
+  padding: var(--spacing-section) var(--spacing-xl);
+}
+.plans .section-header p {
+  color: var(--color-on-dark-mute);
+}
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+.plan-card {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-on-dark);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-xxl);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+.plan-card:hover { transform: translateY(-2px); }
+.plan-card-featured {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+.plan-card-featured .plan-price,
+.plan-card-featured .plan-features li,
+.plan-card-featured .plan-features li::before { color: rgba(255,255,255,0.85); }
+.plan-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--rounded-full);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-bottom: var(--spacing-lg);
+  align-self: flex-start;
+}
+.plan-badge-neutral {
+  background-color: rgba(255,255,255,0.1);
+  color: var(--color-on-dark-mute);
+}
+.plan-badge-featured {
+  background-color: rgba(255,255,255,0.25);
+  color: var(--color-on-primary);
+}
+.plan-card h3 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.19;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--spacing-xs);
+}
+.plan-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--color-on-dark-mute);
+  margin-bottom: var(--spacing-xl);
+}
+.plan-price {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--spacing-xs);
+}
+.plan-price span {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+}
+.plan-period {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--color-on-dark-mute);
+  margin-bottom: var(--spacing-xl);
+}
+.plan-features {
+  list-style: none;
+  margin-bottom: var(--spacing-xxl);
+  flex: 1;
+}
+.plan-features li {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--color-on-dark-mute);
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+}
+.plan-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent-teal);
+  font-weight: 600;
+}
+.plan-card .btn {
+  width: 100%;
+  margin-top: auto;
+}
+.plan-card .btn-dark {
+  background-color: var(--color-on-dark);
+  color: var(--color-canvas-dark);
+}
+.plan-card .btn-dark:hover { background-color: var(--color-faint); }
+.plan-card .btn-featured-cta {
+  background-color: var(--color-on-primary);
+  color: var(--color-primary);
+}
+.plan-card .btn-featured-cta:hover { opacity: 0.9; }
+.plan-card .btn-outline-white {
+  background-color: transparent;
+  color: var(--color-on-dark);
+  border: 1px solid rgba(255,255,255,0.3);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  border-radius: var(--rounded-full);
+  padding: 13px 27px;
+  height: 48px;
+}
+.plan-card .btn-outline-white:hover { background-color: rgba(255,255,255,0.08); }
+
+/* ===== COMPARISON TABLE (white band) ===== */
+.comparison {
+  background-color: var(--color-canvas-light);
+  color: var(--color-ink);
+  padding: var(--spacing-section) var(--spacing-xl);
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.comparison-table th {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  color: var(--color-stone);
+  text-align: left;
+  padding: var(--spacing-lg) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+.comparison-table td {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-hairline-light);
+  color: var(--color-ink);
+}
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-check { color: var(--color-accent-teal); font-weight: 600; }
+.comparison-dash { color: var(--color-faint); }
+
+/* ===== CTA BANNER (dark band) ===== */
+.cta-banner {
+  background-color: var(--color-canvas-dark);
+  color: var(--color-on-dark);
+  padding: var(--spacing-band) var(--spacing-xl);
+  text-align: center;
+}
+.cta-banner .display-xl { margin-bottom: var(--spacing-xl); }
+.cta-banner .body-lg {
+  color: var(--color-on-dark-mute);
+  max-width: 560px;
+  margin: 0 auto var(--spacing-xxxl);
+}
+.cta-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ===== DOWNLOAD TILES (from DESIGN.md download-tile) ===== */
+.download-tiles {
+  display: flex;
+  gap: var(--spacing-lg);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: var(--spacing-xxl);
+}
+.download-tile {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: rgba(255,255,255,0.08);
+  color: var(--color-on-dark);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  border-radius: var(--rounded-md);
+  padding: 12px 20px;
+  height: 56px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.download-tile:hover { background-color: rgba(255,255,255,0.14); }
+
+/* ===== FOOTER (from DESIGN.md footer component) ===== */
+.footer {
+  background-color: var(--color-canvas-dark);
+  color: var(--color-on-dark-mute);
+  padding: var(--spacing-block) var(--spacing-xl);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-xxxl);
+  padding-bottom: var(--spacing-xxxl);
+  margin-bottom: var(--spacing-xxxl);
+  border-bottom: 1px solid var(--color-divider-soft);
+}
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  color: var(--color-on-dark);
+  margin-bottom: var(--spacing-lg);
+}
+.footer-col ul {
+  list-style: none;
+}
+.footer-col li {
+  margin-bottom: var(--spacing-sm);
+}
+.footer-col a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--color-on-dark-mute);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-col a:hover { color: var(--color-on-dark); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+}
+.footer-copyright {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-ash);
+}
+.footer-legal {
+  display: flex;
+  gap: var(--spacing-xl);
+  list-style: none;
+}
+.footer-legal a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-ash);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-legal a:hover { color: var(--color-on-dark-mute); }
+
+/* ===== RESPONSIVE (from DESIGN.md breakpoints) ===== */
+@media (max-width: 1279px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: block; }
+  .plans-grid { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .plans-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero { padding: var(--spacing-block) var(--spacing-lg); min-height: auto; }
+  .features { padding: var(--spacing-section) var(--spacing-lg); }
+  .plans { padding: var(--spacing-section) var(--spacing-lg); }
+  .comparison { padding: var(--spacing-section) var(--spacing-lg); }
+  .cta-banner { padding: var(--spacing-block) var(--spacing-lg); }
+  .footer { padding: var(--spacing-block) var(--spacing-lg); }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .comparison-table { font-size: 14px; }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV (nav-bar component) ===== -->
+<nav class="nav">
+  <div class="container">
+    <a href="#" class="nav-logo" aria-label="Revolut home">
+      <svg viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="6" fill="#494fdf"/>
+        <path d="M7 14.5c0-1.5 1-3 2.5-3.5l3-1c.5-.2 1-.2 1.5 0l3 1c1.5.5 2.5 2 2.5 3.5v4c0 1.5-1 3-2.5 3.5l-3 1c-.5.2-1 .2-1.5 0l-3-1C8 21.5 7 20 7 18.5v-4z" fill="none" stroke="#fff" stroke-width="1.5"/>
+        <circle cx="11" cy="13" r="1.2" fill="#fff"/>
+        <circle cx="17" cy="13" r="1.2" fill="#fff"/>
+        <path d="M11 16.5c1.5 1.5 4.5 1.5 6 0" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span class="nav-logo-text">Revolut</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Personal</a></li>
+      <li><a href="#">Business</a></li>
+      <li><a href="#">Company</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="nav-login">Log in</a>
+      <a href="#" class="btn btn-primary">Get started</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== HERO (hero-band-dark component) ===== -->
+<header class="hero">
+  <div class="hero-glow"></div>
+  <p class="hero-eyebrow animate-in">Join 70+ million worldwide</p>
+  <h1 class="hero-headline display-xxl animate-in">Banking<br>& Beyond</h1>
+  <p class="hero-subheadline body-lg animate-in">
+    One app, all things money. Spend, save, invest, and manage your finances
+    across 150+ currencies — with the confidence of an award-winning platform.
+  </p>
+  <div class="hero-actions animate-in">
+    <a href="#" class="btn btn-primary">Choose your subscription</a>
+    <a href="#" class="btn btn-outline-dark">Learn more</a>
+  </div>
+  <div class="hero-phone-mockup animate-in">
+    <div class="phone-illustration">
+      <div class="phone-screen-content">
+        <div class="phone-card-row">
+          <div class="phone-card card-teal">
+            <span class="phone-card-balance">€2,450.32</span>
+          </div>
+          <div class="phone-card card-blue">
+            <span class="phone-card-balance">$1,840.00</span>
+          </div>
+        </div>
+        <div class="phone-graph">
+          <div class="phone-graph-line"></div>
+        </div>
+        <div class="phone-card-row">
+          <div class="phone-card card-pink">
+            <span class="phone-card-balance">£850.00</span>
+          </div>
+        </div>
+        <div class="phone-actions">
+          <div class="phone-action-pill"></div>
+          <div class="phone-action-pill"></div>
+          <div class="phone-action-pill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== FEATURES (white band, feature-card-light components) ===== -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="display-lg">Everything your money needs</h2>
+      <p class="body-lg" style="color: var(--color-mute); margin-top: var(--spacing-lg);">
+        From day-to-day spending to long-term wealth, Revolut brings every
+        financial tool into a single, beautifully simple app.
+      </p>
+    </div>
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <div class="feature-card-icon feature-icon-teal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <span class="badge">Spending</span>
+        <h3>Multi-currency accounts</h3>
+        <p>
+          Hold and exchange 25+ currencies at the interbank rate. Send money to
+          150+ countries with no hidden fees — the real rate, every time.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <div class="feature-card-icon feature-icon-purple">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <span class="badge">Investing</span>
+        <h3>Commission-free trading</h3>
+        <p>
+          Trade 3,000+ US stocks and ETFs with zero commissions. Set up recurring
+          buys into fractional shares starting from just $1.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card">
+        <div class="feature-card-icon feature-icon-pink">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2"/>
+            <line x1="5" y1="8" x2="19" y2="8"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <line x1="5" y1="16" x2="13" y2="16"/>
+          </svg>
+        </div>
+        <span class="badge">Cards</span>
+        <h3>Premium metal cards</h3>
+        <p>
+          Tap, swipe, or insert with a sleek metal card. Earn cashback on every
+          purchase, with no foreign transaction fees anywhere in the world.
+        </p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card">
+        <div class="feature-card-icon feature-icon-blue">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <span class="badge">Security</span>
+        <h3>Bank-grade security</h3>
+        <p>
+          Protected by 3D Secure, biometric login, and real-time fraud monitoring.
+          Your money is safeguarded up to €100,000 by the deposit guarantee scheme.
+        </p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="feature-card">
+        <div class="feature-card-icon feature-icon-orange">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <span class="badge">Savings</span>
+        <h3>Flexible savings vaults</h3>
+        <p>
+          Round up spare change into vaults, set savings goals, and earn daily
+          interest on your balance — automatically, without thinking about it.
+        </p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="feature-card">
+        <div class="feature-card-icon feature-icon-green">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <span class="badge">Family</span>
+        <h3>Junior accounts</h3>
+        <p>
+          Give your kids financial independence with parent-controlled Junior cards.
+          Set spending limits and track allowances right from your app.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLANS (dark band, plan-card components) ===== -->
+<section class="plans" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="display-lg">Choose your plan</h2>
+      <p class="body-lg" style="margin-top: var(--spacing-lg);">
+        From Standard to Ultra — pick the tier that fits your life.
+        Upgrade, downgrade, or cancel anytime.
+      </p>
+    </div>
+    <div class="plans-grid">
+      <!-- Standard -->
+      <div class="plan-card">
+        <span class="plan-badge plan-badge-neutral">Free</span>
+        <h3>Standard</h3>
+        <p class="plan-subtitle">Essential digital banking</p>
+        <p class="plan-price" style="color: var(--color-on-dark);">£0<span>/mo</span></p>
+        <p class="plan-period">No monthly fee</p>
+        <ul class="plan-features">
+          <li>Multi-currency account</li>
+          <li>Virtual & physical cards</li>
+          <li>Fee-free ATM (up to £200)</li>
+          <li>Budgeting & analytics</li>
+          <li>Savings vaults</li>
+        </ul>
+        <a href="#" class="btn btn-outline-white">Get started</a>
+      </div>
+
+      <!-- Premium — featured -->
+      <div class="plan-card plan-card-featured">
+        <span class="plan-badge plan-badge-featured">Most popular</span>
+        <h3>Premium</h3>
+        <p class="plan-subtitle" style="color: rgba(255,255,255,0.75);">Travel & lifestyle</p>
+        <p class="plan-price" style="color: var(--color-on-primary);">£7.99<span>/mo</span></p>
+        <p class="plan-period" style="color: rgba(255,255,255,0.75);">Billed monthly</p>
+        <ul class="plan-features">
+          <li>Everything in Standard</li>
+          <li>Priority 24/7 support</li>
+          <li>Overseas medical insurance</li>
+          <li>Global express delivery</li>
+          <li>Lounge access (smart delays)</li>
+          <li>Commission-free trades (×10)</li>
+        </ul>
+        <a href="#" class="btn btn-featured-cta">Get Premium</a>
+      </div>
+
+      <!-- Metal -->
+      <div class="plan-card">
+        <span class="plan-badge plan-badge-neutral">Exclusive</span>
+        <h3>Metal</h3>
+        <p class="plan-subtitle">The metal card experience</p>
+        <p class="plan-price" style="color: var(--color-on-dark);">£14.99<span>/mo</span></p>
+        <p class="plan-period">Billed monthly</p>
+        <ul class="plan-features">
+          <li>Everything in Premium</li>
+          <li>Exclusive metal card</li>
+          <li>1% cashback worldwide</li>
+          <li>Commission-free trades (×∞)</li>
+          <li>Purchase protection</li>
+          <li>Airport lounge access</li>
+        </ul>
+        <a href="#" class="btn btn-dark">Get Metal</a>
+      </div>
+
+      <!-- Ultra -->
+      <div class="plan-card">
+        <span class="plan-badge plan-badge-neutral">Top tier</span>
+        <h3>Ultra</h3>
+        <p class="plan-subtitle">The ultimate package</p>
+        <p class="plan-price" style="color: var(--color-on-dark);">£45<span>/mo</span></p>
+        <p class="plan-period">Billed monthly</p>
+        <ul class="plan-features">
+          <li>Everything in Metal</li>
+          <li>Platinum-plated card</li>
+          <li>Unlimited lounge access</li>
+          <li>Concierge service</li>
+          <li>Cancel-for-any-reason</li>
+          <li>Wealth protection</li>
+        </ul>
+        <a href="#" class="btn btn-outline-white">Get Ultra</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BANNER (dark band) ===== -->
+<section class="cta-banner" id="cta">
+  <div class="container">
+    <h2 class="display-xl">Join the 70+ million<br>using Revolut</h2>
+    <p class="body-lg">
+      Download the app and start your financial journey in minutes.
+      No paperwork, no branch visits — just your phone.
+    </p>
+    <div class="cta-actions">
+      <a href="#" class="btn btn-primary">Get started free</a>
+      <a href="#" class="btn btn-outline-dark">See all plans</a>
+    </div>
+    <div class="download-tiles">
+      <a href="#" class="download-tile">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        App Store
+      </a>
+      <a href="#" class="download-tile">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.994.994 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+        Google Play
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER (footer component) ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Personal</h4>
+        <ul>
+          <li><a href="#">Accounts</a></li>
+          <li><a href="#">Cards</a></li>
+          <li><a href="#">Transfers</a></li>
+          <li><a href="#">Savings</a></li>
+          <li><a href="#">Investments</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Business</h4>
+        <ul>
+          <li><a href="#">Business accounts</a></li>
+          <li><a href="#">Company cards</a></li>
+          <li><a href="#">Expense management</a></li>
+          <li><a href="#">Invoicing</a></li>
+          <li><a href="#">Payments</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Investor relations</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">Help centre</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Fees</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copyright">© 2026 Revolut Ltd. All rights reserved.</p>
+      <ul class="footer-legal">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms & Conditions</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+        <li><a href="#">Regulatory Disclosures</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

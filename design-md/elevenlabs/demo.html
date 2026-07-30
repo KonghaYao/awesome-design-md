@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElevenLabs — Generative Voice AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ElevenLabs DESIGN.md Token Map
+   ============================================================ */
+
+:root {
+  /* Colors — Brand & Accent */
+  --color-primary: #292524;
+  --color-primary-active: #0c0a09;
+  --color-ink: #0c0a09;
+  --color-body: #4e4e4e;
+  --color-body-strong: #292524;
+  --color-muted: #777169;
+  --color-muted-soft: #a8a29e;
+
+  /* Colors — Surfaces */
+  --color-canvas: #f5f5f5;
+  --color-canvas-soft: #fafafa;
+  --color-canvas-deep: #0c0a09;
+  --color-surface-card: #ffffff;
+  --color-surface-strong: #f0efed;
+  --color-surface-dark: #0c0a09;
+  --color-surface-dark-elevated: #1c1917;
+
+  /* Colors — On */
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+  --color-on-dark-soft: #a8a29e;
+
+  /* Colors — Hairlines */
+  --color-hairline: #e7e5e4;
+  --color-hairline-soft: #f0efed;
+  --color-hairline-strong: #d6d3d1;
+
+  /* Colors — Atmospheric Gradients */
+  --color-gradient-mint: #a7e5d3;
+  --color-gradient-peach: #f4c5a8;
+  --color-gradient-lavender: #c8b8e0;
+  --color-gradient-sky: #a8c8e8;
+  --color-gradient-rose: #e8b8c4;
+
+  /* Colors — Semantic */
+  --color-semantic-error: #dc2626;
+  --color-semantic-success: #16a34a;
+
+  /* Typography — Font Families */
+  --font-display: 'EB Garamond', 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Typography — Display (Waldenburg / EB Garamond) */
+  --font-display-mega-size: 64px;
+  --font-display-mega-weight: 300;
+  --font-display-mega-lh: 1.05;
+  --font-display-mega-ls: -1.92px;
+
+  --font-display-xl-size: 48px;
+  --font-display-xl-weight: 300;
+  --font-display-xl-lh: 1.08;
+  --font-display-xl-ls: -0.96px;
+
+  --font-display-lg-size: 36px;
+  --font-display-lg-weight: 300;
+  --font-display-lg-lh: 1.17;
+  --font-display-lg-ls: -0.36px;
+
+  --font-display-md-size: 32px;
+  --font-display-md-weight: 300;
+  --font-display-md-lh: 1.13;
+  --font-display-md-ls: -0.32px;
+
+  --font-display-sm-size: 24px;
+  --font-display-sm-weight: 300;
+  --font-display-sm-lh: 1.2;
+  --font-display-sm-ls: 0;
+
+  /* Typography — Inter Titles */
+  --font-title-md-size: 20px;
+  --font-title-md-weight: 500;
+  --font-title-md-lh: 1.35;
+  --font-title-md-ls: 0;
+
+  --font-title-sm-size: 18px;
+  --font-title-sm-weight: 500;
+  --font-title-sm-lh: 1.44;
+  --font-title-sm-ls: 0.18px;
+
+  /* Typography — Inter Body */
+  --font-body-md-size: 16px;
+  --font-body-md-weight: 400;
+  --font-body-md-lh: 1.5;
+  --font-body-md-ls: 0.16px;
+
+  --font-body-strong-size: 16px;
+  --font-body-strong-weight: 500;
+  --font-body-strong-lh: 1.5;
+  --font-body-strong-ls: 0.16px;
+
+  --font-body-sm-size: 15px;
+  --font-body-sm-weight: 400;
+  --font-body-sm-lh: 1.47;
+  --font-body-sm-ls: 0.15px;
+
+  /* Typography — Caption */
+  --font-caption-size: 14px;
+  --font-caption-weight: 400;
+  --font-caption-lh: 1.5;
+  --font-caption-ls: 0;
+
+  --font-caption-uppercase-size: 12px;
+  --font-caption-uppercase-weight: 600;
+  --font-caption-uppercase-lh: 1.4;
+  --font-caption-uppercase-ls: 0.96px;
+
+  /* Typography — UI */
+  --font-button-size: 15px;
+  --font-button-weight: 500;
+  --font-button-lh: 1.0;
+  --font-button-ls: 0;
+
+  --font-nav-link-size: 15px;
+  --font-nav-link-weight: 500;
+  --font-nav-link-lh: 1.4;
+  --font-nav-link-ls: 0;
+
+  /* Rounded */
+  --rounded-none: 0px;
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 24px;
+  --rounded-pill: 9999px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-base: 16px;
+  --spacing-md: 20px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 96px;
+
+  /* Elevation */
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-body);
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  letter-spacing: var(--font-body-md-ls);
+}
+
+img, svg {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+/* ============================================================
+   TOP NAVIGATION — top-nav component
+   Background: canvas, Text: ink, Height: 64px
+   ============================================================ */
+
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-canvas);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.top-nav .container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-ink);
+}
+
+.nav-brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--rounded-sm);
+  background-color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nav-brand-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 350;
+  letter-spacing: -0.2px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: var(--font-nav-link-size);
+  font-weight: var(--font-nav-link-weight);
+  line-height: var(--font-nav-link-lh);
+  letter-spacing: var(--font-nav-link-ls);
+  color: var(--color-ink);
+  transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover {
+  opacity: 0.7;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-base);
+}
+
+.nav-sign-in {
+  font-family: var(--font-body);
+  font-size: var(--font-nav-link-size);
+  font-weight: var(--font-nav-link-weight);
+  line-height: var(--font-nav-link-lh);
+  color: var(--color-ink);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  transition: opacity 0.2s ease;
+}
+
+.nav-sign-in:hover {
+  opacity: 0.7;
+}
+
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  color: var(--color-ink);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: var(--font-button-size);
+  font-weight: var(--font-button-weight);
+  line-height: var(--font-button-lh);
+  letter-spacing: var(--font-button-ls);
+  border-radius: var(--rounded-pill);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  border: none;
+  text-decoration: none;
+}
+
+/* button-primary: bg primary, text on-primary, padding 10px 20px, height 40px, rounded pill */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: 10px 20px;
+  height: 40px;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-active);
+  box-shadow: var(--shadow-soft);
+}
+
+/* button-outline: transparent bg, ink text, 1px hairline-strong border, padding 9px 19px, height 40px */
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline-strong);
+  padding: 9px 19px;
+  height: 40px;
+}
+
+.btn-outline:hover {
+  border-color: var(--color-ink);
+}
+
+/* button-tertiary-text */
+.btn-text {
+  background-color: transparent;
+  color: var(--color-ink);
+  padding: 0;
+  height: auto;
+  font-weight: var(--font-button-weight);
+}
+
+.btn-text:hover {
+  opacity: 0.7;
+}
+
+.btn-lg {
+  padding: 12px 28px;
+  height: 48px;
+  font-size: var(--font-body-md-size);
+}
+
+/* ============================================================
+   HERO BAND — hero-band component
+   Background: canvas, Text: ink, Typography: display-mega, Padding: 96px
+   ============================================================ */
+
+.hero-band {
+  position: relative;
+  background-color: var(--color-canvas);
+  padding: var(--spacing-section) 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-band .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Atmospheric gradient orbs behind hero */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.hero-orb--1 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, var(--color-gradient-peach) 0%, transparent 70%);
+  top: -120px;
+  left: -80px;
+}
+
+.hero-orb--2 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, var(--color-gradient-sky) 0%, transparent 70%);
+  top: -60px;
+  right: -100px;
+}
+
+.hero-orb--3 {
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, var(--color-gradient-mint) 0%, transparent 70%);
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hero-badge {
+  display: inline-block;
+  background-color: var(--color-surface-strong);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--font-caption-uppercase-size);
+  font-weight: var(--font-caption-uppercase-weight);
+  line-height: var(--font-caption-uppercase-lh);
+  letter-spacing: var(--font-caption-uppercase-ls);
+  text-transform: uppercase;
+  border-radius: var(--rounded-pill);
+  padding: 4px 10px;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* display-mega: Waldenburg 64px/300/1.05/-1.92px */
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: var(--font-display-mega-size);
+  font-weight: var(--font-display-mega-weight);
+  line-height: var(--font-display-mega-lh);
+  letter-spacing: var(--font-display-mega-ls);
+  color: var(--color-ink);
+  max-width: 820px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  letter-spacing: var(--font-body-md-ls);
+  color: var(--color-muted);
+  max-width: 540px;
+  margin: 0 auto var(--spacing-xxl);
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* Hero visual — audio waveform placeholder */
+.hero-visual {
+  margin-top: var(--spacing-xxl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-waveform {
+  width: 100%;
+  max-width: 600px;
+  height: 64px;
+}
+
+/* ============================================================
+   SECTION COMMON
+   ============================================================ */
+
+.section {
+  padding: var(--spacing-section) 0;
+}
+
+.section--alt {
+  background-color: var(--color-canvas-soft);
+}
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: var(--font-caption-uppercase-size);
+  font-weight: var(--font-caption-uppercase-weight);
+  line-height: var(--font-caption-uppercase-lh);
+  letter-spacing: var(--font-caption-uppercase-ls);
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-base);
+}
+
+/* display-lg: Waldenburg 36px/300/1.17/-0.36px */
+.section-headline {
+  font-family: var(--font-display);
+  font-size: var(--font-display-lg-size);
+  font-weight: var(--font-display-lg-weight);
+  line-height: var(--font-display-lg-lh);
+  letter-spacing: var(--font-display-lg-ls);
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-base);
+}
+
+.section-subhead {
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  letter-spacing: var(--font-body-md-ls);
+  color: var(--color-muted);
+  max-width: 600px;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.section-header .section-label {
+  display: block;
+}
+
+.section-header .section-subhead {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   FEATURE CARDS — feature-card component
+   Background: surface-card, Rounded: xl (16px), Padding: 24px
+   1px hairline border
+   ============================================================ */
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.feature-card {
+  background-color: var(--color-surface-card);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-lg);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
+}
+
+.feature-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-surface-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-base);
+  color: var(--color-ink);
+}
+
+.feature-card-title {
+  font-family: var(--font-body);
+  font-size: var(--font-title-md-size);
+  font-weight: var(--font-title-md-weight);
+  line-height: var(--font-title-md-lh);
+  letter-spacing: var(--font-title-md-ls);
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-xs);
+}
+
+.feature-card-desc {
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  letter-spacing: var(--font-body-md-ls);
+  color: var(--color-muted);
+}
+
+/* ============================================================
+   GRADIENT ORB CARDS — gradient-orb-card component
+   Background: canvas-soft, Rounded: xxl (24px), Padding: 32px
+   ============================================================ */
+
+.orb-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.gradient-orb-card {
+  position: relative;
+  background-color: var(--color-canvas-soft);
+  border-radius: var(--rounded-xxl);
+  padding: var(--spacing-xl);
+  overflow: hidden;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.gradient-orb-card:hover {
+  box-shadow: var(--shadow-soft);
+}
+
+.orb-bg {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.orb-bg--mint {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, var(--color-gradient-mint) 0%, transparent 70%);
+  top: -60px;
+  right: -40px;
+}
+
+.orb-bg--peach {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--color-gradient-peach) 0%, transparent 70%);
+  top: -40px;
+  left: -60px;
+}
+
+.orb-bg--lavender {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, var(--color-gradient-lavender) 0%, transparent 70%);
+  bottom: -60px;
+  right: -30px;
+}
+
+.orb-bg--sky {
+  width: 290px;
+  height: 290px;
+  background: radial-gradient(circle, var(--color-gradient-sky) 0%, transparent 70%);
+  bottom: -50px;
+  left: -50px;
+}
+
+.orb-bg--rose {
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, var(--color-gradient-rose) 0%, transparent 70%);
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gradient-orb-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.gradient-orb-card-label {
+  font-family: var(--font-body);
+  font-size: var(--font-caption-uppercase-size);
+  font-weight: var(--font-caption-uppercase-weight);
+  line-height: var(--font-caption-uppercase-lh);
+  letter-spacing: var(--font-caption-uppercase-ls);
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* display-md: Waldenburg 32px/300/1.13/-0.32px */
+.gradient-orb-card-title {
+  font-family: var(--font-display);
+  font-size: var(--font-display-md-size);
+  font-weight: var(--font-display-md-weight);
+  line-height: var(--font-display-md-lh);
+  letter-spacing: var(--font-display-md-ls);
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+.gradient-orb-card-desc {
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  letter-spacing: var(--font-body-md-ls);
+  color: var(--color-muted);
+  max-width: 360px;
+}
+
+/* Full-width orb card */
+.orb-card-wide {
+  grid-column: 1 / -1;
+  min-height: 220px;
+  align-items: center;
+  text-align: center;
+}
+
+.orb-card-wide .gradient-orb-card-desc {
+  margin: 0 auto;
+}
+
+/* ============================================================
+   WAVEFORM CARD — audio-waveform-card component
+   Background: surface-card, Rounded: xl, Padding: 24px
+   ============================================================ */
+
+.voice-showcase {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.waveform-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.audio-waveform-card {
+  background-color: var(--color-surface-card);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-base);
+  transition: box-shadow 0.3s ease;
+}
+
+.audio-waveform-card:hover {
+  box-shadow: var(--shadow-soft);
+}
+
+.waveform-play-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-ink);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.waveform-play-btn:hover {
+  background-color: var(--color-primary-active);
+}
+
+.waveform-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.waveform-voice-name {
+  font-family: var(--font-body);
+  font-size: var(--font-body-strong-size);
+  font-weight: var(--font-body-strong-weight);
+  line-height: var(--font-body-strong-lh);
+  letter-spacing: var(--font-body-strong-ls);
+  color: var(--color-ink);
+  margin-bottom: 2px;
+}
+
+.waveform-voice-accent {
+  font-family: var(--font-body);
+  font-size: var(--font-caption-size);
+  font-weight: var(--font-caption-weight);
+  line-height: var(--font-caption-lh);
+  letter-spacing: var(--font-caption-ls);
+  color: var(--color-muted);
+}
+
+.waveform-visual {
+  width: 100%;
+  max-width: 280px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.waveform-visual svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   VOICE ROW — voice-row component
+   ============================================================ */
+
+.voice-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.voice-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-hairline);
+  background-color: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.voice-row:last-child {
+  border-bottom: none;
+}
+
+.voice-row:hover {
+  opacity: 0.7;
+}
+
+/* voice-icon-circular: bg surface-strong, rounded full, 32px */
+.voice-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-surface-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-caption-size);
+  font-weight: var(--font-body-strong-weight);
+  color: var(--color-ink);
+}
+
+.voice-name {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  color: var(--color-ink);
+}
+
+.voice-accent {
+  font-family: var(--font-body);
+  font-size: var(--font-caption-size);
+  font-weight: var(--font-caption-weight);
+  line-height: var(--font-caption-lh);
+  color: var(--color-muted);
+}
+
+/* ============================================================
+   PRICING TIERS — pricing-tier-card & pricing-tier-featured
+   Card bg: surface-card, rounded xl, padding 32px, border hairline
+   Featured bg: surface-dark, text on-dark
+   ============================================================ */
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  align-items: stretch;
+}
+
+.pricing-tier-card {
+  background-color: var(--color-surface-card);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.pricing-tier-card:hover {
+  box-shadow: var(--shadow-soft);
+}
+
+.pricing-tier-featured {
+  background-color: var(--color-surface-dark);
+  color: var(--color-on-dark);
+  border: 1px solid var(--color-surface-dark);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.pricing-tier-featured:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.pricing-tier-featured .pricing-tier-name,
+.pricing-tier-featured .pricing-tier-features li,
+.pricing-tier-featured .pricing-tier-features li::before {
+  color: var(--color-on-dark);
+}
+
+.pricing-tier-featured .pricing-tier-features li::before {
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+}
+
+.pricing-tier-badge {
+  display: inline-block;
+  background-color: var(--color-surface-strong);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--font-caption-uppercase-size);
+  font-weight: var(--font-caption-uppercase-weight);
+  line-height: var(--font-caption-uppercase-lh);
+  letter-spacing: var(--font-caption-uppercase-ls);
+  text-transform: uppercase;
+  border-radius: var(--rounded-pill);
+  padding: 4px 10px;
+  margin-bottom: var(--spacing-base);
+  align-self: flex-start;
+}
+
+.pricing-tier-featured .pricing-tier-badge {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--color-on-dark);
+}
+
+.pricing-tier-name {
+  font-family: var(--font-body);
+  font-size: var(--font-title-md-size);
+  font-weight: var(--font-title-md-weight);
+  line-height: var(--font-title-md-lh);
+  letter-spacing: var(--font-title-md-ls);
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* display-sm: Waldenburg 24px/300/1.2/0 */
+.pricing-tier-price {
+  font-family: var(--font-display);
+  font-size: var(--font-display-sm-size);
+  font-weight: var(--font-display-sm-weight);
+  line-height: var(--font-display-sm-lh);
+  letter-spacing: var(--font-display-sm-ls);
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pricing-tier-featured .pricing-tier-price {
+  color: var(--color-on-dark);
+}
+
+.pricing-tier-period {
+  font-family: var(--font-body);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--font-body-sm-weight);
+  line-height: var(--font-body-sm-lh);
+  letter-spacing: var(--font-body-sm-ls);
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pricing-tier-featured .pricing-tier-period {
+  color: var(--color-on-dark-soft);
+}
+
+.pricing-tier-features {
+  list-style: none;
+  margin-bottom: var(--spacing-xl);
+  flex: 1;
+}
+
+.pricing-tier-features li {
+  font-family: var(--font-body);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--font-body-sm-weight);
+  line-height: var(--font-body-sm-lh);
+  letter-spacing: var(--font-body-sm-ls);
+  color: var(--color-body);
+  padding: 6px 0;
+  padding-left: 22px;
+  position: relative;
+}
+
+.pricing-tier-features li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 14px;
+  height: 14px;
+  background: currentColor;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  background-color: var(--color-muted);
+}
+
+.pricing-tier-featured .pricing-tier-features li::before {
+  background-color: var(--color-on-dark-soft);
+}
+
+.pricing-tier-cta {
+  margin-top: auto;
+}
+
+/* ============================================================
+   TESTIMONIAL — testimonial-card component
+   Background: surface-card, Text: body, Rounded: xl, Padding: 32px
+   ============================================================ */
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.testimonial-card {
+  background-color: var(--color-surface-card);
+  color: var(--color-body);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-xl);
+  padding: var(--spacing-xl);
+  transition: box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  box-shadow: var(--shadow-soft);
+}
+
+.testimonial-quote {
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  letter-spacing: var(--font-body-md-ls);
+  color: var(--color-body);
+  margin-bottom: var(--spacing-base);
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.testimonial-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--rounded-full);
+  background-color: var(--color-surface-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: var(--font-caption-size);
+  font-weight: var(--font-body-strong-weight);
+  color: var(--color-ink);
+  flex-shrink: 0;
+}
+
+.testimonial-name {
+  font-family: var(--font-body);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--font-body-strong-weight);
+  line-height: var(--font-body-sm-lh);
+  color: var(--color-ink);
+}
+
+.testimonial-role {
+  font-family: var(--font-body);
+  font-size: var(--font-caption-size);
+  font-weight: var(--font-caption-weight);
+  line-height: var(--font-caption-lh);
+  color: var(--color-muted);
+}
+
+/* ============================================================
+   CTA BAND — cta-band component
+   Background: canvas, Typography: display-lg, Padding: 96px
+   ============================================================ */
+
+.cta-band {
+  background-color: var(--color-canvas);
+  padding: var(--spacing-section) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-band .container {
+  position: relative;
+  z-index: 2;
+}
+
+.cta-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.cta-orb--1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--color-gradient-lavender) 0%, transparent 70%);
+  top: -80px;
+  left: -60px;
+}
+
+.cta-orb--2 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, var(--color-gradient-rose) 0%, transparent 70%);
+  bottom: -80px;
+  right: -60px;
+}
+
+/* display-lg: Waldenburg 36px/300/1.17/-0.36px */
+.cta-headline {
+  font-family: var(--font-display);
+  font-size: var(--font-display-lg-size);
+  font-weight: var(--font-display-lg-weight);
+  line-height: var(--font-display-lg-lh);
+  letter-spacing: var(--font-display-lg-ls);
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-base);
+}
+
+.cta-subhead {
+  font-family: var(--font-body);
+  font-size: var(--font-body-md-size);
+  font-weight: var(--font-body-md-weight);
+  line-height: var(--font-body-md-lh);
+  letter-spacing: var(--font-body-md-ls);
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-xl);
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   FOOTER — footer component
+   Background: canvas, Text: body, Typography: body-sm, Padding: 64px 48px
+   5-column layout
+   ============================================================ */
+
+.footer {
+  background-color: var(--color-canvas);
+  border-top: 1px solid var(--color-hairline);
+  color: var(--color-body);
+  font-family: var(--font-body);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--font-body-sm-weight);
+  line-height: var(--font-body-sm-lh);
+  letter-spacing: var(--font-body-sm-ls);
+  padding: 64px 0 48px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--spacing-xxl);
+}
+
+.footer-brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-base);
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-ink);
+}
+
+.footer-brand-desc {
+  font-family: var(--font-body);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--font-body-sm-weight);
+  line-height: var(--font-body-sm-lh);
+  letter-spacing: var(--font-body-sm-ls);
+  color: var(--color-muted);
+  max-width: 260px;
+}
+
+.footer-col-title {
+  font-family: var(--font-body);
+  font-size: var(--font-caption-uppercase-size);
+  font-weight: var(--font-caption-uppercase-weight);
+  line-height: var(--font-caption-uppercase-lh);
+  letter-spacing: var(--font-caption-uppercase-ls);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-base);
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* footer-link: transparent bg, body text, body-sm type */
+.footer-links a {
+  font-family: var(--font-body);
+  font-size: var(--font-body-sm-size);
+  font-weight: var(--font-body-sm-weight);
+  line-height: var(--font-body-sm-lh);
+  letter-spacing: var(--font-body-sm-ls);
+  color: var(--color-body);
+  background-color: transparent;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--color-ink);
+}
+
+.footer-bottom {
+  margin-top: var(--spacing-xxl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-base);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: var(--spacing-lg);
+  list-style: none;
+}
+
+.footer-bottom-links a {
+  font-family: var(--font-body);
+  font-size: var(--font-caption-size);
+  font-weight: var(--font-caption-weight);
+  line-height: var(--font-caption-lh);
+  color: var(--color-muted);
+  transition: color 0.2s ease;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--color-ink);
+}
+
+/* ============================================================
+   RESPONSIVE — per DESIGN.md breakpoints
+   ============================================================ */
+
+/* Tablet: 640–1024px */
+@media (max-width: 1024px) {
+  .hero-headline {
+    font-size: 48px;
+    letter-spacing: -0.96px;
+    line-height: 1.08;
+  }
+
+  .hero-orb--1 { width: 360px; height: 360px; }
+  .hero-orb--2 { width: 320px; height: 320px; }
+  .hero-orb--3 { width: 240px; height: 240px; }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .orb-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .voice-showcase {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .footer-brand-col {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Mobile: < 640px */
+@media (max-width: 640px) {
+  .hero-headline {
+    font-size: 32px;
+    letter-spacing: -0.32px;
+    line-height: 1.13;
+  }
+
+  .hero-orb--1 { width: 220px; height: 220px; top: -60px; left: -40px; }
+  .hero-orb--2 { width: 200px; height: 200px; top: -30px; right: -40px; }
+  .hero-orb--3 { width: 160px; height: 160px; }
+
+  .nav-links { display: none; }
+  .nav-hamburger { display: block; }
+  .nav-sign-in { display: none; }
+
+  .section {
+    padding: 64px 0;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-grid {
+    max-width: 100%;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .footer-brand-col {
+    grid-column: 1 / -1;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .audio-waveform-card {
+    flex-wrap: wrap;
+  }
+
+  .waveform-visual {
+    max-width: 100%;
+    order: 3;
+    margin-top: var(--spacing-xs);
+  }
+
+  .cta-headline {
+    font-size: 28px;
+    letter-spacing: -0.28px;
+    line-height: 1.15;
+  }
+
+  .section-headline {
+    font-size: 28px;
+    letter-spacing: -0.28px;
+    line-height: 1.15;
+  }
+}
+
+@media (max-width: 400px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAVIGATION — top-nav component
+     ============================================================ -->
+<nav class="top-nav">
+  <div class="container">
+    <a href="#" class="nav-brand" aria-label="ElevenLabs home">
+      <div class="nav-brand-mark">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <rect x="2" y="2" width="10" height="10" rx="2" fill="white" opacity="0.9"/>
+        </svg>
+      </div>
+      <span class="nav-brand-name">ElevenLabs</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">Creative</a></li>
+      <li><a href="#">Agents</a></li>
+      <li><a href="#">Video</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Enterprise</a></li>
+      <li><a href="#">Docs</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="#" class="nav-sign-in">Sign in</a>
+      <a href="#" class="btn btn-primary">Try free</a>
+      <button class="nav-hamburger" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO BAND — hero-band component
+     ============================================================ -->
+<header class="hero-band">
+  <!-- Atmospheric gradient orbs -->
+  <div class="hero-orb hero-orb--1"></div>
+  <div class="hero-orb hero-orb--2"></div>
+  <div class="hero-orb hero-orb--3"></div>
+
+  <div class="container">
+    <span class="hero-badge">New: Conversational AI</span>
+
+    <h1 class="hero-headline">
+      The most lifelike<br>AI voices on earth
+    </h1>
+
+    <p class="hero-subheadline">
+      Generate speech that captures every nuance of human emotion.
+      Create, clone, and design voices with the world's leading text-to-speech platform.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-primary btn-lg">Start for free</a>
+      <a href="#" class="btn btn-outline btn-lg">Explore voices</a>
+    </div>
+
+    <!-- Audio waveform visual placeholder -->
+    <div class="hero-visual">
+      <div class="hero-waveform">
+        <svg viewBox="0 0 600 64" fill="none" preserveAspectRatio="none">
+          <rect x="0" y="20" width="2" height="24" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="6" y="14" width="2" height="36" rx="1" fill="#a8a29e" opacity="0.7"/>
+          <rect x="12" y="10" width="2" height="44" rx="1" fill="#a8a29e" opacity="0.8"/>
+          <rect x="18" y="6" width="2" height="52" rx="1" fill="#a8c8e8" opacity="0.9"/>
+          <rect x="24" y="4" width="2" height="56" rx="1" fill="#a7e5d3" opacity="0.9"/>
+          <rect x="30" y="8" width="2" height="48" rx="1" fill="#c8b8e0" opacity="0.85"/>
+          <rect x="36" y="12" width="2" height="40" rx="1" fill="#f4c5a8" opacity="0.8"/>
+          <rect x="42" y="16" width="2" height="32" rx="1" fill="#a8a29e" opacity="0.7"/>
+          <rect x="48" y="20" width="2" height="24" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="54" y="22" width="2" height="20" rx="1" fill="#a8a29e" opacity="0.5"/>
+          <!-- repeat pattern -->
+          <rect x="66" y="16" width="2" height="32" rx="1" fill="#a8a29e" opacity="0.65"/>
+          <rect x="72" y="10" width="2" height="44" rx="1" fill="#f4c5a8" opacity="0.8"/>
+          <rect x="78" y="6" width="2" height="52" rx="1" fill="#a8c8e8" opacity="0.9"/>
+          <rect x="84" y="3" width="2" height="58" rx="1" fill="#e8b8c4" opacity="0.9"/>
+          <rect x="90" y="8" width="2" height="48" rx="1" fill="#a7e5d3" opacity="0.85"/>
+          <rect x="96" y="14" width="2" height="36" rx="1" fill="#c8b8e0" opacity="0.75"/>
+          <rect x="102" y="18" width="2" height="28" rx="1" fill="#a8a29e" opacity="0.65"/>
+          <rect x="108" y="22" width="2" height="20" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="114" y="24" width="2" height="16" rx="1" fill="#a8a29e" opacity="0.45"/>
+          <rect x="126" y="18" width="2" height="28" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="132" y="12" width="2" height="40" rx="1" fill="#a7e5d3" opacity="0.8"/>
+          <rect x="138" y="7" width="2" height="50" rx="1" fill="#c8b8e0" opacity="0.9"/>
+          <rect x="144" y="5" width="2" height="54" rx="1" fill="#f4c5a8" opacity="0.9"/>
+          <rect x="150" y="10" width="2" height="44" rx="1" fill="#a8c8e8" opacity="0.85"/>
+          <rect x="156" y="16" width="2" height="32" rx="1" fill="#a8a29e" opacity="0.7"/>
+          <rect x="162" y="20" width="2" height="24" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="168" y="24" width="2" height="16" rx="1" fill="#a8a29e" opacity="0.5"/>
+          <rect x="174" y="26" width="2" height="12" rx="1" fill="#a8a29e" opacity="0.4"/>
+          <!-- continue the waveform pattern across 600px -->
+          <rect x="186" y="20" width="2" height="24" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="192" y="14" width="2" height="36" rx="1" fill="#e8b8c4" opacity="0.8"/>
+          <rect x="198" y="9" width="2" height="46" rx="1" fill="#a7e5d3" opacity="0.85"/>
+          <rect x="204" y="6" width="2" height="52" rx="1" fill="#c8b8e0" opacity="0.9"/>
+          <rect x="210" y="11" width="2" height="42" rx="1" fill="#f4c5a8" opacity="0.85"/>
+          <rect x="216" y="17" width="2" height="30" rx="1" fill="#a8a29e" opacity="0.65"/>
+          <rect x="222" y="21" width="2" height="22" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="228" y="25" width="2" height="14" rx="1" fill="#a8a29e" opacity="0.45"/>
+          <rect x="234" y="27" width="2" height="10" rx="1" fill="#a8a29e" opacity="0.35"/>
+          <rect x="246" y="19" width="2" height="26" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="252" y="13" width="2" height="38" rx="1" fill="#a8c8e8" opacity="0.8"/>
+          <rect x="258" y="8" width="2" height="48" rx="1" fill="#e8b8c4" opacity="0.85"/>
+          <rect x="264" y="4" width="2" height="56" rx="1" fill="#a7e5d3" opacity="0.9"/>
+          <rect x="270" y="9" width="2" height="46" rx="1" fill="#c8b8e0" opacity="0.85"/>
+          <rect x="276" y="15" width="2" height="34" rx="1" fill="#f4c5a8" opacity="0.75"/>
+          <rect x="282" y="21" width="2" height="22" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="288" y="25" width="2" height="14" rx="1" fill="#a8a29e" opacity="0.5"/>
+          <rect x="294" y="28" width="2" height="8" rx="1" fill="#a8a29e" opacity="0.4"/>
+          <rect x="306" y="18" width="2" height="28" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="312" y="11" width="2" height="42" rx="1" fill="#f4c5a8" opacity="0.8"/>
+          <rect x="318" y="7" width="2" height="50" rx="1" fill="#a8c8e8" opacity="0.9"/>
+          <rect x="324" y="5" width="2" height="54" rx="1" fill="#c8b8e0" opacity="0.9"/>
+          <rect x="330" y="10" width="2" height="44" rx="1" fill="#e8b8c4" opacity="0.85"/>
+          <rect x="336" y="17" width="2" height="30" rx="1" fill="#a8a29e" opacity="0.7"/>
+          <rect x="342" y="22" width="2" height="20" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="348" y="26" width="2" height="12" rx="1" fill="#a8a29e" opacity="0.45"/>
+          <rect x="354" y="29" width="2" height="6" rx="1" fill="#a8a29e" opacity="0.35"/>
+          <rect x="366" y="17" width="2" height="30" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="372" y="10" width="2" height="44" rx="1" fill="#e8b8c4" opacity="0.8"/>
+          <rect x="378" y="6" width="2" height="52" rx="1" fill="#a7e5d3" opacity="0.9"/>
+          <rect x="384" y="3" width="2" height="58" rx="1" fill="#c8b8e0" opacity="0.9"/>
+          <rect x="390" y="9" width="2" height="46" rx="1" fill="#f4c5a8" opacity="0.85"/>
+          <rect x="396" y="16" width="2" height="32" rx="1" fill="#a8a29e" opacity="0.7"/>
+          <rect x="402" y="21" width="2" height="22" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="408" y="25" width="2" height="14" rx="1" fill="#a8a29e" opacity="0.45"/>
+          <rect x="414" y="28" width="2" height="8" rx="1" fill="#a8a29e" opacity="0.35"/>
+          <rect x="426" y="19" width="2" height="26" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="432" y="12" width="2" height="40" rx="1" fill="#f4c5a8" opacity="0.8"/>
+          <rect x="438" y="7" width="2" height="50" rx="1" fill="#a8c8e8" opacity="0.85"/>
+          <rect x="444" y="5" width="2" height="54" rx="1" fill="#c8b8e0" opacity="0.9"/>
+          <rect x="450" y="11" width="2" height="42" rx="1" fill="#e8b8c4" opacity="0.85"/>
+          <rect x="456" y="18" width="2" height="28" rx="1" fill="#a8a29e" opacity="0.65"/>
+          <rect x="462" y="23" width="2" height="18" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="468" y="27" width="2" height="10" rx="1" fill="#a8a29e" opacity="0.4"/>
+          <rect x="474" y="30" width="2" height="4" rx="1" fill="#a8a29e" opacity="0.3"/>
+          <!-- 500-600 -->
+          <rect x="486" y="16" width="2" height="32" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="492" y="9" width="2" height="46" rx="1" fill="#a7e5d3" opacity="0.85"/>
+          <rect x="498" y="5" width="2" height="54" rx="1" fill="#c8b8e0" opacity="0.9"/>
+          <rect x="504" y="7" width="2" height="50" rx="1" fill="#f4c5a8" opacity="0.9"/>
+          <rect x="510" y="12" width="2" height="40" rx="1" fill="#a8c8e8" opacity="0.8"/>
+          <rect x="516" y="18" width="2" height="28" rx="1" fill="#e8b8c4" opacity="0.7"/>
+          <rect x="522" y="22" width="2" height="20" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="528" y="25" width="2" height="14" rx="1" fill="#a8a29e" opacity="0.45"/>
+          <rect x="534" y="28" width="2" height="8" rx="1" fill="#a8a29e" opacity="0.35"/>
+          <rect x="546" y="20" width="2" height="24" rx="1" fill="#a8a29e" opacity="0.55"/>
+          <rect x="552" y="14" width="2" height="36" rx="1" fill="#f4c5a8" opacity="0.75"/>
+          <rect x="558" y="10" width="2" height="44" rx="1" fill="#a7e5d3" opacity="0.8"/>
+          <rect x="564" y="7" width="2" height="50" rx="1" fill="#c8b8e0" opacity="0.85"/>
+          <rect x="570" y="13" width="2" height="38" rx="1" fill="#e8b8c4" opacity="0.75"/>
+          <rect x="576" y="19" width="2" height="26" rx="1" fill="#a8a29e" opacity="0.6"/>
+          <rect x="582" y="24" width="2" height="16" rx="1" fill="#a8a29e" opacity="0.5"/>
+          <rect x="588" y="27" width="2" height="10" rx="1" fill="#a8a29e" opacity="0.4"/>
+          <rect x="594" y="30" width="2" height="4" rx="1" fill="#a8a29e" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     FEATURES SECTION — feature-card components
+     ============================================================ -->
+<section id="features" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Platform</span>
+      <h2 class="section-headline">Everything you need to create<br>professional voice content</h2>
+      <p class="section-subhead">From text-to-speech to voice cloning, our platform gives you complete creative control over every aspect of sound generation.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <!-- Text-to-Speech icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 10v4h4l5 5V5L6 10H2z"/>
+            <path d="M16 8.5a4.5 4.5 0 0 1 0 7"/>
+            <path d="M20 5a8 8 0 0 1 0 14"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Text to Speech</h3>
+        <p class="feature-card-desc">Convert any text into natural-sounding speech with support for 29 languages and hundreds of unique voices.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <!-- Voice cloning icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Voice Cloning</h3>
+        <p class="feature-card-desc">Clone any voice from just a few minutes of audio. Instant or professional — the choice is yours.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <!-- AI dubbing icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8"/>
+            <path d="M12 17v4"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">AI Dubbing</h3>
+        <p class="feature-card-desc">Translate and dub video content across languages while preserving the original speaker's voice characteristics.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <!-- Voice design icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l1.5 4.5L18 5l-3 3.5L16.5 13 12 11l-4.5 2L9 8.5 6 5l4.5 1.5z"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Voice Design</h3>
+        <p class="feature-card-desc">Craft entirely new synthetic voices from scratch using descriptive parameters like age, gender, and accent.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <!-- Agents icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="7" r="4"/>
+            <path d="M5.5 21a6.5 6.5 0 0 1 13 0"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Conversational AI</h3>
+        <p class="feature-card-desc">Build voice agents that can hold real-time conversations with ultra-low latency and natural turn-taking.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <!-- API icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+            <line x1="12" y1="2" x2="12" y2="22"/>
+          </svg>
+        </div>
+        <h3 class="feature-card-title">Developer API</h3>
+        <p class="feature-card-desc">Integrate voice generation directly into your applications with our powerful REST API and SDKs for every platform.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     VOICE SHOWCASE — waveform cards + voice rows
+     ============================================================ -->
+<section id="showcase" class="section section--alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Voice Library</span>
+      <h2 class="section-headline">A voice for every story</h2>
+      <p class="section-subhead">Browse thousands of voices across accents, ages, and styles. Each voice is uniquely expressive and ready to use.</p>
+    </div>
+
+    <div class="voice-showcase">
+      <!-- Audio waveform cards -->
+      <div class="waveform-grid">
+        <div class="audio-waveform-card">
+          <button class="waveform-play-btn" aria-label="Play sample">
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="white">
+              <path d="M0 0v16l14-8z"/>
+            </svg>
+          </button>
+          <div class="waveform-info">
+            <div class="waveform-voice-name">Rachel</div>
+            <div class="waveform-voice-accent">American — Warm &amp; Confident</div>
+          </div>
+          <div class="waveform-visual">
+            <svg viewBox="0 0 280 32" fill="none" preserveAspectRatio="none">
+              <rect x="0" y="12" width="2" height="8" rx="1" fill="#d6d3d1"/>
+              <rect x="4" y="8" width="2" height="16" rx="1" fill="#d6d3d1"/>
+              <rect x="8" y="4" width="2" height="24" rx="1" fill="#a7e5d3" opacity="0.8"/>
+              <rect x="12" y="2" width="2" height="28" rx="1" fill="#a7e5d3" opacity="0.9"/>
+              <rect x="16" y="0" width="2" height="32" rx="1" fill="#a7e5d3" opacity="0.95"/>
+              <rect x="20" y="5" width="2" height="22" rx="1" fill="#a7e5d3" opacity="0.75"/>
+              <rect x="24" y="10" width="2" height="12" rx="1" fill="#d6d3d1"/>
+              <rect x="28" y="14" width="2" height="4" rx="1" fill="#d6d3d1" opacity="0.6"/>
+              <rect x="32" y="11" width="2" height="10" rx="1" fill="#d6d3d1" opacity="0.7"/>
+              <rect x="36" y="7" width="2" height="18" rx="1" fill="#d6d3d1" opacity="0.8"/>
+              <rect x="40" y="5" width="2" height="22" rx="1" fill="#f4c5a8" opacity="0.8"/>
+              <rect x="44" y="3" width="2" height="26" rx="1" fill="#f4c5a8" opacity="0.9"/>
+              <rect x="48" y="6" width="2" height="20" rx="1" fill="#f4c5a8" opacity="0.75"/>
+              <rect x="52" y="12" width="2" height="8" rx="1" fill="#d6d3d1" opacity="0.6"/>
+              <rect x="56" y="13" width="2" height="6" rx="1" fill="#d6d3d1" opacity="0.5"/>
+              <rect x="60" y="14" width="2" height="4" rx="1" fill="#d6d3d1" opacity="0.4"/>
+              <rect x="68" y="8" width="2" height="16" rx="1" fill="#d6d3d1" opacity="0.7"/>
+              <rect x="72" y="4" width="2" height="24" rx="1" fill="#c8b8e0" opacity="0.8"/>
+              <rect x="76" y="1" width="2" height="30" rx="1" fill="#c8b8e0" opacity="0.9"/>
+              <rect x="80" y="3" width="2" height="26" rx="1" fill="#c8b8e0" opacity="0.85"/>
+              <rect x="84" y="9" width="2" height="14" rx="1" fill="#d6d3d1" opacity="0.65"/>
+              <rect x="88" y="12" width="2" height="8" rx="1" fill="#d6d3d1" opacity="0.5"/>
+              <rect x="92" y="14" width="2" height="4" rx="1" fill="#d6d3d1" opacity="0.35"/>
+              <rect x="96" y="15" width="2" height="2" rx="1" fill="#d6d3d1" opacity="0.25"/>
+              <rect x="104" y="10" width="2" height="12" rx="1" fill="#d6d3d1" opacity="0.6"/>
+              <rect x="108" y="6" width="2" height="20" rx="1" fill="#a8c8e8" opacity="0.8"/>
+              <rect x="112" y="2" width="2" height="28" rx="1" fill="#a8c8e8" opacity="0.9"/>
+              <rect x="116" y="5" width="2" height="22" rx="1" fill="#a8c8e8" opacity="0.8"/>
+              <rect x="120" y="11" width="2" height="10" rx="1" fill="#d6d3d1" opacity="0.6"/>
+              <rect x="124" y="13" width="2" height="6" rx="1" fill="#d6d3d1" opacity="0.45"/>
+              <rect x="128" y="15" width="2" height="2" rx="1" fill="#d6d3d1" opacity="0.3"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="audio-waveform-card">
+          <button class="waveform-play-btn" aria-label="Play sample">
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="white">
+              <path d="M0 0v16l14-8z"/>
+            </svg>
+          </button>
+          <div class="waveform-info">
+            <div class="waveform-voice-name">Antoni</div>
+            <div class="waveform-voice-accent">British — Deep &amp; Authoritative</div>
+          </div>
+          <div class="waveform-visual">
+            <svg viewBox="0 0 280 32" fill="none" preserveAspectRatio="none">
+              <rect x="0" y="8" width="2" height="16" rx="1" fill="#d6d3d1"/>
+              <rect x="4" y="4" width="2" height="24" rx="1" fill="#d6d3d1"/>
+              <rect x="8" y="1" width="2" height="30" rx="1" fill="#e8b8c4" opacity="0.9"/>
+              <rect x="12" y="0" width="2" height="32" rx="1" fill="#e8b8c4" opacity="0.95"/>
+              <rect x="16" y="3" width="2" height="26" rx="1" fill="#e8b8c4" opacity="0.85"/>
+              <rect x="20" y="7" width="2" height="18" rx="1" fill="#d6d3d1" opacity="0.7"/>
+              <rect x="24" y="10" width="2" height="12" rx="1" fill="#d6d3d1" opacity="0.6"/>
+              <rect x="28" y="12" width="2" height="8" rx="1" fill="#d6d3d1" opacity="0.45"/>
+              <rect x="32" y="13" width="2" height="6" rx="1" fill="#d6d3d1" opacity="0.35"/>
+              <rect x="40" y="9" width="2" height="14" rx="1" fill="#d6d3d1" opacity="0.65"/>
+              <rect x="44" y="5" width="2" height="22" rx="1" fill="#a7e5d3" opacity="0.8"/>
+              <rect x="48" y="2" width="2" height="28" rx="1" fill="#a7e5d3" opacity="0.9"/>
+              <rect x="52" y="4" width="2" height="24" rx="1" fill="#a7e5d3" opacity="0.85"/>
+              <rect x="56" y="8" width="2" height="16" rx="1" fill="#d6d3d1" opacity="0.65"/>
+              <rect x="60" y="11" width="2" height="10" rx="1" fill="#d6d3d1" opacity="0.5"/>
+              <rect x="64" y="13" width="2" height="6" rx="1" fill="#d6d3d1" opacity="0.4"/>
+              <rect x="68" y="15" width="2" height="2" rx="1" fill="#d6d3d1" opacity="0.3"/>
+              <rect x="76" y="6" width="2" height="20" rx="1" fill="#d6d3d1" opacity="0.7"/>
+              <rect x="80" y="3" width="2" height="26" rx="1" fill="#f4c5a8" opacity="0.85"/>
+              <rect x="84" y="1" width="2" height="30" rx="1" fill="#f4c5a8" opacity="0.9"/>
+              <rect x="88" y="5" width="2" height="22" rx="1" fill="#f4c5a8" opacity="0.8"/>
+              <rect x="92" y="10" width="2" height="12" rx="1" fill="#d6d3d1" opacity="0.6"/>
+              <rect x="96" y="12" width="2" height="8" rx="1" fill="#d6d3d1" opacity="0.45"/>
+              <rect x="100" y="14" width="2" height="4" rx="1" fill="#d6d3d1" opacity="0.3"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="audio-waveform-card">
+          <button class="waveform-play-btn" aria-label="Play sample">
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="white">
+              <path d="M0 0v16l14-8z"/>
+            </svg>
+          </button>
+          <div class="waveform-info">
+            <div class="waveform-voice-name">Matilda</div>
+            <div class="waveform-voice-accent">Australian — Friendly &amp; Bright</div>
+          </div>
+          <div class="waveform-visual">
+            <svg viewBox="0 0 280 32" fill="none" preserveAspectRatio="none">
+              <rect x="0" y="10" width="2" height="12" rx="1" fill="#d6d3d1"/>
+              <rect x="4" y="6" width="2" height="20" rx="1" fill="#c8b8e0" opacity="0.8"/>
+              <rect x="8" y="2" width="2" height="28" rx="1" fill="#c8b8e0" opacity="0.9"/>
+              <rect x="12" y="0" width="2" height="32" rx="1" fill="#c8b8e0" opacity="0.95"/>
+              <rect x="16" y="4" width="2" height="24" rx="1" fill="#c8b8e0" opacity="0.85"/>
+              <rect x="20" y="8" width="2" height="16" rx="1" fill="#d6d3d1" opacity="0.7"/>
+              <rect x="24" y="12" width="2" height="8" rx="1" fill="#d6d3d1" opacity="0.5"/>
+              <rect x="28" y="14" width="2" height="4" rx="1" fill="#d6d3d1" opacity="0.35"/>
+              <rect x="36" y="7" width="2" height="18" rx="1" fill="#a8c8e8" opacity="0.8"/>
+              <rect x="40" y="3" width="2" height="26" rx="1" fill="#a8c8e8" opacity="0.9"/>
+              <rect x="44" y="1" width="2" height="30" rx="1" fill="#a8c8e8" opacity="0.9"/>
+              <rect x="48" y="5" width="2" height="22" rx="1" fill="#a8c8e8" opacity="0.8"/>
+              <rect x="52" y="10" width="2" height="12" rx="1" fill="#d6d3d1" opacity="0.6"/>
+              <rect x="56" y="13" width="2" height="6" rx="1" fill="#d6d3d1" opacity="0.4"/>
+              <rect x="60" y="15" width="2" height="2" rx="1" fill="#d6d3d1" opacity="0.3"/>
+              <rect x="68" y="9" width="2" height="14" rx="1" fill="#d6d3d1" opacity="0.65"/>
+              <rect x="72" y="5" width="2" height="22" rx="1" fill="#e8b8c4" opacity="0.8"/>
+              <rect x="76" y="2" width="2" height="28" rx="1" fill="#e8b8c4" opacity="0.9"/>
+              <rect x="80" y="6" width="2" height="20" rx="1" fill="#e8b8c4" opacity="0.75"/>
+              <rect x="84" y="11" width="2" height="10" rx="1" fill="#d6d3d1" opacity="0.55"/>
+              <rect x="88" y="13" width="2" height="6" rx="1" fill="#d6d3d1" opacity="0.4"/>
+              <rect x="96" y="11" width="2" height="10" rx="1" fill="#d6d3d1" opacity="0.55"/>
+              <rect x="100" y="7" width="2" height="18" rx="1" fill="#f4c5a8" opacity="0.75"/>
+              <rect x="104" y="4" width="2" height="24" rx="1" fill="#f4c5a8" opacity="0.85"/>
+              <rect x="108" y="8" width="2" height="16" rx="1" fill="#f4c5a8" opacity="0.7"/>
+              <rect x="112" y="12" width="2" height="8" rx="1" fill="#d6d3d1" opacity="0.5"/>
+              <rect x="116" y="14" width="2" height="4" rx="1" fill="#d6d3d1" opacity="0.35"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voice list -->
+      <div class="voice-list">
+        <div class="voice-row">
+          <div class="voice-icon">AD</div>
+          <div class="voice-name">Adam</div>
+          <span class="voice-accent">American — Deep &amp; Expressive</span>
+        </div>
+        <div class="voice-row">
+          <div class="voice-icon">BE</div>
+          <div class="voice-name">Bella</div>
+          <span class="voice-accent">American — Soft &amp; Gentle</span>
+        </div>
+        <div class="voice-row">
+          <div class="voice-icon">DO</div>
+          <div class="voice-name">Dorothy</div>
+          <span class="voice-accent">British — Elegant &amp; Clear</span>
+        </div>
+        <div class="voice-row">
+          <div class="voice-icon">GI</div>
+          <div class="voice-name">Gigi</div>
+          <span class="voice-accent">American — Youthful &amp; Energetic</span>
+        </div>
+        <div class="voice-row">
+          <div class="voice-icon">JA</div>
+          <div class="voice-name">James</div>
+          <span class="voice-accent">Australian — Calm &amp; Measured</span>
+        </div>
+        <div class="voice-row">
+          <div class="voice-icon">LI</div>
+          <div class="voice-name">Lily</div>
+          <span class="voice-accent">British — Warm &amp; Narrative</span>
+        </div>
+        <div class="voice-row">
+          <div class="voice-icon">SA</div>
+          <div class="voice-name">Sam</div>
+          <span class="voice-accent">American — Casual &amp; Conversational</span>
+        </div>
+        <div class="voice-row">
+          <div class="voice-icon">EM</div>
+          <div class="voice-name">Emily</div>
+          <span class="voice-accent">American — Professional &amp; Assured</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GRADIENT ORB CARDS — gradient-orb-card components
+     ============================================================ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Use Cases</span>
+      <h2 class="section-headline">Voice AI for every medium</h2>
+      <p class="section-subhead">From audiobooks to interactive agents, our platform powers the world's most ambitious voice projects.</p>
+    </div>
+
+    <div class="orb-cards-grid">
+      <!-- Mint orb -->
+      <div class="gradient-orb-card">
+        <div class="orb-bg orb-bg--mint"></div>
+        <div class="gradient-orb-card-content">
+          <div class="gradient-orb-card-label">Content Creation</div>
+          <h3 class="gradient-orb-card-title">Audiobooks &amp; Podcasts</h3>
+          <p class="gradient-orb-card-desc">Produce studio-quality narration at scale. Our long-form voices maintain consistency and emotion across hours of content.</p>
+        </div>
+      </div>
+
+      <!-- Peach orb -->
+      <div class="gradient-orb-card">
+        <div class="orb-bg orb-bg--peach"></div>
+        <div class="gradient-orb-card-content">
+          <div class="gradient-orb-card-label">Media &amp; Entertainment</div>
+          <h3 class="gradient-orb-card-title">Video Dubbing</h3>
+          <p class="gradient-orb-card-desc">Dub video content into 29 languages while preserving the original speaker's voice, tone, and emotional delivery.</p>
+        </div>
+      </div>
+
+      <!-- Lavender orb -->
+      <div class="gradient-orb-card">
+        <div class="orb-bg orb-bg--lavender"></div>
+        <div class="gradient-orb-card-content">
+          <div class="gradient-orb-card-label">Gaming</div>
+          <h3 class="gradient-orb-card-title">Character Voices</h3>
+          <p class="gradient-orb-card-desc">Generate distinct voices for every character in your game. Dynamic, responsive, and endlessly customizable.</p>
+        </div>
+      </div>
+
+      <!-- Sky orb -->
+      <div class="gradient-orb-card">
+        <div class="orb-bg orb-bg--sky"></div>
+        <div class="gradient-orb-card-content">
+          <div class="gradient-orb-card-label">Enterprise</div>
+          <h3 class="gradient-orb-card-title">Customer Experience</h3>
+          <p class="gradient-orb-card-desc">Deploy conversational AI agents that sound human. Handle support, sales, and engagement with natural voice interactions.</p>
+        </div>
+      </div>
+
+      <!-- Full-width Rose orb -->
+      <div class="gradient-orb-card orb-card-wide">
+        <div class="orb-bg orb-bg--rose"></div>
+        <div class="gradient-orb-card-content">
+          <div class="gradient-orb-card-label">Research</div>
+          <h3 class="gradient-orb-card-title">The most advanced voice AI research program in the world</h3>
+          <p class="gradient-orb-card-desc">Our models are trained on millions of hours of audio data and are continuously improving in naturalness, expressiveness, and controllability.</p>
+          <a href="#" class="btn btn-text" style="margin-top: var(--spacing-base); font-size: var(--font-button-size); display: inline-flex;">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING — pricing-tier-card & pricing-tier-featured components
+     ============================================================ -->
+<section id="pricing" class="section section--alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Pricing</span>
+      <h2 class="section-headline">Plans for every scale</h2>
+      <p class="section-subhead">Start for free and upgrade as you grow. No hidden fees, no surprises.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Free tier -->
+      <div class="pricing-tier-card">
+        <div class="pricing-tier-name">Free</div>
+        <div class="pricing-tier-price">$0</div>
+        <div class="pricing-tier-period">per month</div>
+        <ul class="pricing-tier-features">
+          <li>10,000 characters per month</li>
+          <li>Access to standard voices</li>
+          <li>Speech synthesis in 29 languages</li>
+          <li>API access</li>
+        </ul>
+        <div class="pricing-tier-cta">
+          <a href="#" class="btn btn-outline" style="width: 100%;">Get started</a>
+        </div>
+      </div>
+
+      <!-- Featured / Starter tier -->
+      <div class="pricing-tier-featured">
+        <span class="pricing-tier-badge">Most Popular</span>
+        <div class="pricing-tier-name">Starter</div>
+        <div class="pricing-tier-price">$5</div>
+        <div class="pricing-tier-period">per month</div>
+        <ul class="pricing-tier-features">
+          <li>30,000 characters per month</li>
+          <li>Instant voice cloning</li>
+          <li>Access to all premium voices</li>
+          <li>Commercial license included</li>
+          <li>Priority API access</li>
+        </ul>
+        <div class="pricing-tier-cta">
+          <a href="#" class="btn btn-primary" style="width: 100%; background-color: var(--color-on-primary); color: var(--color-ink);">Start for free</a>
+        </div>
+      </div>
+
+      <!-- Pro tier -->
+      <div class="pricing-tier-card">
+        <div class="pricing-tier-name">Creator</div>
+        <div class="pricing-tier-price">$22</div>
+        <div class="pricing-tier-period">per month</div>
+        <ul class="pricing-tier-features">
+          <li>100,000 characters per month</li>
+          <li>Professional voice cloning</li>
+          <li>Projects feature</li>
+          <li>Audio streaming via API</li>
+          <li>Usage analytics dashboard</li>
+          <li>Higher quality output (192 kbps)</li>
+        </ul>
+        <div class="pricing-tier-cta">
+          <a href="#" class="btn btn-outline" style="width: 100%;">Start for free</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS — testimonial-card components
+     ============================================================ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Testimonials</span>
+      <h2 class="section-headline">Loved by creators worldwide</h2>
+      <p class="section-subhead">Join thousands of storytellers, developers, and businesses who trust ElevenLabs for their voice AI needs.</p>
+    </div>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"ElevenLabs has completely transformed our audiobook production pipeline. What used to take weeks now takes hours, and the quality is indistinguishable from human narration."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SR</div>
+          <div>
+            <div class="testimonial-name">Sarah Reynolds</div>
+            <div class="testimonial-role">Head of Production, StoryForge</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"We integrated the ElevenLabs API into our gaming platform and the player response has been incredible. Characters now feel genuinely alive."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div>
+            <div class="testimonial-name">Marcus Kim</div>
+            <div class="testimonial-role">CTO, Veridian Games</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"As an indie filmmaker, being able to dub my films into multiple languages without losing the emotional impact of the original performances is a game changer."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">LC</div>
+          <div>
+            <div class="testimonial-name">Lena Castillo</div>
+            <div class="testimonial-role">Independent Filmmaker</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BAND — cta-band component
+     Background: canvas, Typography: display-lg, Padding: 96px
+     ============================================================ -->
+<section id="cta" class="cta-band">
+  <div class="cta-orb cta-orb--1"></div>
+  <div class="cta-orb cta-orb--2"></div>
+
+  <div class="container">
+    <h2 class="cta-headline">Start creating with the world's<br>most lifelike AI voices</h2>
+    <p class="cta-subhead">Free to get started. No credit card required. Generate your first voice in seconds.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn btn-primary btn-lg">Try ElevenLabs free</a>
+      <a href="#" class="btn btn-outline btn-lg">Talk to sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER — footer component
+     Background: canvas, Text: body, Typography: body-sm
+     Padding: 64px 48px, 5-column layout
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Brand column -->
+      <div class="footer-brand-col">
+        <div class="footer-brand">
+          <div class="nav-brand-mark">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="2" y="2" width="10" height="10" rx="2" fill="white" opacity="0.9"/>
+            </svg>
+          </div>
+          <span class="nav-brand-name">ElevenLabs</span>
+        </div>
+        <p class="footer-brand-desc">The world's most advanced generative voice AI platform. Create, clone, and design voices for every medium.</p>
+      </div>
+
+      <!-- Product -->
+      <div>
+        <h4 class="footer-col-title">Product</h4>
+        <ul class="footer-links">
+          <li><a href="#">Text to Speech</a></li>
+          <li><a href="#">Voice Cloning</a></li>
+          <li><a href="#">AI Dubbing</a></li>
+          <li><a href="#">Voice Design</a></li>
+          <li><a href="#">Conversational AI</a></li>
+          <li><a href="#">Voice Library</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4 class="footer-col-title">Resources</h4>
+        <ul class="footer-links">
+          <li><a href="#">API Documentation</a></li>
+          <li><a href="#">SDKs &amp; Libraries</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Research</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Case Studies</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h4 class="footer-col-title">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Partners</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h4 class="footer-col-title">Legal</h4>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Settings</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2024 ElevenLabs Inc. All rights reserved.</span>
+      <ul class="footer-bottom-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

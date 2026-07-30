@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vodafone — The future is exciting. Ready?</title>
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #ffffff;
+  color: #25282b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img, svg { display: block; max-width: 100%; }
+
+/* ── tokens: colors ── */
+/* primary: #e60000 | on-primary: #ffffff | ink: #25282b | body: #7e7e7e | mute: #bebebe | canvas: #ffffff | canvas-soft: #f2f2f2 | on-dark: #ffffff */
+
+/* ── tokens: rounded ── */
+/* none:0px xs:1px sm:6px card:6px pill-md:32px pill-lg:60px full:9999px */
+
+/* ── tokens: spacing ── */
+/* xxs:2px xs:4px sm:8px md:12px lg:16px xl:20px 2xl:24px 3xl:32px */
+
+/* ── typography utility classes ── */
+.t-display-hero { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 144px; font-weight: 800; line-height: 114px; letter-spacing: -1px; text-transform: uppercase; }
+.t-display-xxl { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 126px; font-weight: 800; line-height: 113px; letter-spacing: -1px; text-transform: uppercase; }
+.t-display-xl { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 90px; font-weight: 800; line-height: 84px; text-transform: uppercase; }
+.t-display-lg { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 48px; font-weight: 300; line-height: 52px; }
+.t-display-md { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 40px; font-weight: 300; line-height: 44px; }
+.t-display-sm { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 32px; font-weight: 700; line-height: 40px; }
+.t-display-xs { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 24px; font-weight: 700; line-height: 24px; }
+.t-eyebrow { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; text-transform: uppercase; }
+.t-body-lg { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 22px; font-weight: 400; line-height: 24px; }
+.t-body-md { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 28px; }
+.t-body-md-strong { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: 600; line-height: 28px; }
+.t-body-sm { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 20px; }
+.t-body-sm-strong { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 22px; }
+.t-caption { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 16px; }
+.t-caption-strong { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 700; line-height: 21px; }
+.t-caption-uppercase { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 600; line-height: 16px; letter-spacing: 0.5691px; text-transform: uppercase; }
+.t-button { font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 28px; }
+
+/* ── button components ── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background-color: #e60000; color: #ffffff;
+  border: 1px solid #e60000;
+  border-radius: 60px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+  font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 18px; font-weight: 400; line-height: 28px;
+}
+.btn-primary:hover { background-color: #cc0000; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline-red {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background-color: #ffffff; color: #e60000;
+  border: 1px solid #e60000;
+  border-radius: 60px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 18px; font-weight: 400; line-height: 28px;
+}
+.btn-outline-red:hover { background-color: #e60000; color: #ffffff; transform: translateY(-1px); }
+.btn-outline-red:active { transform: translateY(0); }
+
+.btn-outline-dark {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background-color: #ffffff; color: #25282b;
+  border: 1px solid #25282b;
+  border-radius: 60px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 18px; font-weight: 400; line-height: 28px;
+}
+.btn-outline-dark:hover { background-color: #25282b; color: #ffffff; transform: translateY(-1px); }
+.btn-outline-dark:active { transform: translateY(0); }
+
+.btn-icon-circular {
+  display: inline-flex; align-items: center; justify-content: center;
+  background-color: #ffffff; color: #25282b;
+  border: 1px solid #ffffff;
+  border-radius: 9999px;
+  width: 44px; height: 44px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+  font-size: 18px;
+}
+.btn-icon-circular:hover { background-color: #f2f2f2; transform: scale(1.05); }
+
+/* ── badge-chip ── */
+.badge-chip {
+  display: inline-flex; align-items: center;
+  background-color: #f2f2f2; color: #25282b;
+  border-radius: 32px;
+  padding: 4px 12px;
+  font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px; font-weight: 700; line-height: 21px;
+}
+
+/* ── card components ── */
+.card-content {
+  background-color: #ffffff; color: #25282b;
+  border-radius: 6px;
+  padding: 16px;
+}
+.card-hero {
+  background-color: #ffffff; color: #25282b;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+/* ── speechmark logo ── */
+.speechmark {
+  display: flex; align-items: center; justify-content: center;
+  background-color: #e60000; color: #ffffff;
+  border-radius: 6px;
+  width: 40px; height: 40px;
+  flex-shrink: 0;
+}
+.speechmark svg { width: 22px; height: 22px; }
+
+/* ── nav ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background-color: #25282b; color: #ffffff;
+  padding: 16px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px; font-weight: 400; line-height: 20px;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-logo-text { font-weight: 700; font-size: 20px; letter-spacing: -0.3px; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-link { color: #ffffff; transition: color 0.2s ease; cursor: pointer; }
+.nav-link:hover { color: #e60000; }
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+.nav-search { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 60px; padding: 8px 16px; color: #ffffff; font-family: inherit; font-size: 14px; width: 180px; outline: none; transition: border-color 0.2s; }
+.nav-search:focus { border-color: #e60000; }
+.nav-search::placeholder { color: #bebebe; }
+.nav-account-icon { width: 36px; height: 36px; border-radius: 9999px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: background 0.2s; }
+.nav-account-icon:hover { background: rgba(255,255,255,0.25); }
+
+/* ── hero band (dark) ── */
+.hero-band-dark {
+  background-color: #25282b; color: #ffffff;
+  padding: 32px 32px;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero-band-dark::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 75% 20%, rgba(230,0,0,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(230,0,0,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 60% 50%, rgba(255,255,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-band-dark::after {
+  content: ''; position: absolute; right: -120px; top: 50%; transform: translateY(-50%);
+  width: 620px; height: 620px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 9999px;
+  pointer-events: none;
+}
+.hero-band-dark .hero-decorative-ring-2 {
+  position: absolute; right: -60px; top: 50%; transform: translateY(-50%);
+  width: 480px; height: 480px;
+  border: 1px solid rgba(230,0,0,0.08);
+  border-radius: 9999px;
+  pointer-events: none;
+}
+.hero-band-dark .hero-decorative-ring-3 {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  width: 360px; height: 360px;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 9999px;
+  pointer-events: none;
+}
+.hero-content { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; width: 100%; padding-top: 80px; }
+.hero-tagline { display: inline-block; color: #e60000; margin-bottom: 24px; }
+.hero-headline { max-width: 900px; margin-bottom: 32px; word-break: break-word; }
+.hero-subhead { color: #bebebe; max-width: 540px; margin-bottom: 40px; }
+.hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 48px; margin-top: 64px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); }
+.hero-stat-value { color: #ffffff; margin-bottom: 4px; }
+.hero-stat-label { color: #bebebe; }
+.hero-scroll-indicator {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: #bebebe; animation: bounce 2s infinite; z-index: 2;
+}
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+/* ── content band (light) ── */
+.content-band-light {
+  background-color: #ffffff; color: #25282b;
+  padding: 80px 32px;
+}
+.content-band-inner { max-width: 1200px; margin: 0 auto; }
+.section-eyebrow { color: #e60000; margin-bottom: 16px; display: block; }
+.section-heading { max-width: 700px; margin-bottom: 16px; }
+.section-description { color: #7e7e7e; max-width: 600px; margin-bottom: 48px; }
+
+/* ── features grid ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature-card {
+  background-color: #ffffff; color: #25282b;
+  border-radius: 6px; padding: 16px;
+  border: 1px solid #bebebe;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+.feature-card:hover { border-color: #e60000; transform: translateY(-4px); }
+.feature-icon {
+  width: 48px; height: 48px;
+  border-radius: 6px;
+  background-color: #f2f2f2;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease;
+}
+.feature-card:hover .feature-icon { background-color: #e60000; }
+.feature-card:hover .feature-icon svg { stroke: #ffffff; }
+.feature-card .feature-icon svg { stroke: #e60000; transition: stroke 0.3s ease; }
+.feature-title { margin-bottom: 8px; }
+.feature-desc { color: #7e7e7e; }
+
+/* ── red band section ── */
+.hero-band-red {
+  background-color: #e60000; color: #ffffff;
+  padding: 32px 32px;
+}
+.hero-band-red-inner { max-width: 1200px; margin: 0 auto; }
+
+/* ── pricing / plan selector ── */
+.plan-selector {
+  background-color: #f2f2f2;
+  border-radius: 6px;
+  padding: 16px;
+}
+.plan-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.plan-tab {
+  padding: 4px 12px; border-radius: 32px; cursor: pointer;
+  background-color: transparent; color: #25282b;
+  font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px; font-weight: 700; line-height: 21px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.plan-tab.active { background-color: #25282b; color: #ffffff; }
+.plan-tab:hover:not(.active) { background-color: rgba(37,40,43,0.08); }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.pricing-card {
+  background-color: #f2f2f2; color: #25282b;
+  border: 1px solid #bebebe;
+  border-radius: 6px; padding: 16px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.pricing-card:hover { transform: translateY(-4px); }
+.pricing-card.featured {
+  background-color: #25282b; color: #ffffff;
+  border-color: #25282b;
+}
+.pricing-card.featured .pricing-desc { color: #bebebe; }
+.pricing-card.featured .pricing-feature { color: #bebebe; }
+.pricing-card.featured .pricing-price-label { color: #bebebe; }
+.pricing-badge { display: inline-flex; margin-bottom: 12px; }
+.pricing-name { margin-bottom: 4px; }
+.pricing-desc { color: #7e7e7e; margin-bottom: 16px; font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 16px; }
+.pricing-price { margin-bottom: 4px; }
+.pricing-price-label { color: #7e7e7e; margin-bottom: 16px; font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 16px; }
+.pricing-features { margin-bottom: 20px; }
+.pricing-feature { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; color: #7e7e7e; font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 16px; }
+.pricing-check { color: #e60000; font-weight: 700; flex-shrink: 0; }
+.pricing-card.featured .pricing-check { color: #e60000; }
+.pricing-cta { width: 100%; text-align: center; }
+
+/* ── showcase / content band dark ── */
+.content-band-dark {
+  background-color: #25282b; color: #ffffff;
+  padding: 80px 32px;
+}
+.content-band-dark .section-eyebrow { color: #e60000; }
+.content-band-dark .section-description { color: #bebebe; }
+
+/* ── CTA band ── */
+.cta-band {
+  background-color: #25282b; color: #ffffff;
+  padding: 32px 32px;
+  text-align: center;
+}
+.cta-band-inner { max-width: 700px; margin: 0 auto; }
+.cta-headline { margin-bottom: 16px; }
+.cta-description { color: #bebebe; margin-bottom: 32px; }
+.cta-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+/* ── footer ── */
+.footer {
+  background-color: #25282b; color: #ffffff;
+  padding: 32px 32px;
+  font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px; font-weight: 400; line-height: 20px;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; }
+.footer-brand { display: flex; align-items: flex-start; gap: 10px; }
+.footer-brand-name { font-weight: 700; font-size: 20px; letter-spacing: -0.3px; }
+.footer-brand-desc { color: #bebebe; margin-top: 8px; font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 16px; max-width: 260px; }
+.footer-col-title { margin-bottom: 16px; }
+.footer-link { display: block; color: #bebebe; margin-bottom: 12px; transition: color 0.2s; font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 16px; }
+.footer-link:hover { color: #e60000; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; color: #bebebe; font-family: Vodafone, 'Vodafone Rg', 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 600; line-height: 16px; letter-spacing: 0.5691px; text-transform: uppercase; }
+.footer-social { display: flex; gap: 12px; }
+.footer-social-icon {
+  width: 36px; height: 36px; border-radius: 9999px;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.footer-social-icon:hover { background: #e60000; }
+
+/* ── responsive ── */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .hero-stats { flex-wrap: wrap; gap: 24px; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-search { display: none; }
+  .t-display-hero { font-size: 56px; line-height: 48px; }
+  .t-display-xxl { font-size: 48px; line-height: 44px; }
+  .t-display-xl { font-size: 40px; line-height: 38px; }
+  .t-display-lg { font-size: 32px; line-height: 36px; }
+  .t-display-md { font-size: 28px; line-height: 32px; }
+  .t-display-sm { font-size: 24px; line-height: 30px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .hero-band-dark { padding: 24px 16px; min-height: auto; }
+  .content-band-light, .content-band-dark, .cta-band { padding: 48px 16px; }
+  .footer { padding: 24px 16px; }
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 16px; }
+  .hero-band-dark::after, .hero-band-dark .hero-decorative-ring-2, .hero-band-dark .hero-decorative-ring-3 { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="speechmark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-0.9 2-2V4c0-1.1-0.9-2-2-2z" fill="#ffffff"/>
+        <path d="M12 14l4-4H8l4 4z" fill="#e60000" transform="scale(0.7) translate(5,5)"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">vodafone</span>
+  </div>
+  <ul class="nav-links">
+    <li><a class="nav-link" href="#">Personal</a></li>
+    <li><a class="nav-link" href="#">Business</a></li>
+    <li><a class="nav-link" href="#">Mobile</a></li>
+    <li><a class="nav-link" href="#">Broadband</a></li>
+    <li><a class="nav-link" href="#">Help</a></li>
+  </ul>
+  <div class="nav-actions">
+    <input type="text" class="nav-search" placeholder="Search...">
+    <div class="nav-account-icon" title="Account">👤</div>
+  </div>
+</nav>
+
+<!-- ═══ HERO (dark band) ═══ -->
+<header class="hero-band-dark">
+  <div class="hero-decorative-ring-2"></div>
+  <div class="hero-decorative-ring-3"></div>
+  <div class="hero-content">
+    <span class="t-eyebrow hero-tagline">The future is exciting. Ready?</span>
+    <h1 class="t-display-hero hero-headline">
+      Together we can connect for a better future
+    </h1>
+    <p class="t-body-lg hero-subhead">
+      Powerful 5G. Gigabit broadband. And a network that connects millions across the globe. Discover what's possible when technology puts people first.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary">Explore plans →</button>
+      <button class="btn-outline-red">Learn more</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="t-display-sm hero-stat-value">300M+</div>
+        <div class="t-body-sm hero-stat-label">Mobile customers worldwide</div>
+      </div>
+      <div>
+        <div class="t-display-sm hero-stat-value">30+</div>
+        <div class="t-body-sm hero-stat-label">Countries &amp; territories</div>
+      </div>
+      <div>
+        <div class="t-display-sm hero-stat-value">5G</div>
+        <div class="t-body-sm hero-stat-label">Ultra-fast network</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+    <span class="t-caption">Scroll</span>
+  </div>
+</header>
+
+<!-- ═══ FEATURES (content band light) ═══ -->
+<section class="content-band-light" id="features">
+  <div class="content-band-inner">
+    <span class="t-eyebrow section-eyebrow">Why Vodafone</span>
+    <h2 class="t-display-lg section-heading">Everything you need, connected</h2>
+    <p class="t-body-md section-description">
+      From 5G mobile plans to full-fibre broadband, we bring together the services that keep you moving.
+    </p>
+    <div class="features-grid">
+      <div class="feature-card card-content">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Unlimited data</h3>
+        <p class="t-body-sm feature-desc">Stream, browse, and share without limits. Our 5G-ready unlimited plans give you the freedom to stay connected everywhere.</p>
+      </div>
+      <div class="feature-card card-content">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Award-winning network</h3>
+        <p class="t-body-sm feature-desc">Recognised for reliability and speed. Our network infrastructure powers over 300 million connections across the globe.</p>
+      </div>
+      <div class="feature-card card-content">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Global roaming</h3>
+        <p class="t-body-sm feature-desc">Stay connected in over 100 destinations. Use your plan abroad just like at home with inclusive roaming on selected plans.</p>
+      </div>
+      <div class="feature-card card-content">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Superfast broadband</h3>
+        <p class="t-body-sm feature-desc">Full-fibre gigabit speeds for your home. Stream 4K, game online, and work from home with zero lag across all devices.</p>
+      </div>
+      <div class="feature-card card-content">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Secure by design</h3>
+        <p class="t-body-sm feature-desc">Built-in security across all devices. VPN, anti-malware, and identity protection included with every broadband plan.</p>
+      </div>
+      <div class="feature-card card-content">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4-4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Family sharing</h3>
+        <p class="t-body-sm feature-desc">Share data across up to five SIMs. One plan, one bill — keep the whole family connected without the complexity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RED BAND ═══ -->
+<section class="hero-band-red">
+  <div class="hero-band-red-inner">
+    <span class="t-eyebrow" style="margin-bottom:12px; display:block; opacity:0.85;">Just launched</span>
+    <h2 class="t-display-xl" style="margin-bottom:16px; max-width:800px;">The new iPhone. On us.</h2>
+    <p class="t-body-lg" style="margin-bottom:24px; max-width:500px; opacity:0.9;">Get the latest device with unlimited 5G data from only €35/month. Trade in your old phone and we'll cover the rest.</p>
+    <button class="btn-outline-dark" style="background:transparent; color:#ffffff; border-color:#ffffff;">Grab the deal →</button>
+  </div>
+</section>
+
+<!-- ═══ PLANS (content band light) ═══ -->
+<section class="content-band-light" id="pricing">
+  <div class="content-band-inner">
+    <span class="t-eyebrow section-eyebrow">Choose your plan</span>
+    <h2 class="t-display-lg section-heading">Find the perfect fit</h2>
+    <p class="t-body-md section-description">
+      All plans include unlimited texts, inclusive EU roaming, and access to VeryMe rewards. Pick a data allowance that works for you.
+    </p>
+    <div class="plan-selector">
+      <div class="plan-tabs">
+        <button class="plan-tab active">SIM only</button>
+        <button class="plan-tab">Phone + plan</button>
+        <button class="plan-tab">Home broadband</button>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="badge-chip pricing-badge">Popular</div>
+          <h3 class="t-display-xs pricing-name">Unlimited Lite</h3>
+          <p class="pricing-desc">Up to 10Mbps. Perfect for browsing and social media.</p>
+          <div class="t-display-sm pricing-price">€17.00<span style="font-size:16px; font-weight:400;">/mo</span></div>
+          <p class="pricing-price-label">24 month contract</p>
+          <div class="pricing-features">
+            <div class="pricing-feature"><span class="pricing-check">✓</span> Unlimited minutes &amp; texts</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> 10Mbps speed</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> Inclusive EU roaming</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> VeryMe rewards</div>
+          </div>
+          <button class="btn-outline-red pricing-cta">Choose plan</button>
+        </div>
+        <div class="pricing-card featured">
+          <div class="badge-chip pricing-badge" style="background:rgba(255,255,255,0.15); color:#ffffff;">Best value</div>
+          <h3 class="t-display-xs pricing-name">Unlimited Max</h3>
+          <p class="pricing-desc">Full 5G speed. Stream in 4K with zero throttling.</p>
+          <div class="t-display-sm pricing-price">€30.00<span style="font-size:16px; font-weight:400;">/mo</span></div>
+          <p class="pricing-price-label">24 month contract</p>
+          <div class="pricing-features">
+            <div class="pricing-feature"><span class="pricing-check">✓</span> Unlimited 5G data</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> 4K streaming ready</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> Global roaming included</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> Vodafone Secure Net</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> Priority customer support</div>
+          </div>
+          <button class="btn-primary pricing-cta" style="background:#e60000; border-color:#e60000; color:#ffffff;">Choose plan</button>
+        </div>
+        <div class="pricing-card">
+          <div class="badge-chip pricing-badge">Budget</div>
+          <h3 class="t-display-xs pricing-name">Unlimited Basics</h3>
+          <p class="pricing-desc">Up to 2Mbps. Essential connectivity at a great price.</p>
+          <div class="t-display-sm pricing-price">€12.00<span style="font-size:16px; font-weight:400;">/mo</span></div>
+          <p class="pricing-price-label">24 month contract</p>
+          <div class="pricing-features">
+            <div class="pricing-feature"><span class="pricing-check">✓</span> Unlimited minutes &amp; texts</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> 2Mbps speed</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> Inclusive EU roaming</div>
+            <div class="pricing-feature"><span class="pricing-check">✓</span> VeryMe rewards</div>
+          </div>
+          <button class="btn-outline-red pricing-cta">Choose plan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SHOWCASE (dark band) ═══ -->
+<section class="content-band-dark">
+  <div class="content-band-inner">
+    <span class="t-eyebrow section-eyebrow">Vodafone IoT</span>
+    <h2 class="t-display-lg section-heading">Connecting the things that matter</h2>
+    <p class="t-body-md section-description">
+      From smart meters to connected cars. Our IoT platform powers over 150 million connected devices worldwide.
+    </p>
+    <div class="features-grid">
+      <div class="feature-card card-content" style="background:rgba(255,255,255,0.05); color:#ffffff; border-color:rgba(255,255,255,0.1);">
+        <div class="feature-icon" style="background:rgba(255,255,255,0.1);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e60000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13"/>
+            <polygon points="23 7 16 12 23 17 23 7"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Smart cities</h3>
+        <p class="t-body-sm feature-desc" style="color:#bebebe;">Intelligent infrastructure that reduces energy consumption by 30%. Powering connected streetlights and traffic systems.</p>
+      </div>
+      <div class="feature-card card-content" style="background:rgba(255,255,255,0.05); color:#ffffff; border-color:rgba(255,255,255,0.1);">
+        <div class="feature-icon" style="background:rgba(255,255,255,0.1);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e60000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/>
+            <line x1="10" y1="1" x2="10" y2="4"/>
+            <line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Connected fleet</h3>
+        <p class="t-body-sm feature-desc" style="color:#bebebe;">Real-time tracking and predictive maintenance for logistics. Reduce downtime by 40% with intelligent monitoring.</p>
+      </div>
+      <div class="feature-card card-content" style="background:rgba(255,255,255,0.05); color:#ffffff; border-color:rgba(255,255,255,0.1);">
+        <div class="feature-icon" style="background:rgba(255,255,255,0.1);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e60000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </div>
+        <h3 class="t-display-xs feature-title">Smart retail</h3>
+        <p class="t-body-sm feature-desc" style="color:#bebebe;">Connected point-of-sale and inventory management. Seamless omnichannel experiences for the modern consumer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA BAND ═══ -->
+<section class="cta-band" id="cta">
+  <div class="cta-band-inner">
+    <h2 class="t-display-lg cta-headline">Ready to join the network that never stops?</h2>
+    <p class="t-body-md cta-description">
+      Switch to Vodafone today and get your first three months half price. Keep your number. Keep your phone. Just better.
+    </p>
+    <div class="cta-actions">
+      <button class="btn-primary">Get started now →</button>
+      <button class="btn-outline-red" style="background:transparent; color:#ffffff; border-color:#ffffff;">Talk to us</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="speechmark">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-0.9 2-2V4c0-1.1-0.9-2-2-2z" fill="#ffffff"/>
+          </svg>
+        </div>
+        <div>
+          <div class="footer-brand-name">vodafone</div>
+          <p class="footer-brand-desc">The future is exciting. Ready? Together we can connect for a better future.</p>
+        </div>
+      </div>
+      <div>
+        <div class="t-body-sm-strong footer-col-title" style="color:#ffffff;">Mobile</div>
+        <a class="footer-link" href="#">SIM only deals</a>
+        <a class="footer-link" href="#">Pay monthly phones</a>
+        <a class="footer-link" href="#">Pay as you go</a>
+        <a class="footer-link" href="#">Unlimited data</a>
+      </div>
+      <div>
+        <div class="t-body-sm-strong footer-col-title" style="color:#ffffff;">Broadband</div>
+        <a class="footer-link" href="#">Full fibre</a>
+        <a class="footer-link" href="#">Broadband deals</a>
+        <a class="footer-link" href="#">Home phone</a>
+        <a class="footer-link" href="#">Coverage checker</a>
+      </div>
+      <div>
+        <div class="t-body-sm-strong footer-col-title" style="color:#ffffff;">Support</div>
+        <a class="footer-link" href="#">Help centre</a>
+        <a class="footer-link" href="#">Track order</a>
+        <a class="footer-link" href="#">Store locator</a>
+        <a class="footer-link" href="#">Contact us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 Vodafone Group. All rights reserved.</span>
+      <div class="footer-social">
+        <div class="footer-social-icon">f</div>
+        <div class="footer-social-icon">𝕏</div>
+        <div class="footer-social-icon">▶</div>
+        <div class="footer-social-icon">in</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resend — Email for Developers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital@0;1&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :root {
+    /* Colors — exact from DESIGN.md */
+    --color-primary: #fcfdff;
+    --color-primary-on: #000000;
+    --color-ink: #fcfdff;
+    --color-body: rgba(252,253,255,0.86);
+    --color-charcoal: rgba(252,253,255,0.7);
+    --color-mute: #a1a4a5;
+    --color-ash: #888e90;
+    --color-stone: #464a4d;
+    --color-on-light: #000000;
+    --color-on-light-mute: rgba(0,0,51,0.7);
+    --color-canvas: #000000;
+    --color-surface-card: #0a0a0c;
+    --color-surface-elevated: #101012;
+    --color-surface-deep: #06060a;
+    --color-hairline: rgba(255,255,255,0.06);
+    --color-hairline-strong: rgba(255,255,255,0.14);
+    --color-divider-soft: rgba(255,255,255,0.04);
+    --color-accent-orange: #ff801f;
+    --color-accent-orange-glow: rgba(255,89,0,0.22);
+    --color-accent-yellow: #ffc53d;
+    --color-accent-blue: #3b9eff;
+    --color-accent-blue-glow: rgba(0,117,255,0.34);
+    --color-accent-green: #11ff99;
+    --color-accent-green-glow: rgba(34,255,153,0.18);
+    --color-accent-red: #ff2047;
+    --color-accent-red-glow: rgba(255,32,71,0.34);
+    --color-link: #3b9eff;
+    --color-surface-light: #f1f7fe;
+
+    /* Rounded — exact from DESIGN.md */
+    --rounded-none: 0px;
+    --rounded-xs: 4px;
+    --rounded-sm: 6px;
+    --rounded-md: 8px;
+    --rounded-lg: 12px;
+    --rounded-xl: 16px;
+    --rounded-full: 9999px;
+
+    /* Spacing — exact from DESIGN.md */
+    --spacing-xxs: 2px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+    --spacing-xxl: 32px;
+    --spacing-xxxl: 48px;
+    --spacing-section: 96px;
+    --spacing-band: 128px;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-body);
+    font-family: 'ABC Favorit', 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.8px;
+  }
+
+  /* ============ NAV BAR ============ */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 64px;
+    background-color: var(--color-canvas);
+    border-bottom: 1px solid var(--color-hairline);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--spacing-xxl);
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-family: 'Playfair Display', 'Tiempos Headline', 'Söhne', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-ink);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+
+  .nav-logo-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--color-primary);
+    border-radius: var(--rounded-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary-on);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--color-body);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    letter-spacing: 0.35px;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--color-ink);
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+
+  .nav-signin {
+    color: var(--color-body);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    letter-spacing: 0.35px;
+    transition: color 0.2s ease;
+  }
+
+  .nav-signin:hover {
+    color: var(--color-ink);
+  }
+
+  /* Button styles */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary);
+    color: var(--color-primary-on);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    padding: 8px 16px;
+    height: 36px;
+    border-radius: var(--rounded-md);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-surface-light);
+  }
+
+  .btn-primary:active {
+    background-color: var(--color-surface-light);
+    transform: scale(0.98);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-elevated);
+    color: var(--color-ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    padding: 8px 16px;
+    height: 36px;
+    border-radius: var(--rounded-md);
+    border: 1px solid var(--color-hairline-strong);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.24);
+    background-color: rgba(255,255,255,0.04);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    padding: 7px 15px;
+    height: 36px;
+    border-radius: var(--rounded-md);
+    border: 1px solid var(--color-hairline-strong);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn-outline:hover {
+    border-color: rgba(255,255,255,0.24);
+    background-color: rgba(255,255,255,0.03);
+  }
+
+  .btn-lg {
+    height: 44px;
+    padding: 10px 24px;
+    font-size: 15px;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: var(--spacing-band) var(--spacing-xxl) var(--spacing-section);
+    text-align: center;
+    background-color: var(--color-canvas);
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--color-surface-elevated);
+    color: var(--color-body);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 4px 10px;
+    border-radius: var(--rounded-full);
+    margin-bottom: var(--spacing-xxl);
+    border: 1px solid var(--color-hairline);
+  }
+
+  .hero-badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-accent-green);
+    border-radius: var(--rounded-full);
+  }
+
+  .hero-headline {
+    font-family: 'Playfair Display', 'Tiempos Headline', 'Söhne', serif;
+    font-size: 96px;
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.96px;
+    color: var(--color-ink);
+    max-width: 900px;
+    margin-bottom: var(--spacing-xl);
+    font-feature-settings: "ss01", "ss04", "ss11", "liga";
+  }
+
+  .hero-headline em {
+    font-style: italic;
+  }
+
+  .hero-subtitle {
+    font-family: 'ABC Favorit', 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-body);
+    max-width: 560px;
+    margin-bottom: var(--spacing-xxxl);
+    font-feature-settings: "ss01", "ss04", "ss11";
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  /* Email input row */
+  .hero-input-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--rounded-md);
+    padding: 4px;
+  }
+
+  .hero-input-row input {
+    background: transparent;
+    border: none;
+    color: var(--color-ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.43;
+    padding: 6px 14px;
+    outline: none;
+    width: 240px;
+  }
+
+  .hero-input-row input::placeholder {
+    color: var(--color-mute);
+  }
+
+  /* ============ FEATURES ============ */
+  .section {
+    padding: var(--spacing-section) var(--spacing-xxl);
+    position: relative;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section-headline {
+    font-family: 'Playfair Display', 'Tiempos Headline', 'Söhne', serif;
+    font-size: 76.8px;
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.768px;
+    color: var(--color-ink);
+    margin-bottom: var(--spacing-xxl);
+    font-feature-settings: "ss01", "ss04", "ss11", "liga";
+  }
+
+  .section-subhead {
+    font-family: 'ABC Favorit', 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-body);
+    margin-bottom: var(--spacing-xxxl);
+    max-width: 640px;
+    font-feature-settings: "ss01", "ss04", "ss11";
+  }
+
+  /* Atmospheric glow */
+  .glow-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 600px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow-blue::before {
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-blue-glow) 0%, transparent 70%);
+  }
+
+  .glow-orange::before {
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-orange-glow) 0%, transparent 70%);
+  }
+
+  .glow-green::before {
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-green-glow) 0%, transparent 70%);
+  }
+
+  .glow-red::before {
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-red-glow) 0%, transparent 70%);
+  }
+
+  /* Feature grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+  }
+
+  .feature-card {
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--rounded-lg);
+    padding: var(--spacing-xxl);
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+    position: relative;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(255,255,255,0.18);
+    background-color: rgba(255,255,255,0.02);
+  }
+
+  .feature-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--rounded-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-xl);
+    font-size: 20px;
+  }
+
+  .feature-card-icon--orange {
+    background-color: rgba(255,128,31,0.12);
+    color: var(--color-accent-orange);
+  }
+
+  .feature-card-icon--blue {
+    background-color: rgba(59,158,255,0.12);
+    color: var(--color-accent-blue);
+  }
+
+  .feature-card-icon--green {
+    background-color: rgba(17,255,153,0.12);
+    color: var(--color-accent-green);
+  }
+
+  .feature-card-icon--yellow {
+    background-color: rgba(255,197,61,0.12);
+    color: var(--color-accent-yellow);
+  }
+
+  .feature-card-icon--red {
+    background-color: rgba(255,32,71,0.12);
+    color: var(--color-accent-red);
+  }
+
+  .feature-card h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.4px;
+    color: var(--color-ink);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .feature-card p {
+    font-family: 'ABC Favorit', 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.8px;
+    color: var(--color-body);
+  }
+
+  /* ============ CODE SECTION ============ */
+  .code-story {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xxxl);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .code-story-text {
+    max-width: 520px;
+  }
+
+  .code-story-text h2 {
+    font-family: 'Playfair Display', 'Tiempos Headline', 'Söhne', serif;
+    font-size: 76.8px;
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.768px;
+    color: var(--color-ink);
+    margin-bottom: var(--spacing-xl);
+    font-feature-settings: "ss01", "ss04", "ss11", "liga";
+  }
+
+  .code-story-text p {
+    font-family: 'ABC Favorit', 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-body);
+    margin-bottom: var(--spacing-xxl);
+    font-feature-settings: "ss01", "ss04", "ss11";
+  }
+
+  .code-window {
+    background-color: var(--color-surface-deep);
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--rounded-lg);
+    overflow: hidden;
+  }
+
+  .code-window-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-md);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .code-window-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--rounded-full);
+  }
+
+  .code-window-dot--red { background-color: var(--color-accent-red); }
+  .code-window-dot--yellow { background-color: var(--color-accent-yellow); }
+  .code-window-dot--green { background-color: var(--color-accent-green); }
+
+  .code-window-tab {
+    margin-left: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .code-window-tab span {
+    background-color: var(--color-surface-card);
+    color: var(--color-charcoal);
+    font-family: 'Geist Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 6px 12px;
+    border-radius: var(--rounded-sm);
+  }
+
+  .code-window-tab span.active {
+    color: var(--color-ink);
+    background-color: var(--color-surface-card);
+  }
+
+  .code-window-body {
+    padding: var(--spacing-xl);
+    font-family: 'Geist Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-body);
+    overflow-x: auto;
+  }
+
+  .code-window-body .keyword { color: var(--color-accent-blue); }
+  .code-window-body .string { color: var(--color-accent-green); }
+  .code-window-body .function { color: var(--color-accent-yellow); }
+  .code-window-body .comment { color: var(--color-ash); }
+  .code-window-body .type { color: var(--color-accent-orange); }
+
+  /* ============ PRICING ============ */
+  .pricing-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xxxl);
+    position: relative;
+    z-index: 1;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+    align-items: start;
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .pricing-tier {
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--rounded-lg);
+    padding: var(--spacing-xxl);
+    text-align: center;
+  }
+
+  .pricing-tier--featured {
+    background-color: var(--color-surface-elevated);
+    border-color: rgba(255,255,255,0.18);
+  }
+
+  .pricing-tier-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.4px;
+    color: var(--color-ink);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .pricing-tier-price {
+    font-family: 'ABC Favorit', 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -2.8px;
+    color: var(--color-ink);
+    margin-bottom: var(--spacing-xs);
+    font-feature-settings: "ss01", "ss04", "ss11";
+  }
+
+  .pricing-tier-unit {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.43;
+    color: var(--color-charcoal);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .pricing-tier-features {
+    list-style: none;
+    text-align: left;
+    margin-bottom: var(--spacing-xxl);
+  }
+
+  .pricing-tier-features li {
+    font-family: 'ABC Favorit', 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.8px;
+    color: var(--color-body);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-divider-soft);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .pricing-tier-features li:last-child {
+    border-bottom: none;
+  }
+
+  .pricing-check {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--color-accent-green);
+  }
+
+  /* ============ CTA BANNER ============ */
+  .cta-banner {
+    padding: var(--spacing-section) var(--spacing-xxl);
+    text-align: center;
+    background-color: var(--color-canvas);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 500px;
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-blue-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-headline {
+    font-family: 'Playfair Display', 'Tiempos Headline', 'Söhne', serif;
+    font-size: 76.8px;
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.768px;
+    color: var(--color-ink);
+    margin-bottom: var(--spacing-xl);
+    font-feature-settings: "ss01", "ss04", "ss11", "liga";
+  }
+
+  .cta-subhead {
+    font-family: 'ABC Favorit', 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-body);
+    margin-bottom: var(--spacing-xxxl);
+    font-feature-settings: "ss01", "ss04", "ss11";
+  }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    padding: var(--spacing-section) var(--spacing-xxl);
+    background-color: var(--color-canvas);
+    border-top: 1px solid var(--color-divider-soft);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--spacing-xxxl);
+    margin-bottom: var(--spacing-xxxl);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', 'Tiempos Headline', 'Söhne', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-ink);
+    letter-spacing: -0.3px;
+  }
+
+  .footer-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.43;
+    color: var(--color-charcoal);
+    margin-top: var(--spacing-md);
+    max-width: 260px;
+  }
+
+  .footer-col h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    color: var(--color-mute);
+    margin-bottom: var(--spacing-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-col ul {
+    list-style: none;
+  }
+
+  .footer-col li {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .footer-col a {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.43;
+    color: var(--color-charcoal);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-col a:hover {
+    color: var(--color-ink);
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--color-divider-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-copyright {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-ash);
+  }
+
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-ash);
+  }
+
+  .footer-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-accent-green);
+    border-radius: var(--rounded-full);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1023px) {
+    .nav-links { display: none; }
+    .feature-grid { grid-template-columns: repeat(2, 1fr); }
+    .code-story { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .hero-headline { font-size: 76px; }
+    .section-headline, .code-story-text h2, .cta-headline { font-size: 56px; }
+    .hero { min-height: auto; padding-top: 160px; padding-bottom: var(--spacing-section); }
+  }
+
+  @media (max-width: 767px) {
+    .feature-grid { grid-template-columns: 1fr; }
+    .hero-headline { font-size: 56px; line-height: 1.05; }
+    .section-headline, .code-story-text h2, .cta-headline { font-size: 44px; }
+    .hero-input-row { flex-direction: column; background: none; border: none; padding: 0; gap: var(--spacing-md); }
+    .hero-input-row input { 
+      background-color: var(--color-surface-card); 
+      border: 1px solid var(--color-hairline-strong); 
+      border-radius: var(--rounded-md);
+      padding: 10px 14px;
+      width: 100%;
+      height: 40px;
+    }
+    .footer-inner { grid-template-columns: 1fr; gap: var(--spacing-xl); }
+    .footer-bottom { flex-direction: column; gap: var(--spacing-md); text-align: center; }
+    .section { padding: var(--spacing-xxxl) var(--spacing-lg); }
+    .hero { padding-top: 120px; padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); }
+    .nav { padding: 0 var(--spacing-lg); }
+  }
+
+  @media (max-width: 425px) {
+    .hero-headline { font-size: 44px; }
+    .section-headline, .code-story-text h2, .cta-headline { font-size: 36px; }
+    .hero-actions { flex-direction: column; width: 100%; }
+    .hero-actions .btn-primary,
+    .hero-actions .btn-ghost { width: 100%; }
+    .section { padding: 64px var(--spacing-lg); }
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .fade-up-delay-1 { animation-delay: 0.1s; opacity: 0; }
+  .fade-up-delay-2 { animation-delay: 0.2s; opacity: 0; }
+  .fade-up-delay-3 { animation-delay: 0.3s; opacity: 0; }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-icon">R</span>
+      Resend
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Customers</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="nav-signin">Sign in</a>
+      <a href="#" class="btn-primary">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge fade-up">
+    <span class="hero-badge-dot"></span>
+    New: React Email 3.0
+  </div>
+  <h1 class="hero-headline fade-up fade-up-delay-1">
+    Email for<br><em>developers</em>
+  </h1>
+  <p class="hero-subtitle fade-up fade-up-delay-2">
+    The best way to reach humans instead of spam folders.
+    Deliver transactional and marketing emails at scale.
+  </p>
+  <div class="hero-actions fade-up fade-up-delay-3">
+    <div class="hero-input-row">
+      <input type="email" placeholder="you@example.com">
+      <a href="#" class="btn-primary">Start building</a>
+    </div>
+    <a href="#" class="btn-ghost">Read the docs</a>
+  </div>
+</header>
+
+<!-- FEATURES -->
+<section id="features" class="section glow-blue">
+  <div class="section-inner">
+    <span class="section-label">Why Resend</span>
+    <h2 class="section-headline">Email<br><em>reimagined</em></h2>
+    <p class="section-subhead">Build, test, and send emails that actually reach the inbox — with the tools you already love.</p>
+    <div class="feature-grid">
+      <div class="feature-card fade-up">
+        <div class="feature-card-icon feature-card-icon--blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3>React Email</h3>
+        <p>Despite emails using React, they render as clean HTML across every client. Component-based email, zero abstractions.</p>
+      </div>
+      <div class="feature-card fade-up fade-up-delay-1">
+        <div class="feature-card-icon feature-card-icon--green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>99.99% Deliverability</h3>
+        <p>We monitor blocklists, manage IP reputation, and auto-retry — so your emails reach humans, not spam folders.</p>
+      </div>
+      <div class="feature-card fade-up fade-up-delay-2">
+        <div class="feature-card-icon feature-card-icon--orange">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Team Collaboration</h3>
+        <p>Invite your team, manage API keys with granular permissions, and review email templates together.</p>
+      </div>
+      <div class="feature-card fade-up fade-up-delay-1">
+        <div class="feature-card-icon feature-card-icon--yellow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h3>Webhooks & Events</h3>
+        <p>Track every send, open, click, and bounce in real time. Stream events to your analytics stack.</p>
+      </div>
+      <div class="feature-card fade-up fade-up-delay-2">
+        <div class="feature-card-icon feature-card-icon--red">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Enterprise Security</h3>
+        <p>SOC 2 Type II certified, encrypted at rest and in transit. Custom DKIM, SPF, and DMARC configurations.</p>
+      </div>
+      <div class="feature-card fade-up fade-up-delay-3">
+        <div class="feature-card-icon feature-card-icon--blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h3>SDK-First</h3>
+        <p>Native SDKs for Node.js, Python, Ruby, Go, and PHP. One API — your language of choice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CODE STORY -->
+<section class="section glow-green">
+  <div class="section-inner">
+    <div class="code-story">
+      <div class="code-story-text">
+        <h2>Integrate this <em>weekend</em></h2>
+        <p>Three lines of code. That's all it takes to start sending. No config files, no provisioning queues — just import and send.</p>
+        <a href="#" class="btn-primary btn-lg">View quickstart</a>
+      </div>
+      <div class="code-window">
+        <div class="code-window-header">
+          <span class="code-window-dot code-window-dot--red"></span>
+          <span class="code-window-dot code-window-dot--yellow"></span>
+          <span class="code-window-dot code-window-dot--green"></span>
+          <div class="code-window-tab">
+            <span class="active">send.ts</span>
+            <span>react-email</span>
+          </div>
+        </div>
+        <div class="code-window-body">
+<span class="keyword">import</span> { <span class="function">Resend</span> } <span class="keyword">from</span> <span class="string">'resend'</span>;
+
+<span class="keyword">const</span> resend = <span class="keyword">new</span> <span class="function">Resend</span>(process.env.<span class="string">RESEND_API_KEY</span>);
+
+<span class="keyword">await</span> resend.emails.<span class="function">send</span>({
+  <span class="string">from</span>: <span class="string">'you@example.com'</span>,
+  <span class="string">to</span>: <span class="string">'user@gmail.com'</span>,
+  <span class="string">subject</span>: <span class="string">'Hello World'</span>,
+  <span class="string">html</span>: <span class="string">'&lt;p&gt;Congrats on sending your &lt;strong&gt;first email&lt;/strong&gt;!&lt;/p&gt;'</span>,
+});
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="section glow-orange">
+  <div class="section-inner">
+    <div class="pricing-header">
+      <span class="section-label">Pricing</span>
+      <h2 class="section-headline">Simple, <em>transparent</em> pricing</h2>
+      <p class="section-subhead" style="margin: 0 auto var(--spacing-xxxl);">Start free, scale as you grow. No hidden fees. No surprises.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-tier">
+        <div class="pricing-tier-name">Free</div>
+        <div class="pricing-tier-price">$0</div>
+        <div class="pricing-tier-unit">per month</div>
+        <ul class="pricing-tier-features">
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 100 emails / day</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 1 domain</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> API access</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Community support</li>
+        </ul>
+        <a href="#" class="btn-outline" style="width: 100%;">Get started</a>
+      </div>
+      <div class="pricing-tier pricing-tier--featured">
+        <div class="pricing-tier-name">Pro</div>
+        <div class="pricing-tier-price">$20</div>
+        <div class="pricing-tier-unit">per month</div>
+        <ul class="pricing-tier-features">
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 100,000 emails / month</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 5 domains</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Priority support</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Webhooks</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Analytics dashboard</li>
+        </ul>
+        <a href="#" class="btn-primary" style="width: 100%;">Start Pro</a>
+      </div>
+      <div class="pricing-tier">
+        <div class="pricing-tier-name">Enterprise</div>
+        <div class="pricing-tier-price" style="font-size: 36px;">Custom</div>
+        <div class="pricing-tier-unit">volume pricing</div>
+        <ul class="pricing-tier-features">
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Unlimited emails</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Custom domains</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Dedicated IP</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> SLA guarantee</li>
+          <li><svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> SSO / SAML</li>
+        </ul>
+        <a href="#" class="btn-outline" style="width: 100%;">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div class="cta-inner">
+    <h2 class="cta-headline">Start<br><em>building</em></h2>
+    <p class="cta-subhead">Join thousands of developers who trust Resend for their transactional email.</p>
+    <div style="display: flex; align-items: center; justify-content: center; gap: var(--spacing-md);">
+      <a href="#" class="btn-primary btn-lg">Get started free</a>
+      <a href="#" class="btn-ghost btn-lg">Talk to sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Resend</div>
+      <p class="footer-desc">The email API for developers. Build, test, and send transactional emails at scale.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Developers</h4>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">SDKs</a></li>
+        <li><a href="#">React Email</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Customers</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copyright">&copy; 2024 Resend, Inc. All rights reserved.</span>
+    <span class="footer-status">
+      <span class="footer-status-dot"></span>
+      All systems operational
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

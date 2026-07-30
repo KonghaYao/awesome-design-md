@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Superhuman — The Fastest Email Experience Ever Made</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,460;14..32,540;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SUPERHUMAN DESIGN SYSTEM — DEMO PAGE
+   Three-canvas system: Indigo Hero / White Body / Teal Closing
+   Tokens from design-md/superhuman/DESIGN.md
+   ============================================================ */
+
+/* Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors */
+  --primary: #1b1938;
+  --primary-deep: #0e0c1f;
+  --on-primary: #ffffff;
+  --ink: #292827;
+  --ink-mute: #73706d;
+  --ink-faint: #9a9794;
+  --canvas: #ffffff;
+  --canvas-soft: #fafaf8;
+  --surface-violet-soft: #c9b4fa;
+  --surface-teal-deep: #0e3030;
+  --surface-teal-mid: #155555;
+  --hairline: #e8e4dd;
+  --hairline-dark: #3f3a52;
+  --on-dark-mute: #bcbac9;
+  --on-dark-faint: #5a5772;
+
+  /* Typography (Inter Variable substitute) */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Spacing */
+  --sp-xxs: 2px;
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 12px;
+  --sp-lg: 16px;
+  --sp-xl: 24px;
+  --sp-xxl: 32px;
+  --sp-huge: 64px;
+
+  /* Rounded */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-2: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 460;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* ============================================================
+   NAVIGATION — nav-bar-dark
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: var(--sp-lg) var(--sp-xl);
+  transition: background 0.3s ease;
+}
+
+.nav--scrolled {
+  background: rgba(27, 25, 56, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.nav__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  font-variation-settings: "wght" 600;
+  line-height: 1;
+  color: var(--on-primary);
+  text-decoration: none;
+}
+
+.nav__logo svg {
+  width: 32px;
+  height: 32px;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xxl);
+  list-style: none;
+}
+
+.nav__links a {
+  color: var(--on-dark-mute);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  transition: color 0.2s ease;
+}
+
+.nav__links a:hover {
+  color: var(--on-primary);
+}
+
+/* button-on-dark-pill — hero CTA in pale violet pill */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-violet-soft);
+  color: var(--primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 12px 20px;
+  border-radius: var(--r-full);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-pill:hover {
+  background: #ddd4f0;
+  transform: translateY(-1px);
+}
+
+.btn-pill:active {
+  transform: translateY(0);
+}
+
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+
+.nav__hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--on-primary);
+  border-radius: 1px;
+}
+
+/* ============================================================
+   HERO — Half-bleed portrait hero with violet-sky backdrop
+   ============================================================ */
+.hero {
+  position: relative;
+  background: var(--primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Violet-sky atmospheric backdrop */
+.hero__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 75% 25%, rgba(139, 92, 246, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 20% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+    var(--primary-deep);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 120px var(--sp-xl) 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-huge);
+  align-items: center;
+  width: 100%;
+}
+
+.hero__text {
+  max-width: 480px;
+}
+
+/* display-xxl: 64px, weight 540, line-height 0.96 */
+.hero__headline {
+  font-family: var(--font-sans);
+  font-size: 64px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 0.96;
+  letter-spacing: 0;
+  color: var(--on-primary);
+  margin-bottom: var(--sp-xl);
+}
+
+.hero__headline em {
+  font-style: normal;
+  color: var(--surface-violet-soft);
+}
+
+/* body-lg: 18px, weight 540, line-height 1.5 */
+.hero__subhead {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.5;
+  letter-spacing: -0.135px;
+  color: var(--on-dark-mute);
+  margin-bottom: var(--sp-xxl);
+}
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-lg);
+}
+
+.hero__actions .hero__secondary-link {
+  color: var(--on-dark-faint);
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  transition: color 0.2s ease;
+}
+
+.hero__actions .hero__secondary-link:hover {
+  color: var(--on-dark-mute);
+}
+
+/* Half-bleed portrait area */
+.hero__portrait {
+  position: relative;
+  height: 100%;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__portrait-silhouette {
+  width: 280px;
+  height: 420px;
+  position: relative;
+}
+
+.hero__portrait-silhouette svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   LOGOS BAR — Social proof strip on white
+   ============================================================ */
+.logos-bar {
+  background: var(--canvas);
+  padding: var(--sp-huge) var(--sp-xl);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.logos-bar__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-huge);
+  flex-wrap: wrap;
+}
+
+.logos-bar__label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   FEATURES — card-feature-light + card-feature-row
+   ============================================================ */
+.features {
+  background: var(--canvas);
+  padding: 96px var(--sp-xl);
+}
+
+.features__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* display-xl: 48px, weight 460, line-height 0.96, tracking -1.32px */
+.features__section-title {
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 0.96;
+  letter-spacing: -1.32px;
+  color: var(--ink);
+  margin-bottom: var(--sp-lg);
+}
+
+.features__section-sub {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.5;
+  letter-spacing: -0.135px;
+  color: var(--ink-mute);
+  margin-bottom: var(--sp-huge);
+  max-width: 560px;
+}
+
+/* Pill tabs — pill-tab-light */
+.features__tabs {
+  display: flex;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-huge);
+  flex-wrap: wrap;
+}
+
+.features__tab {
+  display: inline-flex;
+  align-items: center;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  font-variation-settings: "wght" 600;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 8px 16px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.features__tab:hover {
+  background: var(--canvas-soft);
+  border-color: var(--ink-faint);
+}
+
+.features__tab--active {
+  background: var(--ink);
+  color: var(--canvas);
+  border-color: var(--ink);
+}
+
+/* Feature grid — card-feature-light */
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-xl);
+}
+
+/* card-feature-light: bg canvas, padding 32px, rounded 12px, 1px hairline */
+.feature-card {
+  background: var(--canvas);
+  padding: var(--sp-xxl);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-1);
+  transform: translateY(-2px);
+}
+
+.feature-card__icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--sp-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-md);
+}
+
+.feature-card__icon--violet {
+  background: rgba(139, 92, 246, 0.12);
+  color: #7c3aed;
+}
+
+.feature-card__icon--teal {
+  background: rgba(14, 48, 48, 0.1);
+  color: var(--surface-teal-deep);
+}
+
+.feature-card__icon--amber {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+/* display-md: 22px, weight 460, line-height 1.1, tracking -0.315px */
+.feature-card__title {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.1;
+  letter-spacing: -0.315px;
+  color: var(--ink);
+  margin-bottom: var(--sp-sm);
+}
+
+.feature-card__desc {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+}
+
+/* Alternating feature rows — card-feature-row */
+.features__rows {
+  margin-top: var(--sp-huge);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+
+/* card-feature-row: bg canvas-soft, text ink, padding 24px, rounded 8px */
+.feature-row {
+  background: var(--canvas-soft);
+  padding: var(--sp-xl);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xl);
+  transition: box-shadow 0.2s ease;
+}
+
+.feature-row:hover {
+  box-shadow: var(--shadow-1);
+}
+
+.feature-row__icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  background: var(--canvas);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--hairline);
+}
+
+/* heading-lg: 20px, weight 460, line-height 1.2, tracking -0.4px */
+.feature-row__title {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.2;
+  letter-spacing: -0.4px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.feature-row__desc {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+}
+
+/* ============================================================
+   PRICING — card-pricing + card-pricing-featured
+   ============================================================ */
+.pricing {
+  background: var(--canvas);
+  padding: 96px var(--sp-xl);
+  border-top: 1px solid var(--hairline);
+}
+
+.pricing__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pricing__title {
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 0.96;
+  letter-spacing: -1.32px;
+  color: var(--ink);
+  margin-bottom: var(--sp-lg);
+}
+
+.pricing__sub {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.5;
+  letter-spacing: -0.135px;
+  color: var(--ink-mute);
+  margin-bottom: var(--sp-huge);
+}
+
+.pricing__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-xl);
+  text-align: left;
+}
+
+/* card-pricing: bg canvas, padding 32px, rounded 12px, 1px hairline */
+.pricing-card {
+  background: var(--canvas);
+  padding: var(--sp-xxl);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.pricing-card:hover {
+  box-shadow: var(--shadow-1);
+}
+
+/* card-pricing-featured: bg primary, text on-primary */
+.pricing-card--featured {
+  background: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  box-shadow: var(--shadow-2);
+  position: relative;
+}
+
+.pricing-card--featured:hover {
+  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+  transform: translateY(-4px);
+}
+
+.pricing-card--featured .pricing-card__name,
+.pricing-card--featured .pricing-card__desc {
+  color: var(--on-dark-mute);
+}
+
+.pricing-card__name {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.1;
+  letter-spacing: -0.315px;
+  color: var(--ink);
+  margin-bottom: var(--sp-sm);
+}
+
+.pricing-card__desc {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+  margin-bottom: var(--sp-xl);
+}
+
+.pricing-card__price {
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 0.96;
+  letter-spacing: -1.32px;
+  color: var(--primary);
+  margin-bottom: var(--sp-xs);
+}
+
+.pricing-card--featured .pricing-card__price {
+  color: var(--on-primary);
+}
+
+.pricing-card__period {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+  margin-bottom: var(--sp-xl);
+}
+
+.pricing-card--featured .pricing-card__period {
+  color: var(--on-dark-faint);
+}
+
+/* button-primary-dark: bg primary, text on-primary, padding 12px 20px, rounded 8px, type button-md */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 12px 20px;
+  border-radius: var(--r-md);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: var(--primary-deep);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* For featured card, white button */
+.pricing-card--featured .btn-primary {
+  background: var(--canvas);
+  color: var(--primary);
+}
+
+.pricing-card--featured .btn-primary:hover {
+  background: #f0eef5;
+}
+
+/* button-secondary-outline */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 12px 20px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline-dark);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-outline:hover {
+  background: var(--canvas-soft);
+  transform: translateY(-1px);
+}
+
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+.pricing-card__features {
+  list-style: none;
+  margin-top: var(--sp-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.pricing-card__features li {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.pricing-card--featured .pricing-card__features li {
+  color: var(--on-dark-mute);
+}
+
+.pricing-card__features li::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0z'/%3E%3C/svg%3E");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   TESTIMONIAL — body section on white
+   ============================================================ */
+.testimonial {
+  background: var(--canvas-soft);
+  padding: 96px var(--sp-xl);
+}
+
+.testimonial__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.testimonial__quote {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.14;
+  letter-spacing: -0.63px;
+  color: var(--ink);
+  margin-bottom: var(--sp-xl);
+}
+
+.testimonial__author {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+}
+
+.testimonial__author strong {
+  color: var(--ink);
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+}
+
+/* ============================================================
+   CTA BAND — card-teal-band (the closing teal band)
+   ============================================================ */
+.cta-band {
+  background: var(--surface-teal-deep);
+  color: var(--on-primary);
+  padding: 96px var(--sp-xl);
+  text-align: center;
+}
+
+.cta-band__inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* display-lg: 28px, weight 540, line-height 1.14, tracking -0.63px */
+.cta-band__headline {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.14;
+  letter-spacing: -0.63px;
+  color: var(--on-primary);
+  margin-bottom: var(--sp-xl);
+}
+
+.cta-band__desc {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.5;
+  letter-spacing: -0.135px;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: var(--sp-xxl);
+}
+
+/* button-on-teal: bg canvas, text teal-deep, rounded 8px */
+.btn-teal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--canvas);
+  color: var(--surface-teal-deep);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 12px 20px;
+  border-radius: var(--r-md);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-teal:hover {
+  background: #f0f5f5;
+  transform: translateY(-1px);
+}
+
+.btn-teal:active {
+  transform: translateY(0);
+}
+
+/* ============================================================
+   FOOTER — footer-light
+   ============================================================ */
+.footer {
+  background: var(--canvas);
+  color: var(--ink-mute);
+  padding: var(--sp-huge) var(--sp-xl);
+  border-top: 1px solid var(--hairline);
+}
+
+.footer__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--sp-huge);
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+
+.footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  font-variation-settings: "wght" 600;
+  color: var(--ink);
+}
+
+.footer__brand-desc {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+  max-width: 240px;
+}
+
+.footer__col-title {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-lg);
+}
+
+.footer__links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.footer__links a {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: "wght" 460;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__links a:hover {
+  color: var(--ink);
+}
+
+.footer__bottom {
+  max-width: 1100px;
+  margin: var(--sp-huge) auto 0;
+  padding-top: var(--sp-xl);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer__copyright {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+}
+
+.footer__social {
+  display: flex;
+  gap: var(--sp-lg);
+}
+
+.footer__social a {
+  color: var(--ink-faint);
+  transition: color 0.2s ease;
+}
+
+.footer__social a:hover {
+  color: var(--ink);
+}
+
+/* ============================================================
+   RESPONSIVE — Mobile < 768px
+   ============================================================ */
+@media (max-width: 1024px) {
+  .hero__content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 100px;
+  }
+  .hero__text {
+    max-width: 100%;
+    order: 1;
+  }
+  .hero__portrait {
+    min-height: 280px;
+    order: 0;
+  }
+  .hero__headline {
+    font-size: 48px;
+  }
+  .hero__actions {
+    justify-content: center;
+  }
+  .features__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing-card--featured {
+    grid-column: 1 / -1;
+  }
+  .footer__inner {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav__links {
+    display: none;
+  }
+  .nav__hamburger {
+    display: flex;
+  }
+  .hero__headline {
+    font-size: 36px;
+  }
+  .hero__portrait {
+    min-height: 200px;
+  }
+  .hero__portrait-silhouette {
+    width: 160px;
+    height: 240px;
+  }
+  .features__section-title,
+  .pricing__title {
+    font-size: 36px;
+  }
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
+  .pricing__grid {
+    grid-template-columns: 1fr;
+  }
+  .pricing-card--featured {
+    grid-column: auto;
+  }
+  .feature-row {
+    flex-direction: column;
+    text-align: center;
+  }
+  .cta-band {
+    padding: var(--sp-huge) var(--sp-xl);
+  }
+  .cta-band__headline {
+    font-size: 22px;
+  }
+  .footer__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-xl);
+  }
+  .logos-bar__inner {
+    gap: var(--sp-xl);
+  }
+  .testimonial__quote {
+    font-size: 22px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION — nav-bar-dark
+     ============================================================ -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#c9b4fa"/>
+        <path d="M9 12l6 4-6 4V12zm8-4l6 8-6 8V8z" fill="#1b1938"/>
+      </svg>
+      Superhuman
+    </a>
+    <ul class="nav__links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <a href="#" class="btn-pill">Get Started</a>
+    <button class="nav__hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO — Half-bleed portrait hero with violet-sky backdrop
+     ============================================================ -->
+<section class="hero">
+  <div class="hero__backdrop"></div>
+  <div class="hero__content">
+    <div class="hero__text">
+      <h1 class="hero__headline">
+        The fastest email experience <em>ever made</em>
+      </h1>
+      <p class="hero__subhead">
+        Fly through your inbox twice as fast as before. Superhuman is so fast, delightful, and intelligent — you'll feel like you have superpowers.
+      </p>
+      <div class="hero__actions">
+        <a href="#" class="btn-pill">Get Started</a>
+        <a href="#" class="hero__secondary-link">See how it works →</a>
+      </div>
+    </div>
+    <div class="hero__portrait">
+      <!-- Abstract half-bleed portrait — stylized silhouette with violet atmospheric tone -->
+      <div class="hero__portrait-silhouette">
+        <svg viewBox="0 0 280 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Atmospheric glow behind -->
+          <defs>
+            <radialGradient id="portraitGlow" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#c9b4fa" stop-opacity="0.6"/>
+              <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#1b1938" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="silhouetteGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3f3a52"/>
+              <stop offset="100%" stop-color="#5a5772"/>
+            </linearGradient>
+          </defs>
+          <!-- Glow circle -->
+          <circle cx="140" cy="180" r="160" fill="url(#portraitGlow)"/>
+          <!-- Stylized head & shoulders silhouette -->
+          <!-- Head -->
+          <ellipse cx="140" cy="150" rx="52" ry="58" fill="url(#silhouetteGrad)"/>
+          <!-- Hair shape -->
+          <ellipse cx="140" cy="135" rx="56" ry="50" fill="#2d2a4a"/>
+          <path d="M88 140 Q90 90 120 82 Q130 78 140 80 Q150 78 160 82 Q190 90 192 140 Q194 160 190 175 Q186 190 175 198 Q165 202 155 205 L145 208 L135 205 Q125 202 115 198 Q104 190 100 175 Q96 160 98 140Z" fill="url(#silhouetteGrad)" opacity="0.3"/>
+          <!-- Neck -->
+          <rect x="122" y="195" width="36" height="20" rx="8" fill="#3f3a52"/>
+          <!-- Shoulders -->
+          <path d="M30 210 Q80 200 140 200 Q200 200 250 210 Q260 240 250 260 Q240 280 240 300 Q240 320 230 340 Q220 360 200 380 Q180 400 140 400 Q100 400 80 380 Q60 360 50 340 Q40 320 30 300 Q20 280 20 260 Q20 240 30 210Z" fill="url(#silhouetteGrad)"/>
+          <!-- Collar detail -->
+          <path d="M100 210 L140 230 L180 210" stroke="#5a5772" stroke-width="1.5" fill="none"/>
+          <!-- Subtle face features -->
+          <ellipse cx="125" cy="148" rx="6" ry="5" fill="#5a5772" opacity="0.6"/>
+          <ellipse cx="155" cy="148" rx="6" ry="5" fill="#5a5772" opacity="0.6"/>
+          <path d="M130 172 Q140 178 150 172" stroke="#5a5772" stroke-width="1.5" fill="none" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LOGOS BAR — Social proof
+     ============================================================ -->
+<section class="logos-bar">
+  <div class="logos-bar__inner">
+    <span class="logos-bar__label">Trusted by teams at</span>
+    <svg width="80" height="20" viewBox="0 0 80 20" fill="#9a9794" opacity="0.5"><text x="0" y="15" font-family="Inter,sans-serif" font-size="14" font-weight="600">Stripe</text></svg>
+    <svg width="80" height="20" viewBox="0 0 80 20" fill="#9a9794" opacity="0.5"><text x="0" y="15" font-family="Inter,sans-serif" font-size="14" font-weight="600">Figma</text></svg>
+    <svg width="80" height="20" viewBox="0 0 80 20" fill="#9a9794" opacity="0.5"><text x="0" y="15" font-family="Inter,sans-serif" font-size="14" font-weight="600">Notion</text></svg>
+    <svg width="80" height="20" viewBox="0 0 80 20" fill="#9a9794" opacity="0.5"><text x="0" y="15" font-family="Inter,sans-serif" font-size="14" font-weight="600">Vercel</text></svg>
+    <svg width="80" height="20" viewBox="0 0 80 20" fill="#9a9794" opacity="0.5"><text x="0" y="15" font-family="Inter,sans-serif" font-size="14" font-weight="600">Linear</text></svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES — card-feature-light + card-feature-row
+     ============================================================ -->
+<section class="features" id="features">
+  <div class="features__inner">
+    <h2 class="features__section-title">Built for speed.<br>Designed for humans.</h2>
+    <p class="features__section-sub">
+      Every interaction is engineered to save you milliseconds that add up to hours every week.
+    </p>
+
+    <!-- Pill tabs -->
+    <div class="features__tabs">
+      <button class="features__tab features__tab--active">Mail</button>
+      <button class="features__tab">Calendar</button>
+      <button class="features__tab">AI</button>
+      <button class="features__tab">Team</button>
+      <button class="features__tab">Mobile</button>
+    </div>
+
+    <!-- Feature cards grid — card-feature-light -->
+    <div class="features__grid">
+      <div class="feature-card">
+        <div class="feature-card__icon feature-card__icon--violet">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M13 8V3L8 8h3v5l5-5h-3z" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Split Inbox</h3>
+        <p class="feature-card__desc">Automatically categorize your email into streams. Focus on what matters, archive the rest in seconds.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon feature-card__icon--teal">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="3" y="3" width="14" height="14" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Instant Intro</h3>
+        <p class="feature-card__desc">See the most important context about every sender — their role, company, and social profiles — before you open the email.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon feature-card__icon--amber">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2l2.5 5 5.5.8-4 3.9.9 5.5L10 14.5l-4.9 2.7.9-5.5-4-3.9L7.5 7 10 2z" fill="currentColor" opacity="0.7"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Snippets</h3>
+        <p class="feature-card__desc">Type less with intelligent text expansion. Common phrases, greetings, and blocks insert with a keystroke.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon feature-card__icon--violet">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="6" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M3 18c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Read Statuses</h3>
+        <p class="feature-card__desc">Know exactly when and where your emails are opened. Track engagement without any visible pixel.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon feature-card__icon--teal">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 4h10l2 2v8l-2 2H5l-2-2V6l2-2z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M3 7h14" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Send Later</h3>
+        <p class="feature-card__desc">Schedule emails to send at the perfect time, in any timezone. Set it and forget it.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon feature-card__icon--amber">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M2 10h3l2-5 6 10 2-5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">AI Triage</h3>
+        <p class="feature-card__desc">AI automatically drafts replies and summarizes long threads. Hit send after a quick glance.</p>
+      </div>
+    </div>
+
+    <!-- Feature rows — card-feature-row -->
+    <div class="features__rows">
+      <div class="feature-row">
+        <div class="feature-row__icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 3v14M3 10h14" stroke="var(--ink-mute)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h4 class="feature-row__title">Keyboard-first design</h4>
+          <p class="feature-row__desc">Every action has a shortcut. ⌘K is your portal to speed — triage 100 emails in under 10 minutes.</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-row__icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="var(--ink-mute)" stroke-width="1.5" fill="none"/>
+            <path d="M10 6v4l3 2" stroke="var(--ink-mute)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h4 class="feature-row__title">Offline-first architecture</h4>
+          <p class="feature-row__desc">Your entire inbox lives locally. Compose, search, and triage even without a connection. Syncs instantly when you reconnect.</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-row__icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 5l4 4-4 4M11 11l4 4-4 4" stroke="var(--ink-mute)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h4 class="feature-row__title">Powerful integrations</h4>
+          <p class="feature-row__desc">Connect with Slack, GitHub, Salesforce, Jira, and 50+ tools. Context from every platform, right in your inbox.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIAL
+     ============================================================ -->
+<section class="testimonial">
+  <div class="testimonial__inner">
+    <p class="testimonial__quote">
+      "Superhuman has completely transformed how I handle email. I get through my inbox in half the time and actually enjoy the experience."
+    </p>
+    <p class="testimonial__author">
+      <strong>Sarah Chen</strong> — VP of Engineering, Stripe
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING — card-pricing + card-pricing-featured
+     ============================================================ -->
+<section class="pricing" id="pricing">
+  <div class="pricing__inner">
+    <h2 class="pricing__title">Simple, transparent pricing</h2>
+    <p class="pricing__sub">Start with a free trial. No credit card required.</p>
+
+    <div class="pricing__grid">
+      <!-- Starter -->
+      <div class="pricing-card">
+        <h3 class="pricing-card__name">Starter</h3>
+        <p class="pricing-card__desc">For individuals getting started with faster email.</p>
+        <div class="pricing-card__price">$30</div>
+        <div class="pricing-card__period">per month</div>
+        <a href="#" class="btn-outline">Start Free Trial</a>
+        <ul class="pricing-card__features">
+          <li>Split Inbox</li>
+          <li>Keyboard shortcuts</li>
+          <li>Read Statuses</li>
+          <li>Send Later</li>
+          <li>Basic AI features</li>
+        </ul>
+      </div>
+
+      <!-- Business — Featured -->
+      <div class="pricing-card pricing-card--featured">
+        <h3 class="pricing-card__name">Business</h3>
+        <p class="pricing-card__desc">For teams that want to move at the speed of thought.</p>
+        <div class="pricing-card__price">$40</div>
+        <div class="pricing-card__period">per user / month</div>
+        <a href="#" class="btn-primary">Start Free Trial</a>
+        <ul class="pricing-card__features">
+          <li>Everything in Starter</li>
+          <li>Team collaboration</li>
+          <li>Shared snippets</li>
+          <li>Advanced AI triage</li>
+          <li>Priority support</li>
+          <li>Admin dashboard</li>
+        </ul>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card">
+        <h3 class="pricing-card__name">Enterprise</h3>
+        <p class="pricing-card__desc">For organizations with advanced security and compliance needs.</p>
+        <div class="pricing-card__price">Custom</div>
+        <div class="pricing-card__period">annual contract</div>
+        <a href="#" class="btn-outline">Contact Sales</a>
+        <ul class="pricing-card__features">
+          <li>Everything in Business</li>
+          <li>SSO & SCIM</li>
+          <li>Custom data retention</li>
+          <li>Dedicated account manager</li>
+          <li>SLA guarantee</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BAND — card-teal-band (the closing teal band)
+     ============================================================ -->
+<section class="cta-band" id="cta">
+  <div class="cta-band__inner">
+    <h2 class="cta-band__headline">Ready to feel superhuman?</h2>
+    <p class="cta-band__desc">
+      Join over 1 million professionals who save 4+ hours every week.
+      Get onboarded in under 30 minutes.
+    </p>
+    <a href="#" class="btn-teal">Get Started</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER — footer-light
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <span class="footer__logo">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="8" fill="#c9b4fa"/>
+          <path d="M9 12l6 4-6 4V12zm8-4l6 8-6 8V8z" fill="#1b1938"/>
+        </svg>
+        Superhuman
+      </span>
+      <p class="footer__brand-desc">
+        The fastest email experience ever made. Fly through your inbox with superhuman speed.
+      </p>
+    </div>
+    <div>
+      <h4 class="footer__col-title">Product</h4>
+      <ul class="footer__links">
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Download</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer__col-title">Company</h4>
+      <ul class="footer__links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer__col-title">Resources</h4>
+      <ul class="footer__links">
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">API Docs</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer__col-title">Legal</h4>
+      <ul class="footer__links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span class="footer__copyright">&copy; 2025 Superhuman Labs, Inc. All rights reserved.</span>
+    <div class="footer__social">
+      <a href="#" aria-label="Twitter">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M16 4.3c-.6.3-1.2.4-1.9.5.7-.4 1.2-1 1.5-1.8-.6.4-1.4.6-2.1.8A3.3 3.3 0 0 0 8.8 6.8c0 .3 0 .5.1.7-2.7-.1-5.2-1.4-6.8-3.4-.3.5-.4 1-.4 1.6 0 1.1.6 2.1 1.4 2.7-.5 0-1-.2-1.5-.4 0 1.6 1.1 2.9 2.6 3.2-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.6 2.2 3.1 2.2-1.1.9-2.5 1.4-4 1.4H2c1.5.9 3.2 1.4 5 1.4 6 0 9.3-5 9.3-9.3v-.4c.6-.5 1.2-1 1.7-1.7z"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M4.5 6H2v10h2.5V6zM3.2 4.5c.8 0 1.4-.6 1.4-1.4S4 1.7 3.2 1.7 1.8 2.3 1.8 3.1s.6 1.4 1.4 1.4zM16 10.3V16h-2.5v-5.3c0-1.3-.4-2.2-1.6-2.2-.9 0-1.4.6-1.6 1.2-.1.2-.1.6-.1.9V16H7.7V6h2.4v1.4h.1c.3-.6 1.1-1.4 2.6-1.4 1.9 0 3.2 1.2 3.2 4.3z"/></svg>
+      </a>
+      <a href="#" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1C4.6 1 1 4.6 1 9c0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4v-1.4c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.2 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8A7.7 7.7 0 0 1 9 4.5c.7 0 1.4.1 2.1.2 1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.5.8 1.2.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.2.6.7.6 1.4v2.1c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6C17 4.6 13.4 1 9 1z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll behavior
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('nav--scrolled');
+  } else {
+    nav.classList.remove('nav--scrolled');
+  }
+});
+
+// Pill tab toggle
+document.querySelectorAll('.features__tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.features__tab').forEach(t => t.classList.remove('features__tab--active'));
+    tab.classList.add('features__tab--active');
+  });
+});
+</script>
+
+</body>
+</html>

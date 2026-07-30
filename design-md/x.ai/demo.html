@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>xAI — Advancing scientific discovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Design Tokens (from DESIGN.md) ─── */
+:root {
+  --canvas: #0a0a0a;
+  --canvas-soft: #1a1c20;
+  --canvas-card: #191919;
+  --canvas-mid: #363a3f;
+  --primary: #ffffff;
+  --on-primary: #0a0a0a;
+  --ink: #ffffff;
+  --ink-hover: #fafaf7;
+  --body: #dadbdf;
+  --body-mid: #7d8187;
+  --mute: #7d8187;
+  --hairline: #212327;
+  --accent-sunset: #ff7a17;
+  --accent-sunset-soft: #ffc285;
+  --accent-dusk: #7c3aed;
+  --accent-twilight: #c4b5fd;
+  --accent-breeze: #a0c3ec;
+  --accent-midnight: #0d1726;
+
+  /* spacing */
+  --sp-xxs: 2px;
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 12px;
+  --sp-lg: 16px;
+  --sp-xl: 24px;
+  --sp-2xl: 32px;
+  --sp-3xl: 48px;
+  --sp-4xl: 64px;
+
+  /* rounded */
+  --rounded-none: 0px;
+  --rounded-sm: 8px;
+  --rounded-pill: 9999px;
+  --rounded-full: 9999px;
+}
+
+html {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+/* ─── Typography ─── */
+.display-xl {
+  font-size: 96px;
+  font-weight: 400;
+  line-height: 96px;
+  letter-spacing: -2.4px;
+}
+.display-lg {
+  font-size: 72px;
+  font-weight: 400;
+  line-height: 72px;
+  letter-spacing: -1.8px;
+}
+.display-md {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 48px;
+  letter-spacing: -1.2px;
+}
+.display-sm {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 36px;
+  letter-spacing: -0.6px;
+}
+.display-xs {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+}
+.body-lg {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+}
+.body-md {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.body-sm {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.caption-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.caption-mono-sm {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.button-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+/* ─── Layout ─── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xl);
+}
+
+/* ─── Divider ─── */
+.divider-hairline {
+  border: none;
+  border-top: 1px solid var(--hairline);
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 1px solid var(--primary);
+  border-radius: var(--rounded-pill);
+  padding: var(--sp-xs) var(--sp-md);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+.btn-primary:hover {
+  opacity: 0.88;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--rounded-pill);
+  padding: var(--sp-sm) var(--sp-lg);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.40);
+}
+
+.btn-outline-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--rounded-pill);
+  padding: var(--sp-xs) var(--sp-md);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+.btn-outline-sm:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.40);
+}
+
+/* ─── Nav ─── */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--sp-md) var(--sp-xl);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  text-decoration: none;
+  color: var(--ink);
+}
+.nav-logo svg {
+  display: block;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xl);
+}
+.nav-link {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  transition: opacity 0.2s ease;
+}
+.nav-link:hover {
+  opacity: 0.7;
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+/* ─── Hero ─── */
+.hero-band {
+  background: var(--canvas);
+  padding: var(--sp-4xl) var(--sp-xl);
+  text-align: center;
+}
+.hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.hero-eyebrow {
+  color: var(--ink);
+  margin-bottom: var(--sp-xl);
+}
+.hero-headline {
+  color: var(--ink);
+  margin-bottom: var(--sp-xl);
+}
+.hero-subheadline {
+  color: var(--body);
+  max-width: 680px;
+  margin: 0 auto var(--sp-2xl);
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+/* ─── Content Band ─── */
+.content-band {
+  background: var(--canvas);
+  padding: var(--sp-4xl) var(--sp-xl);
+}
+.content-band-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-eyebrow {
+  color: var(--ink);
+  margin-bottom: var(--sp-lg);
+}
+.section-headline {
+  color: var(--ink);
+  margin-bottom: var(--sp-lg);
+}
+.section-subhead {
+  color: var(--body);
+  max-width: 600px;
+  margin-bottom: var(--sp-3xl);
+}
+
+/* ─── Cards ─── */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-xl);
+}
+.card-content {
+  background: var(--canvas-card);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-sm);
+  padding: var(--sp-xl);
+  transition: border-color 0.2s ease;
+}
+.card-content:hover {
+  border-color: rgba(255, 255, 255, 0.20);
+}
+.card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-lg);
+}
+.card-icon.sunset {
+  background: rgba(255, 122, 23, 0.12);
+  color: var(--accent-sunset);
+}
+.card-icon.dusk {
+  background: rgba(124, 58, 237, 0.12);
+  color: var(--accent-dusk);
+}
+.card-icon.breeze {
+  background: rgba(160, 195, 236, 0.12);
+  color: var(--accent-breeze);
+}
+.card-icon.twilight {
+  background: rgba(196, 181, 253, 0.12);
+  color: var(--accent-twilight);
+}
+.card-headline {
+  margin-bottom: var(--sp-sm);
+}
+.card-desc {
+  color: var(--body);
+  margin-bottom: var(--sp-lg);
+}
+.card-cta {
+  display: inline-flex;
+}
+
+/* ─── Pricing ─── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-xl);
+}
+.pricing-tier {
+  background: var(--canvas-soft);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-sm);
+  padding: var(--sp-xl);
+}
+.pricing-tier-featured {
+  background: var(--ink);
+  color: var(--on-primary);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-sm);
+  padding: var(--sp-xl);
+}
+.pricing-name {
+  margin-bottom: var(--sp-sm);
+}
+.pricing-price {
+  margin-bottom: var(--sp-lg);
+  color: inherit;
+}
+.pricing-tier-featured .pricing-price {
+  color: var(--on-primary);
+}
+.pricing-desc {
+  color: var(--body-mid);
+  margin-bottom: var(--sp-xl);
+}
+.pricing-tier-featured .pricing-desc {
+  color: rgba(10, 10, 10, 0.6);
+}
+.pricing-features {
+  list-style: none;
+  margin-bottom: var(--sp-xl);
+}
+.pricing-features li {
+  padding: var(--sp-sm) 0;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--body);
+}
+.pricing-tier-featured .pricing-features li {
+  color: var(--on-primary);
+  border-bottom: 1px solid rgba(10, 10, 10, 0.12);
+}
+.pricing-features li:last-child {
+  border-bottom: none;
+}
+.pricing-tier-featured .btn-primary {
+  background: var(--on-primary);
+  color: var(--ink);
+  border-color: var(--on-primary);
+}
+
+/* ─── CTA Banner ─── */
+.cta-band {
+  background: var(--canvas);
+  padding: var(--sp-4xl) var(--sp-xl);
+  text-align: center;
+}
+.cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.cta-headline {
+  color: var(--ink);
+  margin-bottom: var(--sp-lg);
+}
+.cta-subhead {
+  color: var(--body);
+  margin-bottom: var(--sp-2xl);
+}
+
+/* ─── Footer ─── */
+.footer {
+  background: var(--canvas);
+  color: var(--body);
+  padding: var(--sp-3xl) var(--sp-xl);
+  border-top: 1px solid var(--hairline);
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--sp-2xl);
+}
+.footer-brand {
+  max-width: 260px;
+}
+.footer-links {
+  display: flex;
+  gap: var(--sp-4xl);
+  flex-wrap: wrap;
+}
+.footer-col-label {
+  color: var(--body-mid);
+  margin-bottom: var(--sp-lg);
+}
+.footer-col a {
+  display: block;
+  color: var(--body);
+  text-decoration: none;
+  margin-bottom: var(--sp-sm);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  transition: color 0.2s ease;
+}
+.footer-col a:hover {
+  color: var(--ink);
+}
+.footer-bottom {
+  max-width: 1200px;
+  margin: var(--sp-2xl) auto 0;
+  padding-top: var(--sp-lg);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-md);
+}
+.footer-copyright {
+  color: var(--body-mid);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 767px) {
+  .display-xl {
+    font-size: 48px;
+    line-height: 48px;
+    letter-spacing: -1.2px;
+  }
+  .display-lg {
+    font-size: 40px;
+    line-height: 40px;
+    letter-spacing: -1px;
+  }
+  .display-md {
+    font-size: 36px;
+    line-height: 38px;
+    letter-spacing: -0.9px;
+  }
+  .display-sm {
+    font-size: 28px;
+    line-height: 32px;
+    letter-spacing: -0.5px;
+  }
+  .card-grid,
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .nav-links {
+    display: none;
+  }
+  .hero-band {
+    padding: var(--sp-3xl) var(--sp-lg);
+  }
+  .content-band {
+    padding: var(--sp-3xl) var(--sp-lg);
+  }
+  .cta-band {
+    padding: var(--sp-3xl) var(--sp-lg);
+  }
+  .footer-inner {
+    flex-direction: column;
+  }
+  .footer-links {
+    flex-direction: column;
+    gap: var(--sp-xl);
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ─── SVG icon styles ─── */
+.icon-sm { width: 18px; height: 18px; }
+.icon-md { width: 22px; height: 22px; }
+</style>
+</head>
+<body>
+
+<!-- ─── Nav ─── -->
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="14" width="12" height="12" rx="1" fill="#ffffff" transform="rotate(-45 2 14)"/>
+        <rect x="10" y="6" width="12" height="12" rx="1" fill="#ffffff" transform="rotate(-45 10 6)"/>
+      </svg>
+      <span class="body-md" style="color: var(--ink);">xAI</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Grok</a>
+      <a href="#pricing" class="nav-link">API</a>
+      <a href="#" class="nav-link">About</a>
+      <a href="#" class="nav-link">Careers</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="btn-outline-sm">Sign in</a>
+      <a href="#" class="btn-primary">Try Grok</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── Hero ─── -->
+<header class="hero-band">
+  <div class="hero-inner">
+    <p class="caption-mono hero-eyebrow">GROK 3 IS HERE</p>
+    <h1 class="display-xl hero-headline">Understand the<br>universe</h1>
+    <p class="body-lg hero-subheadline">
+      Grok is an AI modeled after the Hitchhiker's Guide to the Galaxy — intended to answer almost anything and, far harder, even suggest what questions to ask.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Try Grok</a>
+      <a href="#" class="btn-outline">Read announcement</a>
+    </div>
+  </div>
+</header>
+
+<hr class="divider-hairline">
+
+<!-- ─── Features ─── -->
+<section class="content-band" id="features">
+  <div class="content-band-inner">
+    <p class="caption-mono section-eyebrow">CAPABILITIES</p>
+    <h2 class="display-md section-headline">Built for the age of<br>intelligent machines</h2>
+    <p class="body-lg section-subhead">
+      From real-time knowledge to deep reasoning, Grok's capabilities grow with every release.
+    </p>
+
+    <div class="card-grid">
+      <!-- Card 1 -->
+      <div class="card-content">
+        <div class="card-icon sunset">
+          <svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5.64 5.64l1.42 1.42m9.9 9.9l1.42 1.42m0-12.72l-1.42 1.42m-9.9 9.9l-1.42 1.42"/>
+          </svg>
+        </div>
+        <h3 class="display-xs card-headline">Real-time knowledge</h3>
+        <p class="body-md card-desc">
+          Grok has real-time access to X posts, giving it a unique advantage in understanding what's happening right now across the world.
+        </p>
+        <a href="#" class="btn-outline-sm card-cta">Learn more</a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card-content">
+        <div class="card-icon dusk">
+          <svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2l9 4.5v11L12 22l-9-4.5v-11L12 2z"/>
+            <path d="M12 9v6m-3-3h6"/>
+          </svg>
+        </div>
+        <h3 class="display-xs card-headline">Deep reasoning</h3>
+        <p class="body-md card-desc">
+          Powered by frontier-scale training, Grok reasons through complex problems — from math and coding to scientific analysis with step-by-step transparency.
+        </p>
+        <a href="#" class="btn-outline-sm card-cta">Learn more</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card-content">
+        <div class="card-icon breeze">
+          <svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8m-4-4v4"/>
+          </svg>
+        </div>
+        <h3 class="display-xs card-headline">Multimodal understanding</h3>
+        <p class="body-md card-desc">
+          Grok sees and understands images, documents, and charts. Upload a PDF, screenshot, or photo and get precise analysis in seconds.
+        </p>
+        <a href="#" class="btn-outline-sm card-cta">Learn more</a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card-content">
+        <div class="card-icon twilight">
+          <svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
+          </svg>
+        </div>
+        <h3 class="display-xs card-headline">API & developer tools</h3>
+        <p class="body-md card-desc">
+          Integrate Grok into your own applications with a clean, fast API. Enterprise-grade reliability with the same model that powers xAI's products.
+        </p>
+        <a href="#" class="btn-outline-sm card-cta">View docs</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-hairline">
+
+<!-- ─── Pricing ─── -->
+<section class="content-band" id="pricing">
+  <div class="content-band-inner">
+    <p class="caption-mono section-eyebrow">PRICING</p>
+    <h2 class="display-md section-headline">Access the frontier</h2>
+    <p class="body-lg section-subhead">
+      Start free and upgrade as your needs grow.
+    </p>
+
+    <div class="pricing-grid">
+      <!-- Free Tier -->
+      <div class="pricing-tier">
+        <p class="caption-mono-sm pricing-name" style="color: var(--body-mid);">FREE</p>
+        <h3 class="display-sm pricing-price">
+          $0<span class="body-md" style="color: var(--body-mid);">/mo</span>
+        </h3>
+        <p class="body-sm pricing-desc">Get started with Grok at no cost.</p>
+        <ul class="pricing-features body-sm">
+          <li>10 queries every 2 hours</li>
+          <li>Text-only conversations</li>
+          <li>Real-time X integration</li>
+          <li>Standard response speed</li>
+        </ul>
+        <a href="#" class="btn-outline" style="width: 100%; text-align: center;">Get started</a>
+      </div>
+
+      <!-- Featured Tier -->
+      <div class="pricing-tier-featured">
+        <p class="caption-mono-sm pricing-name" style="color: rgba(10,10,10,0.55);">SUPERGROK</p>
+        <h3 class="display-sm pricing-price">
+          $30<span class="body-md" style="color: rgba(10,10,10,0.55);">/mo</span>
+        </h3>
+        <p class="body-sm pricing-desc">Unlock the full power of Grok.</p>
+        <ul class="pricing-features body-sm">
+          <li>Unlimited queries</li>
+          <li>DeepSearch & reasoning</li>
+          <li>Image generation & vision</li>
+          <li>Priority response speed</li>
+          <li>Early access to new features</li>
+        </ul>
+        <a href="#" class="btn-primary" style="width: 100%; text-align: center;">Subscribe now</a>
+      </div>
+
+      <!-- Enterprise Tier -->
+      <div class="pricing-tier">
+        <p class="caption-mono-sm pricing-name" style="color: var(--body-mid);">ENTERPRISE</p>
+        <h3 class="display-sm pricing-price">
+          Custom
+        </h3>
+        <p class="body-sm pricing-desc">Dedicated infrastructure and support.</p>
+        <ul class="pricing-features body-sm">
+          <li>Everything in SuperGrok</li>
+          <li>Custom model fine-tuning</li>
+          <li>Dedicated API capacity</li>
+          <li>SAML SSO & admin controls</li>
+          <li>99.9% uptime SLA</li>
+        </ul>
+        <a href="#" class="btn-outline" style="width: 100%; text-align: center;">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-hairline">
+
+<!-- ─── CTA Banner ─── -->
+<section class="cta-band">
+  <div class="cta-inner">
+    <p class="caption-mono section-eyebrow">GET STARTED</p>
+    <h2 class="display-md cta-headline">The mission is to understand<br>the true nature of the universe</h2>
+    <p class="body-lg cta-subhead">
+      xAI is a company working on building artificial intelligence to accelerate human scientific discovery.
+    </p>
+    <div style="display: flex; align-items: center; justify-content: center; gap: var(--sp-md); flex-wrap: wrap;">
+      <a href="#" class="btn-primary">Try Grok</a>
+      <a href="#" class="btn-outline">Explore careers</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-hairline">
+
+<!-- ─── Footer ─── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div style="display: flex; align-items: center; gap: var(--sp-sm); margin-bottom: var(--sp-md);">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="14" width="12" height="12" rx="1" fill="#ffffff" transform="rotate(-45 2 14)"/>
+          <rect x="10" y="6" width="12" height="12" rx="1" fill="#ffffff" transform="rotate(-45 10 6)"/>
+        </svg>
+        <span class="body-md" style="color: var(--ink);">xAI</span>
+      </div>
+      <p class="body-sm">
+        Advancing scientific discovery through artificial intelligence.
+      </p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <p class="caption-mono-sm footer-col-label">Product</p>
+        <a href="#">Grok</a>
+        <a href="#">API</a>
+        <a href="#">Enterprise</a>
+        <a href="#">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <p class="caption-mono-sm footer-col-label">Company</p>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+      </div>
+      <div class="footer-col">
+        <p class="caption-mono-sm footer-col-label">Resources</p>
+        <a href="#">Documentation</a>
+        <a href="#">Research</a>
+        <a href="#">Status</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom container">
+    <p class="body-sm footer-copyright">&copy; 2025 xAI Corp. All rights reserved.</p>
+    <div style="display: flex; gap: var(--sp-lg);">
+      <a href="#" class="nav-link">Privacy</a>
+      <a href="#" class="nav-link">Terms</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

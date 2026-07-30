@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nike. Just Do It.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   NIKE DESIGN SYSTEM — Demo Page
+   Tokens from design-md/nike/DESIGN.md
+   ============================================ */
+
+/* --- Reset --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', 'Helvetica Now Text', Helvetica, Arial, system-ui, -apple-system, sans-serif;
+  background-color: #ffffff;
+  color: #111111;
+  line-height: 1.5;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ============================================
+   DESIGN TOKENS (from DESIGN.md)
+   ============================================ */
+:root {
+  /* Colors */
+  --ink: #111111;
+  --on-primary: #ffffff;
+  --canvas: #ffffff;
+  --soft-cloud: #f5f5f5;
+  --charcoal: #39393b;
+  --ash: #4b4b4d;
+  --mute: #707072;
+  --stone: #9e9ea0;
+  --hairline: #cacacb;
+  --hairline-soft: #e5e5e5;
+  --sale: #d30005;
+  --sale-deep: #780700;
+  --success: #007d48;
+  --success-bright: #1eaa52;
+  --info: #1151ff;
+  --info-deep: #0034e3;
+  --accent-pink: #ed1aa0;
+  --accent-pink-soft: #ffb0dd;
+  --accent-purple-soft: #beaffd;
+  --accent-purple-pale: #d6d1ff;
+  --accent-teal: #0a7281;
+  --accent-pink-deep: #4c012d;
+
+  /* Spacing (8px base) */
+  --sp-xxs: 2px;
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 12px;
+  --sp-lg: 18px;
+  --sp-xl: 24px;
+  --sp-xxl: 30px;
+  --sp-section: 48px;
+
+  /* Border Radius */
+  --radius-none: 0px;
+  --radius-sm: 18px;
+  --radius-md: 24px;
+  --radius-lg: 30px;
+  --radius-full: 9999px;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+/* display-campaign: 96px / 500 / 0.9 / uppercase */
+.display-campaign {
+  font-family: 'Bebas Neue', 'Nike Futura ND', 'Helvetica Now Text Medium', Helvetica, Arial, sans-serif;
+  font-size: 96px;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* heading-xl: 32px / 500 / 1.2 */
+.heading-xl {
+  font-family: 'Inter', 'Helvetica Now Display Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+/* heading-lg: 24px / 500 / 1.2 */
+.heading-lg {
+  font-family: 'Inter', 'Helvetica Now Display Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+/* heading-md: 16px / 500 / 1.75 */
+.heading-md {
+  font-family: 'Inter', 'Helvetica Now Display Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+
+/* body-md: 16px / 400 / 1.5 */
+.body-md {
+  font-family: 'Inter', 'Helvetica Now Text', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* body-strong: 16px / 500 / 1.5 */
+.body-strong {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* button-md: 16px / 500 / 1.5 */
+.button-md {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* button-sm: 14px / 500 / 1.5 */
+.button-sm {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* link-md: 16px / 500 / 1.75 / underline */
+.link-md {
+  font-family: 'Inter', 'Helvetica Now Text', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0;
+  text-decoration: underline;
+}
+
+/* caption-md: 14px / 500 / 1.5 */
+.caption-md {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* caption-sm: 12px / 500 / 1.5 */
+.caption-sm {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* utility-xs: 9px / 500 / 1.75 */
+.utility-xs {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+
+/* ============================================
+   COMPONENT: BUTTONS
+   ============================================ */
+
+/* button-primary — black pill CTA */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ink);
+  color: var(--on-primary);
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  border-radius: var(--radius-lg);
+  padding: 16px 32px;
+  height: 48px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.btn-primary:hover {
+  opacity: 0.85;
+}
+.btn-primary:active {
+  opacity: 0.5;
+  transform: scale(0.97);
+}
+
+/* button-secondary — soft-cloud pill */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--soft-cloud);
+  color: var(--ink);
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  border-radius: var(--radius-lg);
+  padding: 16px 32px;
+  height: 48px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.btn-secondary:hover {
+  background-color: var(--hairline-soft);
+}
+
+/* button-outline-on-image — white pill overlay */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  border-radius: var(--radius-lg);
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.btn-outline:hover {
+  opacity: 0.9;
+}
+
+/* button-icon-circular */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--soft-cloud);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.btn-icon:hover {
+  background-color: var(--hairline-soft);
+}
+
+/* ============================================
+   COMPONENT: FILTER CHIP
+   ============================================ */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  border-radius: var(--radius-lg);
+  padding: 8px 16px;
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.chip:hover {
+  border-color: var(--ink);
+}
+.chip.active {
+  background-color: var(--ink);
+  color: var(--on-primary);
+  border-color: var(--ink);
+}
+
+/* ============================================
+   COMPONENT: BADGE
+   ============================================ */
+.badge-promo {
+  display: inline-flex;
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  border-radius: var(--radius-lg);
+  padding: 4px 12px;
+  border: 1px solid var(--hairline);
+}
+
+.badge-sale {
+  color: var(--sale);
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* ============================================
+   COMPONENT: SWATCH DOT
+   ============================================ */
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  transition: box-shadow 0.15s ease;
+}
+.swatch.active {
+  border: 2px solid var(--ink);
+  box-shadow: inset 0 0 0 2px var(--canvas);
+}
+
+/* ============================================
+   LAYOUT HELPERS
+   ============================================ */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--sp-xl);
+}
+@media (min-width: 1920px) {
+  .container {
+    padding: 0 80px;
+  }
+}
+
+/* ============================================
+   UTILITY BAR
+   ============================================ */
+.utility-bar {
+  background-color: var(--soft-cloud);
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 var(--sp-xl);
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+.utility-bar a {
+  color: var(--ink);
+  padding: 0 var(--sp-md);
+  transition: opacity 0.15s ease;
+}
+.utility-bar a:hover {
+  opacity: 0.6;
+}
+.utility-bar span {
+  color: var(--stone);
+}
+
+/* ============================================
+   PRIMARY NAV
+   ============================================ */
+.primary-nav {
+  background-color: var(--canvas);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp-xl);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.primary-nav .nav-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-xl);
+}
+@media (min-width: 1920px) {
+  .primary-nav {
+    padding: 0 80px;
+  }
+}
+
+.nav-logo svg {
+  width: 60px;
+  height: auto;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xl);
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.nav-links a {
+  color: var(--ink);
+  position: relative;
+  padding-bottom: var(--sp-xs);
+  transition: opacity 0.15s ease;
+}
+.nav-links a:hover {
+  opacity: 0.6;
+}
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--ink);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+/* search pill */
+.search-pill {
+  display: flex;
+  align-items: center;
+  background-color: var(--soft-cloud);
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+  height: 40px;
+  gap: var(--sp-sm);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  font-family: 'Inter', 'Helvetica Now Text', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--mute);
+  border: 2px solid transparent;
+}
+.search-pill svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.search-pill:hover {
+  background-color: var(--hairline-soft);
+}
+.search-pill:focus-within {
+  background-color: var(--canvas);
+  border-color: var(--ink);
+}
+
+/* ============================================
+   CAMPAIGN HERO
+   ============================================ */
+.campaign-hero {
+  position: relative;
+  width: 100%;
+  background-color: var(--ink);
+  overflow: hidden;
+  min-height: 560px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Hero background pattern — abstract athletic geometry */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 40%, #1a1a2e 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 35%, #16213e 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 80%, var(--accent-teal) 0%, transparent 40%),
+    linear-gradient(170deg, var(--charcoal) 0%, var(--ink) 40%, var(--accent-pink-deep) 100%);
+  opacity: 0.85;
+}
+
+/* Dynamic abstract shapes overlay */
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.03) 48%, rgba(255,255,255,0.03) 52%, transparent 52%),
+    linear-gradient(225deg, transparent 48%, rgba(255,255,255,0.02) 48%, rgba(255,255,255,0.02) 52%, transparent 52%);
+  background-size: 160px 160px;
+}
+
+/* Figurative silhouette using SVG */
+.hero-figure {
+  position: absolute;
+  right: 5%;
+  top: 10%;
+  bottom: 10%;
+  width: 45%;
+  opacity: 0.15;
+}
+.hero-figure svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--sp-xl) var(--sp-section) var(--sp-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-xl);
+}
+@media (min-width: 1920px) {
+  .hero-content {
+    padding: 0 80px var(--sp-section) 80px;
+  }
+}
+
+.hero-headline {
+  font-family: 'Bebas Neue', 'Nike Futura ND', 'Helvetica Now Text Medium', Helvetica, Arial, sans-serif;
+  font-size: 96px;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--on-primary);
+  max-width: 600px;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+}
+
+.hero-subhead {
+  font-family: 'Inter', 'Helvetica Now Text', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--stone);
+  max-width: 440px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+/* ============================================
+   SECTION: FEATURED FOOTWEAR
+   ============================================ */
+.section {
+  padding: var(--sp-section) var(--sp-xl);
+}
+.section-header {
+  max-width: 1440px;
+  margin: 0 auto var(--sp-xl) auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+@media (min-width: 1920px) {
+  .section-header {
+    padding: 0 80px;
+  }
+}
+.section-title {
+  font-family: 'Inter', 'Helvetica Now Display Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+.section-link {
+  font-family: 'Inter', 'Helvetica Now Text', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0;
+  text-decoration: underline;
+  color: var(--ink);
+  transition: opacity 0.15s ease;
+}
+.section-link:hover {
+  opacity: 0.6;
+}
+
+/* Filter chips row */
+.filter-row {
+  max-width: 1440px;
+  margin: 0 auto var(--sp-xl) auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-sm);
+  padding: 0;
+}
+@media (min-width: 1920px) {
+  .filter-row {
+    padding: 0 80px;
+  }
+}
+
+/* ============================================
+   PRODUCT GRID
+   ============================================ */
+.product-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-sm);
+  padding: 0;
+}
+@media (min-width: 1920px) {
+  .product-grid {
+    padding: 0 80px;
+  }
+}
+@media (max-width: 1023px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 639px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* product-card */
+.product-card {
+  background-color: var(--canvas);
+  border-radius: var(--radius-none);
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.product-card:hover {
+  opacity: 0.85;
+}
+
+.product-card-image {
+  background-color: var(--soft-cloud);
+  border-radius: var(--radius-none);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-card-image svg {
+  width: 70%;
+  height: 70%;
+  opacity: 0.35;
+  color: var(--ink);
+}
+
+/* Promo badge on card */
+.product-card .badge-promo {
+  position: absolute;
+  top: var(--sp-md);
+  left: var(--sp-md);
+  z-index: 2;
+}
+
+.product-card-meta {
+  padding: var(--sp-sm) 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.product-card-meta .swatch-row {
+  display: flex;
+  gap: var(--sp-xs);
+  margin-bottom: var(--sp-xs);
+}
+
+.product-card-name {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.product-card-category {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--mute);
+}
+
+.product-card-price {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.price-sale {
+  color: var(--sale);
+}
+
+.price-original {
+  color: var(--mute);
+  text-decoration: line-through;
+}
+
+/* ============================================
+   CAMPAIGN TILE ROW (2-up)
+   ============================================ */
+.campaign-row {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-sm);
+  padding: 0;
+}
+@media (min-width: 1920px) {
+  .campaign-row {
+    padding: 0 80px;
+  }
+}
+@media (max-width: 639px) {
+  .campaign-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.campaign-tile {
+  position: relative;
+  background-color: var(--ink);
+  border-radius: var(--radius-none);
+  overflow: hidden;
+  min-height: 500px;
+  display: flex;
+  align-items: flex-end;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.campaign-tile:hover {
+  opacity: 0.92;
+}
+
+.campaign-tile-bg {
+  position: absolute;
+  inset: 0;
+}
+.campaign-tile-bg.member {
+  background: linear-gradient(160deg, var(--charcoal) 0%, var(--accent-pink-deep) 60%, var(--accent-pink) 100%);
+}
+.campaign-tile-bg.app {
+  background: linear-gradient(160deg, var(--charcoal) 0%, var(--ink) 40%, var(--accent-teal) 100%);
+}
+
+/* Abstract geometric pattern */
+.campaign-tile-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.02) 40px,
+      rgba(255,255,255,0.02) 42px
+    );
+}
+
+.campaign-tile-content {
+  position: relative;
+  z-index: 2;
+  padding: var(--sp-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+
+.campaign-tile-headline {
+  font-family: 'Inter', 'Helvetica Now Display Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--on-primary);
+  max-width: 300px;
+}
+
+/* ============================================
+   CATEGORY ICON STRIP
+   ============================================ */
+.category-strip {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-sm);
+  padding: 0;
+}
+@media (min-width: 1920px) {
+  .category-strip {
+    padding: 0 80px;
+  }
+}
+@media (max-width: 639px) {
+  .category-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.category-icon-card {
+  background-color: var(--canvas);
+  border-radius: var(--radius-none);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: var(--sp-xl) var(--sp-md);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.category-icon-card:hover {
+  opacity: 0.7;
+}
+
+.category-icon-card .icon-wrap {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-icon-card .icon-wrap svg {
+  width: 100%;
+  height: 100%;
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+.category-icon-card .label {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+  text-align: center;
+}
+
+/* ============================================
+   CTA BANNER
+   ============================================ */
+.cta-banner {
+  background-color: var(--soft-cloud);
+  text-align: center;
+  padding: var(--sp-section) var(--sp-xl);
+}
+
+.cta-banner-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-xl);
+}
+
+.cta-banner-headline {
+  font-family: 'Inter', 'Helvetica Now Display Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.cta-banner-body {
+  font-family: 'Inter', 'Helvetica Now Text', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--mute);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background-color: var(--canvas);
+  border-top: 1px solid var(--hairline);
+  padding: var(--sp-section) var(--sp-xl) var(--sp-xl) var(--sp-xl);
+}
+
+.footer-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-xl);
+  padding: 0;
+}
+@media (min-width: 1920px) {
+  .footer-grid {
+    padding: 0 80px;
+  }
+}
+@media (max-width: 639px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-col h4 {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin-bottom: var(--sp-md);
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.footer-col a {
+  font-family: 'Inter', 'Helvetica Now Text Medium', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--mute);
+  transition: color 0.15s ease;
+}
+.footer-col a:hover {
+  color: var(--ink);
+}
+
+.footer-bottom {
+  max-width: 1440px;
+  margin: var(--sp-xl) auto 0 auto;
+  padding-top: var(--sp-xl);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-md);
+}
+@media (min-width: 1920px) {
+  .footer-bottom {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+.footer-legal {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0;
+  color: var(--mute);
+}
+
+.footer-legal-links {
+  display: flex;
+  gap: var(--sp-xl);
+}
+
+.footer-legal-links a {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0;
+  color: var(--mute);
+}
+.footer-legal-links a:hover {
+  color: var(--ink);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 960px) {
+  .nav-links {
+    display: none;
+  }
+  .hero-headline {
+    font-size: 64px;
+  }
+}
+
+@media (max-width: 639px) {
+  .hero-headline {
+    font-size: 48px;
+  }
+  .section {
+    padding: 32px var(--sp-md);
+  }
+  .hero-content {
+    padding-bottom: 32px;
+  }
+  .campaign-tile {
+    min-height: 350px;
+  }
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-sm);
+  }
+  .utility-bar {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     UTILITY BAR
+     ============================================ -->
+<div class="utility-bar">
+  <a href="#">Find a Store</a>
+  <span>|</span>
+  <a href="#">Help</a>
+  <span>|</span>
+  <a href="#">Join Us</a>
+  <span>|</span>
+  <a href="#">Sign In</a>
+</div>
+
+<!-- ============================================
+     PRIMARY NAV
+     ============================================ -->
+<nav class="primary-nav">
+  <div class="nav-container">
+    <!-- Nike Swoosh Logo -->
+    <a href="#" class="nav-logo" aria-label="Nike Home">
+      <svg viewBox="0 0 100 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.78 35.18C4.94 33.54 0 27.76 0 20.94C0 12.46 5.74 5.6 13.14 3.98C15.74 3.42 21.5 3.42 21.5 3.42L21.2 8.66C21.2 8.66 14.04 7.88 11.52 8.82C6.96 10.52 4.16 14.74 4.16 20.36C4.16 24.72 6.1 28.82 9.66 31.04C12.96 30.24 18.5 25.48 19.56 24.36L19.42 28.94C18.28 32.14 15.76 34.04 11.78 35.18Z" fill="#111111"/>
+        <path d="M41.62 27.56C41.62 31.72 38.36 34.98 34.18 35.56C34.18 35.56 33.76 35.62 32.88 35.74C31.34 35.94 28.72 35.84 27.32 35.08C26.24 34.48 25.62 33.34 25.62 31.98V12.78H29.78V30.58C29.78 31.96 30.82 32.2 31.48 32.22C32.72 32.24 34.16 31.62 34.96 31.02L36.58 33.62C35.36 34.46 33.3 35.48 30.64 35.52C29.16 35.52 27.2 35.04 26.28 34.14C24.98 32.84 25.18 30.44 25.18 29.96V12.78H29.34V26.04C29.34 26.04 33.28 23.42 37.44 20.28V25.06C33.24 27.66 29.78 30.28 29.78 30.28L29.78 30.58C29.78 32.96 33.18 31.76 34.18 31.3C35.74 30.58 37.5 29.22 37.5 29.22L38.92 32.02C37.76 32.94 35.78 34.04 33.7 34.52C31.62 34.98 30.04 34.96 30.04 34.96C28.96 34.96 27.64 34.52 26.98 33.78C25.9 32.62 26.08 30.52 26.08 29.42V30.98C26.08 32.38 26.76 34.04 28.42 34.72C30.08 35.42 32.1 35.48 33.34 35.32C34.58 35.18 35.72 34.3 36.58 33.62L41.62 27.56Z" fill="#111111"/>
+        <path d="M47.7 27.98L52.72 35.52H57.56L50.02 24.04L57.04 13.22H52.64L47.3 21.58V6H43.14V35.52H47.3V27.98H47.7Z" fill="#111111"/>
+        <path d="M60.82 35.52H64.98V13.22H60.82V35.52ZM62.9 10.28C64.08 10.28 65.04 9.32 65.04 8.14C65.04 6.96 64.08 6 62.9 6C61.72 6 60.76 6.96 60.76 8.14C60.76 9.32 61.72 10.28 62.9 10.28Z" fill="#111111"/>
+        <path d="M68.02 35.52H72.18V23.82C72.18 20.12 75.38 17.26 79.08 17.26C82.78 17.26 85.98 20.12 85.98 23.82V35.52H90.14V23.82C90.14 17.92 85.18 13.22 79.08 13.22C72.98 13.22 68.02 17.92 68.02 23.82V35.52Z" fill="#111111"/>
+        <path d="M95.54 35.52H99.7V6.88H95.54V35.52Z" fill="#111111"/>
+      </svg>
+    </a>
+
+    <!-- Nav links -->
+    <div class="nav-links">
+      <a href="#" class="active">New &amp; Featured</a>
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Kids</a>
+      <a href="#">Jordan</a>
+      <a href="#">Sale</a>
+    </div>
+
+    <!-- Nav actions -->
+    <div class="nav-actions">
+      <div class="search-pill" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <span>Search</span>
+      </div>
+      <button class="btn-icon" aria-label="Favorites">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </button>
+      <button class="btn-icon" aria-label="Bag">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================
+     CAMPAIGN HERO
+     ============================================ -->
+<section class="campaign-hero">
+  <div class="hero-bg"></div>
+  <!-- Abstract runner silhouette -->
+  <div class="hero-figure">
+    <svg viewBox="0 0 500 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Runner body -->
+      <ellipse cx="250" cy="420" rx="100" ry="180" fill="white" opacity="0.4"/>
+      <circle cx="250" cy="180" r="55" fill="white" opacity="0.5"/>
+      <!-- Legs -->
+      <path d="M200 560 Q140 700 100 780" stroke="white" stroke-width="30" stroke-linecap="round" opacity="0.4"/>
+      <path d="M280 560 Q340 700 380 770" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.35"/>
+      <!-- Arms -->
+      <path d="M220 340 Q120 320 80 360" stroke="white" stroke-width="18" stroke-linecap="round" opacity="0.35"/>
+      <path d="M280 340 Q380 300 420 350" stroke="white" stroke-width="18" stroke-linecap="round" opacity="0.35"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-headline">Don't Waste<br>Your Energy</h1>
+    <p class="hero-subhead">
+      Run in the wild. New ACG trail collection built for whatever terrain you throw at it.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Shop ACG</a>
+      <a href="#" class="btn-outline">Explore Trail</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION: FEATURED FOOTWEAR
+     ============================================ -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Featured Footwear</h2>
+    <a href="#" class="section-link">View All</a>
+  </div>
+
+  <!-- Filter chips -->
+  <div class="filter-row">
+    <span class="chip active">All</span>
+    <span class="chip">Running</span>
+    <span class="chip">Training</span>
+    <span class="chip">Lifestyle</span>
+    <span class="chip">Trail</span>
+    <span class="chip">Basketball</span>
+  </div>
+
+  <!-- Product grid -->
+  <div class="product-grid">
+    <!-- Product Card 1 -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <span class="badge-promo">Just In</span>
+        <!-- Abstract shoe shape -->
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 90 L30 40 Q30 20 60 20 L140 20 Q170 20 180 40 L190 70 Q195 85 185 90 L160 95 L60 95 Z" fill="var(--ink)" opacity="0.9"/>
+          <path d="M60 30 L70 30 L90 35 L120 35 L130 30" stroke="var(--canvas)" stroke-width="1.5" opacity="0.4"/>
+          <path d="M35 85 L55 85" stroke="var(--canvas)" stroke-width="1.5" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <div class="swatch-row">
+          <span class="swatch active" style="background:#111111;"></span>
+          <span class="swatch" style="background:#d30005;"></span>
+          <span class="swatch" style="background:#0a7281;"></span>
+          <span class="swatch" style="background:#ed1aa0;"></span>
+        </div>
+        <span class="product-card-name">Nike Pegasus 41</span>
+        <span class="product-card-category">Men's Road Running Shoes</span>
+        <span class="product-card-price">$140</span>
+      </div>
+    </div>
+
+    <!-- Product Card 2 -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <!-- Abstract shoe shape -->
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M25 90 L25 35 Q25 15 55 15 L140 15 Q175 15 185 35 L195 65 Q200 80 190 88 L160 95 L55 95 Z" fill="var(--ink)" opacity="0.85"/>
+          <path d="M55 25 L70 25 L95 32 L130 30 L140 25" stroke="var(--canvas)" stroke-width="1.5" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <div class="swatch-row">
+          <span class="swatch active" style="background:#111111;"></span>
+          <span class="swatch" style="background:#ed1aa0;"></span>
+          <span class="swatch" style="background:#beaffd;"></span>
+        </div>
+        <span class="product-card-name">Nike Air Max Dn8</span>
+        <span class="product-card-category">Women's Shoes</span>
+        <span class="product-card-price">$160</span>
+      </div>
+    </div>
+
+    <!-- Product Card 3 (on sale) -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <span class="badge-promo">Sale</span>
+        <!-- Abstract shoe shape -->
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M28 88 L28 38 Q28 22 58 22 L145 22 Q168 22 178 38 L188 68 Q192 82 182 88 L158 92 L55 92 Z" fill="var(--ink)" opacity="0.88"/>
+          <path d="M55 32 L75 32 L95 36 L125 35 L135 32" stroke="var(--canvas)" stroke-width="1.5" opacity="0.35"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <div class="swatch-row">
+          <span class="swatch active" style="background:#111111;"></span>
+          <span class="swatch" style="background:#d30005;"></span>
+          <span class="swatch" style="background:#ffb0dd;"></span>
+          <span class="swatch" style="background:#1151ff;"></span>
+        </div>
+        <span class="product-card-name">Nike Zoom Vomero 5</span>
+        <span class="product-card-category">Men's Shoes</span>
+        <span class="product-card-price">
+          <span class="price-sale">$112.97</span>
+          <span class="price-original">$160</span>
+          <span class="price-sale">29% off</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Product Card 4 -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <!-- Abstract shoe shape -->
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 88 L32 42 Q32 25 60 25 L138 25 Q165 25 175 42 L185 72 Q190 85 180 89 L155 93 L58 93 Z" fill="var(--ink)" opacity="0.87"/>
+          <path d="M58 35 L72 35 L100 40 L128 38 L140 35" stroke="var(--canvas)" stroke-width="1.5" opacity="0.35"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <div class="swatch-row">
+          <span class="swatch active" style="background:#0a7281;"></span>
+          <span class="swatch" style="background:#111111;"></span>
+          <span class="swatch" style="background:#d6d1ff;"></span>
+        </div>
+        <span class="product-card-name">Nike ACG Torre Mid</span>
+        <span class="product-card-category">Men's Weatherized Boot</span>
+        <span class="product-card-price">$150</span>
+      </div>
+    </div>
+
+    <!-- Product Card 5 -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <span class="badge-promo">Member Exclusive</span>
+        <!-- Abstract shoe shape -->
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M26 90 L26 36 Q26 18 56 18 L142 18 Q170 18 182 36 L193 68 Q198 82 188 90 L162 95 L54 95 Z" fill="var(--ink)" opacity="0.9"/>
+          <path d="M54 28 L72 28 L98 34 L130 32 L142 28" stroke="var(--canvas)" stroke-width="1.5" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <div class="swatch-row">
+          <span class="swatch active" style="background:#ed1aa0;"></span>
+          <span class="swatch" style="background:#111111;"></span>
+          <span class="swatch" style="background:#ffb0dd;"></span>
+          <span class="swatch" style="background:#beaffd;"></span>
+        </div>
+        <span class="product-card-name">Nike Air Force 1 '07</span>
+        <span class="product-card-category">Women's Shoes</span>
+        <span class="product-card-price">$115</span>
+      </div>
+    </div>
+
+    <!-- Product Card 6 -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <!-- Abstract shoe shape -->
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 88 L30 40 Q30 22 58 22 L140 22 Q168 22 178 40 L188 68 Q192 80 184 88 L158 92 L56 92 Z" fill="var(--ink)" opacity="0.86"/>
+          <path d="M56 32 L72 32 L100 38 L128 36 L140 32" stroke="var(--canvas)" stroke-width="1.5" opacity="0.35"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <div class="swatch-row">
+          <span class="swatch active" style="background:#111111;"></span>
+          <span class="swatch" style="background:#1151ff;"></span>
+          <span class="swatch" style="background:#d30005;"></span>
+        </div>
+        <span class="product-card-name">Jordan Stay Loyal 3</span>
+        <span class="product-card-category">Men's Shoes</span>
+        <span class="product-card-price">$115</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION: SHOP BY CATEGORY
+     ============================================ -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Shop by Category</h2>
+  </div>
+  <div class="category-strip">
+    <div class="category-icon-card">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+          <!-- Running shoe icon -->
+          <path d="M15 60 L20 35 Q22 25 35 25 L50 25 Q65 25 68 35 L72 60" stroke-linecap="round"/>
+          <path d="M35 25 L38 10 Q40 5 48 8 L62 12" stroke-linecap="round"/>
+          <path d="M68 35 L72 40 L78 38" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="label">Running</span>
+    </div>
+    <div class="category-icon-card">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+          <!-- Basketball icon -->
+          <circle cx="40" cy="35" r="22"/>
+          <path d="M18 35 Q40 10 62 35" stroke-linecap="round"/>
+          <path d="M18 35 Q40 60 62 35" stroke-linecap="round"/>
+          <line x1="18" y1="35" x2="62" y2="35"/>
+        </svg>
+      </div>
+      <span class="label">Basketball</span>
+    </div>
+    <div class="category-icon-card">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+          <!-- Training icon -->
+          <rect x="15" y="30" width="24" height="35" rx="3" stroke-linecap="round"/>
+          <rect x="42" y="25" width="24" height="40" rx="3" stroke-linecap="round"/>
+          <rect x="15" y="30" width="24" height="8" rx="2" fill="currentColor" opacity="0.3"/>
+          <rect x="42" y="25" width="24" height="8" rx="2" fill="currentColor" opacity="0.3"/>
+        </svg>
+      </div>
+      <span class="label">Training &amp; Gym</span>
+    </div>
+    <div class="category-icon-card">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+          <!-- Lifestyle icon -->
+          <rect x="18" y="20" width="44" height="45" rx="5" stroke-linecap="round"/>
+          <path d="M30 65 L30 75 L50 75 L50 65" stroke-linecap="round"/>
+          <path d="M25 32 L55 32" stroke-linecap="round"/>
+          <path d="M25 42 L55 42" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="label">Lifestyle</span>
+    </div>
+    <div class="category-icon-card">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+          <!-- Trail/Hiking icon -->
+          <path d="M10 65 L25 30 L40 45 L55 20 L70 50" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M55 20 L60 18 L58 26" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="label">Trail &amp; Hike</span>
+    </div>
+    <div class="category-icon-card">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+          <!-- Sandals icon -->
+          <path d="M15 55 Q30 20 50 55 Q65 78 70 68" stroke-linecap="round"/>
+          <path d="M22 50 Q30 35 42 50" stroke-linecap="round"/>
+          <path d="M50 50 Q58 35 68 50" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="label">Sandals &amp; Slides</span>
+    </div>
+    <div class="category-icon-card">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+          <!-- Apparel icon -->
+          <path d="M28 18 L28 22 Q28 30 22 32" stroke-linecap="round"/>
+          <path d="M52 18 L52 22 Q52 30 58 32" stroke-linecap="round"/>
+          <path d="M28 22 L52 22" stroke-linecap="round"/>
+          <path d="M40 22 L40 55" stroke-linecap="round"/>
+          <path d="M22 32 L18 55 L62 55 L58 32" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="label">Clothing</span>
+    </div>
+    <div class="category-icon-card">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+          <!-- Accessories icon -->
+          <circle cx="40" cy="30" r="15"/>
+          <path d="M28 42 L52 42 L55 65 L25 65 Z" stroke-linecap="round"/>
+          <path d="M30 42 Q40 50 50 42" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="label">Accessories</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION: MEMBER BENEFITS (campaign tiles)
+     ============================================ -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Nike Membership</h2>
+    <a href="#" class="section-link">Join Now</a>
+  </div>
+  <div class="campaign-row">
+    <!-- Member Benefit Card 1 -->
+    <div class="campaign-tile">
+      <div class="campaign-tile-bg member"></div>
+      <div class="campaign-tile-content">
+        <h3 class="campaign-tile-headline">Member Exclusive Products</h3>
+        <a href="#" class="btn-outline">Shop</a>
+      </div>
+    </div>
+    <!-- Member Benefit Card 2 -->
+    <div class="campaign-tile">
+      <div class="campaign-tile-bg app"></div>
+      <div class="campaign-tile-content">
+        <h3 class="campaign-tile-headline">Nike App — Your Ultimate Training Partner</h3>
+        <a href="#" class="btn-outline">Explore</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION: LATEST IN CLOTHING
+     ============================================ -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Latest in Clothing</h2>
+    <a href="#" class="section-link">View All</a>
+  </div>
+  <div class="product-grid">
+    <!-- Apparel Card 1 -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <!-- Abstract tee shape -->
+        <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 40 L30 20 Q30 10 50 10 L110 10 Q130 10 130 20 L130 40" stroke="var(--ink)" stroke-width="2.5" fill="var(--ink)" opacity="0.12"/>
+          <rect x="45" y="40" width="70" height="120" rx="8" fill="var(--ink)" opacity="0.15"/>
+          <path d="M50 55 L110 55 M50 70 L100 70 M50 85 L105 85" stroke="var(--canvas)" stroke-width="1" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <span class="product-card-name">Nike Dri-FIT Academy</span>
+        <span class="product-card-category">Men's Soccer Top</span>
+        <span class="product-card-price">$35</span>
+      </div>
+    </div>
+    <!-- Apparel Card 2 -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 40 L30 20 Q30 10 50 10 L110 10 Q130 10 130 20 L130 40" stroke="var(--ink)" stroke-width="2.5" fill="var(--ink)" opacity="0.12"/>
+          <rect x="45" y="40" width="70" height="120" rx="8" fill="var(--ink)" opacity="0.13"/>
+          <path d="M50 60 L110 60 M55 80 L105 80" stroke="var(--canvas)" stroke-width="1" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <span class="product-card-name">Nike Sportswear Club Fleece</span>
+        <span class="product-card-category">Men's Hoodie</span>
+        <span class="product-card-price">$65</span>
+      </div>
+    </div>
+    <!-- Apparel Card 3 -->
+    <div class="product-card">
+      <div class="product-card-image">
+        <span class="badge-promo">Sustainable Materials</span>
+        <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 40 L30 20 Q30 10 50 10 L110 10 Q130 10 130 20 L130 40" stroke="var(--ink)" stroke-width="2.5" fill="var(--ink)" opacity="0.12"/>
+          <rect x="45" y="40" width="70" height="120" rx="8" fill="var(--ink)" opacity="0.14"/>
+          <path d="M55 65 L110 65 M55 85 L105 85 M55 105 L95 105" stroke="var(--canvas)" stroke-width="1" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="product-card-meta">
+        <span class="product-card-name">Nike One Luxe</span>
+        <span class="product-card-category">Women's Mid-Rise Leggings</span>
+        <span class="product-card-price">$90</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CTA BANNER
+     ============================================ -->
+<section class="cta-banner">
+  <div class="cta-banner-inner">
+    <h2 class="cta-banner-headline">Become a Nike Member</h2>
+    <p class="cta-banner-body">
+      Get free shipping, exclusive access to the latest drops, and personalized training plans. The best of Nike, all in one place.
+    </p>
+    <a href="#" class="btn-primary">Join Us</a>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Gift Cards</a></li>
+        <li><a href="#">Find a Store</a></li>
+        <li><a href="#">Become a Member</a></li>
+        <li><a href="#">Nike Journal</a></li>
+        <li><a href="#">Site Feedback</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Get Help</a></li>
+        <li><a href="#">Order Status</a></li>
+        <li><a href="#">Shipping &amp; Delivery</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Payment Options</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Nike</a></li>
+        <li><a href="#">News</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Investors</a></li>
+        <li><a href="#">Purpose</a></li>
+        <li><a href="#">Sustainability</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Promotions &amp; Discounts</h4>
+      <ul>
+        <li><a href="#">Student Discount</a></li>
+        <li><a href="#">Military Discount</a></li>
+        <li><a href="#">Teacher Discount</a></li>
+        <li><a href="#">First Responders</a></li>
+        <li><a href="#">Medical Professionals</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-legal">&copy; 2026 Nike, Inc. All Rights Reserved</span>
+    <div class="footer-legal-links">
+      <a href="#">Terms of Use</a>
+      <a href="#">Terms of Sale</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">CA Supply Chains Act</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

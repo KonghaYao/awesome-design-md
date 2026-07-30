@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mistral AI — Frontier AI. In your hands.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS — exact values from DESIGN.md
+   ============================================================ */
+:root {
+  /* Colors */
+  --primary: #fa520f;
+  --primary-deep: #cc3a05;
+  --on-primary: #ffffff;
+  --sunshine-300: #ffd06a;
+  --sunshine-500: #ffb83e;
+  --sunshine-700: #ffa110;
+  --sunshine-800: #ff8105;
+  --sunshine-900: #ff8a00;
+  --yellow-saturated: #ffd900;
+  --cream: #fff8e0;
+  --cream-light: #fffaeb;
+  --cream-deeper: #fff0c2;
+  --beige-deep: #e6d5a8;
+  --block-5: #ffe295;
+  --block-6: #ffd900;
+  --block-7: #ff8105;
+  --ink: #1f1f1f;
+  --ink-tint: #3d3d3d;
+  --charcoal: #2c2c2c;
+  --slate: #4a4a4a;
+  --steel: #6a6a6a;
+  --stone: #8a8a8a;
+  --muted: #a8a8a8;
+  --hairline: #e5e5e5;
+  --hairline-soft: #ededed;
+  --hairline-strong: #c7c7c7;
+  --canvas: #ffffff;
+  --surface: #fafafa;
+  --surface-cream: #fff8e0;
+  --surface-cream-soft: #fffaeb;
+  --surface-code: #1c1c1e;
+  --on-dark: #ffffff;
+  --on-dark-muted: #a8a8a8;
+  --on-cream: #1f1f1f;
+  --footer-cream: #fff8e0;
+  --link: #fa520f;
+
+  /* Typography — PP Editorial Old is commercial; fallback to Times New Roman, Georgia, serif */
+  --font-display: 'PP Editorial Old', 'Times New Roman', Georgia, serif;
+  --font-ui: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-code: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Rounded */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 20px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-xxxl: 40px;
+  --space-section-sm: 48px;
+  --space-section: 64px;
+  --space-section-lg: 96px;
+  --space-hero: 120px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ink);
+  background-color: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-xxl);
+}
+
+/* ============================================================
+   TYPOGRAPHY COMPONENTS (exact tokens)
+   ============================================================ */
+.hero-display {
+  font-family: var(--font-display);
+  font-size: 84px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.10;
+  letter-spacing: -1px;
+}
+
+.heading-1 {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.heading-2 {
+  font-family: var(--font-ui);
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.5px;
+}
+
+.heading-3 {
+  font-family: var(--font-ui);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.heading-4 {
+  font-family: var(--font-ui);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.30;
+}
+
+.heading-5 {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.40;
+}
+
+.subtitle {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.body-md {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.body-md-medium {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.body-sm {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+.body-sm-medium {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+}
+
+.caption {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+}
+
+.caption-bold {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+}
+
+.micro {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.40;
+}
+
+.micro-uppercase {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.40;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.button-text {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+}
+
+.stat-display {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1.10;
+  letter-spacing: -1px;
+}
+
+.code-md {
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+}
+
+/* ============================================================
+   BUTTONS (exact specs)
+   ============================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  padding: 10px 20px;
+  border-radius: var(--rounded-md);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-deep);
+}
+
+.btn-primary:active {
+  background-color: var(--primary-deep);
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  padding: 10px 20px;
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--hairline-strong);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface);
+  border-color: var(--stone);
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ink);
+  color: var(--on-dark);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  padding: 10px 20px;
+  border-radius: var(--rounded-md);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.btn-dark:hover {
+  background-color: var(--charcoal);
+}
+
+.btn-dark:active {
+  transform: scale(0.98);
+}
+
+.btn-cream {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  padding: 10px 20px;
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--beige-deep);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 180ms ease;
+}
+
+.btn-cream:hover {
+  background-color: var(--cream-deeper);
+}
+
+.btn-on-cream {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.30;
+  padding: 10px 20px;
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--beige-deep);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 180ms ease;
+}
+
+.btn-on-cream:hover {
+  background-color: var(--surface);
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  color: var(--primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 180ms ease;
+}
+
+.btn-link:hover {
+  opacity: 0.8;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   CARDS (exact specs)
+   ============================================================ */
+.card-feature {
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+  border: 1px solid var(--hairline-soft);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.card-feature:hover {
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 12px;
+  transform: translateY(-2px);
+}
+
+.card-feature-product {
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+  border: 1px solid var(--hairline-soft);
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 12px;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.card-feature-product:hover {
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 12px 24px -4px;
+  transform: translateY(-2px);
+}
+
+.card-cream {
+  background-color: var(--cream);
+  color: var(--ink);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+  border: 1px solid var(--beige-deep);
+}
+
+.card-cream-soft {
+  background-color: var(--surface-cream-soft);
+  color: var(--ink);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+}
+
+.card-photographic {
+  background-color: var(--surface-code);
+  color: var(--on-dark);
+  border-radius: var(--rounded-lg);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ============================================================
+   BADGES (exact specs)
+   ============================================================ */
+.badge-orange {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--rounded-full);
+  padding: 4px 10px;
+}
+
+.badge-cream {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--cream-deeper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--rounded-full);
+  padding: 4px 10px;
+}
+
+.badge-dark {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--ink);
+  color: var(--on-dark);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.40;
+  border-radius: var(--rounded-full);
+  padding: 4px 10px;
+}
+
+/* ============================================================
+   FEATURE ICON TILE (exact specs)
+   ============================================================ */
+.feature-icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: var(--cream);
+  border-radius: var(--rounded-md);
+  padding: var(--space-md);
+  border: 1px solid var(--beige-deep);
+  margin-bottom: var(--space-lg);
+}
+
+.feature-icon-tile svg {
+  width: 24px;
+  height: 24px;
+  color: var(--primary);
+}
+
+/* ============================================================
+   PROMO BANNER (exact specs)
+   ============================================================ */
+.promo-banner {
+  background-color: var(--ink);
+  color: var(--on-dark);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  padding: var(--space-sm) var(--space-md);
+  text-align: center;
+}
+
+.promo-banner a {
+  color: var(--on-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ============================================================
+   NAVIGATION (exact specs)
+   ============================================================ */
+.top-nav {
+  background-color: var(--canvas);
+  height: 64px;
+  border-bottom: 1px solid var(--hairline-soft);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xxl);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.nav-brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.nav-brand-logo svg {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-brand-text {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--steel);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.nav-link-text {
+  color: var(--steel);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.nav-link-text:hover {
+  color: var(--ink);
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--sunshine-700) 0%, var(--sunshine-900) 60%, var(--primary) 100%);
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Mountain silhouettes */
+.hero-mountains {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  z-index: 1;
+}
+
+.mountain-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.star {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-section-lg);
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-hero) var(--space-xxl);
+  width: 100%;
+}
+
+.hero-content {
+  max-width: 560px;
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: 84px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  color: var(--ink);
+  margin-bottom: var(--space-xl);
+}
+
+.hero-subtitle {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--ink-tint);
+  margin-bottom: var(--space-xxl);
+  max-width: 460px;
+}
+
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-code-mockup {
+  width: 100%;
+  max-width: 520px;
+  background-color: var(--surface-code);
+  border-radius: var(--rounded-lg);
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 12px 24px -4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-code-header {
+  background-color: var(--surface-code);
+  color: var(--on-dark-muted);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+  padding: var(--space-xs) var(--space-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.hero-code-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.hero-code-dot.red { background-color: #ff5f56; }
+.hero-code-dot.yellow { background-color: #ffbd2e; }
+.hero-code-dot.green { background-color: #27c93f; }
+
+.hero-code-body {
+  background-color: var(--surface-code);
+  color: var(--on-dark);
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--space-md);
+  overflow-x: auto;
+}
+
+.code-line {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.code-keyword { color: #fc618d; }
+.code-string { color: #fce566; }
+.code-func { color: #5ce2f2; }
+.code-comment { color: #6a6a6a; }
+.code-number { color: #fd9353; }
+.code-var { color: #7bd88f; }
+
+/* ============================================================
+   STATS SECTION
+   ============================================================ */
+.stats-section {
+  padding: var(--space-section) var(--space-xxl);
+  background-color: var(--canvas);
+}
+
+.stats-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xxl);
+}
+
+.stat-cell {
+  text-align: center;
+  padding: var(--space-lg);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1.10;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin-bottom: var(--space-xs);
+}
+
+.stat-label {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--steel);
+}
+
+/* ============================================================
+   FEATURES SECTION
+   ============================================================ */
+.features-section {
+  padding: var(--space-section-lg) var(--space-xxl);
+  background-color: var(--surface);
+}
+
+.features-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-section) auto;
+}
+
+.features-header .section-eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+}
+
+.features-header h2 {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.10;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin-bottom: var(--space-lg);
+}
+
+.features-header p {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+}
+
+.features-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+
+/* ============================================================
+   SOLUTIONS SECTION (Industry Tiles)
+   ============================================================ */
+.solutions-section {
+  padding: var(--space-section-lg) var(--space-xxl);
+  background-color: var(--canvas);
+}
+
+.solutions-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-section) auto;
+}
+
+.solutions-header h2 {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.10;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin-bottom: var(--space-lg);
+}
+
+.solutions-header p {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+}
+
+.solutions-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xl);
+}
+
+.industry-tile {
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xl);
+  border: 1px solid var(--hairline-soft);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.industry-tile:hover {
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 12px;
+  transform: translateY(-2px);
+}
+
+.industry-tile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--cream);
+  border-radius: var(--rounded-md);
+  padding: var(--space-xs);
+  border: 1px solid var(--beige-deep);
+  flex-shrink: 0;
+}
+
+.industry-tile-icon svg {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+}
+
+.industry-tile-body h4 {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.40;
+  color: var(--ink);
+  margin-bottom: var(--space-xxs);
+}
+
+.industry-tile-body p {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--steel);
+}
+
+/* ============================================================
+   TESTIMONIAL SECTION
+   ============================================================ */
+.testimonial-section {
+  padding: var(--space-section-lg) var(--space-xxl);
+  background-color: var(--surface);
+}
+
+.testimonial-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-section) auto;
+}
+
+.testimonial-header h2 {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.10;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin-bottom: var(--space-lg);
+}
+
+.testimonial-header p {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+}
+
+.testimonial-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+
+.customer-testimonial-card {
+  background-color: var(--canvas);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+  border: 1px solid var(--hairline-soft);
+  transition: box-shadow 200ms ease;
+}
+
+.customer-testimonial-card:hover {
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 12px;
+}
+
+.testimonial-quote {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-bottom: var(--space-lg);
+  font-style: italic;
+}
+
+.testimonial-attribution {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--steel);
+}
+
+.testimonial-attribution strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ============================================================
+   CTA BANNER (cream, exact specs)
+   ============================================================ */
+.cta-banner-cream {
+  background-color: var(--cream);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-section);
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cta-section {
+  padding: var(--space-section-lg) var(--space-xxl);
+  background-color: var(--canvas);
+}
+
+.cta-heading {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: var(--space-lg);
+}
+
+.cta-description {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--slate);
+  margin-bottom: var(--space-xxl);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   SUNSET STRIPE BAND (the signature element)
+   ============================================================ */
+.sunset-stripe {
+  height: 8px;
+  background: linear-gradient(90deg,
+    var(--primary) 0%,
+    var(--sunshine-800) 20%,
+    var(--sunshine-700) 40%,
+    var(--sunshine-500) 60%,
+    var(--yellow-saturated) 80%,
+    var(--cream) 100%
+  );
+  width: 100%;
+}
+
+/* ============================================================
+   FOOTER (exact specs)
+   ============================================================ */
+.footer-region {
+  background-color: var(--footer-cream);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--space-section) var(--space-xxl);
+}
+
+.footer-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--space-xxl);
+  margin-bottom: var(--space-section);
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.footer-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.footer-brand-logo svg {
+  width: 24px;
+  height: 24px;
+}
+
+.footer-brand-logo span {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.footer-brand p {
+  color: var(--steel);
+}
+
+.footer-column h5 {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.50;
+  color: var(--ink);
+  margin-bottom: var(--space-md);
+}
+
+.footer-column ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.footer-column a {
+  background-color: transparent;
+  color: var(--primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.50;
+  padding: var(--space-xxs) 0;
+  text-decoration: none;
+  display: inline-block;
+  transition: opacity 180ms ease;
+}
+
+.footer-column a:hover {
+  opacity: 0.8;
+}
+
+.footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--beige-deep);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.footer-bottom-left {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.40;
+  color: var(--steel);
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.footer-social a {
+  color: var(--steel);
+  transition: color 180ms ease;
+}
+
+.footer-social a:hover {
+  color: var(--ink);
+}
+
+.footer-social svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1279px) {
+  .hero-display, .hero-headline { font-size: 76px; }
+  .display-lg, .features-header h2, .solutions-header h2, .testimonial-header h2 { font-size: 52px; }
+  .heading-1, .cta-heading { font-size: 44px; }
+  .stat-display, .stat-value { font-size: 44px; }
+}
+
+@media (max-width: 1023px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    padding: var(--space-section) var(--space-xxl);
+  }
+  .hero-headline { font-size: 64px; }
+  .hero-visual { max-width: 480px; margin: 0 auto; }
+  .nav-links { display: none; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .stats-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .hero-headline { font-size: 52px; }
+  .hero-subtitle { font-size: 16px; }
+  .display-lg, .features-header h2, .solutions-header h2, .testimonial-header h2 { font-size: 40px; }
+  .heading-1, .cta-heading { font-size: 36px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .solutions-grid { grid-template-columns: 1fr; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-link-text { display: none; }
+  .container { padding: 0 var(--space-md); }
+}
+
+@media (max-width: 479px) {
+  .hero-headline { font-size: 40px; }
+  .hero-container { padding: var(--space-section-sm) var(--space-md); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .btn-group { flex-direction: column; align-items: stretch; }
+}
+</style>
+</head>
+<body>
+
+<!-- Promo Banner -->
+<div class="promo-banner">
+  ✦ Le Chat is now available on iOS and Android &mdash; <a href="#">Download the app</a>
+</div>
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <div class="container">
+    <div class="nav-left">
+      <a href="#" class="nav-brand">
+        <span class="nav-brand-logo">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 4L4 10L4 22L16 28L28 22L28 10L16 4Z" stroke="#1f1f1f" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M16 4V28" stroke="#1f1f1f" stroke-width="2.5"/>
+            <path d="M4 10L16 16L28 10" stroke="#1f1f1f" stroke-width="2.5" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="nav-brand-text">MISTRAL AI_</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Solutions</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Customers</a></li>
+        <li><a href="#">Company</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="nav-link-text">Contact Sales</a>
+      <a href="#" class="btn-dark">Try Studio</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-bg">
+    <!-- Stars -->
+    <div class="hero-stars">
+      <div class="star" style="width:2px;height:2px;top:12%;left:20%;opacity:0.5"></div>
+      <div class="star" style="width:2px;height:2px;top:8%;left:55%;opacity:0.8"></div>
+      <div class="star" style="width:3px;height:3px;top:18%;left:72%;opacity:0.6"></div>
+      <div class="star" style="width:2px;height:2px;top:22%;left:35%;opacity:0.4"></div>
+      <div class="star" style="width:2px;height:2px;top:15%;left:80%;opacity:0.7"></div>
+      <div class="star" style="width:3px;height:3px;top:25%;left:10%;opacity:0.5"></div>
+      <div class="star" style="width:2px;height:2px;top:10%;left:45%;opacity:0.6"></div>
+      <div class="star" style="width:2px;height:2px;top:30%;left:60%;opacity:0.4"></div>
+      <div class="star" style="width:2px;height:2px;top:28%;left:90%;opacity:0.5"></div>
+      <div class="star" style="width:3px;height:3px;top:20%;left:28%;opacity:0.7"></div>
+    </div>
+    <!-- Mountains SVG -->
+    <div class="hero-mountains">
+      <svg class="mountain-svg" viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mt1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a3728"/>
+            <stop offset="100%" stop-color="#2c1f15"/>
+          </linearGradient>
+          <linearGradient id="mt2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3d2e22"/>
+            <stop offset="100%" stop-color="#1f1410"/>
+          </linearGradient>
+          <linearGradient id="mt3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#33261c"/>
+            <stop offset="100%" stop-color="#1a100a"/>
+          </linearGradient>
+          <linearGradient id="mt4" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a1e16"/>
+            <stop offset="100%" stop-color="#140d08"/>
+          </linearGradient>
+        </defs>
+        <!-- Far mountains -->
+        <path d="M0,400 L0,120 L80,80 L180,130 L280,60 L400,140 L520,70 L620,120 L720,50 L840,110 L960,65 L1080,130 L1180,75 L1280,120 L1380,85 L1440,100 L1440,400 Z" fill="url(#mt1)" opacity="0.85"/>
+        <!-- Mid mountains -->
+        <path d="M0,400 L0,180 L120,140 L250,200 L380,120 L500,190 L640,130 L760,210 L900,140 L1020,180 L1150,130 L1280,190 L1440,150 L1440,400 Z" fill="url(#mt2)" opacity="0.75"/>
+        <!-- Near mountains -->
+        <path d="M0,400 L0,260 L150,200 L320,270 L480,190 L620,280 L780,210 L940,290 L1100,220 L1260,280 L1440,240 L1440,400 Z" fill="url(#mt3)" opacity="0.65"/>
+        <!-- Foreground -->
+        <path d="M0,400 L0,340 L200,300 L450,360 L700,310 L950,370 L1200,320 L1440,350 L1440,400 Z" fill="url(#mt4)"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1 class="hero-headline">Frontier AI. <br>In your hands.</h1>
+      <p class="hero-subtitle">
+        Open-weight, portable, and customizable models, built with uncompromising speed and transparency.
+      </p>
+      <div class="btn-group">
+        <a href="#" class="btn-dark">Try Studio</a>
+        <a href="#" class="btn-secondary">Explore models</a>
+      </div>
+    </div>
+
+    <!-- Code mockup on right side -->
+    <div class="hero-visual">
+      <div class="hero-code-mockup">
+        <div class="hero-code-header">
+          <span class="hero-code-dot red"></span>
+          <span class="hero-code-dot yellow"></span>
+          <span class="hero-code-dot green"></span>
+          <span style="margin-left:8px;font-size:12px;">mistral-example.py</span>
+        </div>
+        <div class="hero-code-body">
+          <div class="code-line">
+            <span class="code-keyword">import</span>&nbsp;<span class="code-var">os</span>
+          </div>
+          <div class="code-line">
+            <span class="code-keyword">from</span>&nbsp;<span class="code-var">mistralai</span>&nbsp;<span class="code-keyword">import</span>&nbsp;<span class="code-var">Mistral</span>
+          </div>
+          <div class="code-line">&nbsp;</div>
+          <div class="code-line">
+            <span class="code-var">client</span>&nbsp;=&nbsp;<span class="code-func">Mistral</span>(api_key=<span class="code-string">"YOUR_API_KEY"</span>)
+          </div>
+          <div class="code-line">&nbsp;</div>
+          <div class="code-line">
+            <span class="code-var">chat_response</span>&nbsp;=&nbsp;<span class="code-var">client</span>.<span class="code-func">chat</span>.complete(
+          </div>
+          <div class="code-line">
+            &nbsp;&nbsp;model=<span class="code-string">"mistral-large-2"</span>,
+          </div>
+          <div class="code-line">
+            &nbsp;&nbsp;messages=[{<span class="code-string">"role"</span>:&nbsp;<span class="code-string">"user"</span>,&nbsp;
+          </div>
+          <div class="code-line">
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"content"</span>:&nbsp;<span class="code-string">"Explain&nbsp;quantum&nbsp;computing&nbsp;in&nbsp;3&nbsp;sentences."</span>}]
+          </div>
+          <div class="code-line">
+            )
+          </div>
+          <div class="code-line">&nbsp;</div>
+          <div class="code-line">
+            <span class="code-func">print</span>(<span class="code-var">chat_response</span>.choices[<span class="code-number">0</span>].message.content)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-cell">
+      <div class="stat-value">80%+</div>
+      <div class="stat-label">cost reduction vs. closed-source alternatives</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">120B</div>
+      <div class="stat-label">parameters in our flagship model</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">200K+</div>
+      <div class="stat-label">developers building with Mistral AI</div>
+    </div>
+  </div>
+</section>
+
+<!-- Products Section -->
+<section class="features-section">
+  <div class="features-header">
+    <span class="badge-orange section-eyebrow">Products</span>
+    <h2>Meet the Mistral AI <br>product suite.</h2>
+    <p>From chat to code, build with frontier models wherever you are.</p>
+  </div>
+
+  <div class="features-grid">
+    <!-- Le Chat -->
+    <div class="card-feature-product">
+      <div class="feature-icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          <line x1="9" y1="10" x2="15" y2="10"/>
+          <line x1="12" y1="7" x2="12" y2="13"/>
+        </svg>
+      </div>
+      <h4 class="heading-4" style="margin-bottom:var(--space-sm)">Le Chat</h4>
+      <p class="body-sm" style="color:var(--steel);margin-bottom:var(--space-lg)">
+        Your AI assistant for everyday tasks. Chat, search, upload files, generate images, and browse the web — all in one intuitive interface. Available on web, iOS, and Android.
+      </p>
+      <a href="#" class="btn-link">Try Le Chat →</a>
+    </div>
+
+    <!-- Le Studio -->
+    <div class="card-feature-product">
+      <div class="feature-icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
+      <h4 class="heading-4" style="margin-bottom:var(--space-sm)">Le Studio</h4>
+      <p class="body-sm" style="color:var(--steel);margin-bottom:var(--space-lg)">
+        Build, fine-tune, and deploy custom AI agents. Prototype agent workflows in an IDE-style interface with full API access. No infrastructure required.
+      </p>
+      <a href="#" class="btn-link">Build agents →</a>
+    </div>
+
+    <!-- La Plateforme -->
+    <div class="card-feature-product">
+      <div class="feature-icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+      </div>
+      <h4 class="heading-4" style="margin-bottom:var(--space-sm)">La Plateforme</h4>
+      <p class="body-sm" style="color:var(--steel);margin-bottom:var(--space-lg)">
+        Access Mistral's full model catalog via API. From Mistral Small to Mistral Large 2, embed, chat, and generate with industry-leading price-performance.
+      </p>
+      <a href="#" class="btn-link">View API docs →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Solutions Section -->
+<section class="solutions-section">
+  <div class="solutions-header">
+    <span class="badge-cream section-eyebrow" style="margin-bottom:var(--space-md);display:inline-block">Solutions</span>
+    <h2>AI built for <br>every industry.</h2>
+    <p>From financial services to healthcare, Mistral models adapt to your domain.</p>
+  </div>
+
+  <div class="solutions-grid">
+    <div class="industry-tile">
+      <div class="industry-tile-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+      </div>
+      <div class="industry-tile-body">
+        <h4>Financial Services</h4>
+        <p>Document analysis, risk assessment, and regulatory compliance with models fine-tuned on financial data. Deploy on-premises with full data sovereignty.</p>
+      </div>
+    </div>
+
+    <div class="industry-tile">
+      <div class="industry-tile-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <div class="industry-tile-body">
+        <h4>Healthcare & Life Sciences</h4>
+        <p>Medical literature synthesis, clinical trial analysis, and patient data processing in HIPAA-compliant environments with open-weight models.</p>
+      </div>
+    </div>
+
+    <div class="industry-tile">
+      <div class="industry-tile-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+      </div>
+      <div class="industry-tile-body">
+        <h4>Technology & Engineering</h4>
+        <p>Code generation, system architecture design, and technical documentation — Mistral's coding models power developer workflows from IDE to CI/CD.</p>
+      </div>
+    </div>
+
+    <div class="industry-tile">
+      <div class="industry-tile-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+          <line x1="9" y1="6" x2="15" y2="6"/>
+          <line x1="9" y1="10" x2="15" y2="10"/>
+          <line x1="9" y1="18" x2="13" y2="18"/>
+        </svg>
+      </div>
+      <div class="industry-tile-body">
+        <h4>Education & Research</h4>
+        <p>Accelerate literature reviews, generate research hypotheses, and build AI tutors — Mistral's open models ensure reproducibility and transparency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonial-section">
+  <div class="testimonial-header">
+    <span class="badge-dark section-eyebrow" style="margin-bottom:var(--space-md);display:inline-block">Trusted by</span>
+    <h2>What builders <br>are saying.</h2>
+    <p>Teams of all sizes choose Mistral for performance, portability, and privacy.</p>
+  </div>
+
+  <div class="testimonial-grid">
+    <div class="customer-testimonial-card">
+      <p class="testimonial-quote">
+        "Mistral Large 2 matches the quality of much more expensive models. We cut our inference costs by 60% while maintaining output quality across our entire product surface."
+      </p>
+      <p class="testimonial-attribution">
+        <strong>Sarah Chen</strong> — CTO, DataCanvas
+      </p>
+    </div>
+
+    <div class="customer-testimonial-card">
+      <p class="testimonial-quote">
+        "The open-weight approach means we can deploy on-premises and maintain full control over our data. For a regulated industry like ours, that's non-negotiable."
+      </p>
+      <p class="testimonial-attribution">
+        <strong>Marcus Rivera</strong> — Head of AI, Finova Capital
+      </p>
+    </div>
+
+    <div class="customer-testimonial-card">
+      <p class="testimonial-quote">
+        "Le Studio transformed how we prototype agents. What used to take weeks of API integration now happens in hours, right in the browser-based IDE."
+      </p>
+      <p class="testimonial-attribution">
+        <strong>Emma Larsson</strong> — Engineering Lead, OctoML
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="cta-banner-cream">
+    <h2 class="cta-heading">The next chapter of AI <br>is yours.</h2>
+    <p class="cta-description">
+      Join 200,000+ developers building the future with frontier models that put you in control.
+    </p>
+    <div class="btn-group" style="justify-content:center">
+      <a href="#" class="btn-dark">Start building free</a>
+      <a href="#" class="btn-on-cream">Contact Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- Sunset Stripe Band — THE SIGNATURE ELEMENT -->
+<div class="sunset-stripe"></div>
+
+<!-- Footer -->
+<footer class="footer-region">
+  <div class="footer-grid">
+    <!-- Brand column -->
+    <div class="footer-brand">
+      <div class="footer-brand-logo">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4L4 10L4 22L16 28L28 22L28 10L16 4Z" stroke="#1f1f1f" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M16 4V28" stroke="#1f1f1f" stroke-width="2.5"/>
+          <path d="M4 10L16 16L28 10" stroke="#1f1f1f" stroke-width="2.5" stroke-linejoin="round"/>
+        </svg>
+        <span>MISTRAL AI_</span>
+      </div>
+      <p class="body-sm" style="color:var(--steel)">
+        Frontier AI, in your hands. Open, portable, fast.
+      </p>
+    </div>
+
+    <!-- Why Mistral -->
+    <div class="footer-column">
+      <h5>Why Mistral</h5>
+      <ul>
+        <li><a href="#">Open-weight models</a></li>
+        <li><a href="#">Performance benchmarks</a></li>
+        <li><a href="#">Portability & deployment</a></li>
+        <li><a href="#">Security & privacy</a></li>
+        <li><a href="#">Pricing</a></li>
+      </ul>
+    </div>
+
+    <!-- Explore -->
+    <div class="footer-column">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="#">Le Chat</a></li>
+        <li><a href="#">Le Studio</a></li>
+        <li><a href="#">La Plateforme</a></li>
+        <li><a href="#">Model catalog</a></li>
+        <li><a href="#">API reference</a></li>
+      </ul>
+    </div>
+
+    <!-- Build -->
+    <div class="footer-column">
+      <h5>Build</h5>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Quickstart guides</a></li>
+        <li><a href="#">SDKs & clients</a></li>
+        <li><a href="#">Fine-tuning</a></li>
+        <li><a href="#">Agent workflow</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-column">
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="#">Terms of service</a></li>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Cookie policy</a></li>
+        <li><a href="#">Acceptable use</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-bottom-left">&copy; 2025 Mistral AI. All rights reserved.</span>
+    <div class="footer-social">
+      <!-- Twitter/X -->
+      <a href="#" aria-label="Twitter">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <!-- GitHub -->
+      <a href="#" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </a>
+      <!-- LinkedIn -->
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+      <!-- Discord -->
+      <a href="#" aria-label="Discord">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
