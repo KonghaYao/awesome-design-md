@@ -384,7 +384,10 @@
         </div>
       `
 
-      card.addEventListener('click', () => openOverlay(demo, list.indexOf(demo)))
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.card-copy')) return
+        openOverlay(demo, list.indexOf(demo))
+      })
 
       grid.appendChild(card)
     }
